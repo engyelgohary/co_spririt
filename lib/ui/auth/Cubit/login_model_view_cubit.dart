@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:co_spririt/ui/Notifactions/notifictionsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -10,9 +11,9 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   var passwordController = TextEditingController();
   var emailController = TextEditingController();
   bool isObscure = true;
-  void login(){
+  void login(BuildContext context){
     if (formKey.currentState!.validate() == true){
-
+      Navigator.pushNamed(context, NotifactionScreen.routName);
     }
   }
 }

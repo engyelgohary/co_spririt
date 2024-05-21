@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -87,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           EdgeInsets.only(top: 15.h, right: 100.w, left: 100.w),
                       child: ElevatedButton(
                         onPressed: () {
-                          modelView.login();
+                          modelView.login(context);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.secondColor,

@@ -4,6 +4,12 @@ import 'appColors.dart';
 
 class AppTheme {
   static ThemeData mainTheme = ThemeData(
+    scaffoldBackgroundColor: AppColor.backgroundColor,
+      appBarTheme: AppBarTheme(
+        centerTitle: true,
+        backgroundColor: AppColor.backgroundColor,
+        elevation: 0,
+      ),
       textTheme: const TextTheme(
           titleLarge: TextStyle(
               fontSize: 24,
@@ -20,6 +26,6 @@ class AppTheme {
               fontWeight: FontWeight.w400,
               color: AppColor.basicColor
           )
-      )
+      ),
   );
 }

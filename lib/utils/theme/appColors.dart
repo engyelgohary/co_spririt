@@ -8,7 +8,7 @@ class AppColor {
   static const Color borderColor = Color(0xff7D848D);
   static const Color whiteColor = Color(0xffFFFFFF);
   static const Color blackColor = Color(0xff383838);
-  static const Color buttonColor = Color(0xff606770);
+  static const Color buttonColor = Color(0xff00A099);
   static const Color backgroundColor = Color(0xffD9D9D9);
   static const Color errorColor = Colors.red;
 }

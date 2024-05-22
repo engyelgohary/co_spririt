@@ -14,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginModelViewCubit modelView = LoginModelViewCubit();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

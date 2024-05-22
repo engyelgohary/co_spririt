@@ -41,3 +41,36 @@ class CustomMenuCard extends StatelessWidget {
       );
   }
 }
+
+class CustomProfileUser extends StatelessWidget {
+  String name;
+  String role;
+   CustomProfileUser({super.key,required this.name,required this.role});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(top: 25.h),
+        child: ListTile(
+          leading:  CircleAvatar(
+            backgroundColor: AppColor.secondColor,
+            radius:35.r,
+          ),
+          title: Text(name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(fontSize: 17)),
+          subtitle:  Padding(
+            padding:  EdgeInsets.only(top: 8.h),
+            child: Text(role,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: AppColor.borderColor)),
+          ),
+        )
+    );
+  }
+}
+

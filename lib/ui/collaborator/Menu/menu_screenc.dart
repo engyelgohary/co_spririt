@@ -7,6 +7,8 @@ import '../../../utils/theme/appColors.dart';
 
 class MenuScreenCollaborators extends StatelessWidget {
   static const String routeName = 'Menu Screen';
+
+  const MenuScreenCollaborators({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,28 +34,7 @@ class MenuScreenCollaborators extends StatelessWidget {
         ),
       body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 25.h),
-            child: ListTile(
-              leading:  CircleAvatar(
-                backgroundColor: AppColor.secondColor,
-                radius:35.r,
-              ),
-              title: Text('Matteo',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontSize: 17)),
-              subtitle:  Padding(
-                padding:  EdgeInsets.only(top: 8.h),
-                child: Text('Super Admin',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: AppColor.borderColor)),
-              ),
-            )
-            ),
+          CustomProfileUser(name: "Steven" ,role: "Collaborators"),
           CustomMenuCard(name:'Profile' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
           CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenCollaborator.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),

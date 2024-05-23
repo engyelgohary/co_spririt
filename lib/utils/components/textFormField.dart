@@ -36,15 +36,15 @@ class CustomTextFormField extends StatelessWidget {
               fillColor: AppColor.whiteColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.r)),
+                  borderRadius: BorderRadius.circular(5.r)),
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.r),),
+                  borderRadius: BorderRadius.circular(5.r),),
               errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.r)),
+                  borderRadius: BorderRadius.circular(5.r)),
                 focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r)),
+                    borderRadius: BorderRadius.circular(5.r)),
                 disabledBorder:  OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r)),
+                    borderRadius: BorderRadius.circular(5.r)),
                 focusColor: AppColor.basicColor,
                 hoverColor: AppColor.basicColor,
                 suffixIconColor: AppColor.basicColor,

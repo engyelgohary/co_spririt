@@ -27,7 +27,7 @@ class CustomMenuCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(name,style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: color),),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.basicColor,size: 20,)
+                    Icon(Icons.arrow_forward_ios,color:color,size: 20,)
                   ],
                 ),
               ),

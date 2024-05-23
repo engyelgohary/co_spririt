@@ -15,22 +15,25 @@ class MenuScreenCollaborators extends StatelessWidget {
       appBar: AppBar(
         title: Text('Menu',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),),
         leading: Padding(
-          padding: const EdgeInsets.all(2.0),
+          padding:  EdgeInsets.only(left: 1.w),
           child: IconButton(
             icon: CircleAvatar(
-             radius: 20, // Adjust the radius as needed
-             backgroundColor: AppColor.secondColor,
-             child:  Icon(
-                 Icons.arrow_back_ios,
-                 color: Colors.white,
-                 size: 13,
-               ),
-             ),
+              radius: 25.r, // Adjust the radius as needed
+              backgroundColor: AppColor.secondColor,
+              child:  Padding(
+                padding:  EdgeInsets.only(left: 4.w),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-      ),
+        ),
         ),
       body: Column(
         children: [

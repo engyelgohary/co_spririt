@@ -11,5 +11,6 @@ class AppColor {
   static const Color buttonColor = Color(0xff00A099);
   static const Color backgroundColor = Color(0xffD9D9D9);
   static const Color errorColor = Colors.red;
+  static const Color SkyColor = Color(0xffaececc);
 
 }

@@ -1,5 +1,6 @@
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotifactionScreenCollaborator extends StatefulWidget {
   static const String routName = 'Notifaction';
@@ -15,23 +16,25 @@ class _NotifactionScreenCollaboratorState extends State<NotifactionScreenCollabo
     return Scaffold(
       appBar: AppBar(
         title: Text('Alerts',style: Theme.of(context).textTheme.titleSmall,),
-    leading: IconButton(
-      icon:
-      Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: CircleAvatar(
-            radius: 20, // Adjust the radius as needed
-            backgroundColor: AppColor.secondColor,
-            child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-              size: 13,
+        leading: Padding(
+          padding:  EdgeInsets.only(left: 1.w),
+          child: IconButton(
+            icon: CircleAvatar(
+              radius: 25.r, // Adjust the radius as needed
+              backgroundColor: AppColor.secondColor,
+              child:  Padding(
+                padding:  EdgeInsets.only(left: 4.w),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
             ),
-        ),
-      ),
-      onPressed: () {
-      Navigator.pop(context);
-      },
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
     ),
       body: ListView.separated(
@@ -69,12 +72,12 @@ class _NotifactionScreenCollaboratorState extends State<NotifactionScreenCollabo
                 ],
               ),
               trailing: CircleAvatar(
-                backgroundColor: AppColor.secondColor,
-                radius: 15,
+                backgroundColor: AppColor.SkyColor,
+                radius: 18.r,
                 child: Icon(
                   Icons.info_outline,
-                  color: AppColor.whiteColor,
-                  size: 18,
+                  color: AppColor.secondColor,
+                  size: 20,
                 ),
               ),
             ),

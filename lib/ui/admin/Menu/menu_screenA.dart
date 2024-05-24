@@ -1,6 +1,6 @@
 import 'package:co_spririt/ui/auth/login.dart';
+import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 import '../Notifactions/notifictionsScreen.dart';
@@ -12,26 +12,7 @@ class MenuScreenAdmin extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Menu',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),),
-        leading: Padding(
-          padding:  EdgeInsets.only(left: 1.w),
-          child: IconButton(
-            icon: CircleAvatar(
-              radius: 25.r, // Adjust the radius as needed
-              backgroundColor: AppColor.secondColor,
-              child:  Padding(
-                padding:  EdgeInsets.only(left: 4.w),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 15,
-                ),
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+        leading: AppBarCustom(),
         ),
       body: Column(
         children: [

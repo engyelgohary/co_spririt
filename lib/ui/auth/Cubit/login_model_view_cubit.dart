@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import '../../superadmin/Notifactions/notifictionsScreen.dart';
+import '../../superadmin/Notifactions/notifictions_superadmin.dart';
 
 part 'login_model_view_state.dart';
 

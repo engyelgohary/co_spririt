@@ -1,11 +1,10 @@
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:co_spririt/utils/components/requestList.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestSuperAdmin extends StatelessWidget {
-  static const String routeName = 'Request Screen';
+  static const String routeName = 'Request Super admin';
   const RequestSuperAdmin({super.key});
 
   @override

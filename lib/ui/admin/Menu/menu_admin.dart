@@ -1,14 +1,12 @@
 import 'package:co_spririt/ui/auth/login.dart';
-import 'package:co_spririt/ui/superadmin/Notifactions/notifictionsScreen.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
+import '../Notifactions/notifictionadmin.dart';
 
-class MenuScreenSuperAdmin extends StatelessWidget {
+class MenuScreenAdmin extends StatelessWidget {
   static const String routeName = 'Menu Screen';
-  const MenuScreenSuperAdmin({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +16,10 @@ class MenuScreenSuperAdmin extends StatelessWidget {
         ),
       body: Column(
         children: [
-          CustomProfileUser(name: "Mat" ,role: "Super admin"),
+          CustomProfileUser(name: "Ray" ,role: "Admin"),
           CustomMenuCard(name:'Profile' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
           CustomMenuCard(name:'Collaborators' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
-          CustomMenuCard(name:'Admins' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
-          CustomMenuCard(name:'Clients' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
-          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenSuperAdmin.routName);},),
+          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenAdmin.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
           CustomMenuCard(name:'Requests' ,onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},),
           CustomMenuCard(name:'Log out',color: AppColor.secondColor, onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},)

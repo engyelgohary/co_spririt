@@ -6,7 +6,7 @@ import '../../../utils/theme/appColors.dart';
 import '../Notifactions/notifictionadmin.dart';
 
 class MenuScreenAdmin extends StatelessWidget {
-  static const String routeName = 'Menu Screen';
+  static const String routeName = 'Menu Screen Admin';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,12 +1,12 @@
 import 'package:co_spririt/ui/auth/login.dart';
-import 'package:co_spririt/ui/collaborator/Notifactions/notifictionsScreen.dart';
+import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 
 class MenuScreenCollaborators extends StatelessWidget {
-  static const String routeName = 'Menu Screen';
+  static const String routeName = 'Menu Screen Collaborator';
 
   const MenuScreenCollaborators({super.key});
   @override

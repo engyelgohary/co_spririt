@@ -6,7 +6,7 @@ import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 
 class MenuScreenSuperAdmin extends StatelessWidget {
-  static const String routeName = 'Menu Screen';
+  static const String routeName = 'Menu Screen SuperAdmin';
   const MenuScreenSuperAdmin({super.key});
 
   @override

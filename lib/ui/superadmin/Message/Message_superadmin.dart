@@ -2,7 +2,6 @@
 import 'package:co_spririt/ui/superadmin/Message/chat_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
@@ -72,7 +71,7 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(
-                                width: 4,
+                                width: 8,
                               ),
                               Container(
                                 width: 100,

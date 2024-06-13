@@ -39,7 +39,7 @@ class _NotifactionScreenSuperAdminState
             margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: ListTile(
               leading: const CircleAvatar(
-                backgroundColor: AppColor.secondColor,
+               backgroundImage: AssetImage("assets/images/photo.png"),
                 radius: 25,
               ),
               title: Text('Matteo',

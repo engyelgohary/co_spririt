@@ -13,7 +13,7 @@ class CustomMenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Padding(
-        padding: EdgeInsets.symmetric(vertical:10.h,horizontal:12.w,),
+        padding: EdgeInsets.only(top:20.h,left: 20.w,right: 20.w),
         child: Column(
           children: [
             InkWell(
@@ -50,25 +50,29 @@ class CustomProfileUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 25.h),
+        padding: EdgeInsets.only(top: 20.h),
         child: ListTile(
-          leading:  CircleAvatar(
-            backgroundColor: AppColor.secondColor,
-            radius:35.r,
+          leading: Container(
+            width: 70.0,
+            height: 70.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/Rectangle 5.png'),
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
           title: Text(name,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!
                   .copyWith(fontSize: 17)),
-          subtitle:  Padding(
-            padding:  EdgeInsets.only(top: 8.h),
-            child: Text(role,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: AppColor.borderColor)),
-          ),
+          subtitle:  Text(role,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: AppColor.borderColor)),
         )
     );
   }

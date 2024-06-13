@@ -1,3 +1,4 @@
+import 'package:co_spririt/main.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +37,9 @@ class CustomTextFormField extends StatelessWidget {
               fillColor: AppColor.whiteColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColor.whiteColor
+                ),
                   borderRadius: BorderRadius.circular(5.r)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.r),),
@@ -48,7 +52,6 @@ class CustomTextFormField extends StatelessWidget {
                 focusColor: AppColor.basicColor,
                 hoverColor: AppColor.basicColor,
                 suffixIconColor: AppColor.basicColor,
-
                 suffixIcon: suffixIcon
             ),
             style: const TextStyle(color: AppColor.blackColor),

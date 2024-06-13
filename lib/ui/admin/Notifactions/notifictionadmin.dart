@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotifactionScreenAdmin extends StatefulWidget {
-  static const String routName = 'Notifaction';
+  static const String routName = 'Notifaction Admin';
   const NotifactionScreenAdmin({super.key});
 
   @override

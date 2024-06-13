@@ -1,5 +1,10 @@
+import 'package:co_spririt/ui/admin/Menu/menu_admin.dart';
+import 'package:co_spririt/ui/admin/Notifactions/notifictionadmin.dart';
 import 'package:co_spririt/ui/admin/requests/request_admin.dart';
 import 'package:co_spririt/ui/auth/login.dart';
+import 'package:co_spririt/ui/collaborator/Menu/menu_collaborator.dart';
+import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
+import 'package:co_spririt/ui/collaborator/requests/request_collaborator.dart';
 import 'package:co_spririt/ui/splash/splashscreen.dart';
 import 'package:co_spririt/ui/superadmin/Menu/menu_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.dart';
@@ -24,15 +29,22 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return  MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: RequestAdmin.routeName,
+          initialRoute: Splash.routeName,
           routes: {
+            Splash.routeName:(context) =>Splash(),
             LoginScreen.routeName: (context) => LoginScreen(),
+            // Super Admin
             NotifactionScreenSuperAdmin.routName: (context) => NotifactionScreenSuperAdmin(),
             MenuScreenSuperAdmin.routeName:(context) => MenuScreenSuperAdmin(),
-           Splash.routeName:(context) =>Splash(),
             RequestSuperAdmin.routeName:(context) =>RequestSuperAdmin(),
-            RequestAdmin.routeName:(context) => RequestAdmin()
-
+          //   Admin
+            NotifactionScreenAdmin.routName:(context) => NotifactionScreenAdmin(),
+            MenuScreenAdmin.routeName:(context) => MenuScreenAdmin(),
+            RequestAdmin.routeName:(context) => RequestAdmin(),
+          //   Collaborator
+            NotifactionScreenCollaborator.routName:(context) => NotifactionScreenCollaborator(),
+            MenuScreenCollaborators.routeName:(context) => MenuScreenCollaborators(),
+            RequestCollaborator.routeName:(context) => RequestCollaborator()
           },
           theme: AppTheme.mainTheme,
         );

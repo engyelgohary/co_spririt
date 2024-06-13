@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotifactionScreenSuperAdmin extends StatefulWidget {
-  static const String routName = 'Notifaction';
+  static const String routName = 'Notifaction SuperAdmin';
   const NotifactionScreenSuperAdmin({super.key});
 
   @override
@@ -39,7 +39,7 @@ class _NotifactionScreenSuperAdminState
             margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: ListTile(
               leading: const CircleAvatar(
-                backgroundColor: AppColor.secondColor,
+               backgroundImage: AssetImage("assets/images/photo.png"),
                 radius: 25,
               ),
               title: Text('Matteo',

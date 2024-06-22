@@ -14,7 +14,6 @@ class HomeScreenSuperAdmin extends StatelessWidget {
   static String routeName = 'home screen super admin';
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
     return Scaffold(
         body: Column(children: [
           // ClipOval(
@@ -162,10 +161,13 @@ class HomeScreenSuperAdmin extends StatelessWidget {
                             onTap: () {
                               AppUtil.mainNavigator(context, NotifactionScreenSuperAdmin());
                             },
-                            child: Icon(
-                              Icons.notifications_outlined,
-                              color: AppUI.borderColor,
-                              size: 28,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 13.w),
+                              child: Icon(
+                                Icons.notifications_outlined,
+                                color: AppUI.borderColor,
+                                size: 28,
+                              ),
                             ),
                           ),
                         ],

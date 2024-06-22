@@ -66,14 +66,14 @@ class AppBarCustomIcon extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AddStatusDialog(title: "Add Status",name: 'Status 1',); // Show the custom dialog
+              return AddStatusDialog(title: "Add Status",hintText: 'status',name: 'Status',); // Show the custom dialog
             },
           );
         } else if (result == 'Add Type') {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AddStatusDialog(title: "Add Type",name: 'Type 1',); // Show the custom dialog
+              return AddStatusDialog(title: "Add Type",hintText: 'type',name: 'Type',); // Show the custom dialog
             },
           );
         }
@@ -84,15 +84,14 @@ class AppBarCustomIcon extends StatelessWidget {
 class AddStatusDialog extends StatefulWidget {
   String title;
   String name;
-  AddStatusDialog({required this.title,required this.name});
+  String hintText;
+  AddStatusDialog({required this.name,required this.title,required this.hintText});
   @override
   _AddStatusDialogState createState() => _AddStatusDialogState();
 }
 
 class _AddStatusDialogState extends State<AddStatusDialog> {
-  String? selectedStatus;
-  List<String> statusOptions = ['Status 1', 'Status 2', 'Status 3']; // Example options
-
+  TextEditingController statusController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,39 +102,21 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
       ),
       child: AlertDialog(
         title: Text(widget.title,style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
+        content:  Row(
           children: [
-            Container(
-              height:32.h ,
-              width: 294.w,
-              child: DropdownButtonFormField<String>(
+            Text("${widget.name} :", style: Theme.of(context).textTheme.titleMedium),
+            Expanded(
+              child: TextField(
+                controller: statusController,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5), // Adjust padding as needed
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.borderColor, width: 1.w), // Border color and width can be customized
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.borderColor, width: 1.w),
-                  ),
+                  hintText: widget.hintText,
+                  hintStyle: Theme.of(context).textTheme.titleMedium,
+                  border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 8.0), // Adjust padding
                 ),
-                value: selectedStatus,
-                hint: Text(widget.name,style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 12,color: AppColor.blackColor),),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedStatus = newValue;
-                  });
-                },
-                items: statusOptions.map((String status) {
-                  return DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status,style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 12,color: AppColor.blackColor),),
-                  );
-                }).toList(),
               ),
             ),
-
-
           ],
         ),
         actions: [

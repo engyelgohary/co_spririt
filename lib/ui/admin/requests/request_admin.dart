@@ -17,30 +17,6 @@ class RequestAdmin extends StatelessWidget {
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: AppBarCustom(),
-        actions: [
-          Padding(
-            padding:  EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return RequestDetailDialog();
-                  },
-                );
-              },
-              child: CircleAvatar(
-                radius: 18.r, // Adjust the radius as needed
-                backgroundColor: AppColor.secondColor,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) {
@@ -80,13 +56,23 @@ class RequestAdmin extends StatelessWidget {
 
                 ],
               ),
-              trailing: CircleAvatar(
-                backgroundColor: AppColor.SkyColor,
-                radius: 18.r,
-                child: Icon(
-                  Icons.info_outline,
-                  color: AppColor.secondColor,
-                  size: 20,
+              trailing: InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return RequestDetailDialog();
+                    },
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundColor: AppColor.SkyColor,
+                  radius: 18.r,
+                  child: Icon(
+                    Icons.info_outline,
+                    color: AppColor.secondColor,
+                    size: 20,
+                  ),
                 ),
               ),
             ),
@@ -106,7 +92,8 @@ class RequestDetailDialog extends StatefulWidget {
 
 class _RequestDetailDialogState extends State<RequestDetailDialog> {
   String? selectedStatus;
-  List<String> statusOptions = ['Status 1', 'Status 2', 'Status 3'];  TextEditingController titleController = TextEditingController();
+  List<String> statusOptions = ['Status 1', 'Status 2', 'Status 3'];
+  TextEditingController titleController = TextEditingController();
   TextEditingController typeController = TextEditingController();
 
   @override
@@ -126,38 +113,21 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
               children: [
                 Text('Request Title : ', style: Theme.of(context).textTheme.titleMedium),
                 Expanded(
-                  child: TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      hintText: 'Title',
-                      hintStyle: Theme.of(context).textTheme.titleMedium,
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8.0), // Adjust padding
-                    ),
-                  ),
+                  child: Text('Title'),
                 ),
               ],
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 10.h),
             Row(
               children: [
                 Text('Request Type : ', style: Theme.of(context).textTheme.titleMedium),
                 Expanded(
-                  child: TextField(
-                    controller: typeController,
-                    decoration: InputDecoration(
-                      hintStyle: Theme.of(context).textTheme.titleMedium,
-                      border: InputBorder.none,
-                      hintText: 'Type',
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text('Type'
                     ),
                   ),
-                ),
               ],
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 10.h),
             Text('Request Status', style: Theme.of(context).textTheme.titleMedium),
             SizedBox(height: 8.h),
             Container(

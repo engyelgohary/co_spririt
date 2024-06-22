@@ -48,6 +48,7 @@ class _SingleCheckBoxState extends State<SingleCheckBox> {
       
       child: Expanded(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _isSelectedList.isNotEmpty && // selectId==index //
                 _isSelectedList[index]
@@ -58,7 +59,7 @@ class _SingleCheckBoxState extends State<SingleCheckBox> {
                 : const Icon(Icons.check_box_outline_blank,
                 color: AppUI.borderColor),
             Text(title),
-            SizedBox(width: 10,),
+            SizedBox(width: 40,),
 
           ],
         ),

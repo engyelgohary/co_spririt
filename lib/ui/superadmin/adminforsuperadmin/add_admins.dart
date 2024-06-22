@@ -119,7 +119,7 @@ class AddAdminsScreen extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
                 //Spacer(),
-                SizedBox(width: 30,),
+                SizedBox(width: 20,),
                 Container(
                     width: 200,
                     height: 32,

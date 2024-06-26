@@ -145,32 +145,7 @@ class CollaboratorsScreenForSuper extends StatelessWidget {
                                 Spacer(),
                                 Row(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return DialogPart();
-                                            });
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 29,
-                                        width: 29,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: AppUI.opacityColor,
-                                        ),
-                                        child: ImageIcon(
-                                          AssetImage(
-                                            '${AppUI.iconPath}assignto.png',
-                                          ),
-                                          color: AppUI.secondColor,
-                                          size: 14,
-                                        ),
-                                      ),
-                                    ),
+                                    DialogPart(),
                                     SizedBox(
                                       width: 12,
                                     ),

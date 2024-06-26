@@ -20,7 +20,6 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
               height: 30,
             ),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   height: 42,
@@ -60,53 +59,56 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                           AppUtil.mainNavigator(context, ChatScreenSuperAdmin());
                         },
                         child: Container(
-                          // width: ,
                           height: 60,
-                          child: Row(
+                          child: Column(
                             children: [
-                              Image.asset(
-                                '${AppUI.imgPath}photo.png',
-                                height: 41,
-                                width: 42,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText(
-                                      text: 'Matteo',
-                                      fontSize: 15,
-                                      color: AppUI.basicColor,
-                                      fontWeight: FontWeight.w700,
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    '${AppUI.imgPath}photo.png',
+                                    height: 41,
+                                    width: 42,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Container(
+                                    width: 100,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: 'Matteo',
+                                          fontSize: 15,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        CustomText(
+                                          text: 'Lorem ipsum dolor sit amet .....',
+                                          fontSize: 12,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ],
                                     ),
-                                    CustomText(
-                                      text: 'Lorem ipsum dolor sit amet .....',
-                                      fontSize: 12,
-                                      color: AppUI.basicColor,
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 29,
+                                    width: 29,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: AppUI.secondColor),
+                                    child: CustomText(
+                                      text: '3',
+                                      fontSize: 15,
+                                      color: AppUI.whiteColor,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                height: 29,
-                                width: 29,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: AppUI.secondColor),
-                                child: CustomText(
-                                  text: '3',
-                                  fontSize: 15,
-                                  color: AppUI.whiteColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

@@ -16,12 +16,11 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   void login(BuildContext context){
     // if (formKey.currentState!.validate() == true){
       //SuperAdmin
-      AppUtil.mainNavigator(context, HomeScreenSuperAdmin());
+       AppUtil.mainNavigator(context, HomeScreenSuperAdmin());
       //Admin
       // AppUtil.mainNavigator(context, HomeScreenAdmin());
       //Collaborator
-      // AppUtil.mainNavigator(context, HomeScreenColla());
-
+      //AppUtil.mainNavigator(context, HomeScreenColla());
 
     // }
   }

@@ -13,7 +13,7 @@ class CustomMenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Padding(
-        padding: EdgeInsets.only(top:20.h,left: 20.w,right: 20.w),
+        padding: EdgeInsets.only(top:10.h,left: 20.w,right: 20.w),
         child: Column(
           children: [
             InkWell(

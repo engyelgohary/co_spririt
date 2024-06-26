@@ -45,8 +45,8 @@ class AppBarCustomIcon extends StatelessWidget {
       ),
     ],
     icon:  Container(
-      height: 100.h,
-      width: 100.w,
+      height: 50.h,
+      width: 60.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColor.secondColor,
@@ -120,43 +120,40 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
           ],
         ),
         actions: [
-          Padding(
-            padding:  EdgeInsets.only(left: 1.w,bottom:10.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height:30.h,
-                  width: 130.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.greyColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height:30.h,
+                width: 120.w,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.greyColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(5.r)))),
                 ),
-                SizedBox(width: 5.w,),
-                Container(
-                  height:30.h,
-                  width: 130.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                    },
-                    child: Center(child: Text('Add',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.whiteColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
-                  ),
+              ),
+              SizedBox(width: 5.w,),
+              Container(
+                height:30.h,
+                width: 120.w,
+                child: ElevatedButton(
+                  onPressed: () {
+                  },
+                  child: Center(child: Text('Add',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.whiteColor))),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.buttonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(5.r)))),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

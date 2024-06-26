@@ -23,7 +23,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 24,
             ),
             Row(
               children: [
@@ -45,7 +45,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -67,7 +67,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -89,7 +89,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -111,7 +111,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -133,7 +133,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -155,7 +155,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +178,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -200,7 +200,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +223,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,7 +246,7 @@ class CollaboratorDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Spacer(),
             Padding(

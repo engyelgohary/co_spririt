@@ -21,7 +21,7 @@ class AddCollaboratorScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 20,
           ),
           Row(
             children: [
@@ -249,7 +249,7 @@ class AddCollaboratorScreen extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 8,
+            height: 24,
           ),
           Row(
             children: [

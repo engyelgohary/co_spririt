@@ -14,12 +14,12 @@ class ChatScreenSuperAdmin extends StatelessWidget {
             height: 30,
           ),
           Container(
-              height: 135,
+              height: 145,
               decoration: BoxDecoration(
                   color: AppUI.whiteColor,
                   borderRadius: BorderRadius.circular(12)),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Row(
@@ -60,38 +60,42 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 16,
+                      height: 20,
                     ),
-                    Row(
+                    Column(
                       children: [
-                        Image.asset(
-                          '${AppUI.imgPath}photo.png',
-                          height: 41,
-                          width: 42,
-                          // fit: BoxFit.cover,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Container(
-                          width: 100,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: 'Matteo',
-                                fontSize: 16,
-                                color: AppUI.basicColor,
-                                fontWeight: FontWeight.w700,
+                        Row(
+                          children: [
+                            Image.asset(
+                              '${AppUI.imgPath}photo.png',
+                              height: 41,
+                              width: 42,
+                              // fit: BoxFit.cover,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Container(
+                              width: 100,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text: 'Matteo',
+                                    fontSize: 16,
+                                    color: AppUI.basicColor,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  CustomText(
+                                    text: 'MR@gmail,com',
+                                    fontSize: 12,
+                                    color: AppUI.basicColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
                               ),
-                              CustomText(
-                                text: 'MR@gmail,com',
-                                fontSize: 12,
-                                color: AppUI.basicColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

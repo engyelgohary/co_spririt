@@ -59,7 +59,7 @@ class _SingleCheckBoxState extends State<SingleCheckBox> {
                 : const Icon(Icons.check_box_outline_blank,
                 color: AppUI.borderColor),
             Text(title),
-            SizedBox(width: 40,),
+            SizedBox(width: 55,),
 
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 
@@ -145,7 +146,7 @@ class UpdateAdminScreen extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
                 SizedBox(
-                  width: 4,
+                  width: 32.w,
                 ),
                 CustomText(
                   text: ' Yes',

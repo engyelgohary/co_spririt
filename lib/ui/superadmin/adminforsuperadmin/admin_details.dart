@@ -25,7 +25,7 @@ class AdminDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 24,
             ),
             Row(
               children: [
@@ -47,7 +47,7 @@ class AdminDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -69,7 +69,7 @@ class AdminDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -91,7 +91,7 @@ class AdminDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [
@@ -113,7 +113,7 @@ class AdminDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 18,
             ),
             Row(
               children: [

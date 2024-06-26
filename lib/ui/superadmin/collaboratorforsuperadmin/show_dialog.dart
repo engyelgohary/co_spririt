@@ -1,78 +1,61 @@
 
+import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
-import '../../../core/components.dart';
 import 'assign_to_admin.dart';
-import 'assign_to_client.dart';
 
 class DialogPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Container(
-          height: 80,
-          // width: 80,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  height: 80,
-                  width: 140,
-                  //MediaQuery.of(context).size.width,
-                  color: AppUI.whiteColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AssignToAdmin();
-                                });
-                          },
-                          child: CustomText(
-                            text: 'Assign to admin',
-                            fontSize: 12,
-                            color: AppUI.borderColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AssignToClient();
-                                });
-                          },
-                          child: CustomText(
-                            text: 'Assign to Client',
-                            fontSize: 12,
-                            color: AppUI.borderColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )
-          // Center(
-          //   child: OutlinedButton(
-          //     onPressed: () => _dialogBuilder(context),
-          //     child: const Text('Open Dialog'),
-          //   ),
-          // ),
+    return PopupMenuButton(itemBuilder: (context) =><PopupMenuEntry<String>>[
+      PopupMenuItem<String>(
+        value: 'Assign to admin',
+        child: Text('Assign to admin',style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColor.borderColor,fontSize: 12),),
+      ),
+      PopupMenuItem<String>(
+        value: 'Assign to client',
+        child: Text('Assign to client',style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColor.borderColor,fontSize: 12),),
+      ),
+    ],
+      icon:  Container(
+        alignment: Alignment.center,
+        height: 29,
+        width: 29,
+        decoration: BoxDecoration(
+          borderRadius:
+          BorderRadius.circular(30),
+          color: AppUI.opacityColor,
+        ),
+        child: ImageIcon(
+          AssetImage(
+            '${AppUI.iconPath}assignto.png',
           ),
+          color: AppUI.secondColor,
+          size: 14,
+        ),
+      ),
+      offset: Offset(0, 30.h),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      onSelected:  (String result) {
+        if (result == 'Assign to admin') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AssignToAdmin(); // Show the custom dialog
+            },
+          );
+        } else if (result == 'Assign to client') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AssignToAdmin(); // Show the custom dialog
+            },
+          );
+        }
+      },
     );
   }
  }

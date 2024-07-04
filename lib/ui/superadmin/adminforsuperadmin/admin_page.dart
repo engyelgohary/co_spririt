@@ -86,7 +86,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                       placeholder: (context, url) => CircularProgressIndicator(),
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 15.r,
+                        radius: 20.r,
                         child: Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
                       imageBuilder: (context, imageProvider) => CircleAvatar(

@@ -1,13 +1,17 @@
 import 'dart:convert';
-import 'package:co_spririt/data/model/AdminUser.dart';
+import 'dart:io';
 import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
+import 'package:path/path.dart';
 
 
 class ApiConstants {
   static const String baseUrl = '10.10.99.13:3090';
-  static const String registerApi = '/api/v1/admin';
+  static const String registerAdminApi = '/api/v1/admin';
   static const String loginApi = '/api/auth/signin';
   static const String getAllAdmins = '/api/v1/admin';
 
@@ -78,23 +82,38 @@ class ApiManager {
   }
 
 
-  Future<AdminUser> registerAdmin({required String firstName,
-    required String email, required String password,required  String lastName, required String phone}) async {
-    Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.registerApi, {
-      "firstName": firstName,
-      "lastName":lastName,
-      "email":email,
-      "phone": phone,
-      "password":"Admin2@Admin2_12345",
-    });
-    try{
-      var response = await http.post(url);
-      var responsebody = response.body;
-      var json = jsonDecode(responsebody);
-      return AdminUser.fromJson(json);
-    }catch(e){
-      print(e);
-      throw e;
+  Future<GetAdmin> addAdmin(Map<String, dynamic> adminData, XFile? image) async {
+    var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.registerAdminApi);
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['firstName'] = adminData['firstName'];
+    request.fields['lastName'] = adminData['lastName'];
+    request.fields['phone'] = adminData['phone'];
+    request.fields['email'] = adminData['email'];
+    request.fields['canPost'] = adminData['canPost'];
+    request.fields['password']=adminData['password'];
+
+    if (image != null) {
+      var mimeTypeData = lookupMimeType(image.path)!.split('/');
+      request.files.add(
+        http.MultipartFile(
+          'picture',
+          File(image.path).readAsBytes().asStream(),
+          File(image.path).lengthSync(),
+          filename: basename(image.path),
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ),
+      );
+    }
+
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      var responseData = await http.Response.fromStream(response);
+      return GetAdmin.fromJson(jsonDecode(responseData.body));
+    } else {
+      var responseData = await http.Response.fromStream(response);
+      throw Exception('Failed to add admin: ${responseData.body}');
     }
   }
   }

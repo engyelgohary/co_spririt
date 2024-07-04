@@ -7,11 +7,14 @@ final class AddAdminInitial extends AddAdminState {}
 final class AddAdminLoading extends AddAdminState {}
 final class AddAdminError extends AddAdminState {
   String?errorMessage;
-  Errors? errors;
-  AddAdminError({required this.errorMessage,this.errors});
+  AddAdminError({required this.errorMessage,});
 }
 final class AddAdminSuccess extends AddAdminState {
-  AdminUser? adminUser;
+   GetAdmin? adminData;
   List<GetAdmin>? getAdmin;
-  AddAdminSuccess({this.adminUser,this.getAdmin});
+  AddAdminSuccess({this.getAdmin,this.adminData});
+}
+class AddAdminImageSelected extends AddAdminState {
+  final XFile image;
+  AddAdminImageSelected(this.image);
 }

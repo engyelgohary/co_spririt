@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/model/AdminUser.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../api/apimanager.dart';
 import '../repoContract.dart';
 
@@ -8,8 +8,8 @@ class AuthDataSourceImpl implements AuthRemoteDataSource{
   AuthDataSourceImpl({required this.apiManager});
 
   @override
-  Future<AdminUser> registerAdmin({required String firstName, required String email, required String password, required String lastName, required String phone}) async{
-    return await apiManager.registerAdmin(firstName: firstName, email: email, password: password, lastName: lastName, phone: phone);
+  Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image) async{
+    return await apiManager.addAdmin(adminData,image);
   }
 
   @override

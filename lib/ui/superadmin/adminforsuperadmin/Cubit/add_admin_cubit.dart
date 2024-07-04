@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:co_spririt/data/model/AdminUser.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meta/meta.dart';
 
@@ -21,35 +21,36 @@ class AddAdminCubit extends Cubit<AddAdminState> {
   TextEditingController lastName_controller = TextEditingController();
   TextEditingController email_controller = TextEditingController();
   TextEditingController phone_controller = TextEditingController();
-  TextEditingController password_controller = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  XFile? image;
 
   void register() async {
-    if (formKey.currentState!.validate() == true) {
-      try {
-        emit(AddAdminLoading());
-        var response = await authRepository.registerAdmin(
-            firstName: firstName_controller.text,
-            email: email_controller.text,
-            password: password_controller.text,
-            lastName: lastName_controller.text,
-            phone: phone_controller.text);
-        if (response.status! >= 200 && response.status! < 300) {
-          emit(AddAdminSuccess(adminUser: response));
-          return;
-        }
-        else {
-          emit(AddAdminError(errorMessage: response.title));
-          print(response.errors!.password);
-          print(response.errors!.email);
-          print(response.errors!.phone);
+    if (!formKey.currentState!.validate()) return;
 
+    final adminData = {
+      'firstName': firstName_controller.text,
+      'lastName': lastName_controller.text,
+      'phone': phone_controller.text,
+      'email': email_controller.text,
+      'canPost': canPost.toString(),
+      'password':'AdminAdmin'
+    };
 
-          return;
-        }
-      } catch (e) {
-        emit(AddAdminError(errorMessage: "$e"));
-      }
+    emit(AddAdminLoading());
+
+    try {
+      final response = await authRepository.registerAdmin(adminData, image);
+      emit(AddAdminSuccess(adminData: response));
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
+    }
+  }
+
+  void selectImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      image = pickedFile;
+      emit(AddAdminImageSelected(pickedFile));
     }
   }
 

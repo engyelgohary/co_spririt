@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
-import '../adminforsuperadmin/admin_screen.dart';
+import '../adminforsuperadmin/admin_page.dart';
 import '../clientsForSuperAdmin/client_screen.dart';
 import '../collaboratorforsuperadmin/collaborators_screen.dart';
 

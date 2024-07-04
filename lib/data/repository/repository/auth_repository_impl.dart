@@ -1,13 +1,13 @@
-import 'package:co_spririt/data/model/AdminUser.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:image_picker/image_picker.dart';
 import '../repoContract.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
   AuthRemoteDataSource authRemoteDataSource;
   AuthRepositoryImpl({required this.authRemoteDataSource});
   @override
-  Future< AdminUser> registerAdmin({required String firstName, required String email, required String password, required String lastName, required String phone}) {
-    return authRemoteDataSource.registerAdmin(firstName: firstName, email: email, password: password, lastName: lastName, phone: phone);
+  Future< GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image) {
+    return authRemoteDataSource.registerAdmin(adminData,image);
   }
 
   @override

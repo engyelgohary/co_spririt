@@ -6,10 +6,14 @@ abstract class AuthRepository{
   Future<String?>  login({required String email,required String password});
   Future<List<GetAdmin>>getAllAdmins({int page = 1});
   Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image);
+  Future<GetAdmin> fetchAdminDetails(int id);
+  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
 }
 
 abstract class AuthRemoteDataSource {
   Future<String?>  login({required String email,required String password});
   Future<List<GetAdmin>>getAllAdmins({int page = 1});
   Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image);
+  Future<GetAdmin> fetchAdminDetails(int id);
+  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
 }

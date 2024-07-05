@@ -67,10 +67,10 @@ class CustomTextFormField extends StatelessWidget {
 
 class CustomText extends StatefulWidget{
   String fieldName;
+  double? width;
   var keyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
-  double? width;
   CustomText({super.key,required this.fieldName,
     this.validator,
     required this.controller,

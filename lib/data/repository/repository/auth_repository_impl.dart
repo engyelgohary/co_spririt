@@ -19,4 +19,15 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<List<GetAdmin>> getAllAdmins({int page = 1}) {
  return authRemoteDataSource.getAllAdmins(page: page);
   }
+
+  @override
+  Future<GetAdmin> fetchAdminDetails(int id) {
+    return authRemoteDataSource.fetchAdminDetails(id);
+
+  }
+
+  @override
+  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) {
+    return authRemoteDataSource.updateAdmin(adminData, image);
+  }
 }

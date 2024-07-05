@@ -19,7 +19,16 @@ class AuthDataSourceImpl implements AuthRemoteDataSource{
 
   @override
   Future<List<GetAdmin>> getAllAdmins({int page = 1}) async{
-    // TODO: implement getAllAdmins
     return await apiManager.getAllAdmins(page: page);
+  }
+
+  @override
+  Future<GetAdmin> fetchAdminDetails(int id) async{
+    return await apiManager.fetchAdminDetails(id);
+  }
+
+  @override
+  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async{
+    return await apiManager.updateAdmin(adminData,image);
   }
   }

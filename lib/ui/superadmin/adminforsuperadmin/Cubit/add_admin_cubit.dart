@@ -23,6 +23,7 @@ class AddAdminCubit extends Cubit<AddAdminState> {
   TextEditingController phone_controller = TextEditingController();
   var formKey = GlobalKey<FormState>();
   XFile? image;
+  XFile? updateImage;
 
   void register() async {
     if (!formKey.currentState!.validate()) return;
@@ -41,6 +42,7 @@ class AddAdminCubit extends Cubit<AddAdminState> {
     try {
       final response = await authRepository.registerAdmin(adminData, image);
       emit(AddAdminSuccess(adminData: response));
+      pagingController.refresh();
     } catch (e) {
       emit(AddAdminError(errorMessage: e.toString()));
     }
@@ -54,6 +56,19 @@ class AddAdminCubit extends Cubit<AddAdminState> {
     }
   }
 
+  void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
+    emit(AddAdminLoading());
+    try {
+      print('Attempting to update admin');
+      var updatedAdmin = await authRepository.updateAdmin(adminData, image);
+      emit(AddAdminSuccess(adminData: updatedAdmin));
+      print('Admin updated successfully');
+      pagingController.refresh(); // Refresh the list
+    } catch (e) {
+      emit(AddAdminError(errorMessage:e.toString()));
+      print('Error updating admin: $e');
+    }
+  }
   void fetchAdmins(int pageKey) async {
     emit(AddAdminLoading());
     try {
@@ -71,6 +86,15 @@ class AddAdminCubit extends Cubit<AddAdminState> {
       pagingController.error = error;
     }
   }
+  Future<void> fetchAdminDetails(int id) async {
+    try {
+      final adminDetails = await authRepository.fetchAdminDetails(id);
+      emit(AddAdminSuccess(adminData: adminDetails));
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
+    }
+  }
+
 }
 
 

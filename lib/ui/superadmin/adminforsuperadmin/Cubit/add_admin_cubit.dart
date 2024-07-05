@@ -23,7 +23,55 @@ class AddAdminCubit extends Cubit<AddAdminState> {
   TextEditingController phone_controller = TextEditingController();
   var formKey = GlobalKey<FormState>();
   XFile? image;
+  XFile? updateImage;
 
+
+
+  void selectImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      image = pickedFile;
+      emit(AddAdminImageSelected(pickedFile));
+    }
+  }
+  void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
+    emit(AddAdminLoading());
+    try {
+      print('Attempting to update admin');
+      var updatedAdmin = await authRepository.updateAdmin(adminData, image);
+      emit(AddAdminSuccess(adminData: updatedAdmin));
+      print('Admin updated successfully');
+      pagingController.refresh(); // Refresh the list
+    } catch (e) {
+      emit(AddAdminError(errorMessage:e.toString()));
+      print('Error updating admin: $e');
+    }
+  }
+  void fetchAdmins(int pageKey) async {
+    emit(AddAdminLoading());
+    try {
+      print("Fetching admins for page: $pageKey");
+      final admins = await authRepository.getAllAdmins(page: pageKey);
+      final isLastPage = admins.length < 10;
+      if (isLastPage) {
+        pagingController.appendLastPage(admins);
+      } else {
+        pagingController.appendPage(admins, pageKey + 1);
+      }
+      emit(AddAdminSuccess(getAdmin: admins));
+    } catch (error) {
+      emit(AddAdminError(errorMessage: error.toString()));
+      pagingController.error = error;
+    }
+  }
+  Future<void> fetchAdminDetails(int id) async {
+    try {
+      final adminDetails = await authRepository.fetchAdminDetails(id);
+      emit(AddAdminSuccess(adminData: adminDetails));
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
+    }
+  }
   void register() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -41,34 +89,19 @@ class AddAdminCubit extends Cubit<AddAdminState> {
     try {
       final response = await authRepository.registerAdmin(adminData, image);
       emit(AddAdminSuccess(adminData: response));
+      pagingController.refresh();
     } catch (e) {
       emit(AddAdminError(errorMessage: e.toString()));
     }
   }
-
-  void selectImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      image = pickedFile;
-      emit(AddAdminImageSelected(pickedFile));
-    }
-  }
-
-  void fetchAdmins(int pageKey) async {
-    emit(AddAdminLoading());
+  Future<void> deleteAdmin(int id) async {
     try {
-      print("Fetching admins for page: $pageKey");
-      final admins = await authRepository.getAllAdmins(page: pageKey);
-      final isLastPage = admins.length < 10;
-      if (isLastPage) {
-        pagingController.appendLastPage(admins);
-      } else {
-        pagingController.appendPage(admins, pageKey + 1);
-      }
-      emit(AddAdminSuccess(getAdmin: admins));
-    } catch (error) {
-      emit(AddAdminError(errorMessage: error.toString()));
-      pagingController.error = error;
+      emit(AddAdminLoading());
+      await authRepository.deleteAdmin(id);
+      emit(AddAdminSuccess());
+      pagingController.refresh(); // Refresh the list
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
     }
   }
 }

@@ -166,7 +166,7 @@ class ApiManager {
   }
   Future<GetAdmin> deleteAdmin(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
-    final response = await http.get(uri);
+    final response = await http.delete(uri);
     if (response.statusCode == 204) {
       return GetAdmin();
     } else if (response.statusCode == 200) {
@@ -175,6 +175,7 @@ class ApiManager {
       throw Exception('Failed to delete admin ');
     }
   }
+
 }
 
 

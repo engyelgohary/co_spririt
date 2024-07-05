@@ -31,4 +31,9 @@ class AuthDataSourceImpl implements AuthRemoteDataSource{
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async{
     return await apiManager.updateAdmin(adminData,image);
   }
+
+  @override
+  Future<GetAdmin> deleteAdmin(int id) async{
+   return await apiManager.deleteAdmin(id);
+  }
   }

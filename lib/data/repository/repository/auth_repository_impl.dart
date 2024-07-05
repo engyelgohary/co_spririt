@@ -30,4 +30,9 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) {
     return authRemoteDataSource.updateAdmin(adminData, image);
   }
+
+  @override
+  Future<GetAdmin> deleteAdmin(int id) {
+   return authRemoteDataSource.deleteAdmin(id);
+  }
 }

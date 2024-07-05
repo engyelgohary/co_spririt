@@ -25,28 +25,7 @@ class AddAdminCubit extends Cubit<AddAdminState> {
   XFile? image;
   XFile? updateImage;
 
-  void register() async {
-    if (!formKey.currentState!.validate()) return;
 
-    final adminData = {
-      'firstName': firstName_controller.text,
-      'lastName': lastName_controller.text,
-      'phone': phone_controller.text,
-      'email': email_controller.text,
-      'canPost': canPost.toString(),
-      'password':'AdminAdmin'
-    };
-
-    emit(AddAdminLoading());
-
-    try {
-      final response = await authRepository.registerAdmin(adminData, image);
-      emit(AddAdminSuccess(adminData: response));
-      pagingController.refresh();
-    } catch (e) {
-      emit(AddAdminError(errorMessage: e.toString()));
-    }
-  }
 
   void selectImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -55,7 +34,6 @@ class AddAdminCubit extends Cubit<AddAdminState> {
       emit(AddAdminImageSelected(pickedFile));
     }
   }
-
   void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     emit(AddAdminLoading());
     try {
@@ -94,7 +72,38 @@ class AddAdminCubit extends Cubit<AddAdminState> {
       emit(AddAdminError(errorMessage: e.toString()));
     }
   }
+  void register() async {
+    if (!formKey.currentState!.validate()) return;
 
+    final adminData = {
+      'firstName': firstName_controller.text,
+      'lastName': lastName_controller.text,
+      'phone': phone_controller.text,
+      'email': email_controller.text,
+      'canPost': canPost.toString(),
+      'password':'AdminAdmin'
+    };
+
+    emit(AddAdminLoading());
+
+    try {
+      final response = await authRepository.registerAdmin(adminData, image);
+      emit(AddAdminSuccess(adminData: response));
+      pagingController.refresh();
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
+    }
+  }
+  Future<void> deleteAdmin(int id) async {
+    try {
+      emit(AddAdminLoading());
+      await authRepository.deleteAdmin(id);
+      emit(AddAdminSuccess());
+      pagingController.refresh(); // Refresh the list
+    } catch (e) {
+      emit(AddAdminError(errorMessage: e.toString()));
+    }
+  }
 }
 
 

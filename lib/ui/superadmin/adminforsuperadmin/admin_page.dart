@@ -11,6 +11,8 @@ import '../../../data/model/GetAdmin.dart';
 import 'Cubit/add_admin_cubit.dart';
 import 'addAdminDialog.dart';
 import 'infoAdmin.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
 
 class AdminScreenForSuper extends StatefulWidget {
   @override
@@ -83,60 +85,78 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
               builderDelegate: PagedChildBuilderDelegate<GetAdmin>(
                 itemBuilder: (context, item, index) {
                   final adminImage = 'http://10.10.99.13:3090${item.pictureLocation}';
-                  return ListTile(
-                    leading: CachedNetworkImage(
-                      imageUrl: adminImage,
-                      placeholder: (context, url) => CircularProgressIndicator(color: AppColor.secondColor,),
-                      errorWidget: (context, url, error) => CircleAvatar(
-                        backgroundColor: AppColor.SkyColor,
-                        radius: 20.r,
-                        child: Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
-                      ),
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        backgroundImage: imageProvider,
-                      ),
-                    ),
-                    title: Text(
-                      '${item.firstName} ${item.lastName}',
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                    subtitle: Text(
-                      item.email ??"",
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w400, fontSize: 12),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
+                  return Slidable(
+                    startActionPane: ActionPane(
+                      extentRatio: .22,
+                      motion: const ScrollMotion(),
                       children: [
-                        InkWell(
-                          onTap: () {
-                            showUpdateAdminDialog(item);
+                        SlidableAction(
+                          borderRadius: BorderRadius.circular(20),
+                          onPressed: (context) {
+                            context.read<AddAdminCubit>().deleteAdmin(item.id??1);
                           },
-                          child: CircleAvatar(
-                            backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
-                            child: Icon(
-                              Icons.update_outlined,
-                              color: AppColor.secondColor,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 16.w),
-                        InkWell(
-                          onTap: () {
-                            showAdminDetailsBottomSheet(item.id ?? 1);
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
-                            child: Icon(
-                              Icons.info_outline,
-                              color: AppColor.secondColor,
-                              size: 20,
-                            ),
-                          ),
+                          backgroundColor: AppColor.errorColor,
+                          foregroundColor: AppColor.whiteColor,
+                          icon: Icons.delete,
+                          label: 'Delete',
                         ),
                       ],
+                    ),
+                    child: ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl: adminImage,
+                        placeholder: (context, url) => CircularProgressIndicator(color: AppColor.secondColor,),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          backgroundColor: AppColor.SkyColor,
+                          radius: 20.r,
+                          child: Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                        ),
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
+                        ),
+                      ),
+                      title: Text(
+                        '${item.firstName} ${item.lastName}',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      subtitle: Text(
+                        item.email ??"",
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w400, fontSize: 12),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showUpdateAdminDialog(item);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.update_outlined,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          InkWell(
+                            onTap: () {
+                              showAdminDetailsBottomSheet(item.id ?? 1);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.info_outline,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

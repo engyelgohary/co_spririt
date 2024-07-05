@@ -8,6 +8,7 @@ abstract class AuthRepository{
   Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> fetchAdminDetails(int id);
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
+  Future<GetAdmin> deleteAdmin(int id);
 }
 
 abstract class AuthRemoteDataSource {
@@ -16,4 +17,5 @@ abstract class AuthRemoteDataSource {
   Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> fetchAdminDetails(int id);
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
+  Future<GetAdmin> deleteAdmin(int id);
 }

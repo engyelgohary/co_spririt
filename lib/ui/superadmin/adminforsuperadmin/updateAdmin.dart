@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../data/dip.dart';
 import '../../../data/model/GetAdmin.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
-import 'Cubit/add_admin_cubit.dart';
+import 'Cubit/admin_cubit.dart';
 
 class UpdateAdminDialog extends StatefulWidget {
   final GetAdmin admin;
@@ -52,7 +51,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
   }
 
   void updateAdmin() {
-    context.read<AddAdminCubit>().updateAdmin({
+    context.read<AdminCubit>().updateAdmin({
       'id': widget.admin.id,
       'firstName': firstNameController.text,
       'lastName': lastNameController.text,

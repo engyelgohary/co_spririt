@@ -8,7 +8,7 @@ import '../../../../utils/components/appbar.dart';
 import '../../../../utils/theme/appColors.dart';
 import '../../../data/dip.dart';
 import '../../../data/model/GetAdmin.dart';
-import 'Cubit/add_admin_cubit.dart';
+import 'Cubit/admin_cubit.dart';
 import 'addAdminDialog.dart';
 import 'infoAdmin.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -20,13 +20,12 @@ class AdminScreenForSuper extends StatefulWidget {
 }
 
 class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
-  late AddAdminCubit viewModel;
+  late AdminCubit viewModel;
 
   @override
   void initState() {
     super.initState();
-    viewModel = AddAdminCubit(authRepository: injectAuthRepository());
-    viewModel.fetchAdmins(1);
+    viewModel = AdminCubit(adminRepository: injectAdminRepository());
   }
 
   @override
@@ -77,7 +76,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
       ),
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<AddAdminCubit, AddAdminState>(
+        child: BlocBuilder<AdminCubit, AdminState>(
           bloc: viewModel,
           builder: (context, state) {
             return PagedListView<int, GetAdmin>.separated(
@@ -93,7 +92,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                         SlidableAction(
                           borderRadius: BorderRadius.circular(20),
                           onPressed: (context) {
-                            context.read<AddAdminCubit>().deleteAdmin(item.id??1);
+                            context.read<AdminCubit>().deleteAdmin(item.id??1);
                           },
                           backgroundColor: AppColor.errorColor,
                           foregroundColor: AppColor.whiteColor,
@@ -220,12 +219,12 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
       context: context,
       builder: (context) {
         viewModel.fetchAdminDetails(id);
-        return BlocBuilder<AddAdminCubit, AddAdminState>(
+        return BlocBuilder<AdminCubit, AdminState>(
           bloc: viewModel,
           builder: (context, state) {
-            if (state is AddAdminSuccess) {
+            if (state is AdminSuccess) {
               return InfoAdmin(state.adminData);
-            } else if (state is AddAdminError) {
+            } else if (state is AdminError) {
               return Center(child: Text(state.errorMessage??""));
             } else {
               return Center(child: CircularProgressIndicator(

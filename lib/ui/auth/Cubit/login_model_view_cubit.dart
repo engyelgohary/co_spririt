@@ -14,8 +14,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   LoginModelViewCubit({required this.authRepository}) : super(LoginModelViewInitial());
   AuthRepository authRepository;
   var formKey = GlobalKey<FormState>();
-  var passwordController = TextEditingController();
-  var emailController = TextEditingController();
+  var passwordController = TextEditingController(text: "AdminAdmin");
+  var emailController = TextEditingController(text: "Admin@admin.com");
   bool isObscure = true;
   void login(BuildContext context) async {
     if (formKey.currentState!.validate() == true) {
@@ -26,8 +26,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
       if (token != null) {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         print(decodedToken);
-        if (decodedToken.containsKey('Type')) {
-          String roleType = (decodedToken['Type']);
+        if (decodedToken.containsKey('Type')|| decodedToken.containsKey('type')) {
+          String roleType = (decodedToken['Type'] ?? decodedToken['type']);
           switch (roleType) {
             case "0":
               emit(LoginModelViewSuccess(HomeScreenSuperAdmin()));

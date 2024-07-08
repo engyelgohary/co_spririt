@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meta/meta.dart';
-
 import '../../../../../../data/repository/repoContract.dart';
 import '../../../../data/model/GetAdmin.dart';
-part 'add_admin_state.dart';
+part 'admin_state.dart';
 
-class AddAdminCubit extends Cubit<AddAdminState> {
-  AuthRepository authRepository;
+class AdminCubit extends Cubit<AdminState> {
+  AdminRepository adminRepository;
   final PagingController<int, GetAdmin> pagingController = PagingController(firstPageKey: 1);
-  AddAdminCubit({required this.authRepository}) : super(AddAdminInitial()) {
+  AdminCubit({required this.adminRepository}) : super(AdminInitial()) {
     pagingController.addPageRequestListener((pageKey) {
       fetchAdmins(pageKey);
     });
@@ -25,51 +24,49 @@ class AddAdminCubit extends Cubit<AddAdminState> {
   XFile? image;
   XFile? updateImage;
 
-
-
   void selectImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image = pickedFile;
-      emit(AddAdminImageSelected(pickedFile));
+      emit(AdminImageSelected(pickedFile));
     }
   }
   void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
-    emit(AddAdminLoading());
+    emit(AdminLoading());
     try {
       print('Attempting to update admin');
-      var updatedAdmin = await authRepository.updateAdmin(adminData, image);
-      emit(AddAdminSuccess(adminData: updatedAdmin));
+      var updatedAdmin = await adminRepository.updateAdmin(adminData, image);
+      emit(AdminSuccess(adminData: updatedAdmin));
       print('Admin updated successfully');
       pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(AddAdminError(errorMessage:e.toString()));
+      emit(AdminError(errorMessage:e.toString()));
       print('Error updating admin: $e');
     }
   }
   void fetchAdmins(int pageKey) async {
-    emit(AddAdminLoading());
+    emit(AdminLoading());
     try {
       print("Fetching admins for page: $pageKey");
-      final admins = await authRepository.getAllAdmins(page: pageKey);
+      final admins = await adminRepository.getAllAdmins(page: pageKey);
       final isLastPage = admins.length < 10;
       if (isLastPage) {
         pagingController.appendLastPage(admins);
       } else {
         pagingController.appendPage(admins, pageKey + 1);
       }
-      emit(AddAdminSuccess(getAdmin: admins));
+      emit(AdminSuccess(getAdmin: admins));
     } catch (error) {
-      emit(AddAdminError(errorMessage: error.toString()));
+      emit(AdminError(errorMessage: error.toString()));
       pagingController.error = error;
     }
   }
   Future<void> fetchAdminDetails(int id) async {
     try {
-      final adminDetails = await authRepository.fetchAdminDetails(id);
-      emit(AddAdminSuccess(adminData: adminDetails));
+      final adminDetails = await adminRepository.fetchAdminDetails(id);
+      emit(AdminSuccess(adminData: adminDetails));
     } catch (e) {
-      emit(AddAdminError(errorMessage: e.toString()));
+      emit(AdminError(errorMessage: e.toString()));
     }
   }
   void register() async {
@@ -84,24 +81,24 @@ class AddAdminCubit extends Cubit<AddAdminState> {
       'password':'AdminAdmin'
     };
 
-    emit(AddAdminLoading());
+    emit(AdminLoading());
 
     try {
-      final response = await authRepository.registerAdmin(adminData, image);
-      emit(AddAdminSuccess(adminData: response));
+      final response = await adminRepository.registerAdmin(adminData, image);
+      emit(AdminSuccess(adminData: response));
       pagingController.refresh();
     } catch (e) {
-      emit(AddAdminError(errorMessage: e.toString()));
+      emit(AdminError(errorMessage: e.toString()));
     }
   }
   Future<void> deleteAdmin(int id) async {
     try {
-      emit(AddAdminLoading());
-      await authRepository.deleteAdmin(id);
-      emit(AddAdminSuccess());
+      emit(AdminLoading());
+      await adminRepository.deleteAdmin(id);
+      emit(AdminSuccess());
       pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(AddAdminError(errorMessage: e.toString()));
+      emit(AdminError(errorMessage: e.toString()));
     }
   }
 }

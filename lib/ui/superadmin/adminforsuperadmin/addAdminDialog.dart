@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/dip.dart';
 import '../../../../utils/components/textFormField.dart';
-import 'Cubit/add_admin_cubit.dart';
+import 'Cubit/admin_cubit.dart';
 
 class AddAdmin extends StatefulWidget {
   @override
@@ -13,27 +13,27 @@ class AddAdmin extends StatefulWidget {
 }
 
 class _AddAdminState extends State<AddAdmin> {
-  late AddAdminCubit viewModel;
+  late AdminCubit viewModel;
 
   @override
   void initState() {
     super.initState();
-    viewModel = AddAdminCubit(authRepository: injectAuthRepository());
+    viewModel = AdminCubit(adminRepository: injectAdminRepository());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddAdminCubit, AddAdminState>(
+    return BlocListener<AdminCubit, AdminState>(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is AddAdminLoading) {
+        if (state is AdminLoading) {
           CircularProgressIndicator();
-        } else if (state is AddAdminError) {
+        } else if (state is AdminError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage??""),
           ));
-        } else if (state is AddAdminSuccess) {
+        } else if (state is AdminSuccess) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Admin Added Successfully"),
@@ -51,10 +51,10 @@ class _AddAdminState extends State<AddAdmin> {
             children: [
               GestureDetector(
                 onTap: viewModel.selectImage,
-                child: BlocBuilder<AddAdminCubit, AddAdminState>(
+                child: BlocBuilder<AdminCubit, AdminState>(
                   bloc: viewModel,
                   builder: (context, state) {
-                    if (state is AddAdminImageSelected) {
+                    if (state is AdminImageSelected) {
                       return CircleAvatar(
                         radius: 60.r,
                         backgroundImage: FileImage(File(state.image.path)),

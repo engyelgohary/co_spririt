@@ -440,7 +440,7 @@ class ApiManager {
     }
   }
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) async {
-    final url = Uri.parse("http://${ApiConstants.baseUrl}/$collaboratorId/admin/$adminId"); // Ensure the URL starts with http:// or https://
+    final url = Uri.parse("http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/admin/$adminId"); // Ensure the URL starts with http:// or https://
 
     try {
       final response = await http.put(url);
@@ -451,6 +451,24 @@ class ApiManager {
       } else {
         print('Failed to assign collaborator: ${response.statusCode}');
         throw Exception('Failed to assign collaborator');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      throw Exception('Failed to assign collaborator due to an error');
+    }
+  }
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) async {
+    final url = Uri.parse("http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/client/$clientId"); // Ensure the URL starts with http:// or https://
+
+    try {
+      final response = await http.put(url);
+
+      if (response.statusCode == 204) {
+        print('Collaborator assigned successfully to client');
+        return Collaborator();
+      } else {
+        print('Failed to assign collaborator: ${response.statusCode}');
+        throw Exception('Failed to assign client');
       }
     } catch (e) {
       print('Error occurred: $e');

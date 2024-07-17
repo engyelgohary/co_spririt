@@ -1,3 +1,4 @@
+import 'package:co_spririt/ui/admin/opportunities/opportunities.dart';
 import 'package:co_spririt/ui/admin/requests/request_admin.dart';
 import 'package:co_spririt/ui/auth/login.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
@@ -26,6 +27,7 @@ class MenuScreenAdmin extends StatelessWidget {
           CustomMenuCard(name:'Collaborators' ,onFunction:(){ AppUtil.mainNavigator(context,CollaboratorsAdminScreen());},),
           CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenAdmin.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ AppUtil.mainNavigator(context,MessagesScreenAdmin());},),
+          CustomMenuCard(name:'Opportunities' ,onFunction:(){ AppUtil.mainNavigator(context,OpportunitiesScreenAdmin());},),
           CustomMenuCard(name:'Requests' ,onFunction:(){ Navigator.pushNamed(context, RequestAdmin.routeName);},),
           CustomMenuCard(name:'Log out',color: AppColor.secondColor, onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},)
         ],

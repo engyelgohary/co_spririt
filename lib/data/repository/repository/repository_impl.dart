@@ -106,4 +106,9 @@ class CollaboratorRepositoryImpl implements CollaboratorRepository{
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) {
  return collaboratorRemoteDataSource.assignCollaboratorToAdmin(collaboratorId, adminId);
   }
+
+  @override
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) {
+   return collaboratorRemoteDataSource.assignCollaboratorToClient(collaboratorId, clientId);
+  }
 }

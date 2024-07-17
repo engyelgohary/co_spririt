@@ -48,6 +48,7 @@ abstract class CollaboratorRepository{
   Future<Collaborator> fetchCollaboratorDetails(int id);
   Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv);
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId);
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId);
 }
 abstract class CollaboratorRemoteDataSource{
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1});
@@ -56,4 +57,5 @@ abstract class CollaboratorRemoteDataSource{
   Future<Collaborator> fetchCollaboratorDetails(int id);
   Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv);
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId);
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId);
 }

@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/ui/superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
+import 'package:co_spririt/ui/superadmin/clientsForSuperAdmin/Cubit/client_cubit.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/updateCollaborator.dart';
@@ -27,15 +29,17 @@ class _CollaboratorsScreenForSuperState
   late CollaboratorCubit viewModel;
   List<GetAdmin> admins = [];
   bool isLoading = true;
-  String? selectedAdminId;
-  late AdminCubit adminCubit ;
+  String? selectedClientId;
+  late AdminCubit adminCubit;
+  late ClientCubit clientCubit;
 
   @override
   void initState() {
     super.initState();
     viewModel = CollaboratorCubit(
         collaboratorRepository: injectCollaboratorRepository());
-    adminCubit =AdminCubit(adminRepository: injectAdminRepository());
+    adminCubit = AdminCubit(adminRepository: injectAdminRepository());
+    clientCubit= ClientCubit(clientRepository: injectClientRepository());
   }
 
   @override
@@ -150,7 +154,7 @@ class _CollaboratorsScreenForSuperState
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.r),
                             ),
-                            padding:EdgeInsets.zero,
+                            padding: EdgeInsets.zero,
                             elevation: 0,
                             icon: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
@@ -164,18 +168,30 @@ class _CollaboratorsScreenForSuperState
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 1,
-                                child: Text("Assign to admin",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColor.borderColor,fontSize: 12)),
+                                child: Text("Assign to admin",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                            color: AppColor.borderColor,
+                                            fontSize: 12)),
                               ),
                               PopupMenuItem(
                                 value: 2,
-                                child: Text("Assign to Client",style: Theme.of(context).textTheme.titleSmall!.copyWith(color: AppColor.borderColor,fontSize: 12)),
+                                child: Text("Assign to Client",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                            color: AppColor.borderColor,
+                                            fontSize: 12)),
                               ),
                             ],
                             onSelected: (value) {
                               if (value == 1) {
-                                showAssignToAdminDialog(item.id??1);
+                                showAssignToAdminDialog(item.id ?? 1);
                               } else if (value == 2) {
-                                // Handle 'Assign to Client' action
+                                showAssignToClientDialog(item.id ?? 1);
                               }
                             },
                           ),
@@ -240,6 +256,7 @@ class _CollaboratorsScreenForSuperState
       ),
     );
   }
+
   void showAddBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -256,17 +273,20 @@ class _CollaboratorsScreenForSuperState
       },
     );
   }
+
   void showUpdateCollaboratorDialog(Collaborator collaborator) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return BlocProvider.value(
             value: viewModel,
-            child: Updatecollaborator(collaborator: collaborator,)
-        );
+            child: Updatecollaborator(
+              collaborator: collaborator,
+            ));
       },
     );
   }
+
   void showCollaboratorDetailsBottomSheet(int id) {
     viewModel.fetchCollaboratorDetails(id);
     adminCubit.fetchAdmins(1); // Fetch admins when showing collaborator details
@@ -284,16 +304,19 @@ class _CollaboratorsScreenForSuperState
               return BlocBuilder<AdminCubit, AdminState>(
                 bloc: adminCubit,
                 builder: (context, adminState) {
-                  if (collaboratorState is CollaboratorSuccess && adminState is AdminSuccess) {
+                  if (collaboratorState is CollaboratorSuccess &&
+                      adminState is AdminSuccess) {
                     return InfoCollaborator(
                       collaborator: collaboratorState.collaboratorData,
                       admin: adminState.getAdmin ?? [],
                     );
                   } else if (collaboratorState is CollaboratorError) {
-                    return Center(child: Text(collaboratorState.errorMessage ?? ""));
+                    return Center(
+                        child: Text(collaboratorState.errorMessage ?? ""));
                   } else {
                     return Center(
-                      child: CircularProgressIndicator(color: AppColor.secondColor),
+                      child: CircularProgressIndicator(
+                          color: AppColor.secondColor),
                     );
                   }
                 },
@@ -304,9 +327,11 @@ class _CollaboratorsScreenForSuperState
       },
     );
   }
+
   void showAssignToAdminDialog(int collaboratorId) {
     adminCubit.fetchAdmins(1); // Fetch admins when the dialog is opened
     showDialog(
+      useSafeArea: true,
       context: context,
       builder: (BuildContext context) {
         return BlocProvider.value(
@@ -314,53 +339,29 @@ class _CollaboratorsScreenForSuperState
           child: BlocBuilder<AdminCubit, AdminState>(
             builder: (context, state) {
               if (state is AdminLoading) {
-                return Container(
-                  height: 155.h,
-                  width: 319.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35.r)
-                  ),
-                  child: AlertDialog(
-                    title: Text('Select Admin',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
-                    content: Center(child: CircularProgressIndicator()),
-                    actions: [
-                      Container(
-                        height:30.h,
-                        width: 120.w,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.greyColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return Center(
+                    child:
+                        CircularProgressIndicator(color: AppColor.secondColor));
               } else if (state is AdminSuccess) {
-                final admins = state.getAdmin??[]; // Get the list of admins
+                final admins = state.getAdmin ?? []; // Get the list of admins
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35.r)
-                  ),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
-                    title: Text('Select Admin',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
+                    title: Text('Select Admin',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15)),
                     content: DropdownButtonFormField<String>(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          gapPadding: 10
-                        ),
+                        border: OutlineInputBorder(gapPadding: 10),
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                       ),
                       hint: Text('Select Admin'),
-                      value: selectedAdminId,
+                      value: selectedClientId,
                       items: admins.map((GetAdmin admin) {
                         return DropdownMenuItem<String>(
                           value: '${admin.id}',
@@ -369,7 +370,7 @@ class _CollaboratorsScreenForSuperState
                       }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedAdminId = newValue;
+                          selectedClientId = newValue;
                         });
                       },
                     ),
@@ -377,37 +378,55 @@ class _CollaboratorsScreenForSuperState
                       Row(
                         children: [
                           Container(
-                            height:30.h,
+                            height: 30.h,
                             width: 120.w,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pop(); // Close the dialog
                               },
-                              child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
+                              child: Center(
+                                  child: Text('Cancel',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              fontSize: 16,
+                                              color: AppColor.thirdColor))),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColor.greyColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)))),
                             ),
                           ),
-                          SizedBox(width: 8.w,),
+                          SizedBox(
+                            width: 8.w,
+                          ),
                           Container(
-                            height:30.h,
+                            height: 30.h,
                             width: 120.w,
                             child: ElevatedButton(
-                              child: Text('Assign',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.whiteColor)),
+                              child: Text('Assign',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          fontSize: 16,
+                                          color: AppColor.whiteColor)),
                               onPressed: () {
-                                if (selectedAdminId != null) {
-                                  context.read<CollaboratorCubit>().assignCollaboratorToAdmin(collaboratorId, int.parse(selectedAdminId!));
+                                if (selectedClientId != null) {
+                                  context
+                                      .read<CollaboratorCubit>()
+                                      .assignCollaboratorToAdmin(collaboratorId,
+                                          int.parse(selectedClientId!));
                                   Navigator.of(context).pop();
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColor.buttonColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)))),
                             ),
                           ),
                         ],
@@ -419,60 +438,179 @@ class _CollaboratorsScreenForSuperState
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35.r)
-                  ),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Admin'),
-                    content: Text('Failed to load admins: ${state.errorMessage}'),
+                    content:
+                        Text('Failed to load admins: ${state.errorMessage}'),
                     actions: [
                       Container(
-                        height:30.h,
+                        height: 30.h,
                         width: 120.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
-                          child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
+                          child: Center(
+                              child: Text('Cancel',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          fontSize: 16,
+                                          color: AppColor.thirdColor))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                      BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ],
                   ),
                 );
               } else {
+                return Container();
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void showAssignToClientDialog(int collaboratorId) {
+    clientCubit.fetchClients(1);
+    showDialog(
+      useSafeArea: true,
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider.value(
+          value: clientCubit,
+          child: BlocBuilder<ClientCubit, ClientState>(
+            builder: (context, state) {
+              if (state is ClientLoading) {
+                return Center(
+                  child: CircularProgressIndicator(color: AppColor.secondColor),
+                );
+              } else if (state is ClientSuccess) {
+                final clients = state.getClient ?? []; // Get the list of clients
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35.r)
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
-                    title: Text('Select Admin'),
-                    content: Text('Unexpected state'),
+                    title: Text('Select Client', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
+                    content: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(gapPadding: 10),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                      ),
+                      hint: Text('Select Client'),
+                      value: selectedClientId,
+                      items: clients.map((Client client) {
+                        return DropdownMenuItem<String>(
+                          value: '${client.id}',
+                          child: Text('${client.firstName} ${client.lastName}'),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedClientId = newValue;
+                        });
+                      },
+                    ),
+                    actions: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 30.h,
+                            width: 120.w,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Center(
+                                child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 16,
+                                    color: AppColor.thirdColor
+                                )),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColor.greyColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5.r))
+                                  )
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Container(
+                            height: 30.h,
+                            width: 120.w,
+                            child: ElevatedButton(
+                              child: Text('Assign', style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.whiteColor
+                              )),
+                              onPressed: () {
+                                if (selectedClientId != null) {
+                                  context.read<CollaboratorCubit>().assignCollaboratorToClient(
+                                      collaboratorId,
+                                      int.parse(selectedClientId!)
+                                  );
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColor.buttonColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5.r))
+                                  )
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              } else if (state is ClientError) {
+                return Container(
+                  height: 155.h,
+                  width: 319.w,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  child: AlertDialog(
+                    title: Text('Select Client'),
+                    content: Text('Failed to load clients: ${state.errorMessage}'),
                     actions: [
                       Container(
-                        height:30.h,
+                        height: 30.h,
                         width: 120.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
-                          child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
+                          child: Center(
+                            child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                fontSize: 16,
+                                color: AppColor.thirdColor
+                            )),
+                          ),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r))
+                              )
+                          ),
                         ),
                       ),
                     ],
                   ),
                 );
+              } else {
+                return Container();
               }
             },
           ),

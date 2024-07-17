@@ -109,4 +109,9 @@ class CollaboratorDataSourceImpl implements CollaboratorRemoteDataSource{
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) async{
    return await apiManager.assignCollaboratorToAdmin(collaboratorId, adminId);
   }
+
+  @override
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) async {
+return await apiManager.assignCollaboratorToClient(collaboratorId, clientId);
+  }
 }

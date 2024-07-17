@@ -11,6 +11,9 @@ class InfoAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (admin == null) {
+      return CircularProgressIndicator();
+    }
     return Container(
       height: 482.h,
       width: 369.w,

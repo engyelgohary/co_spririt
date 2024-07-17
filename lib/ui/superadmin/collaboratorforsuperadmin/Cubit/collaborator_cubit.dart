@@ -121,4 +121,14 @@ final collaboratorData = {
       print(e.toString());
     }
   }
+  Future<void> assignCollaboratorToClient(int collaboratorId, int clientId) async {
+    emit(CollaboratorLoading());
+    try{
+      var assignToClient = await collaboratorRepository.assignCollaboratorToClient(collaboratorId, clientId);
+      emit(CollaboratorSuccess(collaboratorData:  assignToClient));
+    }catch(e){
+      emit(CollaboratorError(errorMessage:e.toString()));
+      print(e.toString());
+    }
+  }
 }

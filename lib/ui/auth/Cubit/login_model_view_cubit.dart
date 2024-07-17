@@ -5,7 +5,6 @@ import 'package:co_spririt/ui/collaborator/home/home_colla.dart';
 import 'package:co_spririt/ui/superadmin/home/home_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import '../../../core/app_util.dart';
 import '../../admin/home/home_admin.dart';
 part 'login_model_view_state.dart';
 
@@ -20,9 +19,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   void login(BuildContext context) async {
     if (formKey.currentState!.validate() == true) {
       emit(LoginModelViewLoading());
-
       String? token = await authRepository.login(email: emailController.text, password: passwordController.text);
-
       if (token != null) {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         print(decodedToken);
@@ -31,12 +28,15 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
           switch (roleType) {
             case "0":
               emit(LoginModelViewSuccess(HomeScreenSuperAdmin()));
+              print(decodedToken);
               break;
             case "1":
               emit(LoginModelViewSuccess(HomeScreenAdmin()));
+              print(decodedToken);
               break;
             case "2":
               emit(LoginModelViewSuccess(HomeScreenColla()));
+              print(decodedToken);
               break;
             default:
               print('Unknown role: $roleType');

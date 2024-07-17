@@ -11,6 +11,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
+import '../collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 
 class ClientScreenfoSuper extends StatefulWidget {
   const ClientScreenfoSuper({super.key});
@@ -21,11 +22,15 @@ class ClientScreenfoSuper extends StatefulWidget {
 
 class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
   late ClientCubit viewModel;
+  late CollaboratorCubit collaboratorCubit;
+
 
   @override
   void initState() {
     super.initState();
     viewModel = ClientCubit(clientRepository: injectClientRepository());
+    collaboratorCubit = CollaboratorCubit(
+        collaboratorRepository: injectCollaboratorRepository());
   }
 
   @override
@@ -182,26 +187,41 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
   }
 
   void showClientDetailsBottomSheet(int id) {
+    viewModel.fetchClientDetails(id);
+    collaboratorCubit.fetchCollaborators(1);
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        viewModel.fetchClientDetails(id);
-        return BlocBuilder<ClientCubit, ClientState>(
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: viewModel),
+              BlocProvider.value(value: collaboratorCubit),
+            ],
+        child: BlocBuilder<ClientCubit, ClientState>(
           bloc: viewModel,
-          builder: (context, state) {
-            if (state is ClientSuccess) {
-              return InfoClient(
-                client: state.clientData,
-              );
-            } else if (state is ClientError) {
-              return Center(child: Text(state.errorMessage ?? ""));
-            } else {
-              return Center(
-                  child: CircularProgressIndicator(
-                color: AppColor.secondColor,
-              ));
-            }
+          builder: (context, clientstate) {
+            return BlocBuilder(
+              bloc: collaboratorCubit,
+                builder: (context, collaboratorState) {
+                  if (collaboratorState is CollaboratorSuccess &&
+                      clientstate is ClientSuccess) {
+                    return InfoClient(
+                     client: clientstate.clientData,
+                      collaborator: collaboratorState.getCollaborator ?? [],
+                    );
+                  } else if (clientstate is ClientError) {
+                    return Center(
+                        child: Text(clientstate.errorMessage ?? ""));
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                          color: AppColor.secondColor),
+                    );
+                  }
+                },
+            );
           },
+        ),
         );
       },
     );

@@ -18,3 +18,9 @@ class CollaboratorImageSelected extends CollaboratorState {
   CollaboratorImageSelected(this.image);
 }
 final class CollaboratorLoading extends CollaboratorState {}
+
+class CollaboratorCvSelected extends CollaboratorState {
+  final File cv;
+
+  CollaboratorCvSelected(this.cv);
+}

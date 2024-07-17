@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
@@ -84,5 +85,30 @@ class CollaboratorRepositoryImpl implements CollaboratorRepository{
   @override
   Future<Collaborator> deleteCollaborator(int id) {
    return collaboratorRemoteDataSource.deleteCollaborator(id);
+  }
+
+  @override
+  Future<Collaborator> addCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
+    return collaboratorRemoteDataSource.addCollaborator(collaboratorData, image, cv);
+  }
+
+  @override
+  Future<Collaborator> fetchCollaboratorDetails(int id) {
+   return collaboratorRemoteDataSource.fetchCollaboratorDetails(id);
+  }
+
+  @override
+  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
+   return collaboratorRemoteDataSource.updateCollaborator(collaboratorData, image, cv);
+  }
+
+  @override
+  Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) {
+ return collaboratorRemoteDataSource.assignCollaboratorToAdmin(collaboratorId, adminId);
+  }
+
+  @override
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) {
+   return collaboratorRemoteDataSource.assignCollaboratorToClient(collaboratorId, clientId);
   }
 }

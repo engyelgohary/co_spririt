@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
@@ -87,5 +88,30 @@ class CollaboratorDataSourceImpl implements CollaboratorRemoteDataSource{
   @override
   Future<Collaborator> deleteCollaborator(int id) async{
    return await apiManager.deleteCollaborator(id);
+  }
+
+  @override
+  Future<Collaborator> addCollaborator( Map<String, dynamic> collaboratorData, XFile? image, File? cv) async{
+   return await apiManager.addCollaborator(collaboratorData, image, cv);
+  }
+
+  @override
+  Future<Collaborator> fetchCollaboratorDetails(int id) async {
+  return await apiManager.fetchCollaboratorDetails(id);
+  }
+
+  @override
+  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) async{
+    return await apiManager.updateCollaborator(collaboratorData, image, cv);
+  }
+
+  @override
+  Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) async{
+   return await apiManager.assignCollaboratorToAdmin(collaboratorId, adminId);
+  }
+
+  @override
+  Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) async {
+return await apiManager.assignCollaboratorToClient(collaboratorId, clientId);
   }
 }

@@ -47,7 +47,7 @@ class _AddAdminState extends State<AddAdmin> {
         child: Form(
           key: viewModel.formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
                 onTap: viewModel.selectImage,
@@ -55,15 +55,19 @@ class _AddAdminState extends State<AddAdmin> {
                   bloc: viewModel,
                   builder: (context, state) {
                     if (state is AdminImageSelected) {
-                      return CircleAvatar(
-                        radius: 60.r,
-                        backgroundImage: FileImage(File(state.image.path)),
+                      return Center(
+                        child: CircleAvatar(
+                          radius: 60.r,
+                          backgroundImage: FileImage(File(state.image.path)),
+                        ),
                       );
                     }
-                    return CircleAvatar(
-                      radius: 60.r,
-                      backgroundColor: AppColor.disableColor,
-                      child: Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                    return Center(
+                      child: CircleAvatar(
+                        radius: 60.r,
+                        backgroundColor: AppColor.disableColor,
+                        child: Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                      ),
                     );
                   },
                 ),

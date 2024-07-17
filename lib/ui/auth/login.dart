@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
             },
           );
         } else if (state is LoginModelViewError) {

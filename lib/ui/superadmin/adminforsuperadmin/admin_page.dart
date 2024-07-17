@@ -223,7 +223,12 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
           bloc: viewModel,
           builder: (context, state) {
             if (state is AdminSuccess) {
-              return InfoAdmin(state.adminData);
+              if (state.adminData == null) {
+                return Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.secondColor,
+                    )); }
+                return InfoAdmin(state.adminData);
             } else if (state is AdminError) {
               return Center(child: Text(state.errorMessage??""));
             } else {

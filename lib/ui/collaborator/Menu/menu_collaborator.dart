@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
+import '../opportunities/opportunities.dart';
 
 class MenuScreenCollaborators extends StatelessWidget {
   static const String routeName = 'Menu Screen Collaborator';
@@ -26,6 +27,7 @@ class MenuScreenCollaborators extends StatelessWidget {
           CustomMenuCard(name:'Profile' ,onFunction:(){ AppUtil.mainNavigator(context,ProfileScreenColla());},),
           CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenCollaborator.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ AppUtil.mainNavigator(context,MessagesScreenColla());},),
+          CustomMenuCard(name:'Opportunities' ,onFunction:(){ AppUtil.mainNavigator(context,OpportunitiesScreenColla());},),
           CustomMenuCard(name:'Requests' ,onFunction:(){ Navigator.pushNamed(context, RequestCollaborator.routeName);},),
           CustomMenuCard(name:'Log out',color: AppColor.secondColor, onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},)
         ],

@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:co_spririt/data/repository/repoContract.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meta/meta.dart';
-import '../../../../../../data/repository/repoContract.dart';
 import '../../../../data/model/GetAdmin.dart';
 part 'admin_state.dart';
 
@@ -16,10 +16,10 @@ class AdminCubit extends Cubit<AdminState> {
     });
   }
   bool canPost = true;
-  TextEditingController firstName_controller = TextEditingController();
-  TextEditingController lastName_controller = TextEditingController();
-  TextEditingController email_controller = TextEditingController();
-  TextEditingController phone_controller = TextEditingController();
+  TextEditingController firstName_controller = TextEditingController(text: "Admin");
+  TextEditingController lastName_controller = TextEditingController(text: "1");
+  TextEditingController email_controller = TextEditingController(text: "admin1@admin.com");
+  TextEditingController phone_controller = TextEditingController(text: "01222365");
   var formKey = GlobalKey<FormState>();
   XFile? image;
   XFile? updateImage;

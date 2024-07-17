@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
 import '../model/Client.dart';
 import '../model/Collaborator.dart';
 import '../model/GetAdmin.dart';
@@ -44,8 +44,16 @@ abstract class ClientRemoteDataSource{
 abstract class CollaboratorRepository{
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1});
   Future<Collaborator> deleteCollaborator(int id);
+  Future<Collaborator> addCollaborator( Map<String, dynamic> collaboratorData, XFile? image, File? cv);
+  Future<Collaborator> fetchCollaboratorDetails(int id);
+  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv);
+  Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId);
 }
 abstract class CollaboratorRemoteDataSource{
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1});
   Future<Collaborator> deleteCollaborator(int id);
+  Future<Collaborator> addCollaborator( Map<String, dynamic> collaboratorData, XFile? image, File? cv);
+  Future<Collaborator> fetchCollaboratorDetails(int id);
+  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv);
+  Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId);
 }

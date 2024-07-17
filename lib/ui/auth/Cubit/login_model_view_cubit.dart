@@ -20,9 +20,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   void login(BuildContext context) async {
     if (formKey.currentState!.validate() == true) {
       emit(LoginModelViewLoading());
-
       String? token = await authRepository.login(email: emailController.text, password: passwordController.text);
-
       if (token != null) {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         print(decodedToken);
@@ -31,12 +29,15 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
           switch (roleType) {
             case "0":
               emit(LoginModelViewSuccess(HomeScreenSuperAdmin()));
+              print(decodedToken);
               break;
             case "1":
               emit(LoginModelViewSuccess(HomeScreenAdmin()));
+              print(decodedToken);
               break;
             case "2":
               emit(LoginModelViewSuccess(HomeScreenColla()));
+              print(decodedToken);
               break;
             default:
               print('Unknown role: $roleType');

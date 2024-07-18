@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
 import '../repoContract.dart';
 
@@ -110,5 +111,19 @@ class CollaboratorRepositoryImpl implements CollaboratorRepository{
   @override
   Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) {
    return collaboratorRemoteDataSource.assignCollaboratorToClient(collaboratorId, clientId);
+  }
+}
+
+class OpportunitiesRepositoryImpl implements OpportunitiesRepository{
+  OpportunitiesDataSource opportunitiesDataSource;
+  OpportunitiesRepositoryImpl({required this.opportunitiesDataSource});
+  @override
+  Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) {
+   return opportunitiesDataSource.submitOpportunity(opportunity, descriptionFile);
+  }
+
+  @override
+  Future<List<Client>> fetchClientsByCollaborator() {
+  return opportunitiesDataSource.fetchClientsByCollaborator();
   }
 }

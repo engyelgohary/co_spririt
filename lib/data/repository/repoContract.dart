@@ -63,8 +63,14 @@ abstract class CollaboratorRemoteDataSource{
 abstract class OpportunitiesRepository{
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile);
   Future<List<Client>> fetchClientsByCollaborator();
-}
+  Future<List<Opportunities>> getOpportunityData();
+  Future<Opportunities> deleteOpportunities(int id);
+  Future<List<Opportunities>> getOpportunityDataAdmin();
+  }
 abstract class OpportunitiesDataSource{
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile);
   Future<List<Client>> fetchClientsByCollaborator();
-}
+  Future<List<Opportunities>> getOpportunityData();
+  Future<Opportunities> deleteOpportunities(int id);
+  Future<List<Opportunities>> getOpportunityDataAdmin();
+  }

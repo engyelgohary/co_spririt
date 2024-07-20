@@ -11,7 +11,9 @@ import '../../../data/model/Client.dart';
 import '../../../utils/theme/appColors.dart';
 
 class AddOpportunities extends StatefulWidget {
-  const AddOpportunities({super.key});
+  final VoidCallback onOpportunityAdded;
+
+  const AddOpportunities({Key? key, required this.onOpportunityAdded}) : super(key: key);
 
   @override
   State<AddOpportunities> createState() => _AddOpportunitiesState();
@@ -26,7 +28,7 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
   void initState() {
     super.initState();
     opportunitiesCubit = OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository());
-    opportunitiesCubit.fetchClients(); // Fetch clients on init
+    opportunitiesCubit.fetchClients();
     _initializeFilePicker();
   }
 
@@ -52,7 +54,7 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
     return BlocProvider(
       create: (_) => opportunitiesCubit,
       child: AlertDialog(
-        title: Text('Add Opportunity',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),),
+        title: Text('Add Opportunity', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20)),
         content: SingleChildScrollView(
           child: Form(
             key: opportunitiesCubit.formKey,
@@ -62,8 +64,9 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
               children: [
                 TextFormField(
                   controller: opportunitiesCubit.titleController,
-                  decoration: InputDecoration(labelText: 'Title'
-                  ,labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -74,7 +77,10 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                 ),
                 TextFormField(
                   controller: opportunitiesCubit.descriptionController,
-                  decoration: InputDecoration(labelText: 'Description',labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),),
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a description';
@@ -83,14 +89,19 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                   },
                   maxLines: 3,
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     BlocBuilder<OpportunitiesCubit, OpportunitiesState>(
                       builder: (context, state) {
+                        if (state is OpportunityLoading) {
+                          return CircularProgressIndicator();
+                        }
                         if (state is OpportunitiesClientsFetched) {
                           return DropdownButton<Client>(
-                            hint: Text("Select Client",style:Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
+                            hint: Text(
+                              "Select Client",
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
                             ),
                             value: selectedClient,
                             onChanged: (Client? newValue) {
@@ -106,10 +117,8 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                               );
                             }).toList(),
                           );
-                        } else if (state is OpportunityLoading) {
-                          return CircularProgressIndicator();
                         } else {
-                          return SizedBox.shrink(); // Placeholder when no clients are loaded
+                          return Container(); // Placeholder when no clients are loaded
                         }
                       },
                     ),
@@ -119,22 +128,24 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                       width: 130.w,
                       child: ElevatedButton(
                         onPressed: _selectFile,
-                        child: Text(_filePath == null ? 'Select File' : 'File Selected', style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(
+                        child: Text(
+                          _filePath == null ? 'Select File' : 'File Selected',
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 16,
-                            color: AppColor.whiteColor)),
+                            color: AppColor.whiteColor,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.buttonColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5.r)))),
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Container(
@@ -145,22 +156,24 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                           Navigator.of(context).pop(); // Close the dialog
                         },
                         child: Center(
-                            child: Text('Cancel',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                    fontSize: 16,
-                                    color: AppColor.thirdColor,
-                                    fontWeight: FontWeight.w400))),
+                          child: Text(
+                            'Cancel',
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              fontSize: 16,
+                              color: AppColor.thirdColor,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.greyColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5.r)))),
+                          backgroundColor: AppColor.greyColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 10),
                     BlocConsumer<OpportunitiesCubit, OpportunitiesState>(
                       listener: (context, state) {
                         if (state is OpportunityLoading) {
@@ -169,6 +182,7 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                           print(state.error);
                         } else if (state is OpportunitySuccess) {
+                          widget.onOpportunityAdded(); // Call the callback
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Opportunity submitted successfully')));
                         }
@@ -186,24 +200,25 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                                 opportunitiesCubit.submit();
                               }
                             },
-                            child: Text('Submit',style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
+                            child: Text(
+                              'Submit',
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 fontSize: 16,
-                                color: AppColor.whiteColor)),
+                                color: AppColor.whiteColor,
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.buttonColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.r)))),
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                              ),
+                            ),
                           ),
                         );
                       },
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
@@ -212,3 +227,4 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
     );
   }
 }
+

@@ -126,4 +126,19 @@ class OpportunitiesRepositoryImpl implements OpportunitiesRepository{
   Future<List<Client>> fetchClientsByCollaborator() {
   return opportunitiesDataSource.fetchClientsByCollaborator();
   }
+
+  @override
+  Future<List<Opportunities>> getOpportunityData() {
+   return opportunitiesDataSource.getOpportunityData();
+  }
+
+  @override
+  Future<Opportunities> deleteOpportunities(int id) {
+    return opportunitiesDataSource.deleteOpportunities(id);
+  }
+
+  @override
+  Future<List<Opportunities>> getOpportunityDataAdmin() {
+ return opportunitiesDataSource.getOpportunityDataAdmin();
+  }
 }

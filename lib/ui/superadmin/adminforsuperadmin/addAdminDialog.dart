@@ -34,6 +34,7 @@ class _AddAdminState extends State<AddAdmin> {
             content: Text(state.errorMessage??""),
           ));
         } else if (state is AdminSuccess) {
+          viewModel.pagingController.refresh();
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Admin Added Successfully"),

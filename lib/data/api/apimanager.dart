@@ -10,8 +10,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
-
 import '../model/opportunities.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+
 
 
 class ApiConstants {
@@ -21,6 +22,11 @@ class ApiConstants {
   static const String clientApi = '/api/v1/client';
   static const String collaboratorApi = '/api/v1/collaborator';
   static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
+  static const String opportunitiesColApi='/api/v1/opportunities/collaborator';
+  static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
+  static const String opportunitiesAdminApi='/api/v1/opportunities';
+
+
 }
 
 class ApiManager {
@@ -30,6 +36,7 @@ class ApiManager {
     _instance ??= ApiManager._();
     return _instance!;
   }
+  final storage = FlutterSecureStorage();
 //Auth
   Future<String?> login({required String email, required String password}) async {
     try {
@@ -459,7 +466,6 @@ class ApiManager {
   }
 //Opportunities
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) async {
-    final storage = FlutterSecureStorage();
     final token = await storage.read(key: 'token');
 
     if (token == null) {
@@ -489,7 +495,6 @@ class ApiManager {
     }
   }
   Future<List<Client>> fetchClientsByCollaborator() async {
-    final storage = FlutterSecureStorage();
     final token = await storage.read(key: 'token');
 
     if (token == null) {
@@ -512,5 +517,78 @@ class ApiManager {
       throw Exception('Failed to load clients');
     }
   }
+  Future<List<Opportunities>> getOpportunityData() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+      int collaboratorId = int.parse(decodedToken['nameid'].toString());
+      final response = await http.get(
+        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesColApi}?collaboratorId=$collaboratorId'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        print('Response data: $responseData'); // Add debug print statement
+        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        print('Opportunities: $opportunities'); // Add debug print statement
+        return opportunities;
+      } else {
+        throw Exception('Failed to load collaborator data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<Opportunities> deleteOpportunities(int id) async {
+    var uri =
+    Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunitiesDeleteApi}/$id');
+    final response = await http.delete(uri);
+    if (response.statusCode == 204) {
+      return Opportunities(); // No content, return an empty Opportunities object
+    } else if (response.statusCode == 200) {
+      // Handle the response correctly when it is not JSON
+      if (response.body.isNotEmpty) {
+        int result = int.parse(response.body);
+        return Opportunities(result: result);
+      } else {
+        throw Exception('Failed to delete Opportunities: Response body is empty');
+      }
+    } else {
+      throw Exception('Failed to delete Opportunities: ${response.statusCode}');
+    }
+  }
+  Future<List<Opportunities>> getOpportunityDataAdmin() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesAdminApi}'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        print('Response data: $responseData'); // Add debug print statement
+        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        print('Opportunities: $opportunities'); // Add debug print statement
+        return opportunities;
+      } else {
+        throw Exception('Failed to load admin data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
 

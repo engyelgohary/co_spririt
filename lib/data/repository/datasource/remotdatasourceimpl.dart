@@ -128,4 +128,20 @@ class OpportunitiesDataSourceImpl implements OpportunitiesDataSource{
   Future<List<Client>> fetchClientsByCollaborator() async{
  return await apiManager.fetchClientsByCollaborator();
   }
+
+  @override
+  Future<List<Opportunities>> getOpportunityData() async{
+    return await apiManager.getOpportunityData();
+  }
+
+  @override
+  Future<Opportunities> deleteOpportunities(int id) async {
+    return await apiManager.deleteOpportunities(id);
+
+  }
+
+  @override
+  Future<List<Opportunities>> getOpportunityDataAdmin() async {
+  return await apiManager.getOpportunityDataAdmin();
+  }
 }

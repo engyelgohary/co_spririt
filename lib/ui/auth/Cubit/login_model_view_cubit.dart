@@ -14,7 +14,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   AuthRepository authRepository;
   var formKey = GlobalKey<FormState>();
   var passwordController = TextEditingController(text: "AdminAdmin");
-  var emailController = TextEditingController(text: "Collaborator1@colla.com");
+  var emailController = TextEditingController(text: "admin1@admin.com");
   bool isObscure = true;
   void login(BuildContext context) async {
     if (formKey.currentState!.validate() == true) {

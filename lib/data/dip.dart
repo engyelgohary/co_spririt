@@ -28,3 +28,10 @@ CollaboratorRepository injectCollaboratorRepository(){
 CollaboratorRemoteDataSource injectCollaboratorRemoteDataSource(){
   return CollaboratorDataSourceImpl(apiManager:ApiManager.getInstanace());
 }
+OpportunitiesRepository injectOpportunitiesRepository(){
+  return OpportunitiesRepositoryImpl(opportunitiesDataSource: injectOpportunitiesRemoteDataSource());
+}
+OpportunitiesDataSource injectOpportunitiesRemoteDataSource(){
+  return OpportunitiesDataSourceImpl(apiManager:ApiManager.getInstanace());
+}
+

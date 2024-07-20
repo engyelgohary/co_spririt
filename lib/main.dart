@@ -6,6 +6,7 @@ import 'package:co_spririt/ui/auth/Cubit/login_model_view_cubit.dart';
 import 'package:co_spririt/ui/auth/login.dart';
 import 'package:co_spririt/ui/collaborator/Menu/menu_collaborator.dart';
 import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
+import 'package:co_spririt/ui/collaborator/opportunities/cubit/opportunities_cubit.dart';
 import 'package:co_spririt/ui/collaborator/requests/request_collaborator.dart';
 import 'package:co_spririt/ui/splash/splashscreen.dart';
 import 'package:co_spririt/ui/superadmin/Menu/menu_superadmin.dart';
@@ -28,7 +29,8 @@ void main() {
             BlocProvider<CollaboratorCubit>(create: (context) => CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository()),),
             BlocProvider<AdminCubit>(create: (context) => AdminCubit(adminRepository: injectAdminRepository()),),
             BlocProvider<ClientCubit>(create: (context) => ClientCubit(clientRepository: injectClientRepository()),),
-          BlocProvider<LoginModelViewCubit>(create: (context) => LoginModelViewCubit(authRepository: injectAuthRepository()),)
+            BlocProvider<LoginModelViewCubit>(create: (context) => LoginModelViewCubit(authRepository: injectAuthRepository()),),
+            BlocProvider<OpportunitiesCubit>(create: (context) => OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository()),)
           ],
       child: MyApp()));
 }

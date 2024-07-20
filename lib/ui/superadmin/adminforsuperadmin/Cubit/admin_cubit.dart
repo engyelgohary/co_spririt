@@ -78,7 +78,7 @@ class AdminCubit extends Cubit<AdminState> {
       'phone': phone_controller.text,
       'email': email_controller.text,
       'canPost': canPost.toString(),
-      'password':'AdminAdmin'
+      'password': 'AdminAdmin'
     };
 
     emit(AdminLoading());
@@ -86,7 +86,7 @@ class AdminCubit extends Cubit<AdminState> {
     try {
       final response = await adminRepository.registerAdmin(adminData, image);
       emit(AdminSuccess(adminData: response));
-      pagingController.refresh();
+      pagingController.refresh(); // Refresh the list after success
     } catch (e) {
       emit(AdminError(errorMessage: e.toString()));
     }

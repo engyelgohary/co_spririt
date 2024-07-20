@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import '../model/Client.dart';
 import '../model/Collaborator.dart';
 import '../model/GetAdmin.dart';
+import '../model/opportunities.dart';
 //Auth
 abstract class AuthRepository{
   Future<String?>  login({required String email,required String password});
@@ -59,3 +60,17 @@ abstract class CollaboratorRemoteDataSource{
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId);
   Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId);
 }
+abstract class OpportunitiesRepository{
+  Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile);
+  Future<List<Client>> fetchClientsByCollaborator();
+  Future<List<Opportunities>> getOpportunityData();
+  Future<Opportunities> deleteOpportunities(int id);
+  Future<List<Opportunities>> getOpportunityDataAdmin();
+  }
+abstract class OpportunitiesDataSource{
+  Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile);
+  Future<List<Client>> fetchClientsByCollaborator();
+  Future<List<Opportunities>> getOpportunityData();
+  Future<Opportunities> deleteOpportunities(int id);
+  Future<List<Opportunities>> getOpportunityDataAdmin();
+  }

@@ -10,6 +10,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import '../model/opportunities.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+
 
 
 class ApiConstants {
@@ -18,6 +21,12 @@ class ApiConstants {
   static const String adminApi = '/api/v1/admin';
   static const String clientApi = '/api/v1/client';
   static const String collaboratorApi = '/api/v1/collaborator';
+  static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
+  static const String opportunitiesColApi='/api/v1/opportunities/collaborator';
+  static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
+  static const String opportunitiesAdminApi='/api/v1/opportunities';
+
+
 }
 
 class ApiManager {
@@ -27,10 +36,9 @@ class ApiManager {
     _instance ??= ApiManager._();
     return _instance!;
   }
-
+  final storage = FlutterSecureStorage();
 //Auth
-  Future<String?> login(
-      {required String email, required String password}) async {
+  Future<String?> login({required String email, required String password}) async {
     try {
       final storage = FlutterSecureStorage();
       Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.loginApi);
@@ -62,7 +70,6 @@ class ApiManager {
       return null;
     }
   }
-
 //Admin
   Future<List<GetAdmin>> getAllAdmins({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi, {
@@ -86,9 +93,7 @@ class ApiManager {
       throw Exception('Error fetching admins: $error');
     }
   }
-
-  Future<GetAdmin> addAdmin(
-      Map<String, dynamic> adminData, XFile? image) async {
+  Future<GetAdmin> addAdmin(Map<String, dynamic> adminData, XFile? image) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi);
     var request = http.MultipartRequest('POST', uri);
 
@@ -122,7 +127,6 @@ class ApiManager {
       throw Exception('Failed to add admin: ${responseData.body}');
     }
   }
-
   Future<GetAdmin> fetchAdminDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.get(uri);
@@ -133,9 +137,7 @@ class ApiManager {
       throw Exception('Failed to load admin details');
     }
   }
-
-  Future<GetAdmin> updateAdmin(
-      Map<String, dynamic> adminData, XFile? image) async {
+  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     try {
       var uri = Uri.http(
           ApiConstants.baseUrl, '${ApiConstants.adminApi}/${adminData['id']}');
@@ -179,7 +181,6 @@ class ApiManager {
       throw Exception('No Internet connection');
     }
   }
-
   Future<GetAdmin> deleteAdmin(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.delete(uri);
@@ -191,7 +192,6 @@ class ApiManager {
       throw Exception('Failed to delete admin ');
     }
   }
-
 //Client
   Future<List<Client>> fetchAllClients({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.clientApi, {
@@ -213,9 +213,7 @@ class ApiManager {
       throw Exception('Error fetching clients: $error');
     }
   }
-
-  Future<Client> addClient(
-      String first, String email, String last, String phone) async {
+  Future<Client> addClient(String first, String email, String last, String phone) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.clientApi);
     var registerReq = ClientReq(
       email: email,
@@ -237,7 +235,6 @@ class ApiManager {
       throw Exception('Failed to add client: ${response.body}');
     }
   }
-
   Future<Client> deleteClient(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
     final response = await http.delete(uri);
@@ -250,7 +247,6 @@ class ApiManager {
           'Failed to delete client. Status code: ${response.statusCode}');
     }
   }
-
   Future<Client> fetchClientDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
     final response = await http.get(uri);
@@ -261,9 +257,7 @@ class ApiManager {
       throw Exception('Failed to load client details');
     }
   }
-
-  Future<void> updateClient(int id, String firstName, String lastName,
-      String email, String contactNumber) async {
+  Future<void> updateClient(int id, String firstName, String lastName, String email, String contactNumber) async {
     try {
       var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
       var clientData = ClientReq(
@@ -288,7 +282,6 @@ class ApiManager {
       throw Exception(e);
     }
   }
-
 //Collaborator
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1}) async {
     final Uri url =
@@ -311,7 +304,6 @@ class ApiManager {
       throw Exception('Error fetching collaborator: $error');
     }
   }
-
   Future<Collaborator> deleteCollaborator(int id) async {
     var uri =
         Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
@@ -324,9 +316,7 @@ class ApiManager {
       throw Exception('Failed to delete collaborator ');
     }
   }
-
-  Future<Collaborator> addCollaborator(
-      Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
+  Future<Collaborator> addCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.collaboratorApi);
     var request = http.MultipartRequest('POST', uri);
     request.fields['FirstName'] = collaboratorData['FirstName'];
@@ -382,8 +372,7 @@ class ApiManager {
       throw Exception('Failed to load collaborator details');
     }
   }
-  Future<Collaborator> updateCollaborator(
-      Map<String, dynamic> collaboratorData, XFile? image,File? cv) async {
+  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv) async {
     try {
       var uri = Uri.http(
           ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/${collaboratorData['id']}');
@@ -475,4 +464,131 @@ class ApiManager {
       throw Exception('Failed to assign collaborator due to an error');
     }
   }
+//Opportunities
+  Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) async {
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+    var uri = Uri.parse("http://${ApiConstants.baseUrl} ${ApiConstants.opportunitiesApi}");
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['Title'] = opportunity.title ?? ''
+      ..fields['Description'] = opportunity.description ?? ''
+      ..fields['ClientId'] = opportunity.clientId.toString()
+      ..headers['Authorization'] = 'Bearer $token'; // Add the token to the headers
+
+
+    if (descriptionFile != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'DescriptionFile',
+          descriptionFile.path,
+        ),
+      );
+    }
+    var response = await request.send();
+
+    if (response.statusCode != 200) {
+      print(response.statusCode);
+      throw Exception('Failed to submit opportunity');
+    }
+  }
+  Future<List<Client>> fetchClientsByCollaborator() async {
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+    final response = await http.get(
+      Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/clients?page=1'),
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> clientJson = jsonDecode(response.body);
+     return clientJson.map((json) => Client.fromJson(json)).toList();
+    } else {
+      print(Exception);
+      print(response.statusCode);
+      throw Exception('Failed to load clients');
+    }
+  }
+  Future<List<Opportunities>> getOpportunityData() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+      int collaboratorId = int.parse(decodedToken['nameid'].toString());
+      final response = await http.get(
+        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesColApi}?collaboratorId=$collaboratorId'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        print('Response data: $responseData'); // Add debug print statement
+        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        print('Opportunities: $opportunities'); // Add debug print statement
+        return opportunities;
+      } else {
+        throw Exception('Failed to load collaborator data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<Opportunities> deleteOpportunities(int id) async {
+    var uri =
+    Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunitiesDeleteApi}/$id');
+    final response = await http.delete(uri);
+    if (response.statusCode == 204) {
+      return Opportunities(); // No content, return an empty Opportunities object
+    } else if (response.statusCode == 200) {
+      // Handle the response correctly when it is not JSON
+      if (response.body.isNotEmpty) {
+        int result = int.parse(response.body);
+        return Opportunities(result: result);
+      } else {
+        throw Exception('Failed to delete Opportunities: Response body is empty');
+      }
+    } else {
+      throw Exception('Failed to delete Opportunities: ${response.statusCode}');
+    }
+  }
+  Future<List<Opportunities>> getOpportunityDataAdmin() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesAdminApi}'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        print('Response data: $responseData'); // Add debug print statement
+        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        print('Opportunities: $opportunities'); // Add debug print statement
+        return opportunities;
+      } else {
+        throw Exception('Failed to load admin data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
+

@@ -23,12 +23,18 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
   late OpportunitiesCubit opportunitiesCubit;
   String? _filePath;
   Client? selectedClient;
+  bool isSubmitting = false; // Track submission state
+  bool isClientLoading = true; // Track client loading state
 
   @override
   void initState() {
     super.initState();
     opportunitiesCubit = OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository());
-    opportunitiesCubit.fetchClients();
+    opportunitiesCubit.fetchClients().then((_) {
+      setState(() {
+        isClientLoading = false;
+      });
+    });
     _initializeFilePicker();
   }
 
@@ -94,9 +100,6 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                   children: [
                     BlocBuilder<OpportunitiesCubit, OpportunitiesState>(
                       builder: (context, state) {
-                        if (state is OpportunityLoading) {
-                          return CircularProgressIndicator();
-                        }
                         if (state is OpportunitiesClientsFetched) {
                           return DropdownButton<Client>(
                             hint: Text(
@@ -176,32 +179,36 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
                     SizedBox(width: 10),
                     BlocConsumer<OpportunitiesCubit, OpportunitiesState>(
                       listener: (context, state) {
-                        if (state is OpportunityLoading) {
-                          Center(child: CircularProgressIndicator());
-                        } else if (state is OpportunityFailure) {
+                        if (state is OpportunityFailure) {
+                          setState(() {
+                            isSubmitting = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
                           print(state.error);
                         } else if (state is OpportunitySuccess) {
+                          setState(() {
+                            isSubmitting = false;
+                          });
                           widget.onOpportunityAdded(); // Call the callback
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Opportunity submitted successfully')));
                         }
                       },
                       builder: (context, state) {
-                        if (state is OpportunityLoading) {
-                          return CircularProgressIndicator();
-                        }
                         return Container(
                           height: 35.h,
                           width: 115.w,
                           child: ElevatedButton(
                             onPressed: () {
                               if (opportunitiesCubit.formKey.currentState!.validate()) {
+                                setState(() {
+                                  isSubmitting = true;
+                                });
                                 opportunitiesCubit.submit();
                               }
                             },
                             child: Text(
-                              'Submit',
+                              isSubmitting ? 'Submitting...' : 'Submit',
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 fontSize: 16,
                                 color: AppColor.whiteColor,
@@ -227,4 +234,3 @@ class _AddOpportunitiesState extends State<AddOpportunities> {
     );
   }
 }
-

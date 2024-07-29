@@ -38,6 +38,9 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+  void onOpportunityAdded() {
+    viewModel.pagingController.refresh();
+  }
 
   Widget buildErrorIndicator(BuildContext context) {
     return Center(
@@ -229,6 +232,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
 
   void showUpdateClientDialog(Client client) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return BlocProvider.value(
@@ -239,17 +243,12 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
 
   void showAddBottomSheet() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: FractionallySizedBox(
-            heightFactor: .6,
-            child: AddClientScreen(),
-          ),
+        return BlocProvider(
+       create: (context) => ClientCubit(clientRepository: injectClientRepository()),
+          child: AddClientScreen(onOpportunityAdded: onOpportunityAdded,),
         );
       },
     );

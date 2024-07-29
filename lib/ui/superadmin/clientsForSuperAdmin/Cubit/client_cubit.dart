@@ -16,13 +16,13 @@ class ClientCubit extends Cubit<ClientState> {
     });
   }
   TextEditingController firstName_controller =
-      TextEditingController(text: "client");
+      TextEditingController();
   TextEditingController lastName_controller =
-      TextEditingController(text: "1");
+      TextEditingController();
   TextEditingController email_controller =
-      TextEditingController(text: "client1@client.com");
+      TextEditingController();
   TextEditingController phone_controller =
-      TextEditingController(text: "12345682");
+      TextEditingController();
   var formKey = GlobalKey<FormState>();
   Future<void> fetchClients(int pageKey) async {
     emit(ClientLoading());

@@ -33,6 +33,9 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+  void onOpportunityAdded() {
+    viewModel.pagingController.refresh();
+  }
 
   Widget buildErrorIndicator(BuildContext context) {
     return Center(
@@ -188,23 +191,19 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
 
   void showAddBottomSheet() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: FractionallySizedBox(
-            heightFactor: .93.h,
-            child: AddAdmin(),
-          ),
+        return BlocProvider(
+          create: (context) => AdminCubit(adminRepository: injectAdminRepository()),
+          child: AddAdmin(onOpportunityAdded: onOpportunityAdded,),
         );
       },
     );
   }
   void showUpdateAdminDialog(GetAdmin admin) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return BlocProvider.value(

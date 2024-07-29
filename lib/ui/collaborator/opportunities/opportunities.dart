@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
@@ -26,6 +27,12 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
 
   void onOpportunityAdded() {
     opportunitiesCubit.fetchOpportunityData();
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -61,12 +68,13 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
         bloc: opportunitiesCubit,
         builder: (context, state) {
           if (state is OpportunityLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
           } else if (state is OpportunityLoaded) {
             return ListView.builder(
               itemCount: state.getOpportunites.length,
               itemBuilder: (context, index) {
                 final opportunity = state.getOpportunites[index];
+                final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
                 return Card(
                   margin: EdgeInsets.all(8.0),
                   child: Padding(
@@ -77,8 +85,9 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
                         Row(
                           children: [
                             CircleAvatar(
+                              backgroundColor: AppColor.secondColor,
                               child: Text(
-                                  '${opportunity.clientFirstName?.substring(0, 1) ?? ''}${opportunity.clientLastName?.substring(0, 1) ?? ""}'),
+                                  '${opportunity.clientFirstName?.substring(0, 1) ?? ''}${opportunity.clientLastName?.substring(0, 1) ?? ""}',style: TextStyle(color: AppColor.whiteColor),),
                             ),
                             SizedBox(width: 8.0),
                             Text(
@@ -99,8 +108,24 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
                         SizedBox(height: 8.0),
                         Text(opportunity.description ?? ''),
                         SizedBox(height: 8.0),
-                        Text(opportunity.descriptionLocation??"")
-                      ],
+                        if (opportunity.descriptionLocation != null)
+                          InkWell(
+                            onTap: () => _launchURL(url),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Attached File',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColor.basicColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Icon(Icons.arrow_right_sharp, size: 40, color: AppColor.secondColor)
+                              ],
+                            ),
+                          ),                      ],
                     ),
                   ),
                 );
@@ -129,4 +154,6 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error opening dialog: $error')));
     });
   }
+
+
 }

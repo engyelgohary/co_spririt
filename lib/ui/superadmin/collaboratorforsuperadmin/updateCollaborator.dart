@@ -83,264 +83,267 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: Center(
-                child: CircleAvatar(
-                  radius: 60.r,
-                  backgroundImage: selectedImage != null
-                      ? FileImage(File(selectedImage!.path))
-                      : widget.collaborator.pictureLocation != null
-                      ? NetworkImage('http://10.10.99.13:3090${widget.collaborator.pictureLocation}')
-                      : AssetImage('assets/placeholder.png') as ImageProvider,
-                  child: selectedImage == null && widget.collaborator.pictureLocation == null
-                      ? Icon(Icons.camera_alt, size: 50)
-                      : null,
+        child: Container(
+          height: 600.h,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: _pickImage,
+                child: Center(
+                  child: CircleAvatar(
+                    radius: 60.r,
+                    backgroundImage: selectedImage != null
+                        ? FileImage(File(selectedImage!.path))
+                        : widget.collaborator.pictureLocation != null
+                        ? NetworkImage('http://10.10.99.13:3090${widget.collaborator.pictureLocation}')
+                        : AssetImage('assets/placeholder.png') as ImageProvider,
+                    child: selectedImage == null && widget.collaborator.pictureLocation == null
+                        ? Icon(Icons.camera_alt, size: 50)
+                        : null,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            CustomText(
-              keyboardType: TextInputType.name,
-              fieldName: 'First Name :',
-              controller: firstNameController,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your first name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Last Name :',
-              controller: lastNameController,
-              width: 7,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your last name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Mobile :',
-              controller: phoneController,
-              width: 35,
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your mobile number';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Email :',
-              controller: emailController,
-              width: 44,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your email address';
-                }
-                bool emailValid = RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value);
-                if (!emailValid) {
-                  return 'Invalid email';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            Text(
-              "Contract Info : ",
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.basicColor),
-            ),
-            SizedBox(height: 11),
-            Row(
-              children: [
-                Container(
-                  height: 32.h,
-                  width: 140.w,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: contractStartController,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your Date';
-                      }
-                      return null;
-                    },
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 4.0.h, horizontal: 10.0.w),
-                      fillColor: AppColor.whiteColor,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.borderColor),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.r),
+              SizedBox(height: 20),
+              CustomText(
+                keyboardType: TextInputType.name,
+                fieldName: 'First Name :',
+                controller: firstNameController,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Last Name :',
+                controller: lastNameController,
+                width: 7,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Mobile :',
+                controller: phoneController,
+                width: 35,
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your mobile number';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Email :',
+                controller: emailController,
+                width: 44,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your email address';
+                  }
+                  bool emailValid = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value);
+                  if (!emailValid) {
+                    return 'Invalid email';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              Text(
+                "Contract Info : ",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.basicColor),
+              ),
+              SizedBox(height: 11),
+              Row(
+                children: [
+                  Container(
+                    height: 32.h,
+                    width: 140.w,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: contractStartController,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter your Date';
+                        }
+                        return null;
+                      },
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 4.0.h, horizontal: 10.0.w),
+                        fillColor: AppColor.whiteColor,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.borderColor),
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.errorColor),
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusColor: AppColor.basicColor,
+                        hoverColor: AppColor.basicColor,
                       ),
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.errorColor),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusColor: AppColor.basicColor,
-                      hoverColor: AppColor.basicColor,
                     ),
                   ),
-                ),
-                SizedBox(width: 9),
-                Text(
-                  "To",
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.basicColor),
-                ),
-                SizedBox(width: 9),
-                Container(
-                  height: 32.h,
-                  width: 140.w,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: contractEndController,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your Date';
-                      }
-                      return null;
-                    },
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 4.0.h, horizontal: 10.0.w),
-                      fillColor: AppColor.whiteColor,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.borderColor),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.r),
+                  SizedBox(width: 9),
+                  Text(
+                    "To",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.basicColor),
+                  ),
+                  SizedBox(width: 9),
+                  Container(
+                    height: 32.h,
+                    width: 140.w,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: contractEndController,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter your Date';
+                        }
+                        return null;
+                      },
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 4.0.h, horizontal: 10.0.w),
+                        fillColor: AppColor.whiteColor,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.borderColor),
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.errorColor),
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.r)),
+                        focusColor: AppColor.basicColor,
+                        hoverColor: AppColor.basicColor,
                       ),
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.errorColor),
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r)),
-                      focusColor: AppColor.basicColor,
-                      hoverColor: AppColor.basicColor,
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Cv :",
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.basicColor),
-                ),
-                SizedBox(width: 154.w),
-                Container(
-                  height: 35.h,
-                  width: 135.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      selectCv();
-                    },
-                    child: Center(
-                        child: Text('Upload',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                fontSize: 16,
-                                color: AppColor.whiteColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    "Cv :",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.basicColor),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  height: 35.h,
-                  width: 135.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Center(
-                        child: Text('Cancel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                fontSize: 16,
-                                color: AppColor.thirdColor,
-                                fontWeight: FontWeight.w400))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.greyColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                  SizedBox(width: 154.w),
+                  Container(
+                    height: 35.h,
+                    width: 135.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        selectCv();
+                      },
+                      child: Center(
+                          child: Text('Upload',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.whiteColor))),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5.r)))),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 35.h,
-                  width: 135.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      updateCollaborator();
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Collaborator Update Successfully"),
-                      ));
-                    },
-                    child: Center(
-                        child: Text('Update',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                fontSize: 16,
-                                color: AppColor.whiteColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                ],
+              ),
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: 35.h,
+                    width: 135.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Center(
+                          child: Text('Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.thirdColor,
+                                  fontWeight: FontWeight.w400))),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.greyColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Container(
+                    height: 35.h,
+                    width: 135.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        updateCollaborator();
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Collaborator Update Successfully"),
+                        ));
+                      },
+                      child: Center(
+                          child: Text('Update',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.whiteColor))),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

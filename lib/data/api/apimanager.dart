@@ -192,6 +192,33 @@ class ApiManager {
       throw Exception('Failed to delete admin ');
     }
   }
+  Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.adminApi}/collaborators?page=$page'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body);
+        print('Response data: $responseData'); // Add debug print statement
+        List<Collaborator> opportunities = responseData.map((data) => Collaborator.fromJson(data)).toList();
+        print('Opportunities: $opportunities'); // Add debug print statement
+        return opportunities;
+      } else {
+        throw Exception('Failed to load collaborator data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 //Client
   Future<List<Client>> fetchAllClients({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.clientApi, {

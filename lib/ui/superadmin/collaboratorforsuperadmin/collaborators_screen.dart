@@ -42,10 +42,15 @@ class _CollaboratorsScreenForSuperState
     clientCubit= ClientCubit(clientRepository: injectClientRepository());
   }
 
+
+
   @override
   void dispose() {
     viewModel.pagingController.dispose();
     super.dispose();
+  }
+  void onOpportunityAdded() {
+    viewModel.pagingController.refresh();
   }
 
   Widget buildErrorIndicator(BuildContext context) {
@@ -259,16 +264,12 @@ class _CollaboratorsScreenForSuperState
 
   void showAddBottomSheet() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: FractionallySizedBox(
-            child: Addcollaborator(),
-          ),
+        return BlocProvider(
+         create: (context) => CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository()),
+          child: Addcollaborator(onOpportunityAdded: onOpportunityAdded,),
         );
       },
     );
@@ -276,6 +277,7 @@ class _CollaboratorsScreenForSuperState
 
   void showUpdateCollaboratorDialog(Collaborator collaborator) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return BlocProvider.value(

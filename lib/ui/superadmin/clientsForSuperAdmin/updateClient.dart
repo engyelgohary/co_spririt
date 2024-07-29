@@ -54,121 +54,123 @@ class _UpdateClientState extends State<UpdateClient> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.0),
-      child: Container(
-        height: 250.h,
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            CustomText(
-              keyboardType: TextInputType.name,
-              fieldName: 'First Name :',
-              controller: firstNameController,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your first name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Last Name :',
-              controller: lastNameController,
-              width: 7,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your last name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Mobile :',
-              controller: phoneController,
-              width: 35,
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your mobile number';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 11),
-            CustomText(
-              fieldName: 'Email :',
-              controller: emailController,
-              width: 44,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please enter your email address';
-                }
-                bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value);
-                if (!emailValid) {
-                  return 'Invalid email';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  height: 35.h,
-                  width: 135.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Center(
-                        child: Text('Cancel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                    fontSize: 16,
-                                    color: AppColor.thirdColor,
-                                    fontWeight: FontWeight.w400))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.greyColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.r)))),
+      child: SingleChildScrollView(
+        child: Container(
+          height: 450.h,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              CustomText(
+                keyboardType: TextInputType.name,
+                fieldName: 'First Name :',
+                controller: firstNameController,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Last Name :',
+                controller: lastNameController,
+                width: 7,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Mobile :',
+                controller: phoneController,
+                width: 35,
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your mobile number';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 11),
+              CustomText(
+                fieldName: 'Email :',
+                controller: emailController,
+                width: 44,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your email address';
+                  }
+                  bool emailValid = RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value);
+                  if (!emailValid) {
+                    return 'Invalid email';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: 35.h,
+                    width: 135.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: Center(
+                          child: Text('Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      fontSize: 16,
+                                      color: AppColor.thirdColor,
+                                      fontWeight: FontWeight.w400))),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.greyColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.r)))),
+                    ),
                   ),
-                ),
-                Container(
-                  height: 35.h,
-                  width: 135.w,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      updateClient();
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Client Update Successfully"),
-                      ));
-                    },
-                    child: Center(
-                        child: Text('Update',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                    fontSize: 16, color: AppColor.whiteColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.r)))),
+                  Container(
+                    height: 35.h,
+                    width: 135.w,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        updateClient();
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Client Update Successfully"),
+                        ));
+                      },
+                      child: Center(
+                          child: Text('Update',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      fontSize: 16, color: AppColor.whiteColor))),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.r)))),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

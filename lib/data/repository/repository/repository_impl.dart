@@ -44,6 +44,11 @@ class AdminRepositoryImpl implements AdminRepository{
   Future<GetAdmin> deleteAdmin(int id) {
    return adminRemoteDataSource.deleteAdmin(id);
   }
+
+  @override
+  Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) {
+   return adminRemoteDataSource.getCollaboratorsToAdmin(page: page);
+  }
 }
 class ClientRepositoryImpl implements ClientRepository{
   ClientRemoteDataSource clientRemoteDataSource;

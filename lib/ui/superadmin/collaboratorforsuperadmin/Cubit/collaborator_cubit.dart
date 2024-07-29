@@ -18,10 +18,10 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
     });
   }
   final formKey = GlobalKey<FormState>();
-  final firstNameController = TextEditingController(text:"Collaborator");
-  final lastNameController = TextEditingController(text: "1");
-  final emailController = TextEditingController(text: "Collaborator1@colla.com");
-  final phoneController = TextEditingController(text: "1234568");
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final contractStartController = TextEditingController(text: "2024/05/09");
   final contractEndController = TextEditingController(text: "2025/05/09");
   XFile? image;
@@ -54,6 +54,7 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
       pagingController.refresh(); // Refresh the list
     } catch (e) {
       emit(CollaboratorError(errorMessage: e.toString()));
+      print(e.toString());
     }
   }
   Future<void> addCollaborator() async {
@@ -71,9 +72,9 @@ final collaboratorData = {
     try {
       final result = await collaboratorRepository.addCollaborator(collaboratorData,image,cv);
       emit(CollaboratorSuccess(collaboratorData: result));
-      pagingController.refresh();
     } catch (e) {
       emit(CollaboratorError(errorMessage:e.toString()));
+   print(e.toString());
     }
   }
   void selectImage() async {

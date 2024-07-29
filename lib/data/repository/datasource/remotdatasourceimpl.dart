@@ -47,6 +47,11 @@ class AdminDataSourceImpl implements AdminRemoteDataSource {
   Future<GetAdmin> deleteAdmin(int id) async {
     return await apiManager.deleteAdmin(id);
   }
+
+  @override
+  Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) async{
+    return await apiManager.getCollaboratorsToAdmin(page: page);
+  }
 }
 
 class ClientDataSourceImpl implements ClientRemoteDataSource {

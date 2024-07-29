@@ -16,10 +16,10 @@ class AdminCubit extends Cubit<AdminState> {
     });
   }
   bool canPost = true;
-  TextEditingController firstName_controller = TextEditingController(text: "Admin");
-  TextEditingController lastName_controller = TextEditingController(text: "1");
-  TextEditingController email_controller = TextEditingController(text: "admin1@admin.com");
-  TextEditingController phone_controller = TextEditingController(text: "01222365");
+  TextEditingController firstName_controller = TextEditingController();
+  TextEditingController lastName_controller = TextEditingController();
+  TextEditingController email_controller = TextEditingController();
+  TextEditingController phone_controller = TextEditingController();
   var formKey = GlobalKey<FormState>();
   XFile? image;
   XFile? updateImage;
@@ -86,7 +86,6 @@ class AdminCubit extends Cubit<AdminState> {
     try {
       final response = await adminRepository.registerAdmin(adminData, image);
       emit(AdminSuccess(adminData: response));
-      pagingController.refresh(); // Refresh the list after success
     } catch (e) {
       emit(AdminError(errorMessage: e.toString()));
     }

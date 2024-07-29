@@ -13,8 +13,8 @@ class OpportunitiesCubit extends Cubit<OpportunitiesState> {
   OpportunitiesCubit({required this.opportunitiesRepository}) : super(OpportunitiesInitial());
 
   final formKey = GlobalKey<FormState>();
-  final TextEditingController titleController = TextEditingController(text: "engy");
-  final TextEditingController descriptionController = TextEditingController(text: "engy");
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   File? descriptionFile;
   List<Client> clients = [];
   int? selectedClientId;

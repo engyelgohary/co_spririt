@@ -18,6 +18,7 @@ abstract class AdminRepository{
   Future<GetAdmin> fetchAdminDetails(int id);
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> deleteAdmin(int id);
+  Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1});
 }
 abstract class AdminRemoteDataSource {
   Future<List<GetAdmin>>getAllAdmins({int page = 1});
@@ -25,6 +26,7 @@ abstract class AdminRemoteDataSource {
   Future<GetAdmin> fetchAdminDetails(int id);
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> deleteAdmin(int id);
+  Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1});
 }
 //Client
 abstract class ClientRepository{

@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
-              return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
+              return const Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
             },
           );
         } else if (state is LoginModelViewError) {
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ));
         } else if (state is LoginModelViewSuccess) {
           Navigator.pop(context); // Dismiss the progress dialog
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Sign IN Success"),
             duration: Duration(seconds: 3),
           ));
@@ -93,11 +93,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         isObscure: modelView.isObscure,
                         suffixIcon: InkWell(
                           child: modelView.isObscure
-                              ? Icon(
+                              ? const Icon(
                                   Icons.visibility_off,
                                   color: AppColor.basicColor,
                                 )
-                              : Icon(
+                              : const Icon(
                                   Icons.visibility,
                                   color: AppColor.basicColor,
                                 ),
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5.r)))),
-                          child: Container(
+                          child: SizedBox(
                             height:35.h,
                             width: 135.w,
                             child: Center(

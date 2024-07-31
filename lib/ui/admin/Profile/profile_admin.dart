@@ -13,7 +13,7 @@ class ProfileScreenAdmin extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Row(
@@ -25,11 +25,11 @@ class ProfileScreenAdmin extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: AppUI.secondColor),
-                  child: BackButton(
+                  child: const BackButton(
                     color: AppUI.whiteColor,
                   ),
                 ),
-                Center(
+                const Center(
                   child: CustomText(
                     text: 'Profile',
                     fontSize: 20,
@@ -43,7 +43,7 @@ class ProfileScreenAdmin extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: AppUI.secondColor),
-                  child: ImageIcon(
+                  child: const ImageIcon(
                     AssetImage(
                       '${AppUI.iconPath}edit.png',
                     ),
@@ -53,7 +53,7 @@ class ProfileScreenAdmin extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Stack(
@@ -77,7 +77,7 @@ class ProfileScreenAdmin extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: AppUI.secondColor),
-                  child: ImageIcon(
+                  child: const ImageIcon(
                     AssetImage(
                       '${AppUI.iconPath}camera.png',
                     ),
@@ -87,10 +87,10 @@ class ProfileScreenAdmin extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Column(
+            const Column(
               children: [
                 CustomText(
                   text: 'Olivier Matteo',
@@ -115,48 +115,48 @@ class ProfileScreenAdmin extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
-                    CustomText(
+                    const CustomText(
                       text: 'Full Name',
                       fontSize: 16,
                       color: AppUI.basicColor,
                       fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CustomInput(
                       controller: TextEditingController(),
                       textInputType: TextInputType.text,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    CustomText(
+                    const CustomText(
                       text: 'Email Address',
                       fontSize: 16,
                       color: AppUI.basicColor,
                       fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CustomInput(
                       controller: TextEditingController(),
                       textInputType: TextInputType.emailAddress,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    CustomText(
+                    const CustomText(
                       text: 'Password',
                       fontSize: 16,
                       color: AppUI.basicColor,
                       fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     CustomInput(

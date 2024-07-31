@@ -159,11 +159,11 @@ class HomeScreenAdmin extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            AppUtil.mainNavigator(context, NotifactionScreenAdmin());
+                            AppUtil.mainNavigator(context, const NotifactionScreenAdmin());
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: 13.w),
-                            child: Icon(
+                            child: const Icon(
                               Icons.notifications_outlined,
                               color: AppUI.borderColor,
                               size: 28,
@@ -173,13 +173,13 @@ class HomeScreenAdmin extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
+                      const Column(
                         children: [
                           ImageIcon(
                             AssetImage(
@@ -204,7 +204,7 @@ class HomeScreenAdmin extends StatelessWidget {
                         onTap: () {
                           AppUtil.mainNavigator(context, RequestAdmin());
                         },
-                        child: Column(
+                        child: const Column(
                           children: [
                             ImageIcon(
                               AssetImage(
@@ -229,7 +229,7 @@ class HomeScreenAdmin extends StatelessWidget {
                         onTap: () {
                           AppUtil.mainNavigator(context, MessagesScreenAdmin());
                         },
-                        child: Column(
+                        child: const Column(
                           children: [
                             ImageIcon(
                               AssetImage(
@@ -252,9 +252,9 @@ class HomeScreenAdmin extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, ProfileScreenAdmin());
+                          AppUtil.mainNavigator(context, const ProfileScreenAdmin());
                         },
-                        child: Column(
+                        child: const Column(
                           children: [
                             ImageIcon(
                               AssetImage(
@@ -279,7 +279,7 @@ class HomeScreenAdmin extends StatelessWidget {
                         onTap: () {
                           AppUtil.mainNavigator(context, MenuScreenAdmin());
                         },
-                        child: Column(
+                        child: const Column(
                           children: [
                             ImageIcon(
                                 AssetImage(
@@ -333,20 +333,20 @@ class HomeScreenAdmin extends StatelessWidget {
                                     top: Radius.circular(
                                         20.0)),
                               ),
-                              constraints: BoxConstraints(
+                              constraints: const BoxConstraints(
                                 maxHeight: double.infinity,
                               ),
                               isScrollControlled: true,
                               builder: (context) => Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: CustomCard(
-                                    child:
-                                    CreatePost(),
                                     height:
                                     MediaQuery.sizeOf(context)
                                         .height *
                                         .8,
                                     radius: 20,
+                                    child:
+                                    CreatePost(),
                                   )));
                         },
                         child: Container(
@@ -360,7 +360,7 @@ class HomeScreenAdmin extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(width:10.w),
-                              Text("What's in your mind",style: TextStyle(
+                              const Text("What's in your mind",style: TextStyle(
                                 fontSize: 12,
                                 color: AppUI.buttonColor,
                                 fontWeight: FontWeight.w400,
@@ -385,8 +385,8 @@ class HomeScreenAdmin extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding:  EdgeInsets.only(left: 10,right: 10,top: 7),
-                  child: Container(
+                  padding:  const EdgeInsets.only(left: 10,right: 10,top: 7),
+                  child: SizedBox(
                     width: 600.w,
                     height: 570.h,
                     child: ListView.builder(
@@ -413,14 +413,14 @@ class HomeScreenAdmin extends StatelessWidget {
                                         width: 30.w,
                                         // fit: BoxFit.cover,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
-                                          CustomText(
+                                          const CustomText(
                                             text: 'Olivier',
                                             fontSize: 12,
                                             color: AppUI.basicColor,
@@ -428,13 +428,13 @@ class HomeScreenAdmin extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              CustomText(
+                                              const CustomText(
                                                 text: '16 Feb at 19:56',
                                                 fontSize: 12,
                                                 color: AppUI.basicColor,
                                                 fontWeight: FontWeight.w400,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 4,
                                               ),
                                               Image.asset(
@@ -449,7 +449,7 @@ class HomeScreenAdmin extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   const CustomText(
@@ -459,11 +459,11 @@ class HomeScreenAdmin extends StatelessWidget {
                                     color: AppUI.basicColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
-                                  Divider(),
-                                  SizedBox(
+                                  const Divider(),
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Row(
@@ -478,10 +478,10 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "23",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
@@ -497,16 +497,16 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "7",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 8,
                                           ),
                                           Image.asset(
@@ -515,16 +515,16 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "5",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 8,
                                           ),
                                           Image.asset(
@@ -533,10 +533,10 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "8",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
@@ -550,7 +550,7 @@ class HomeScreenAdmin extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 14,
                           ),
                           Container(
@@ -572,14 +572,14 @@ class HomeScreenAdmin extends StatelessWidget {
                                         width: 30,
                                         // fit: BoxFit.cover,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
-                                          CustomText(
+                                          const CustomText(
                                             text: 'Olivier',
                                             fontSize: 12,
                                             color: AppUI.basicColor,
@@ -587,13 +587,13 @@ class HomeScreenAdmin extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              CustomText(
+                                              const CustomText(
                                                 text: '16 Feb at 19:56',
                                                 fontSize: 12,
                                                 color: AppUI.basicColor,
                                                 fontWeight: FontWeight.w400,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 4,
                                               ),
                                               Image.asset(
@@ -608,7 +608,7 @@ class HomeScreenAdmin extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   const CustomText(
@@ -618,7 +618,7 @@ class HomeScreenAdmin extends StatelessWidget {
                                     color: AppUI.basicColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   Image.asset(
@@ -627,8 +627,8 @@ class HomeScreenAdmin extends StatelessWidget {
                                     width: 370,
                                     fit: BoxFit.cover,
                                   ),
-                                  Divider(),
-                                  SizedBox(
+                                  const Divider(),
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   Row(
@@ -643,10 +643,10 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "23",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
@@ -662,16 +662,16 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "7",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 8,
                                           ),
                                           Image.asset(
@@ -680,16 +680,16 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "5",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 8,
                                           ),
                                           Image.asset(
@@ -698,10 +698,10 @@ class HomeScreenAdmin extends StatelessWidget {
                                             width: 12,
                                             // fit: BoxFit.cover,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
-                                          CustomText(
+                                          const CustomText(
                                             text: "8",
                                             fontSize: 10,
                                             color: AppUI.basicColor,
@@ -715,7 +715,7 @@ class HomeScreenAdmin extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 14,
                           ),
                         ],

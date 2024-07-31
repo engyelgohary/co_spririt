@@ -10,6 +10,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import '../model/Post.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
@@ -25,8 +26,7 @@ class ApiConstants {
   static const String opportunitiesColApi='/api/v1/opportunities/collaborator';
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
-
-
+  static const String allPostsApi ='/api/v1/post';
 }
 
 class ApiManager {
@@ -491,6 +491,7 @@ class ApiManager {
       throw Exception('Failed to assign collaborator due to an error');
     }
   }
+
 //Opportunities
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) async {
     final token = await storage.read(key: 'token');
@@ -617,5 +618,25 @@ class ApiManager {
     }
   }
 
+  //Posts
+
+  // Fetch Posts
+  Future<List<Post>> fetchPosts({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.allPostsApi, {'page': '$page'});
+    final token = await storage.read(key: 'token');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((post) => Post.fromJson(post)).toList();
+    } else {
+      throw Exception('Failed to load posts');
+    }
+  }
 }
 

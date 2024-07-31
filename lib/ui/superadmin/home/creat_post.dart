@@ -11,7 +11,7 @@ class CreatePost extends StatelessWidget {
        Column(
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [
-           Row(
+           const Row(
              children: [
                CloseButtonIcon(
                ),
@@ -24,16 +24,16 @@ class CreatePost extends StatelessWidget {
                ),
              ],
            ),
-           SizedBox(
+           const SizedBox(
              height: 15,
            ),
-           Divider(
+           const Divider(
              thickness: 3,
            ),
-           SizedBox(
+           const SizedBox(
              height: 15,
            ),
-           Column(
+           const Column(
              children: [
                CustomText(
                  text: 'Lorem ipsum dolor sit',
@@ -49,19 +49,19 @@ class CreatePost extends StatelessWidget {
                ),
              ],
            ),
-           Spacer(),
+           const Spacer(),
            Row(
              children: [
                Expanded(
                    child: CustomInput(
-                     borderColor: Color.fromRGBO(241, 241, 241, 1),
-                     fillColor: Color.fromRGBO(241, 241, 241, 1),
+                     borderColor: const Color.fromRGBO(241, 241, 241, 1),
+                     fillColor: const Color.fromRGBO(241, 241, 241, 1),
                      //counterColor: AppUI.borderColor,
                      //radius: 24,
                      controller: TextEditingController(),
                      hint: "What’s on your mind?",
                      textInputType: TextInputType.text,
-                     suffixIcon: SizedBox(
+                     suffixIcon: const SizedBox(
                        width: 55,
                        child: Row(
                          children: [
@@ -95,7 +95,7 @@ class CreatePost extends StatelessWidget {
                    decoration: BoxDecoration(
                        borderRadius: BorderRadius.circular(30),
                        color: AppUI.secondColor),
-                   child: ImageIcon(
+                   child: const ImageIcon(
                      AssetImage(
                        '${AppUI.iconPath}send.png',
                      ),

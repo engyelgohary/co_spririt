@@ -1,12 +1,9 @@
-
 import 'package:co_spririt/ui/superadmin/Message/chat_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
-
-
 
 class MessagesScreenSuperAdmin extends StatelessWidget {
   @override
@@ -25,8 +22,7 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                   height: 42,
                   width: 42,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor),
+                      borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
                   child: BackButton(
                     color: AppUI.whiteColor,
                   ),
@@ -36,7 +32,7 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                 ),
                 Center(
                   child: CustomText(
-                    text: 'Massages',
+                    text: 'Messages',
                     fontSize: 20,
                     color: AppUI.basicColor,
                     fontWeight: FontWeight.w400,

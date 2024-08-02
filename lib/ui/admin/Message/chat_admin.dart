@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 
-
 class ChatScreenAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,9 +14,8 @@ class ChatScreenAdmin extends StatelessWidget {
           ),
           Container(
               height: 135,
-              decoration: BoxDecoration(
-                  color: AppUI.whiteColor,
-                  borderRadius: BorderRadius.circular(12)),
+              decoration:
+                  BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -29,15 +27,14 @@ class ChatScreenAdmin extends StatelessWidget {
                           height: 42,
                           width: 42,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: AppUI.secondColor),
+                              borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
                           child: BackButton(
                             color: AppUI.whiteColor,
                           ),
                         ),
                         Center(
                           child: CustomText(
-                            text: 'Massages',
+                            text: 'Messages',
                             fontSize: 20,
                             color: AppUI.basicColor,
                             fontWeight: FontWeight.w400,
@@ -47,8 +44,7 @@ class ChatScreenAdmin extends StatelessWidget {
                           height: 42,
                           width: 42,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: AppUI.secondColor),
+                              borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
                           child: ImageIcon(
                             AssetImage(
                               '${AppUI.iconPath}chatmenu.png',
@@ -105,36 +101,38 @@ class ChatScreenAdmin extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomInput(
-                      borderColor: Color.fromRGBO(241, 241, 241, 1),
-                      fillColor: Color.fromRGBO(241, 241, 241, 1),
-                      //counterColor: AppUI.borderColor,
-                      //radius: 24,
-                      controller: TextEditingController(),
-                      hint: "Type a message ...",
-                      textInputType: TextInputType.text,
-                      suffixIcon: SizedBox(
-                        width: 55,
-                        child: Row(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                '${AppUI.iconPath}file.png',
-                              ),
-                              color: AppUI.twoBasicColor,
-                              size: 20,
-                            ),
-                            SizedBox(width: 8,),
-                            ImageIcon(
-                              AssetImage(
-                                '${AppUI.iconPath}chatcamera.png',
-                              ),
-                              color: AppUI.twoBasicColor,
-                              size: 20,
-                            ),
-                          ],
+                  borderColor: Color.fromRGBO(241, 241, 241, 1),
+                  fillColor: Color.fromRGBO(241, 241, 241, 1),
+                  //counterColor: AppUI.borderColor,
+                  //radius: 24,
+                  controller: TextEditingController(),
+                  hint: "Type a message ...",
+                  textInputType: TextInputType.text,
+                  suffixIcon: SizedBox(
+                    width: 55,
+                    child: Row(
+                      children: [
+                        ImageIcon(
+                          AssetImage(
+                            '${AppUI.iconPath}file.png',
+                          ),
+                          color: AppUI.twoBasicColor,
+                          size: 20,
                         ),
-                      ),
-                    )),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        ImageIcon(
+                          AssetImage(
+                            '${AppUI.iconPath}chatcamera.png',
+                          ),
+                          color: AppUI.twoBasicColor,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
                 const SizedBox(
                   width: 8,
                 ),
@@ -144,8 +142,7 @@ class ChatScreenAdmin extends StatelessWidget {
                     height: 42,
                     width: 42,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: AppUI.secondColor),
+                        borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
                     child: ImageIcon(
                       AssetImage(
                         '${AppUI.iconPath}send.png',

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/ui/admin/Menu/menu_admin.dart';
 import 'package:co_spririt/ui/admin/Notifactions/notifictionadmin.dart';
 import 'package:bloc/bloc.dart';
@@ -23,6 +24,8 @@ import 'bloc_observer_test.dart';
 import 'data/dip.dart';
 
 void main() {
+  initializeNotification();
+
   Bloc.observer = MyBlocObserver();
   runApp(MultiBlocProvider(
           providers: [
@@ -73,3 +76,31 @@ class MyApp extends StatelessWidget {
 }
 
 
+Future<void> initializeNotification() async {
+  final initializationResult = await AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+          channelGroupKey: 'basic_channel_group',
+          channelKey: 'basic_channel',
+          channelName: 'Basic notifications',
+          channelDescription: 'Notification channel for basic tests',
+          defaultColor: Color(0xFF9D50DD),
+          ledColor: Colors.white,
+        )
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic group')
+      ],
+      debug: true);
+
+  print("Notification initialization result: ${initializationResult}");
+
+  bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+
+  if (!isAllowed) {
+    await AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+}

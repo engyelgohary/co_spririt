@@ -1,46 +1,67 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../data/model/Post.dart'; // Import the Post model
 
 class CreatePost extends StatefulWidget {
   final ApiManager apiManager;
 
-  CreatePost({required this.apiManager, Key? key}) : super(key: key);
+  const CreatePost({required this.apiManager, Key? key}) : super(key: key);
 
   @override
   _CreatePostState createState() => _CreatePostState();
 }
 
 class _CreatePostState extends State<CreatePost> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
+  final TextEditingController _inputController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _inputController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
+  }
+
 
   Future<void> _createPost() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('adminId');
 
     if (userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User ID not found.')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('User ID not found.')));
       return;
     }
 
-    String title = _titleController.text;
-    String content = _contentController.text;
+    String title = _inputController.text;
+    String content = _inputController.text;
 
     try {
       bool success = await widget.apiManager.createPost(title, content);
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Post created successfully!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Post created successfully!')));
         Navigator.of(context).pop(); // Close the modal after creating the post
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to create post.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to create post.')));
       }
     } catch (e) {
       print('Error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     }
   }
 
@@ -67,13 +88,13 @@ class _CreatePostState extends State<CreatePost> {
                   size: iconSize,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Closes the modal bottom sheet
+                  Navigator.of(context).pop();
                 },
               ),
               SizedBox(width: horizontalPadding),
               CustomText(
                 text: 'Create post',
-                fontSize: screenWidth * 0.04, // Adjust font size based on screen width
+                fontSize: screenWidth * 0.04,
                 color: AppUI.blackColor,
                 fontWeight: FontWeight.w400,
               ),
@@ -81,20 +102,16 @@ class _CreatePostState extends State<CreatePost> {
           ),
           SizedBox(height: verticalPadding),
           Divider(
-            thickness: screenWidth * 0.007, // Adjust thickness based on screen width
+            thickness: screenWidth * 0.007,
           ),
           SizedBox(height: verticalPadding),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: 'Lorem ipsum dolor sit',
-                fontSize: screenWidth * 0.05,
-                color: AppUI.blackColor,
-                fontWeight: FontWeight.w600,
-              ),
-              CustomText(
-                text: 'amet, consectetur?',
+                text: _inputController.text.isEmpty
+                    ? 'Whats on your mind?'
+                    : _inputController.text,
                 fontSize: screenWidth * 0.05,
                 color: AppUI.blackColor,
                 fontWeight: FontWeight.w600,
@@ -109,42 +126,19 @@ class _CreatePostState extends State<CreatePost> {
                   child: CustomInput(
                     borderColor: const Color.fromRGBO(241, 241, 241, 1),
                     fillColor: const Color.fromRGBO(241, 241, 241, 1),
-                    controller: _titleController,
-                    hint: "Post Title",
+                    controller: _inputController,
+                    hint: "Post Content",
                     textInputType: TextInputType.text,
-                    suffixIcon: SizedBox(
-                      width: screenWidth * 0.3, // Adjust width based on screen width
-                      child: Row(
-                        children: [
-                          ImageIcon(
-                            const AssetImage('${AppUI.iconPath}file.png'),
-                            color: AppUI.twoBasicColor,
-                            size: screenWidth * 0.06, // Adjust icon size based on screen width
-                          ),
-                          SizedBox(width: screenWidth * 0.02), // Adjust spacing based on screen width
-                          ImageIcon(
-                            const AssetImage('${AppUI.iconPath}chatcamera.png'),
-                            color: AppUI.twoBasicColor,
-                            size: screenWidth * 0.06, // Adjust icon size based on screen width
-                          ),
-                        ],
-                      ),
+                    suffixIcon: ImageIcon(
+                          const AssetImage('${AppUI.iconPath}file.png'),
+                          color: AppUI.twoBasicColor,
+                          size: screenWidth * 0.06,
                     ),
                   ),
                 ),
-                SizedBox(width: screenWidth * 0.02), // Adjust spacing based on screen width
-                Expanded(
-                  child: CustomInput(
-                    borderColor: const Color.fromRGBO(241, 241, 241, 1),
-                    fillColor: const Color.fromRGBO(241, 241, 241, 1),
-                    controller: _contentController,
-                    hint: "Post Content",
-                    textInputType: TextInputType.text,
-                  ),
-                ),
-                SizedBox(width: screenWidth * 0.02), // Adjust spacing based on screen width
+                SizedBox(width: screenWidth * 0.02),
                 InkWell(
-                  onTap: _createPost, // Call the create post function
+                  onTap: _createPost,
                   child: Container(
                     height: buttonSize,
                     width: buttonSize,
@@ -156,7 +150,7 @@ class _CreatePostState extends State<CreatePost> {
                       child: ImageIcon(
                         const AssetImage('${AppUI.iconPath}send.png'),
                         color: AppUI.whiteColor,
-                        size: buttonSize * 0.6, // Adjust icon size based on button size
+                        size: buttonSize * 0.6,
                       ),
                     ),
                   ),

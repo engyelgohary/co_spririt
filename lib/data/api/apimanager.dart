@@ -671,6 +671,7 @@ class ApiManager {
     request.fields['title'] = title;
     request.fields['content'] = content;
 
+
     request.headers['Authorization'] = 'Bearer $token';
 
     var response = await request.send();

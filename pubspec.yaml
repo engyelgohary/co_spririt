@@ -59,6 +59,7 @@ dependencies:
   jwt_decode: ^0.3.1
   url_launcher: ^6.3.0
   webview_flutter: ^4.5.0
+  flutter_chat_bubble: ^2.0.2
 
 
 

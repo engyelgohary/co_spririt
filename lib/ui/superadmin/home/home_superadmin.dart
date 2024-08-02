@@ -37,11 +37,10 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    // Define dimensions as percentages of screen width and height
-    final double imageHeight = screenHeight * 0.25; // Adjust percentage as needed
-    final double logoHeight = screenHeight * 0.07; // Adjust percentage as needed
-    final double iconSize = screenWidth * 0.06; // Adjust percentage as needed
-    final double horizontalPadding = screenWidth * 0.05; // Adjust percentage as needed
+    final double imageHeight = screenHeight * 0.25;
+    final double logoHeight = screenHeight * 0.07;
+    final double iconSize = screenWidth * 0.06;
+    final double horizontalPadding = screenWidth * 0.05;
 
     return Scaffold(
         body: Column(
@@ -57,7 +56,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                 Column(
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.07, // Adjust percentage as needed
+                      height: screenHeight * 0.07,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -67,7 +66,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                           Image.asset(
                             '${AppUI.imgPath}logo.png',
                             height: logoHeight,
-                            width: screenWidth * 0.25, // Adjust percentage as needed
+                            width: screenWidth * 0.25,
                           ),
                           InkWell(
                             onTap: () {
@@ -75,7 +74,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                   context, const NotifactionScreenSuperAdmin());
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(right: horizontalPadding * 0.5), // Adjust as needed
+                              padding: EdgeInsets.only(right: horizontalPadding * 0.5),
                               child: Icon(
                                 Icons.notifications_outlined,
                                 color: AppUI.borderColor,
@@ -87,7 +86,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                       ),
                     ),
                     SizedBox(
-                      height: screenHeight * 0.02, // Adjust percentage as needed
+                      height: screenHeight * 0.02,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -103,7 +102,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                               semanticLabel: 'Home',
                             ),
                             SizedBox(
-                              height: screenHeight * 0.01, // Adjust percentage as needed
+                              height: screenHeight * 0.01,
                             ),
                             const CustomText(
                               text: 'Home',
@@ -127,7 +126,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                 color: AppUI.borderColor,
                               ),
                               SizedBox(
-                                height: screenHeight * 0.01, // Adjust percentage as needed
+                                height: screenHeight * 0.01,
                               ),
                               const CustomText(
                                 text: 'Requests',
@@ -153,7 +152,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                 color: AppUI.borderColor,
                               ),
                               SizedBox(
-                                height: screenHeight * 0.01, // Adjust percentage as needed
+                                height: screenHeight * 0.01,
                               ),
                               const CustomText(
                                 text: 'Messages',
@@ -179,7 +178,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                 color: AppUI.borderColor,
                               ),
                               SizedBox(
-                                height: screenHeight * 0.01, // Adjust percentage as needed
+                                height: screenHeight * 0.01,
                               ),
                               const CustomText(
                                 text: 'Profile',
@@ -205,7 +204,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                 color: AppUI.borderColor,
                               ),
                               SizedBox(
-                                height: screenHeight * 0.01, // Adjust percentage as needed
+                                height: screenHeight * 0.01,
                               ),
                               const CustomText(
                                 text: 'Menu',
@@ -255,7 +254,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                 child: CustomCard(
                                   height: MediaQuery.of(context).size.height * 0.8,
                                   radius: 20,
-                                  child: CreatePost(),
+                                  child: CreatePost(apiManager: apiManager),
                                 ),
                               ),
                             );

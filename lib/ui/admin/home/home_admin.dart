@@ -3,387 +3,272 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
+import '../../../data/api/apimanager.dart';
 import '../../superadmin/home/creat_post.dart';
 import '../Menu/menu_admin.dart';
 import '../Message/Message_admin.dart';
 import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../requests/request_admin.dart';
+import '../../../data/model/GetAdmin.dart';
 
-class HomeScreenAdmin extends StatelessWidget {
+class HomeScreenAdmin extends StatefulWidget {
+  const HomeScreenAdmin({Key? key, required this.admin}) : super(key: key);
   static String routeName = 'home screen admin';
+
+  final GetAdmin admin;
+
+  @override
+  State<HomeScreenAdmin> createState() => _HomeScreenAdminState();
+}
+
+class _HomeScreenAdminState extends State<HomeScreenAdmin> {
+  late GetAdmin admin;
+  late ApiManager apiManager;
+
+  @override
+  void initState() {
+    super.initState();
+    admin = widget.admin;
+    apiManager = ApiManager.instance;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        body: Column(children: [
-          // ClipOval(
-          //  // clipBehavior: Clip.hardEdge,
-          //   clipper: OvalTopBorderClipper(),
-          //   child: Container(
-          //     height: 120,
-          //     color: AppUI.whiteColor,
-          //     child: Column(
-          //       children: [
-          //         SizedBox(height: 20,),
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Image.asset(
-          //               '${AppUI.imgPath}logo.png',
-          //               height: 23,
-          //               width: 100,
-          //               // fit: BoxFit.cover,
-          //             ),
-          //             Icon(Icons.notifications_outlined,color: AppUI.borderColor,),
-          //           ],
-          //         ),
-          //         SizedBox(height: 12,),
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}Home.png",),size: 24,color: AppUI.borderColor,
-          //                   semanticLabel: 'Home',),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Home',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}request.png",),size: 24,color: AppUI.borderColor,),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Requests',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}Caht.png",),size: 24,color: AppUI.borderColor,),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Messages',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             InkWell(
-          //               onTap: () {
-          //                 AppUtil.mainNavigator(context, ProfileScreen());
-          //               },
-          //               child: Column(
-          //                 children: [
-          //                   ImageIcon(
-          //                     AssetImage("${AppUI.iconPath}profile.png",),size: 24,color: AppUI.borderColor,),
-          //                   SizedBox(height: 8,),
-          //                   CustomText(text: 'Profile',
-          //                     fontSize: 12,
-          //                     color: AppUI.borderColor,
-          //                     fontWeight: FontWeight.w400,
-          //                   )
-          //                 ],
-          //               ),
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                     AssetImage(
-          //                       "${AppUI.iconPath}menu.png",),size: 24,color: AppUI.borderColor),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Menu',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             )
-          //           ],
-          //         )
-          //       ],),
-          //   ),
-          // ),
-          // Container(
-          //   height: 100,
-          //   width:MediaQuery.of(context).size.width,
-          //   color: AppUI.whiteColor,
-          // ),
-          // Container(
-          //   height: 180.h, //MediaQuery.of(context).padding.top + 191,
-          //   width:MediaQuery.of(context).size.width,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(100.r),
-          //         bottomRight: Radius.circular(100.r)),
-          //     color: AppUI.whiteColor,
-          //   ),
-          //   alignment: Alignment.bottomCenter,
-          //   padding: EdgeInsets.only(bottom: 30, left: 16, right: 16),
-          //   child: Padding(
-          //     padding: EdgeInsets.symmetric(vertical: 25.h,horizontal: 20.w),
-          //     child:
-
-          Stack(
-            children:[
-              Image.asset(
-                '${AppUI.imgPath}Rectangle 15.png',
-                height: 191.h,
-                width: 375.w,
-                fit: BoxFit.fill,
-              ),
-              Column(
+    return Scaffold(
+        body: Column(
+            children: [
+              Stack(
                 children: [
-                  SizedBox(
-                    height: 50.h,
+                  Image.asset(
+                    '${AppUI.imgPath}Rectangle 15.png',
+                    height: 191.h,
+                    width: 375.w,
+                    fit: BoxFit.fill,
                   ),
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          '${AppUI.imgPath}logo.png',
-                          height: 28.h,
-                          width: 100.w,
-                          // fit: BoxFit.cover,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            AppUtil.mainNavigator(context, const NotifactionScreenAdmin());
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 13.w),
-                            child: const Icon(
-                              Icons.notifications_outlined,
-                              color: AppUI.borderColor,
-                              size: 28,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Column(
                     children: [
-                      const Column(
+                      SizedBox(height: 50.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              '${AppUI.imgPath}logo.png',
+                              height: 28.h,
+                              width: 100.w,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                AppUtil.mainNavigator(
+                                    context, const NotifactionScreenAdmin());
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 13.w),
+                                child: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: AppUI.borderColor,
+                                  size: 28,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ImageIcon(
-                            AssetImage(
-                              "${AppUI.iconPath}Home.png",
-                            ),
-                            size: 24,
-                            color: AppUI.secondColor,
-                            semanticLabel: 'Home',
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          CustomText(
-                            text: 'Home',
-                            fontSize: 12,
-                            color: AppUI.secondColor,
-                            fontWeight: FontWeight.w400,
-                          )
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, RequestAdmin());
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}request.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Requests',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, MessagesScreenAdmin());
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}Caht.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Messages',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, const ProfileScreenAdmin());
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}profile.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Profile',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, MenuScreenAdmin());
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
+                          const Column(
+                            children: [
+                              ImageIcon(
                                 AssetImage(
-                                  "${AppUI.iconPath}menu.png",
+                                  "${AppUI.iconPath}Home.png",
                                 ),
                                 size: 24,
-                                color: AppUI.borderColor),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Menu',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ],
-          ),
-          // ),
-          // ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding:  EdgeInsets.only(left: 15.w),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        '${AppUI.imgPath}photo.png',
-                        height: 31.h,
-                        width: 30.w,
-                        // fit: BoxFit.cover,
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      InkWell(
-                        onTap: (){
-                          showModalBottomSheet(
-                              context: context,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.vertical(
-                                    top: Radius.circular(
-                                        20.0)),
+                                color: AppUI.secondColor,
+                                semanticLabel: 'Home',
                               ),
-                              constraints: const BoxConstraints(
-                                maxHeight: double.infinity,
-                              ),
-                              isScrollControlled: true,
-                              builder: (context) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CustomCard(
-                                    height:
-                                    MediaQuery.sizeOf(context)
-                                        .height *
-                                        .8,
-                                    radius: 20,
-                                    child:
-                                    CreatePost(),
-                                  )));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: AppUI.whiteColor
-                          ),
-                          width: 281.w,
-                          height: 32.h,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(width:10.w),
-                              const Text("What's in your mind",style: TextStyle(
+                              SizedBox(height: 8),
+                              CustomText(
+                                text: 'Home',
                                 fontSize: 12,
-                                color: AppUI.buttonColor,
+                                color: AppUI.secondColor,
                                 fontWeight: FontWeight.w400,
-                              ),),
-                              SizedBox(width: 140.w,),
-                              Image.asset(
-                                '${AppUI.iconPath}images.png',
-                                width: 12.w,
-                                height: 12.h,
-                              ),
-                              SizedBox(width:10.w),
-                              Image.asset(
-                                '${AppUI.iconPath}point.png',
-                                width: 12.w,
-                                height: 12.h,
                               ),
                             ],
                           ),
-                        ),
+                          InkWell(
+                            onTap: () {
+                              AppUtil.mainNavigator(context, RequestAdmin());
+                            },
+                            child: const Column(
+                              children: [
+                                ImageIcon(
+                                  AssetImage(
+                                    "${AppUI.iconPath}request.png",
+                                  ),
+                                  size: 24,
+                                  color: AppUI.borderColor,
+                                ),
+                                SizedBox(height: 8),
+                                CustomText(
+                                  text: 'Requests',
+                                  fontSize: 12,
+                                  color: AppUI.borderColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              AppUtil.mainNavigator(context, MessagesScreenAdmin());
+                            },
+                            child: const Column(
+                              children: [
+                                ImageIcon(
+                                  AssetImage(
+                                    "${AppUI.iconPath}Caht.png",
+                                  ),
+                                  size: 24,
+                                  color: AppUI.borderColor,
+                                ),
+                                SizedBox(height: 8),
+                                CustomText(
+                                  text: 'Messages',
+                                  fontSize: 12,
+                                  color: AppUI.borderColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              AppUtil.mainNavigator(
+                                  context, const ProfileScreenAdmin());
+                            },
+                            child: const Column(
+                              children: [
+                                ImageIcon(
+                                  AssetImage(
+                                    "${AppUI.iconPath}profile.png",
+                                  ),
+                                  size: 24,
+                                  color: AppUI.borderColor,
+                                ),
+                                SizedBox(height: 8),
+                                CustomText(
+                                  text: 'Profile',
+                                  fontSize: 12,
+                                  color: AppUI.borderColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              AppUtil.mainNavigator(context, MenuScreenAdmin());
+                            },
+                            child: const Column(
+                              children: [
+                                ImageIcon(
+                                  AssetImage(
+                                    "${AppUI.iconPath}menu.png",
+                                  ),
+                                  size: 24,
+                                  color: AppUI.borderColor,
+                                ),
+                                SizedBox(height: 8),
+                                CustomText(
+                                  text: 'Menu',
+                                  fontSize: 12,
+                                  color: AppUI.borderColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ),
+                ],
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            '${AppUI.imgPath}photo.png',
+                            height: 31.h,
+                            width: 30.w,
+                          ),
+                          SizedBox(width: 8.w),
+                          // Conditionally show the "What's on your mind" field based on canPost
+                          if (admin.canPost == true)
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20.0)),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    maxHeight: double.infinity,
+                                  ),
+                                  isScrollControlled: true,
+                                  builder: (context) => CustomCard(
+                                    height: MediaQuery.sizeOf(context).height * .8,
+                                    radius: 20,
+                                    child: CreatePost(apiManager: apiManager),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: AppUI.whiteColor),
+                                width: 281.w,
+                                height: 32.h,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(width: 10.w),
+                                    const Text(
+                                      "What's on your mind",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppUI.buttonColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(width: 140.w),
+                                    Image.asset(
+                                      '${AppUI.iconPath}images.png',
+                                      width: 12.w,
+                                      height: 12.h,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Image.asset(
+                                      '${AppUI.iconPath}point.png',
+                                      width: 12.w,
+                                      height: 12.h,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                 Padding(
                   padding:  const EdgeInsets.only(left: 10,right: 10,top: 7),
                   child: SizedBox(
@@ -729,3 +614,4 @@ class HomeScreenAdmin extends StatelessWidget {
         ]));
   }
 }
+

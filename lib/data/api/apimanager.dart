@@ -10,6 +10,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/Post.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -27,11 +28,14 @@ class ApiConstants {
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String allPostsApi ='/api/v1/post';
+
+  static const String createPostApi ='/api/v1/post';
 }
 
 class ApiManager {
-  ApiManager._();
-  static ApiManager? _instance;
+  ApiManager._(); // Private named constructor
+  static  ApiManager _instance = ApiManager._(); // Private static instance
+  static ApiManager get instance => _instance;
   static ApiManager getInstanace() {
     _instance ??= ApiManager._();
     return _instance!;
@@ -127,6 +131,7 @@ class ApiManager {
       throw Exception('Failed to add admin: ${responseData.body}');
     }
   }
+
   Future<GetAdmin> fetchAdminDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.get(uri);
@@ -619,24 +624,67 @@ class ApiManager {
   }
 
   //Posts
-
   // Fetch Posts
   Future<List<Post>> fetchPosts({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.allPostsApi, {'page': '$page'});
     final token = await storage.read(key: 'token');
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((post) => Post.fromJson(post)).toList();
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        return posts;
+      } else {
+        throw Exception('Failed to load posts. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching posts: $error');
+      throw Exception('Error fetching posts: $error');
+    }
+  }
+
+  //create post
+  Future<bool> createPost(String title, String content) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+      return false;
+    }
+
+    var uri = Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.allPostsApi}');
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['title'] = title;
+    request.fields['content'] = content;
+
+    request.headers['Authorization'] = 'Bearer $token';
+
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      var responseData = await http.Response.fromStream(response);
+      print('$responseData');
+      return true;
     } else {
-      throw Exception('Failed to load posts');
+      var responseData = await http.Response.fromStream(response);
+      print('Failed to create post: ${responseData.body}');
+      return false;
     }
   }
 }
+
 

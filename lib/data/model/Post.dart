@@ -3,7 +3,7 @@ class Post {
   final String title;
   final String content;
   final DateTime lastEdit;
-  final String? pictureLocation; // Optional, in case some posts don't have a picture
+  final String? pictureLocation;
   final int userId;
 
   Post({

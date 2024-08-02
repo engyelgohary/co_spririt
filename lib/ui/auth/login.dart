@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text(state.error),
           ));
         } else if (state is LoginModelViewSuccess) {
-          Navigator.pop(context); // Dismiss the progress dialog
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Sign IN Success"),
             duration: Duration(seconds: 3),
@@ -117,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             modelView.login(context);
+
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.secondColor,

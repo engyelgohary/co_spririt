@@ -11,9 +11,13 @@ class AuthDataSourceImpl implements AuthRemoteDataSource {
   ApiManager apiManager;
   AuthDataSourceImpl({required this.apiManager});
   @override
-  Future<String?> login(
-      {required String email, required String password}) async {
+  Future<String?> login({required String email, required String password}) async {
     return await apiManager.login(email: email, password: password);
+  }
+
+  @override
+  Future<GetAdmin?> fetchAdminDetails(int token) async {
+    return await apiManager.fetchAdminDetails(token);
   }
 }
 

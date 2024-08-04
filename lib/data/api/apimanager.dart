@@ -28,8 +28,6 @@ class ApiConstants {
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String allPostsApi ='/api/v1/post';
-
-  static const String createPostApi ='/api/v1/post';
 }
 
 class ApiManager {
@@ -644,6 +642,17 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
+        for (var postJson in jsonList) {
+          final post = Post.fromJson(postJson);
+          print('Post ID: ${post.id}');
+          print('User ID: ${post.userId}');
+          print('Content: ${post.content}');
+          print('Tittle: ${post.title}');
+          print('Last Edit: ${post.lastEdit}');
+          print('Picture Location: ${post.pictureLocation}');
+          print('---');
+        }
+
         final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
         return posts;
       } else {
@@ -656,7 +665,7 @@ class ApiManager {
   }
 
   //create post
-  Future<bool> createPost(String title, String content) async {
+  Future<bool> createPost(String title, String content, {File? image}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -671,21 +680,70 @@ class ApiManager {
     request.fields['title'] = title;
     request.fields['content'] = content;
 
+    // Adding image if present
+    if (image!= null) {
+      var mimeTypeData = lookupMimeType(image.path)!.split('/');
+      request.files.add(
+        http.MultipartFile(
+          'picture',
+          File(image.path).readAsBytes().asStream(),
+          File(image.path).lengthSync(),
+          filename: basename(image.path),
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ),
+      );
+    }
+
 
     request.headers['Authorization'] = 'Bearer $token';
 
     var response = await request.send();
 
+    var responseData = await http.Response.fromStream(response);
+
     if (response.statusCode == 201) {
-      var responseData = await http.Response.fromStream(response);
       print('$responseData');
       return true;
     } else {
-      var responseData = await http.Response.fromStream(response);
       print('Failed to create post: ${responseData.body}');
       return false;
     }
   }
+  Future<Post> deletePost(int id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.allPostsApi}/$id');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+    }
+
+    // Debug
+    print('Attempting to delete post with ID: $id');
+    print('Delete URL: $uri');
+
+    final response = await http.delete(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 204) {
+      return Post(id: id);
+    } else if (response.statusCode == 200) {
+      return Post.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to delete post ');
+    }
+  }
+
+
 }
 
 

@@ -2,19 +2,19 @@ import 'package:image_picker/image_picker.dart';
 
 class Post {
   final int id;
-  final String title;
-  final String content;
-  final DateTime lastEdit;
-  final String? pictureLocation;
-  final int userId;
+  final String? title;
+  final String? content;
+  final DateTime? lastEdit;
+  final dynamic pictureLocation;
+  final int? userId;
 
   Post({
-    required this.id,
-    required this.title,
-    required this.content,
-    required this.lastEdit,
+     required this.id,
+    this.title,
+    this.content,
+    this.lastEdit,
     this.pictureLocation,
-    required this.userId,
+     this.userId,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {

@@ -1,14 +1,60 @@
+import 'package:co_spririt/data/dip.dart';
+import 'package:co_spririt/data/model/Type.dart';
+import 'package:co_spririt/ui/superadmin/requests/cubit/requests_cubit.dart';
+import 'package:co_spririt/ui/superadmin/requests/infoType.dart';
+import 'package:co_spririt/ui/superadmin/requests/updateType.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../utils/theme/appColors.dart';
+import 'AddType.dart';
 
-class RequestSuperAdmin extends StatelessWidget {
+class RequestSuperAdmin extends StatefulWidget {
   static const String routeName = 'Request Super admin';
   const RequestSuperAdmin({super.key});
 
   @override
+  State<RequestSuperAdmin> createState() => _RequestSuperAdminState();
+}
+
+class _RequestSuperAdminState extends State<RequestSuperAdmin> {
+  late RequestsCubit viewModel;
+  @override
+  void initState() {
+    super.initState();
+    viewModel = RequestsCubit(typesRepository: injectTypesRepository());
+  }
+  @override
+  void dispose() {
+    viewModel.pagingController.dispose();
+    super.dispose();
+  }
+  void onOpportunityAdded() {
+    viewModel.pagingController.refresh();
+  }
+  Widget buildErrorIndicator(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(viewModel.pagingController.error.toString()),
+          ElevatedButton(
+            onPressed: () {
+              viewModel.pagingController.refresh();
+            },
+            child: const Text('Try Again'),
+          ),
+        ],
+      ),
+    );
+  }
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -18,60 +64,174 @@ class RequestSuperAdmin extends StatelessWidget {
         ),
         leading: AppBarCustom(),
         actions: [
-          AppBarCustomIcon(),
+          InkWell(
+          onTap: () => showAddDialog(),
+      child: Container(
+        margin: EdgeInsets.only(right: 10.w),
+        height: 60.h,
+        width: 32.w,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColor.secondColor,
+        ),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+    )
         ],
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) {
-          return const Divider(
-            color: AppColor.whiteColor,
-            thickness: 2,
-          );
-        },
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Card(
-            color: AppColor.backgroundColor,
-            elevation: 0,
-            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-            child: ListTile(
-              title: Padding(
-                padding:  EdgeInsets.symmetric(vertical: 4.h),
-                child: Text("Title",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontSize: 15,fontWeight: FontWeight.w700)),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Type', style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontSize: 12)),
-                  SizedBox(height: 5.h,),
-                  Text('Pending', style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(fontSize: 14)),
-                  SizedBox(height: 3.h,),
+      body: BlocProvider(
+        create: (context) => viewModel,
+        child: BlocBuilder<RequestsCubit, RequestsState>(
+          bloc: viewModel,
+          builder: (context, state) {
+            return PagedListView<int, Types>.separated(
+              pagingController: viewModel.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Types>(
+                itemBuilder: (context, item, index) {
+                  return Slidable(
+                    startActionPane: ActionPane(
+                      extentRatio: .22,
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          borderRadius: BorderRadius.circular(20),
+                          onPressed: (context) {
+                            viewModel.deleteType(item.id ?? 0);
+                          },
+                          backgroundColor: AppColor.errorColor,
+                          foregroundColor: AppColor.whiteColor,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
+                      ],
+                    ),
+                    child:  ListTile(
+                                  title: Padding(
+                                    padding:  EdgeInsets.symmetric(vertical: 4.h),
+                                    child: Text(item.type ?? "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+                                  ),
+                                  trailing:Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          showUpdateDialog(item);
+                                        },
+                                        child: CircleAvatar(
+                                          backgroundColor: AppColor.SkyColor,
+                                          radius: 15.r,
+                                          child: Icon(
+                                            Icons.update_outlined,
+                                            color: AppColor.secondColor,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 16.w),
+                                      InkWell(
+                                        onTap: () {
+                                          showTypeDetailsBottomSheet(item.id ?? 0);
+                                        },
+                                        child: CircleAvatar(
+                                            backgroundColor: AppColor.SkyColor,
+                                            radius: 15.r,
+                                            child: Icon(
+                                              Icons.info_outline,
+                                              color: AppColor.secondColor,
+                                              size: 15,
+                                            ),
+                                          ),
+                                      ),
+                                    ],
+                                  ),
 
-                ],
-              ),
-              trailing:CircleAvatar(
-                  backgroundColor: AppColor.SkyColor,
-                  radius: 18.r,
-                  child: Icon(
-                    Icons.info_outline,
-                    color: AppColor.secondColor,
-                    size: 20,
+                                ),
+                              );
+                },
+                firstPageErrorIndicatorBuilder: buildErrorIndicator,
+                noItemsFoundIndicatorBuilder: (context) =>
+                    Center(child: Text("No Clients found")),
+                newPageProgressIndicatorBuilder: (_) => Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-            ),
-          );
+                firstPageProgressIndicatorBuilder: (_) => Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                  ),
+                ),
+              ),
+              separatorBuilder: (context, index) {
+                return Divider(
+                  height: 0,
+                  color: AppColor.whiteColor,
+                  thickness: 1,
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void showAddDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider(
+          create: (context) => RequestsCubit(typesRepository: injectTypesRepository()),
+          child: AddStatusDialog(onOpportunityAdded: onOpportunityAdded,),
+        );
         },
-      )
+    );
+  }
+  void showTypeDetailsBottomSheet(int id) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        viewModel.fetchTypeDetails(id);
+        return BlocBuilder<RequestsCubit, RequestsState>(
+          bloc: viewModel,
+          builder: (context, state) {
+            if (state is RequestsSuccess) {
+              if (state.typeData == null) {
+                return Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.secondColor,
+                    )); }
+              return InfoType(state.typeData);
+            } else if (state is RequestsError) {
+              return Center(child: Text(state.errorMessage??""));
+            } else {
+              return Center(child: CircularProgressIndicator(
+                color: AppColor.secondColor,
+              ));
+            }
+          },
+        );
+      },
+    );
+  }
+  void showUpdateDialog(Types type) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider.value(
+         value: viewModel, child: UpdateType(type: type,),
+        );
+      },
     );
   }
 }

@@ -4,12 +4,14 @@ import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/typeReq.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
@@ -25,6 +27,7 @@ class ApiConstants {
   static const String opportunitiesColApi='/api/v1/opportunities/collaborator';
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
+  static const String superAdminTypes= '/api/v1/request-type';
 
 
 }
@@ -614,6 +617,91 @@ class ApiManager {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+  //Requests
+  Future<Types> addType(String type) async {
+    var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminTypes);
+    var registerReq = TypeReq(
+     type: type
+    );
+
+    var response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(registerReq.toJson()), // Encode to JSON string
+    );
+
+    if (response.statusCode == 201) {
+      var registerResponse = Types.fromJson(jsonDecode(response.body));
+      return registerResponse;
+    } else {
+      throw Exception('Failed to add Type: ${response.body}');
+    }
+  }
+
+  Future<List<Types>> fetchAllTypes({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminTypes, {
+      "page": page.toString(),
+    });
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Types> types =
+        jsonList.map((json) => Types.fromJson(json)).toList();
+        return types;
+      } else {
+        throw Exception(
+            'Failed to load Types. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching Types: $error');
+      throw Exception('Error fetching Types: $error');
+    }
+  }
+  Future<Types> deleteTypes(int id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.superAdminTypes}/$id');
+    final response = await http.delete(uri);
+    if (response.statusCode == 204) {
+      return Types();
+    } else if (response.statusCode == 200) {
+      return Types.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+          'Failed to delete Type. Status code: ${response.statusCode}');
+    }
+  }
+  Future<Types> fetchTypeDetails(int id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.superAdminTypes}/$id');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      return Types.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load type details');
+    }
+  }
+  Future<void> updateTypes(int id, String type) async {
+    try {
+      var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.superAdminTypes}/$id');
+      var typeData = TypeReq(
+       type: type
+      );
+      final response = await http.put(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(typeData),
+      );
+
+      if (response.statusCode != 204 && response.statusCode != 200) {
+        throw Exception(
+            'Failed to update type. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

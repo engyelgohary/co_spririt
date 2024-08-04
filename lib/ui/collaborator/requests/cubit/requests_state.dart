@@ -10,7 +10,7 @@ final class RequestsError extends RequestsState {
   RequestsError({required this.errorMessage,});
 }
 final class RequestsSuccess extends RequestsState {
-  Types? typeData;
-  List<Types>? getType;
-  RequestsSuccess({this.getType,this.typeData});
+  RequestsResponse? requestData;
+  List<RequestsResponse>? getRequest;
+  RequestsSuccess({this.getRequest,this.requestData});
 }

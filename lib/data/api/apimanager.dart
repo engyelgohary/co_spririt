@@ -4,6 +4,8 @@ import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/RequestsReq.dart';
+import 'package:co_spririt/data/model/RequestsResponse.dart';
 import 'package:co_spririt/data/model/typeReq.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,6 +30,8 @@ class ApiConstants {
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String superAdminTypes= '/api/v1/request-type';
+  static const String adminRequests= '/api/v1/requests';
+
 
 
 }
@@ -619,7 +623,7 @@ class ApiManager {
       rethrow;
     }
   }
-  //Requests
+  //RequestsType SuperAdmin
   Future<Types> addType(String type) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminTypes);
     var registerReq = TypeReq(
@@ -639,7 +643,6 @@ class ApiManager {
       throw Exception('Failed to add Type: ${response.body}');
     }
   }
-
   Future<List<Types>> fetchAllTypes({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminTypes, {
       "page": page.toString(),
@@ -702,6 +705,93 @@ class ApiManager {
       }
     } catch (e) {
       throw Exception(e);
+    }
+  }
+//Request Collaborator
+  Future<RequestsResponse> addRequest(String title,int typeId) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.adminRequests);
+      var registerReq = RequestsReq(
+          description: title,
+          requestTypeId: typeId
+      );
+      var response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(registerReq.toJson()), // Encode to JSON string
+      );
+
+      if (response.statusCode == 201) {
+        var registerResponse = RequestsResponse.fromJson(
+            jsonDecode(response.body));
+        return registerResponse;
+      } else {
+        throw Exception('Failed to add Request: ${response.body}');
+      }
+    }catch(e){
+      rethrow;
+    }
+  }
+  Future<List<RequestsResponse>> fetchAllRequests({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.adminRequests, {
+      "page": page.toString(),
+    });
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<RequestsResponse> requests =
+        jsonList.map((json) => RequestsResponse.fromJson(json)).toList();
+        return requests;
+      } else {
+        throw Exception(
+            'Failed to load Requests. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching Requests: $error');
+      throw Exception('Error fetching Requests: $error');
+    }
+  }
+  Future<RequestsResponse> deleteRequests(int id) async {
+    try{
+    final token = await storage.read(key: 'token');
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminRequests}/$id');
+    final response = await http.delete(
+        uri,
+        headers:
+    {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode == 204) {
+      return RequestsResponse();
+    } else if (response.statusCode == 200) {
+      return RequestsResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+          'Failed to delete Request. Status code: ${response.statusCode}');
+    }
+    }catch(e){
+      throw(e);
+    }
+  }
+  Future<RequestsResponse> fetchRequestDetails(int id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminRequests}/$id');
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      return RequestsResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load type details');
     }
   }
 

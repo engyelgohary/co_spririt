@@ -1,5 +1,5 @@
 import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/superadmin/requests/cubit/requests_cubit.dart';
+import 'package:co_spririt/ui/superadmin/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,26 +14,26 @@ class AddStatusDialog extends StatefulWidget {
 }
 
 class _AddStatusDialogState extends State<AddStatusDialog> {
-  late RequestsCubit viewModel;
+  late TypesCubit viewModel;
   @override
   void initState() {
     super.initState();
-    viewModel = RequestsCubit(typesRepository: injectTypesRepository());
+    viewModel = TypesCubit(typesRepository: injectTypesRepository());
   }
 
   Widget build(BuildContext context) {
-    return BlocConsumer<RequestsCubit, RequestsState>(
+    return BlocConsumer<TypesCubit, TypesState>(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is  RequestsLoading) {
+        if (state is  TypesLoading) {
           CircularProgressIndicator();
-        } else if (state is RequestsError) {
+        } else if (state is TypesError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage ?? ""),
           ));
           print(state.errorMessage);
-        } else if (state is RequestsSuccess) {
+        } else if (state is TypesSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

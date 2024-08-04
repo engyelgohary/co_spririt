@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/RequestsResponse.dart';
 import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
@@ -174,6 +175,30 @@ class TypesRepositoryImpl implements TypesRepository{
   @override
   Future<void> updateTypes(int id, String type) {
  return typesDataSource.updateTypes(id, type);
+  }
+
+}
+class RequestRepositoryImpl implements RequestsRepository{
+  RequestsDataSource requestsDataSource;
+  RequestRepositoryImpl({required this.requestsDataSource});
+  @override
+  Future<RequestsResponse> addRequest(String title, int typeId) {
+   return requestsDataSource.addRequest(title, typeId);
+  }
+
+  @override
+  Future<RequestsResponse> deleteRequests(int id) {
+   return requestsDataSource.deleteRequests(id);
+  }
+
+  @override
+  Future<List<RequestsResponse>> fetchAllRequests({int page = 1}) {
+  return requestsDataSource.fetchAllRequests(page: page);
+  }
+
+  @override
+  Future<RequestsResponse> fetchRequestDetails(int id) {
+   return requestsDataSource.fetchRequestDetails(id);
   }
 
 }

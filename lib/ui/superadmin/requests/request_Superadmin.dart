@@ -1,6 +1,6 @@
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/ui/superadmin/requests/cubit/requests_cubit.dart';
+import 'package:co_spririt/ui/superadmin/requests/cubit/types_cubit.dart';
 import 'package:co_spririt/ui/superadmin/requests/infoType.dart';
 import 'package:co_spririt/ui/superadmin/requests/updateType.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
@@ -10,7 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../data/model/RequestsResponse.dart';
 import '../../../utils/theme/appColors.dart';
+import '../../collaborator/requests/cubit/requests_cubit.dart';
+import '../adminforsuperadmin/infoAdmin.dart';
 import 'AddType.dart';
 
 class RequestSuperAdmin extends StatefulWidget {
@@ -22,11 +25,13 @@ class RequestSuperAdmin extends StatefulWidget {
 }
 
 class _RequestSuperAdminState extends State<RequestSuperAdmin> {
-  late RequestsCubit viewModel;
+  late TypesCubit viewModel;
+  late RequestsCubit requestsCubit;
   @override
   void initState() {
     super.initState();
-    viewModel = RequestsCubit(typesRepository: injectTypesRepository());
+    viewModel = TypesCubit(typesRepository: injectTypesRepository());
+    requestsCubit = RequestsCubit(requestsRepository: injectRequestsRepository(), typesRepository: injectTypesRepository(), adminRepository: injectAdminRepository(), collaboratorRepository: injectCollaboratorRepository());
   }
   @override
   void dispose() {
@@ -83,105 +88,247 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
     )
         ],
       ),
-      body: BlocProvider(
-        create: (context) => viewModel,
-        child: BlocBuilder<RequestsCubit, RequestsState>(
-          bloc: viewModel,
-          builder: (context, state) {
-            return PagedListView<int, Types>.separated(
-              pagingController: viewModel.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Types>(
-                itemBuilder: (context, item, index) {
-                  return Slidable(
-                    startActionPane: ActionPane(
-                      extentRatio: .22,
-                      motion: const ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          borderRadius: BorderRadius.circular(20),
-                          onPressed: (context) {
-                            viewModel.deleteType(item.id ?? 0);
-                          },
-                          backgroundColor: AppColor.errorColor,
-                          foregroundColor: AppColor.whiteColor,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ],
-                    ),
-                    child:  ListTile(
-                                  title: Padding(
-                                    padding:  EdgeInsets.symmetric(vertical: 4.h),
-                                    child: Text(item.type ?? "",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-                                  ),
-                                  trailing:Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          showUpdateDialog(item);
-                                        },
-                                        child: CircleAvatar(
-                                          backgroundColor: AppColor.SkyColor,
-                                          radius: 15.r,
-                                          child: Icon(
-                                            Icons.update_outlined,
-                                            color: AppColor.secondColor,
-                                            size: 15,
-                                          ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+            child: Text("Types",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+          ),
+          Expanded(
+            child: BlocProvider(
+              create: (context) => viewModel,
+              child: BlocBuilder<TypesCubit, TypesState>(
+                bloc: viewModel,
+                builder: (context, state) {
+                  return PagedListView<int, Types>.separated(
+                    pagingController: viewModel.pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<Types>(
+                      itemBuilder: (context, item, index) {
+                        return Slidable(
+                          startActionPane: ActionPane(
+                            extentRatio: .22,
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                borderRadius: BorderRadius.circular(20),
+                                onPressed: (context) {
+                                  viewModel.deleteType(item.id ?? 0);
+                                },
+                                backgroundColor: AppColor.errorColor,
+                                foregroundColor: AppColor.whiteColor,
+                                icon: Icons.delete,
+                                label: 'Delete',
+                              ),
+                            ],
+                          ),
+                          child:  ListTile(
+                                        title: Padding(
+                                          padding:  EdgeInsets.symmetric(vertical: 4.h),
+                                          child: Text(item.type ?? "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
                                         ),
-                                      ),
-                                      SizedBox(width: 16.w),
-                                      InkWell(
-                                        onTap: () {
-                                          showTypeDetailsBottomSheet(item.id ?? 0);
-                                        },
-                                        child: CircleAvatar(
-                                            backgroundColor: AppColor.SkyColor,
-                                            radius: 15.r,
-                                            child: Icon(
-                                              Icons.info_outline,
-                                              color: AppColor.secondColor,
-                                              size: 15,
+                                        trailing:Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                showUpdateDialog(item);
+                                              },
+                                              child: CircleAvatar(
+                                                backgroundColor: AppColor.SkyColor,
+                                                radius: 15.r,
+                                                child: Icon(
+                                                  Icons.update_outlined,
+                                                  color: AppColor.secondColor,
+                                                  size: 15,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            SizedBox(width: 16.w),
+                                            InkWell(
+                                              onTap: () {
+                                                showTypeDetailsBottomSheet(item.id ?? 0);
+                                              },
+                                              child: CircleAvatar(
+                                                  backgroundColor: AppColor.SkyColor,
+                                                  radius: 15.r,
+                                                  child: Icon(
+                                                    Icons.info_outline,
+                                                    color: AppColor.secondColor,
+                                                    size: 15,
+                                                  ),
+                                                ),
+                                            ),
+                                          ],
+                                        ),
+            
                                       ),
-                                    ],
-                                  ),
-
-                                ),
-                              );
+                                    );
+                      },
+                      firstPageErrorIndicatorBuilder: buildErrorIndicator,
+                      noItemsFoundIndicatorBuilder: (context) =>
+                          Center(child: Text("No Clients found")),
+                      newPageProgressIndicatorBuilder: (_) => Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                        ),
+                      ),
+                      firstPageProgressIndicatorBuilder: (_) => Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                        ),
+                      ),
+                    ),
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 0,
+                        color: AppColor.whiteColor,
+                        thickness: 1,
+                      );
+                    },
+                  );
                 },
-                firstPageErrorIndicatorBuilder: buildErrorIndicator,
-                noItemsFoundIndicatorBuilder: (context) =>
-                    Center(child: Text("No Clients found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
-                  child: CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColor.secondColor),
-                  ),
-                ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
-                  child: CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColor.secondColor),
-                  ),
+              ),
+            ),
+          ),
+          SizedBox(height: 5.h,),
+    Padding(
+      padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+      child: Text("Requests",
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+    ),
+          Expanded(
+              child: BlocProvider(
+                create: (context) => requestsCubit,
+                child: BlocBuilder<RequestsCubit, RequestsState>(
+                  bloc: requestsCubit,
+                  builder: (context, state) {
+                    return PagedListView<int, RequestsResponse>.separated(
+                      pagingController: requestsCubit.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<RequestsResponse>(
+                        itemBuilder: (context, item, index) {
+                          return ListTile(
+                            title: Padding(
+                              padding:  EdgeInsets.symmetric(vertical: 0.h),
+                              child: Text(item.description ?? "",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(item.requestType, style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(fontSize: 15)),
+                                Text('${item.statusType}', style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(fontSize: 15)),
+                              ],
+                            ),
+                            trailing:InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    requestsCubit.fetchRequestDetails(item.id??0);
+                                    return BlocBuilder<RequestsCubit, RequestsState>(
+                                      bloc: requestsCubit,
+                                      builder: (context, state) {
+                                        if (state is RequestsSuccess) {
+                                          if (state.requestData == null) {
+                                            return Center(
+                                                child: CircularProgressIndicator(
+                                                  color: AppColor.secondColor,
+                                                )); }
+                                          return Container(
+                                            height: 200.h,
+                                            width: 369.w,
+                                            padding: EdgeInsets.all(20),
+                                            child: Column(
+                                              children: [
+                                                CustomTextInfo(fieldName:'Title :' ,data:"${item.description}"),
+                                                SizedBox(height: 5.h,),
+                                                CustomTextInfo(fieldName:'Type :' ,data:"${item.requestType}"),
+                                                SizedBox(height: 5.h,),
+                                                CustomTextInfo(fieldName:'Status :' ,data:"${item.statusType}"),
+                                                SizedBox(height: 5.h,),
+                                                CustomTextInfo(fieldName:'Admin Name :' ,data:"${item.to}"),
+                                                SizedBox(height: 5.h,),
+                                                CustomTextInfo(fieldName:'Collaborator Name :' ,data:"${item.from}"),
+
+                                              ],
+                                            ),
+                                          );
+                                        } else if (state is RequestsError) {
+                                          return Center(child: Text(state.errorMessage??""));
+                                        } else {
+                                          return Center(child: CircularProgressIndicator(
+                                            color: AppColor.secondColor,
+                                          ));
+                                        }
+                                      },
+                                    );
+                                  },
+                                );                        },
+                              child: CircleAvatar(
+                                backgroundColor: AppColor.SkyColor,
+                                radius: 18.r,
+                                child: Icon(
+                                  Icons.info_outline,
+                                  color: AppColor.secondColor,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+
+                          );
+                        },
+                        firstPageErrorIndicatorBuilder: buildErrorIndicator,
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            Center(child: Text("No Requests found")),
+                        newPageProgressIndicatorBuilder: (_) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                          ),
+                        ),
+                        firstPageProgressIndicatorBuilder: (_) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 0,
+                          color: AppColor.whiteColor,
+                          thickness: 1,
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-              separatorBuilder: (context, index) {
-                return Divider(
-                  height: 0,
-                  color: AppColor.whiteColor,
-                  thickness: 1,
-                );
-              },
-            );
-          },
-        ),
+          )
+        ],
       ),
     );
   }
@@ -191,7 +338,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
       context: context,
       builder: (BuildContext context) {
         return BlocProvider(
-          create: (context) => RequestsCubit(typesRepository: injectTypesRepository()),
+          create: (context) => TypesCubit(typesRepository: injectTypesRepository()),
           child: AddStatusDialog(onOpportunityAdded: onOpportunityAdded,),
         );
         },
@@ -202,17 +349,17 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
       context: context,
       builder: (context) {
         viewModel.fetchTypeDetails(id);
-        return BlocBuilder<RequestsCubit, RequestsState>(
+        return BlocBuilder<TypesCubit, TypesState>(
           bloc: viewModel,
           builder: (context, state) {
-            if (state is RequestsSuccess) {
+            if (state is TypesSuccess) {
               if (state.typeData == null) {
                 return Center(
                     child: CircularProgressIndicator(
                       color: AppColor.secondColor,
                     )); }
               return InfoType(state.typeData);
-            } else if (state is RequestsError) {
+            } else if (state is TypesError) {
               return Center(child: Text(state.errorMessage??""));
             } else {
               return Center(child: CircularProgressIndicator(

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../api/apimanager.dart';
@@ -149,4 +150,33 @@ class OpportunitiesDataSourceImpl implements OpportunitiesDataSource{
   Future<List<Opportunities>> getOpportunityDataAdmin() async {
   return await apiManager.getOpportunityDataAdmin();
   }
+}
+class TypesDataSourceImpl implements TypesDataSource{
+  ApiManager apiManager;
+  TypesDataSourceImpl({required this.apiManager});
+  @override
+  Future<Types> addType(String type) async{
+    return await apiManager.addType(type);
+  }
+
+  @override
+  Future<List<Types>> fetchAllTypes({int page = 1}) async {
+   return await apiManager.fetchAllTypes(page: page);
+  }
+
+  @override
+  Future<Types> deleteTypes(int id) async{
+    return await apiManager.deleteTypes(id);
+  }
+
+  @override
+  Future<Types> fetchTypeDetails(int id) async{
+  return await apiManager.fetchTypeDetails(id);
+  }
+
+  @override
+  Future<void> updateTypes(int id, String type) async{
+  return await apiManager.updateTypes(id, type);
+  }
+
 }

@@ -34,4 +34,10 @@ OpportunitiesRepository injectOpportunitiesRepository(){
 OpportunitiesDataSource injectOpportunitiesRemoteDataSource(){
   return OpportunitiesDataSourceImpl(apiManager:ApiManager.getInstanace());
 }
+TypesRepository injectTypesRepository(){
+  return TypesRepositoryImpl(typesDataSource: injectTypesDataSource());
+}
+TypesDataSource injectTypesDataSource(){
+  return TypesDataSourceImpl(apiManager: ApiManager.getInstanace());
+}
 

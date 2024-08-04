@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
 import '../repoContract.dart';
@@ -146,4 +147,33 @@ class OpportunitiesRepositoryImpl implements OpportunitiesRepository{
   Future<List<Opportunities>> getOpportunityDataAdmin() {
  return opportunitiesDataSource.getOpportunityDataAdmin();
   }
+}
+class TypesRepositoryImpl implements TypesRepository{
+  TypesDataSource typesDataSource;
+  TypesRepositoryImpl({required this.typesDataSource});
+  @override
+  Future<Types> addType(String type) {
+        return typesDataSource.addType(type);
+  }
+
+  @override
+  Future<List<Types>> fetchAllTypes({int page = 1}) {
+   return typesDataSource.fetchAllTypes(page: page);
+  }
+
+  @override
+  Future<Types> deleteTypes(int id) {
+    return typesDataSource.deleteTypes(id);
+  }
+
+  @override
+  Future<Types> fetchTypeDetails(int id) {
+  return typesDataSource.fetchTypeDetails(id);
+  }
+
+  @override
+  Future<void> updateTypes(int id, String type) {
+ return typesDataSource.updateTypes(id, type);
+  }
+
 }

@@ -1,7 +1,6 @@
 import 'package:co_spririt/ui/auth/login.dart';
 import 'package:co_spririt/ui/superadmin/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.dart';
-import 'package:co_spririt/ui/superadmin/Profile/profile_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/requests/request_Superadmin.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,6 @@ class MenuScreenSuperAdmin extends StatelessWidget {
         ),
       body: Column(
         children: [
-          CustomProfileUser(name: "Mat" ,role: "Super admin"),
-          CustomMenuCard(name:'Profile' ,onFunction:(){AppUtil.mainNavigator(context,ProfileScreenSuperAdmin());},),
           CustomMenuCard(name:'Collaborators' ,onFunction:(){ AppUtil.mainNavigator(context,CollaboratorsScreenForSuper());},),
           CustomMenuCard(name:'Admins' ,onFunction:(){ AppUtil.mainNavigator(context,AdminScreenForSuper());},),
           CustomMenuCard(name:'Clients' ,onFunction:(){ AppUtil.mainNavigator(context,ClientScreenfoSuper());},),

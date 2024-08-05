@@ -57,11 +57,9 @@ class MyApp extends StatelessWidget {
             RequestSuperAdmin.routeName:(context) =>RequestSuperAdmin(),
           //   Admin
             NotifactionScreenAdmin.routName:(context) => NotifactionScreenAdmin(),
-            MenuScreenAdmin.routeName:(context) => MenuScreenAdmin(),
             RequestAdmin.routeName:(context) => RequestAdmin(),
           //   Collaborator
             NotifactionScreenCollaborator.routName:(context) => NotifactionScreenCollaborator(),
-            MenuScreenCollaborators.routeName:(context) => MenuScreenCollaborators(),
             RequestCollaborator.routeName:(context) => RequestCollaborator()
           },
           theme: AppTheme.mainTheme,

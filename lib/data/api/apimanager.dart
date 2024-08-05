@@ -794,6 +794,5 @@ class ApiManager {
       throw Exception('Failed to load type details');
     }
   }
-
 }
 

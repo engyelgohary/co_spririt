@@ -25,17 +25,18 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
         print(decodedToken);
         if (decodedToken.containsKey('Type')|| decodedToken.containsKey('type')) {
           String roleType = (decodedToken['Type'] ?? decodedToken['type']);
+          String adminId = decodedToken['nameid'];
           switch (roleType) {
             case "0":
               emit(LoginModelViewSuccess(HomeScreenSuperAdmin()));
               print(decodedToken);
               break;
             case "1":
-              emit(LoginModelViewSuccess(HomeScreenAdmin()));
+              emit(LoginModelViewSuccess(HomeScreenAdmin(adminId: adminId,)));
               print(decodedToken);
               break;
             case "2":
-              emit(LoginModelViewSuccess(HomeScreenColla()));
+              emit(LoginModelViewSuccess(HomeScreenColla(ColaboratorId: adminId,)));
               print(decodedToken);
               break;
             default:

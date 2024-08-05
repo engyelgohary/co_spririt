@@ -12,127 +12,12 @@ import '../requests/request_admin.dart';
 
 class HomeScreenAdmin extends StatelessWidget {
   static String routeName = 'home screen admin';
+  String adminId;
+  HomeScreenAdmin({required this.adminId});
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
         body: Column(children: [
-          // ClipOval(
-          //  // clipBehavior: Clip.hardEdge,
-          //   clipper: OvalTopBorderClipper(),
-          //   child: Container(
-          //     height: 120,
-          //     color: AppUI.whiteColor,
-          //     child: Column(
-          //       children: [
-          //         SizedBox(height: 20,),
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Image.asset(
-          //               '${AppUI.imgPath}logo.png',
-          //               height: 23,
-          //               width: 100,
-          //               // fit: BoxFit.cover,
-          //             ),
-          //             Icon(Icons.notifications_outlined,color: AppUI.borderColor,),
-          //           ],
-          //         ),
-          //         SizedBox(height: 12,),
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}Home.png",),size: 24,color: AppUI.borderColor,
-          //                   semanticLabel: 'Home',),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Home',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}request.png",),size: 24,color: AppUI.borderColor,),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Requests',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                   AssetImage("${AppUI.iconPath}Caht.png",),size: 24,color: AppUI.borderColor,),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Messages',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             ),
-          //             InkWell(
-          //               onTap: () {
-          //                 AppUtil.mainNavigator(context, ProfileScreen());
-          //               },
-          //               child: Column(
-          //                 children: [
-          //                   ImageIcon(
-          //                     AssetImage("${AppUI.iconPath}profile.png",),size: 24,color: AppUI.borderColor,),
-          //                   SizedBox(height: 8,),
-          //                   CustomText(text: 'Profile',
-          //                     fontSize: 12,
-          //                     color: AppUI.borderColor,
-          //                     fontWeight: FontWeight.w400,
-          //                   )
-          //                 ],
-          //               ),
-          //             ),
-          //             Column(
-          //               children: [
-          //                 ImageIcon(
-          //                     AssetImage(
-          //                       "${AppUI.iconPath}menu.png",),size: 24,color: AppUI.borderColor),
-          //                 SizedBox(height: 8,),
-          //                 CustomText(text: 'Menu',
-          //                   fontSize: 12,
-          //                   color: AppUI.borderColor,
-          //                   fontWeight: FontWeight.w400,
-          //                 )
-          //               ],
-          //             )
-          //           ],
-          //         )
-          //       ],),
-          //   ),
-          // ),
-          // Container(
-          //   height: 100,
-          //   width:MediaQuery.of(context).size.width,
-          //   color: AppUI.whiteColor,
-          // ),
-          // Container(
-          //   height: 180.h, //MediaQuery.of(context).padding.top + 191,
-          //   width:MediaQuery.of(context).size.width,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(100.r),
-          //         bottomRight: Radius.circular(100.r)),
-          //     color: AppUI.whiteColor,
-          //   ),
-          //   alignment: Alignment.bottomCenter,
-          //   padding: EdgeInsets.only(bottom: 30, left: 16, right: 16),
-          //   child: Padding(
-          //     padding: EdgeInsets.symmetric(vertical: 25.h,horizontal: 20.w),
-          //     child:
-
           Stack(
             children:[
               Image.asset(
@@ -252,7 +137,7 @@ class HomeScreenAdmin extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, ProfileScreenAdmin());
+                          AppUtil.mainNavigator(context, ProfileScreenAdmin(adminId: adminId,));
                         },
                         child: Column(
                           children: [
@@ -277,7 +162,7 @@ class HomeScreenAdmin extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, MenuScreenAdmin());
+                          AppUtil.mainNavigator(context, MenuScreenAdmin(adminId:adminId,));
                         },
                         child: Column(
                           children: [

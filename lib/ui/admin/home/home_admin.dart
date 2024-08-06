@@ -45,7 +45,6 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   }
 
   Future<Post?> _showEditDialog(BuildContext context, Post post) async {
-    final titleController = TextEditingController(text: post.title);
     final contentController = TextEditingController(text: post.content);
 
     return showDialog<Post?>(
@@ -54,19 +53,10 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Edit Post'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
-              ),
-              TextField(
-                controller: contentController,
-                decoration: const InputDecoration(labelText: 'Content'),
-                maxLines: null,
-              ),
-            ],
+          content: TextField(
+            controller: contentController,
+            decoration: const InputDecoration(labelText: 'Content'),
+            maxLines: null,
           ),
           actions: <Widget>[
             TextButton(
@@ -77,7 +67,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
               onPressed: () {
                 final updatedPost = Post(
                   id: post.id,
-                  title: titleController.text,
+                  title: contentController.text,
                   content: contentController.text,
                   // other fields if needed
                 );

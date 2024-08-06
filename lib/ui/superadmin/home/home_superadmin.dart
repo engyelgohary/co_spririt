@@ -329,287 +329,248 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           Post post = snapshot.data![index];
-                          return GestureDetector(
-                            onLongPress: () async {
-                              bool? confirmDelete = await showDialog<bool>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Confirm Deletion'),
-                                    content: const Text('Are you sure you want to delete this post?'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () => Navigator.of(context).pop(false),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () => Navigator.of(context).pop(true),
-                                        child: const Text('Delete'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-
-                              // Proceed with deletion if confirmed
-                              if (confirmDelete == true) {
-                                print('Attempting to delete post with ID: ${post.id}');
-                                Post success = await apiManager.deletePost(post.id);
-                                  setState(() {
-                                    futurePosts = apiManager.fetchPosts();
-                                  });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Post deleted')),
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Failed to delete post')),
-                                  );
-                              }
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  decoration: BoxDecoration(
-                                    color: AppUI.whiteColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              '${AppUI.imgPath}photo.png',
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.05,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.08,
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CustomText(
-                                                  text:
-                                                      'User ID: ${post.userId}',
-                                                  fontSize: 12,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    CustomText(
-                                                      text: '${post.lastEdit}',
-                                                      fontSize: 12,
-                                                      color: AppUI.basicColor,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.01,
-                                                    ),
-                                                    Image.asset(
-                                                      '${AppUI.imgPath}Group.png',
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.015,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.015,
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
-                                        CustomText(
-                                          text: post.content ?? "no content",
-                                          fontSize: 10,
-                                          color: AppUI.basicColor,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
-                                        if (post.pictureLocation != null) ...[
-                                          CachedNetworkImage(
-                                            imageUrl:
-                                            'http://10.10.99.13:3090${post!.pictureLocation}',
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
-                                            errorWidget: (context, url, error) =>
-                                                Icon(Icons.error),
+                          return Column(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.85,
+                                decoration: BoxDecoration(
+                                  color: AppUI.whiteColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                            '${AppUI.imgPath}photo.png',
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.05,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.08,
                                           ),
                                           SizedBox(
-                                            height: MediaQuery.of(context)
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CustomText(
+                                                text:
+                                                    'User ID: ${post.userId}',
+                                                fontSize: 12,
+                                                color: AppUI.basicColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  CustomText(
+                                                    text: '${post.lastEdit}',
+                                                    fontSize: 12,
+                                                    color: AppUI.basicColor,
+                                                    fontWeight:
+                                                        FontWeight.w400,
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.01,
+                                                  ),
+                                                  Image.asset(
+                                                    '${AppUI.imgPath}Group.png',
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.015,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.015,
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context)
                                                 .size
                                                 .height *
-                                                0.01,
-                                          ),
-                                        ],
-                                        const Divider(),
+                                            0.01,
+                                      ),
+                                      CustomText(
+                                        text: post.content ?? "no content",
+                                        fontSize: 10,
+                                        color: AppUI.basicColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      SizedBox(
+                                        height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                            0.01,
+                                      ),
+                                      if (post.pictureLocation != null) ...[
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                          'http://10.10.99.13:3090${post!.pictureLocation}',
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                        ),
                                         SizedBox(
                                           height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.005,
+                                              .size
+                                              .height *
+                                              0.01,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  '${AppUI.imgPath}eye 1.png',
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.03,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.01,
-                                                ),
-                                                const CustomText(
-                                                  text: "23",
-                                                  fontSize: 10,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  '${AppUI.imgPath}arrow.png',
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.015,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.03,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.01,
-                                                ),
-                                                const CustomText(
-                                                  text: "7",
-                                                  fontSize: 10,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.02,
-                                                ),
-                                                Image.asset(
-                                                  '${AppUI.imgPath}comment.png',
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.015,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.03,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.01,
-                                                ),
-                                                const CustomText(
-                                                  text: "5",
-                                                  fontSize: 10,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.02,
-                                                ),
-                                                Image.asset(
-                                                  '${AppUI.imgPath}like.png',
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.015,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.03,
-                                                ),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.01,
-                                                ),
-                                                const CustomText(
-                                                  text: "8",
-                                                  fontSize: 10,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        )
                                       ],
-                                    ),
+                                      const Divider(),
+                                      SizedBox(
+                                        height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                            0.005,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                '${AppUI.imgPath}eye 1.png',
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01,
+                                              ),
+                                              const CustomText(
+                                                text: "23",
+                                                fontSize: 10,
+                                                color: AppUI.basicColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                '${AppUI.imgPath}arrow.png',
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.015,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01,
+                                              ),
+                                              const CustomText(
+                                                text: "7",
+                                                fontSize: 10,
+                                                color: AppUI.basicColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02,
+                                              ),
+                                              Image.asset(
+                                                '${AppUI.imgPath}comment.png',
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.015,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01,
+                                              ),
+                                              const CustomText(
+                                                text: "5",
+                                                fontSize: 10,
+                                                color: AppUI.basicColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02,
+                                              ),
+                                              Image.asset(
+                                                '${AppUI.imgPath}like.png',
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.015,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.01,
+                                              ),
+                                              const CustomText(
+                                                text: "8",
+                                                fontSize: 10,
+                                                color: AppUI.basicColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.02,
-                                ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02,
+                              ),
+                            ],
                           );
                         },
                       );

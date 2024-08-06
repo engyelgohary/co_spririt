@@ -28,6 +28,7 @@ class ApiConstants {
   static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String allPostsApi ='/api/v1/post';
+  static const String fetchPostsByAdminApi ='/api/v1/post/GetPostsAdmin';
 }
 
 class ApiManager {
@@ -622,7 +623,7 @@ class ApiManager {
   }
 
   //Posts
-  // Fetch Posts
+
   Future<List<Post>> fetchPosts({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.allPostsApi, {'page': '$page'});
     final token = await storage.read(key: 'token');
@@ -642,17 +643,6 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
-        for (var postJson in jsonList) {
-          final post = Post.fromJson(postJson);
-          print('Post ID: ${post.id}');
-          print('User ID: ${post.userId}');
-          print('Content: ${post.content}');
-          print('Tittle: ${post.title}');
-          print('Last Edit: ${post.lastEdit}');
-          print('Picture Location: ${post.pictureLocation}');
-          print('---');
-        }
-
         final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
         return posts;
       } else {
@@ -663,8 +653,6 @@ class ApiManager {
       throw Exception('Error fetching posts: $error');
     }
   }
-
-  //create post
   Future<bool> createPost(String title, String content, {File? image}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -719,10 +707,6 @@ class ApiManager {
       print('Authorization token not found.');
     }
 
-    // Debug
-    print('Attempting to delete post with ID: $id');
-    print('Delete URL: $uri');
-
     final response = await http.delete(
       uri,
       headers: {
@@ -742,7 +726,74 @@ class ApiManager {
       throw Exception('Failed to delete post ');
     }
   }
+  Future<List<Post>> fetchAdminPosts({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.fetchPostsByAdminApi, {'page': '$page'});
+    final token = await storage.read(key: 'token');
 
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        return posts;
+      } else {
+        throw Exception('Failed to load posts. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching posts: $error');
+      throw Exception('Error fetching posts: $error');
+    }
+  }
+  Future<bool> updatePost(int id, String title, String content) async {
+    final Uri url= Uri.http(ApiConstants.baseUrl, '${ApiConstants.allPostsApi}/$id', {
+      'Title': title,
+      'Content': content,
+    });
+
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+      return false;
+    }
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'Title': title,
+          'Content': content,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Post updated successfully');
+        return true;
+      } else {
+        print('Failed to update post: ${response.body}');
+        return false;
+      }
+    } catch (error) {
+      print('Error updating post: $error');
+      return false;
+    }
+  }
 
 }
 

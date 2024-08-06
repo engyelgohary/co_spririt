@@ -28,26 +28,72 @@ class HomeScreenAdmin extends StatefulWidget {
 class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   late GetAdmin admin;
   late ApiManager apiManager;
-  late Future<List<Post>> futurePosts;
+  late Future<List<Post>> adminPosts;
 
   @override
   void initState() {
     super.initState();
     admin = widget.admin;
     apiManager = ApiManager.instance;
-    futurePosts = apiManager.fetchPosts();
+    adminPosts = apiManager.fetchAdminPosts();
   }
 
   void reloadPosts() {
     setState(() {
-      futurePosts = apiManager.fetchPosts();
+      adminPosts = apiManager.fetchAdminPosts();
     });
   }
 
+  Future<Post?> _showEditDialog(BuildContext context, Post post) async {
+    final titleController = TextEditingController(text: post.title);
+    final contentController = TextEditingController(text: post.content);
+
+    return showDialog<Post?>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Post'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(labelText: 'Title'),
+              ),
+              TextField(
+                controller: contentController,
+                decoration: const InputDecoration(labelText: 'Content'),
+                maxLines: null,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final updatedPost = Post(
+                  id: post.id,
+                  title: titleController.text,
+                  content: contentController.text,
+                  // other fields if needed
+                );
+                Navigator.of(context).pop(updatedPost);
+                reloadPosts();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Column(children: [
       Stack(
@@ -293,11 +339,10 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.03,
-                  vertical: 7,
-                ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    horizontal: MediaQuery.of(context).size.width * 0.03,
+                    vertical: 7),
                 child: FutureBuilder<List<Post>>(
-                  future: futurePosts,
+                  future: adminPosts,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -306,9 +351,6 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Center(child: Text('No posts found'));
                     } else {
-                      // Debugging: Print the length of the data
-                      print('Number of posts: ${snapshot.data!.length}');
-
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -316,168 +358,322 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           Post post = snapshot.data![index];
-                          return Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                decoration: BoxDecoration(
-                                  color: AppUI.whiteColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            '${AppUI.imgPath}photo.png',
-                                            height: MediaQuery.of(context).size.height * 0.05,
-                                            width: MediaQuery.of(context).size.width * 0.08,
-                                          ),
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.02,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              CustomText(
-                                                text: 'User ID: ${post.userId}',
-                                                fontSize: 12,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  CustomText(
-                                                    text: '${post.lastEdit}',
-                                                    fontSize: 12,
-                                                    color: AppUI.basicColor,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  SizedBox(
-                                                    width: MediaQuery.of(context).size.width * 0.01,
-                                                  ),
-                                                  Image.asset(
-                                                    '${AppUI.imgPath}Group.png',
-                                                    height: MediaQuery.of(context).size.height * 0.015,
-                                                    width: MediaQuery.of(context).size.width * 0.015,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                          return GestureDetector(
+                            onLongPress: () async {
+                              bool? deleteOrEdit = await showDialog<bool>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Choose Action'),
+                                    content: const Text('Would you like to delete or edit this post?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(false), // false indicates delete
+                                        child: const Text('Delete'),
                                       ),
-                                      SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.01,
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(true), // true indicates edit
+                                        child: const Text('Edit'),
                                       ),
-                                      CustomText(
-                                        text: post.content ?? "no content",
-                                        fontSize: 10,
-                                        color: AppUI.basicColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.01,
-                                      ),
-                                      if (post.pictureLocation != null) ...[
-                                        CachedNetworkImage(
-                                          imageUrl: 'http://10.10.99.13:3090${post.pictureLocation}',
-                                          placeholder: (context, url) => CircularProgressIndicator(),
-                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                        ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context).size.height * 0.01,
-                                        ),
-                                      ],
-                                      const Divider(),
-                                      SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.005,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                '${AppUI.imgPath}eye 1.png',
-                                                width: MediaQuery.of(context).size.width * 0.03,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.01,
-                                              ),
-                                              const CustomText(
-                                                text: "23",
-                                                fontSize: 10,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                '${AppUI.imgPath}arrow.png',
-                                                height: MediaQuery.of(context).size.height * 0.015,
-                                                width: MediaQuery.of(context).size.width * 0.03,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.01,
-                                              ),
-                                              const CustomText(
-                                                text: "7",
-                                                fontSize: 10,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.02,
-                                              ),
-                                              Image.asset(
-                                                '${AppUI.imgPath}comment.png',
-                                                height: MediaQuery.of(context).size.height * 0.015,
-                                                width: MediaQuery.of(context).size.width * 0.03,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.01,
-                                              ),
-                                              const CustomText(
-                                                text: "5",
-                                                fontSize: 10,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.02,
-                                              ),
-                                              Image.asset(
-                                                '${AppUI.imgPath}like.png',
-                                                height: MediaQuery.of(context).size.height * 0.015,
-                                                width: MediaQuery.of(context).size.width * 0.03,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.01,
-                                              ),
-                                              const CustomText(
-                                                text: "8",
-                                                fontSize: 10,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(null), // null indicates cancel
+                                        child: const Text('Cancel'),
                                       ),
                                     ],
+                                  );
+                                },
+                              );
+
+                              if (deleteOrEdit == true) {
+                                final updatedPost = await _showEditDialog(context, post);
+                                if (updatedPost != null) {
+                                  print(
+                                      'Attempting to update post with ID: ${post
+                                          .id}');
+
+                                  await apiManager.updatePost(
+                                      updatedPost.id,
+                                      updatedPost.title ?? post.title!,
+                                      updatedPost.content ?? post.content!);
+
+
+                              }
+                              } else if (deleteOrEdit == false) {
+                                // User chose to delete
+                                bool? confirmDelete = await showDialog<bool>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Confirm Deletion'),
+                                      content: const Text('Are you sure you want to delete this post?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () => Navigator.of(context).pop(false),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.of(context).pop(true),
+                                          child: const Text('Delete'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                if (confirmDelete == true) {
+                                  print('Attempting to delete post with ID: ${post.id}');
+                                  apiManager.deletePost(post.id);
+                                  setState(() {
+                                    adminPosts = apiManager.fetchAdminPosts();
+                                  });
+                                }
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width:
+                                  MediaQuery.of(context).size.width * 0.85,
+                                  decoration: BoxDecoration(
+                                    color: AppUI.whiteColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              '${AppUI.imgPath}photo.png',
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.05,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                                  0.08,
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                                  0.02,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                CustomText(
+                                                  text:
+                                                  'User ID: ${post.userId}',
+                                                  fontSize: 12,
+                                                  color: AppUI.basicColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    CustomText(
+                                                      text: '${post.lastEdit}',
+                                                      fontSize: 12,
+                                                      color: AppUI.basicColor,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                          0.01,
+                                                    ),
+                                                    Image.asset(
+                                                      '${AppUI.imgPath}Group.png',
+                                                      height:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                          0.015,
+                                                      width:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                          0.015,
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                              0.01,
+                                        ),
+                                        CustomText(
+                                          text: post.content ?? "no content",
+                                          fontSize: 10,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                              0.01,
+                                        ),
+                                        if (post.pictureLocation != null) ...[
+                                          CachedNetworkImage(
+                                            imageUrl:
+                                            'http://10.10.99.13:3090${post!.pictureLocation}',
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(),
+                                            errorWidget: (context, url, error) =>
+                                                Icon(Icons.error),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.01,
+                                          ),
+                                        ],
+                                        const Divider(),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                              0.005,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  '${AppUI.imgPath}eye 1.png',
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.03,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.01,
+                                                ),
+                                                const CustomText(
+                                                  text: "23",
+                                                  fontSize: 10,
+                                                  color: AppUI.basicColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  '${AppUI.imgPath}arrow.png',
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.015,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.03,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.01,
+                                                ),
+                                                const CustomText(
+                                                  text: "7",
+                                                  fontSize: 10,
+                                                  color: AppUI.basicColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.02,
+                                                ),
+                                                Image.asset(
+                                                  '${AppUI.imgPath}comment.png',
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.015,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.03,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.01,
+                                                ),
+                                                const CustomText(
+                                                  text: "5",
+                                                  fontSize: 10,
+                                                  color: AppUI.basicColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.02,
+                                                ),
+                                                Image.asset(
+                                                  '${AppUI.imgPath}like.png',
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.015,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.03,
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.01,
+                                                ),
+                                                const CustomText(
+                                                  text: "8",
+                                                  fontSize: 10,
+                                                  color: AppUI.basicColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.02,
-                              ),
-                            ],
+                                SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.02,
+                                ),
+                              ],
+                            ),
                           );
                         },
                       );
@@ -485,7 +681,6 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   },
                 ),
               ),
-
             ],
           ),
         ),

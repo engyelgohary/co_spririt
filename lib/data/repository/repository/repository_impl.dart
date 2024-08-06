@@ -51,6 +51,11 @@ class AdminRepositoryImpl implements AdminRepository{
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) {
    return adminRemoteDataSource.getCollaboratorsToAdmin(page: page);
   }
+
+  @override
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus) {
+   return adminRemoteDataSource.setStatusToCollaborator(collaboratorId,selectStatus);
+  }
 }
 class ClientRepositoryImpl implements ClientRepository{
   ClientRemoteDataSource clientRemoteDataSource;

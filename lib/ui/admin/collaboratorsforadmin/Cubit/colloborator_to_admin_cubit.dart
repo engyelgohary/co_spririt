@@ -31,4 +31,15 @@ class CollaboratorToAdminCubit extends Cubit<CollaboratorToAdminState> {
       print(e.toString());
     }
   }
+
+  Future<void> setStatusToCollaborator(int collaboratorId, int selectStatus) async {
+    try{
+      emit(CollaboratorLoading());
+       await adminRepository.setStatusToCollaborator(collaboratorId,selectStatus);
+      emit(CollaboratorDone());
+    }catch (e){
+      emit(CollaboratorFailure(e.toString()));
+      print(e.toString());
+    }
+  }
 }

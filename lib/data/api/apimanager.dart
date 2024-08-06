@@ -226,6 +226,8 @@ class ApiManager {
     }
   }
 
+
+
 //Client
   Future<List<Client>> fetchAllClients({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.clientApi, {
@@ -316,6 +318,31 @@ class ApiManager {
       throw Exception(e);
     }
   }
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus) async {
+    final url = Uri.parse("http://${ApiConstants.baseUrl}/api/v1/admin/set-status/$collaboratorId?status=$selectStatus"); // Ensure the URL starts with http:// or https://
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.put(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          });
+
+      if (response.statusCode == 204) {
+        print('status assigned successfully to Collaborator');
+      } else {
+        print('Failed to assign status: ${response.statusCode}');
+        throw Exception('Failed to assign status');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      throw Exception('Failed to assign status due to an error');
+    }
+  }
+
 //Collaborator
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1}) async {
     final Uri url =
@@ -466,6 +493,7 @@ class ApiManager {
     final url = Uri.parse("http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/admin/$adminId"); // Ensure the URL starts with http:// or https://
 
     try {
+
       final response = await http.put(url);
 
       if (response.statusCode == 204) {

@@ -54,6 +54,11 @@ class AdminDataSourceImpl implements AdminRemoteDataSource {
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) async{
     return await apiManager.getCollaboratorsToAdmin(page: page);
   }
+
+  @override
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus) async{
+   return await apiManager.setStatusToCollaborator(collaboratorId,selectStatus);
+  }
 }
 
 class ClientDataSourceImpl implements ClientRemoteDataSource {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
@@ -29,6 +30,7 @@ class ApiConstants {
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String allPostsApi ='/api/v1/post';
   static const String fetchPostsByAdminApi ='/api/v1/post/GetPostsAdmin';
+
 }
 
 class ApiManager {
@@ -643,6 +645,17 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
+        for (var postJson in jsonList) {
+          final post = Post.fromJson(postJson);
+          print('Post ID: ${post.id}');
+          print('User ID: ${post.userId}');
+          print('Content: ${post.content}');
+          print('Tittle: ${post.title}');
+          print('Last Edit: ${post.lastEdit}');
+          print('Picture Location: ${post.pictureLocation}');
+          print('---');
+        }
+
         final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
         return posts;
       } else {
@@ -653,6 +666,7 @@ class ApiManager {
       throw Exception('Error fetching posts: $error');
     }
   }
+
   Future<bool> createPost(String title, String content, {File? image}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -726,6 +740,7 @@ class ApiManager {
       throw Exception('Failed to delete post ');
     }
   }
+
   Future<List<Post>> fetchAdminPosts({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.fetchPostsByAdminApi, {'page': '$page'});
     final token = await storage.read(key: 'token');
@@ -794,6 +809,7 @@ class ApiManager {
       return false;
     }
   }
+
 
 }
 

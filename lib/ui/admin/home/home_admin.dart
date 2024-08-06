@@ -30,13 +30,16 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;
 
+
   @override
   void initState() {
     super.initState();
     admin = widget.admin;
     apiManager = ApiManager.instance;
     adminPosts = apiManager.fetchAdminPosts();
+
   }
+
 
   void reloadPosts() {
     setState(() {
@@ -341,6 +344,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Center(child: Text('No posts found'));
                     } else {
+                      // Debugging: Print the length of the data
+                      print('Number of posts: ${snapshot.data!.length}');
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -664,6 +669,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                 ),
                               ],
                             ),
+
                           );
                         },
                       );

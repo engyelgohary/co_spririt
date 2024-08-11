@@ -61,6 +61,7 @@ dependencies:
   webview_flutter: ^4.5.0
   flutter_chat_bubble: ^2.0.2
   awesome_notifications: ^0.9.3+1
+  signalr_core: ^1.1.2
 
 
 

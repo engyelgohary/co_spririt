@@ -40,4 +40,11 @@ TypesRepository injectTypesRepository(){
 TypesDataSource injectTypesDataSource(){
   return TypesDataSourceImpl(apiManager: ApiManager.getInstanace());
 }
+RequestsRepository injectRequestsRepository(){
+  return RequestRepositoryImpl(requestsDataSource: injectRequestsDataSource());
+}
+RequestsDataSource injectRequestsDataSource(){
+return RequestsDataSourceImpl(apiManager:ApiManager.getInstanace());
+}
+
 

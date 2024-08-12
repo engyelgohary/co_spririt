@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:meta/meta.dart';
 import '../../../../data/repository/repoContract.dart';
-part 'requests_state.dart';
+part 'types_state.dart';
 
-class RequestsCubit extends Cubit<RequestsState> {
+class TypesCubit extends Cubit<TypesState> {
   TypesRepository typesRepository;
   final PagingController<int, Types> pagingController =
   PagingController(firstPageKey: 1);
-  RequestsCubit({required this.typesRepository}) : super(RequestsInitial()){
+  TypesCubit({required this.typesRepository}) : super(TypesInitial()){
     pagingController.addPageRequestListener((pageKey) {
       fetchTypes(pageKey);
     });
@@ -18,7 +18,7 @@ class RequestsCubit extends Cubit<RequestsState> {
   TextEditingController Type_controller = TextEditingController();
   var formKey = GlobalKey<FormState>();
   Future<void> fetchTypes(int pageKey) async {
-    emit(RequestsLoading());
+    emit(TypesLoading());
     try {
       final types = await typesRepository.fetchAllTypes(page: pageKey);
       final isLastPage = types.length < 10;
@@ -27,50 +27,50 @@ class RequestsCubit extends Cubit<RequestsState> {
       } else {
         pagingController.appendPage(types, pageKey + 1);
       }
-      emit(RequestsSuccess(getType: types));
+      emit(TypesSuccess(getType: types));
     } catch (error) {
-      emit(RequestsError(errorMessage: error.toString()));
+      emit(TypesError(errorMessage: error.toString()));
       pagingController.error = error;
     }
   }
   Future<void> addType() async {
     if (!formKey.currentState!.validate()) return;
-    emit(RequestsLoading());
+    emit(TypesLoading());
     try {
       final response = await typesRepository.addType(Type_controller.text);
-      emit(RequestsSuccess(typeData:response));
+      emit(TypesSuccess(typeData:response));
     } catch (e) {
-      emit(RequestsError(errorMessage: e.toString()));
+      emit(TypesError(errorMessage: e.toString()));
       print(e.toString());
     }
   }
   Future<void> deleteType(int id) async {
     try {
-      emit(RequestsLoading());
+      emit(TypesLoading());
       await typesRepository.deleteTypes(id);
-      emit(RequestsSuccess());
+      emit(TypesSuccess());
       pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(RequestsError(errorMessage: e.toString()));
+      emit(TypesError(errorMessage: e.toString()));
     }
   }
   Future<void> fetchTypeDetails(int id) async {
     try {
       final typeDetails = await typesRepository.fetchTypeDetails(id);
-      emit(RequestsSuccess(typeData: typeDetails));
+      emit(TypesSuccess(typeData: typeDetails));
     } catch (e) {
-      emit(RequestsError(errorMessage: e.toString()));
+      emit(TypesError(errorMessage: e.toString()));
     }
   }
   Future<void> updateType(int id, String type) async {
     try {
-      emit(RequestsLoading());
+      emit(TypesLoading());
       await typesRepository.updateTypes(
           id, type);
-      emit(RequestsSuccess());
+      emit(TypesSuccess());
       pagingController.refresh();
     } catch (e) {
-      emit(RequestsError(errorMessage: e.toString()));
+      emit(TypesError(errorMessage: e.toString()));
     }
   }
 }

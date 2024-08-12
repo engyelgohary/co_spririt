@@ -1,5 +1,5 @@
 import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/ui/superadmin/requests/cubit/requests_cubit.dart';
+import 'package:co_spririt/ui/superadmin/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +32,7 @@ class _UpdateTypeState extends State<UpdateType> {
   }
 
   void updateType() {
-    context.read<RequestsCubit>().updateType(
+    context.read<TypesCubit>().updateType(
       widget.type.id ?? 1,
       typeController.text,
     );

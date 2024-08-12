@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import '../model/Client.dart';
 import '../model/Collaborator.dart';
 import '../model/GetAdmin.dart';
+import '../model/RequestsResponse.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 //Auth
@@ -20,6 +21,7 @@ abstract class AdminRepository{
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> deleteAdmin(int id);
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1});
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus);
 }
 abstract class AdminRemoteDataSource {
   Future<List<GetAdmin>>getAllAdmins({int page = 1});
@@ -28,6 +30,7 @@ abstract class AdminRemoteDataSource {
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image);
   Future<GetAdmin> deleteAdmin(int id);
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1});
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus);
 }
 //Client
 abstract class ClientRepository{
@@ -92,4 +95,17 @@ abstract class TypesDataSource{
   Future<Types> deleteTypes(int id);
   Future<Types> fetchTypeDetails(int id);
   Future<void> updateTypes(int id, String type);
+}
+//Requetst
+abstract class RequestsRepository{
+  Future<RequestsResponse> addRequest(String title,int typeId);
+  Future<List<RequestsResponse>> fetchAllRequests({int page = 1});
+  Future<RequestsResponse> deleteRequests(int id);
+  Future<RequestsResponse> fetchRequestDetails(int id);
+}
+abstract class RequestsDataSource{
+  Future<RequestsResponse> addRequest(String title,int typeId);
+  Future<List<RequestsResponse>> fetchAllRequests({int page = 1});
+  Future<RequestsResponse> deleteRequests(int id);
+  Future<RequestsResponse> fetchRequestDetails(int id);
 }

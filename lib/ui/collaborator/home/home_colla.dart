@@ -12,6 +12,8 @@ import '../Profile/profile_collabrator.dart';
 
 class HomeScreenColla extends StatelessWidget {
   static String routeName = 'home screen admin';
+  final String ColaboratorId;
+HomeScreenColla({required this.ColaboratorId});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,7 +254,7 @@ class HomeScreenColla extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, ProfileScreenColla());
+                          AppUtil.mainNavigator(context, ProfileScreenColla(collaboratorId: ColaboratorId,));
                         },
                         child: Column(
                           children: [
@@ -277,7 +279,7 @@ class HomeScreenColla extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, MenuScreenCollaborators());
+                          AppUtil.mainNavigator(context, MenuScreenCollaborators(ColaboratorId: ColaboratorId,));
                         },
                         child: Column(
                           children: [

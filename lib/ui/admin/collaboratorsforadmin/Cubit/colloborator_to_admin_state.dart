@@ -11,6 +11,7 @@ final class CollaboratorLoaded extends CollaboratorToAdminState {
   @override
   List<Object> get props => [getCollaborator];
 }
+final class CollaboratorDone extends CollaboratorToAdminState {}
 final class CollaboratorFailure extends CollaboratorToAdminState {
   final String error;
 

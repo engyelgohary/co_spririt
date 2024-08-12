@@ -94,7 +94,22 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
                               child: Icon(
-                                Icons.chat_outlined,
+                                Icons.message_outlined,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15.w),
+                          InkWell(
+                            onTap: () {
+                              showStatusDialog(item.id ??0);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.add_reaction_outlined,
                                 color: AppColor.secondColor,
                                 size: 20,
                               ),
@@ -165,6 +180,83 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
               );
             },
           ),
+        );
+      },
+    );
+  }
+  void showStatusDialog(int collaboratorId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        int? selectedStatus;
+        return AlertDialog(
+          title: Text('Select Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20)),
+          content: DropdownButton<int>(
+            value: selectedStatus,
+            onChanged: (int? newValue) {
+              selectedStatus = newValue;
+            },
+            items: <int>[1, 2, 3].map<DropdownMenuItem<int>>((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text(value.toString(), style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontSize: 18,
+                  color: AppColor.basicColor,
+                ),),
+              );
+            }).toList(),
+          ),
+          actions: [
+            Container(
+              height: 35.h,
+              width: 115.w,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Center(
+                  child: Text(
+                    'Cancel',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16,
+                      color: AppColor.thirdColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.greyColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 35.h,
+              width: 115.w,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedStatus != null) {
+                    collaboratorToAdminCubit.setStatusToCollaborator(collaboratorId, selectedStatus!);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Center(
+                  child: Text('Set Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontSize: 16,
+                    color: AppColor.whiteColor,
+                  ),),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.buttonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

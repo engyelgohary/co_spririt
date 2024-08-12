@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/RequestsResponse.dart';
 import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,6 +53,11 @@ class AdminDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) async{
     return await apiManager.getCollaboratorsToAdmin(page: page);
+  }
+
+  @override
+  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus) async{
+   return await apiManager.setStatusToCollaborator(collaboratorId,selectStatus);
   }
 }
 
@@ -177,6 +183,31 @@ class TypesDataSourceImpl implements TypesDataSource{
   @override
   Future<void> updateTypes(int id, String type) async{
   return await apiManager.updateTypes(id, type);
+  }
+
+}
+class RequestsDataSourceImpl implements RequestsDataSource{
+  ApiManager apiManager;
+  RequestsDataSourceImpl({required this.apiManager});
+
+  @override
+  Future<RequestsResponse> addRequest(String title, int typeId) async{
+  return await apiManager.addRequest(title, typeId);
+  }
+
+  @override
+  Future<RequestsResponse> deleteRequests(int id) async{
+  return await apiManager.deleteRequests(id);
+  }
+
+  @override
+  Future<List<RequestsResponse>> fetchAllRequests({int page = 1}) async{
+return await apiManager.fetchAllRequests(page: page);
+  }
+
+  @override
+  Future<RequestsResponse> fetchRequestDetails(int id) async{
+ return await apiManager.fetchRequestDetails(id);
   }
 
 }

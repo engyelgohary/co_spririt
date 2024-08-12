@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../theme/appColors.dart';
 
 class CustomMenuCard extends StatelessWidget {
@@ -42,39 +41,4 @@ class CustomMenuCard extends StatelessWidget {
   }
 }
 
-class CustomProfileUser extends StatelessWidget {
-  String name;
-  String role;
-   CustomProfileUser({super.key,required this.name,required this.role});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.only(top: 20.h),
-        child: ListTile(
-          leading: Container(
-            width: 70.0,
-            height: 70.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage('assets/images/Rectangle 5.png'),
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          title: Text(name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(fontSize: 17)),
-          subtitle:  Text(role,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: AppColor.borderColor)),
-        )
-    );
-  }
-}
 

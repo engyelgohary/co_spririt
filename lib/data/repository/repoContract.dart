@@ -9,9 +9,12 @@ import '../model/opportunities.dart';
 //Auth
 abstract class AuthRepository{
   Future<String?>  login({required String email,required String password});
+  Future<GetAdmin?> fetchAdminDetails(int token);
+
 }
 abstract class AuthRemoteDataSource {
   Future<String?>  login({required String email,required String password});
+  Future<GetAdmin?> fetchAdminDetails(int token);
 }
 //Admin
 abstract class AdminRepository{

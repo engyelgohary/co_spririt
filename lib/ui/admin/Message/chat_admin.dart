@@ -1,103 +1,180 @@
+import 'package:co_spririt/data/api/apimanager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
+import '../../../data/model/message.dart';
+import '../../../utils/components/messageBuble.dart';
+import '../../../utils/helper_functions.dart';
 
 class ChatScreenAdmin extends StatelessWidget {
+  final int receiverId;
+  final String name;
+  final String email;
+  final String? pictureLocation;
+  final TextEditingController messageController = TextEditingController();
+  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
+  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstanace();
+
+  ChatScreenAdmin({
+    super.key,
+    required this.receiverId,
+    required this.name,
+    required this.email,
+    this.pictureLocation,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
+            // App bar
             height: 30,
           ),
           Container(
-              height: 135,
-              decoration:
-                  BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: 42,
-                          width: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                          child: BackButton(
-                            color: AppUI.whiteColor,
-                          ),
+            height: 145,
+            decoration:
+                BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 42,
+                        width: 42,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
+                        child: const BackButton(
+                          color: AppUI.whiteColor,
                         ),
-                        Center(
-                          child: CustomText(
-                            text: 'Messages',
-                            fontSize: 20,
-                            color: AppUI.basicColor,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      ),
+                      const Center(
+                        child: CustomText(
+                          text: 'Messages',
+                          fontSize: 20,
+                          color: AppUI.basicColor,
+                          fontWeight: FontWeight.w400,
                         ),
-                        Container(
-                          height: 42,
-                          width: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                          child: ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}chatmenu.png',
+                      ),
+                      Container(
+                        height: 42,
+                        width: 42,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
+                        child: const ImageIcon(
+                          AssetImage(
+                            '${AppUI.iconPath}chatmenu.png',
+                          ),
+                          color: AppUI.whiteColor,
+                          size: 42,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          collaboratorPhoto(pictureLocation),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          SizedBox(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: name,
+                                  fontSize: 16,
+                                  color: AppUI.basicColor,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                CustomText(
+                                  text: email,
+                                  fontSize: 12,
+                                  color: AppUI.basicColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
                             ),
-                            color: AppUI.whiteColor,
-                            size: 42,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ListenableBuilder(
+              listenable: loadingNotifier,
+              builder: (context, child) {
+                if (loadingNotifier.loading) {
+                  collaboratorsMessages(receiverId, apiManager, loadingNotifier);
+                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                } else if (loadingNotifier.response == null) {
+                  return Expanded(
+                    child: Center(
+                      child: buildErrorIndicator(
+                        "Some error occurred, Please try again.",
+                        () => loadingNotifier.change(),
+                      ),
                     ),
-                    SizedBox(
-                      height: 16,
+                  );
+                }
+
+                listNotifier.list = loadingNotifier.response!;
+                return Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListenableBuilder(
+                      listenable: listNotifier,
+                      builder: (context, child) {
+                        List<Message> list = listNotifier.list;
+                        return ListView.builder(
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            final message = list[index];
+                            final bubble = CustomChatBubble(
+                              messageText: message.content!,
+                              imageUrl: "", //TODO implement image url
+                              isSender: message.sender!,
+                              time: message.time!,
+                            );
+
+                            if (index == 0 || message.date != message.date) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Column(
+                                  children: [Text(message.date!), bubble],
+                                ),
+                              );
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: bubble,
+                            );
+                          },
+                        );
+                      },
                     ),
-                    Row(
-                      children: [
-                        Image.asset(
-                          '${AppUI.imgPath}photo.png',
-                          height: 41,
-                          width: 42,
-                          // fit: BoxFit.cover,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Container(
-                          width: 100,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: 'Matteo',
-                                fontSize: 16,
-                                color: AppUI.basicColor,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              CustomText(
-                                text: 'MR@gmail,com',
-                                fontSize: 12,
-                                color: AppUI.basicColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )),
-          Spacer(),
+                  ),
+                );
+              }),
           Padding(
+            // message box
             padding: const EdgeInsets.all(8.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                     child: CustomInput(
@@ -139,16 +216,18 @@ class ChatScreenAdmin extends StatelessWidget {
                 InkWell(
                   onTap: () {},
                   child: Container(
-                    height: 42,
+                    height: 44,
                     width: 42,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                    child: ImageIcon(
+                      borderRadius: BorderRadius.circular(30),
+                      color: AppUI.secondColor,
+                    ),
+                    child: const ImageIcon(
                       AssetImage(
                         '${AppUI.iconPath}send.png',
                       ),
                       color: AppUI.whiteColor,
-                      size: 42,
+                      size: 44,
                     ),
                   ),
                 )

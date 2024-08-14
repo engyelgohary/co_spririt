@@ -4,6 +4,7 @@ import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/message.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
@@ -22,11 +23,10 @@ class ApiConstants {
   static const String clientApi = '/api/v1/client';
   static const String collaboratorApi = '/api/v1/collaborator';
   static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
-  static const String opportunitiesColApi='/api/v1/opportunities/collaborator';
-  static const String opportunitiesDeleteApi='/api/v1/opportunities/remove';
-  static const String opportunitiesAdminApi='/api/v1/opportunities';
-
-
+  static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
+  static const String opportunitiesDeleteApi = '/api/v1/opportunities/remove';
+  static const String opportunitiesAdminApi = '/api/v1/opportunities';
+  static const String messagingApi = '/api/v1/messages';
 }
 
 class ApiManager {
@@ -617,5 +617,72 @@ class ApiManager {
     }
   }
 
-}
+// Messages
+  Future<List> getUserMessages(int id) async {
+    final List<Message> output = [];
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.messagingApi}/$id');
+      final response = await http.get(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
+      if (response.statusCode == 200) {
+        final List messages = jsonDecode(response.body);
+        if (messages.isNotEmpty) {
+          for (var message in messages) {
+            output.add(Message.fromJson(message, id != message["fromId"]));
+          }
+          return output;
+        }
+      } else if (response.statusCode == 404) {
+        return output;
+      }
+      throw Exception("Failed to get user messages code: ${response.statusCode}");
+    } catch (e) {
+      print("Could not get the message error: ${e}");
+      rethrow;
+    }
+  }
+
+// Messages
+  Future<Map> sendMessage(int receiverId, String content) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+      int senderId = int.parse(decodedToken['nameid'].toString());
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.messagingApi);
+
+      final response = await http.post(
+        uri,
+        body: {"id": senderId, "toId": receiverId, "content": content},
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Map responseData = jsonDecode(response.body);
+        return responseData;
+      } else {
+        throw Exception('Failed to get Messages: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Could not send the message error $e");
+      rethrow;
+    }
+  }
+}

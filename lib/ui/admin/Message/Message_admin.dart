@@ -1,12 +1,21 @@
-import 'package:co_spririt/ui/superadmin/Message/chat_superadmin.dart';
+import 'package:co_spririt/data/model/Collaborator.dart';
+import 'package:co_spririt/ui/admin/Message/chat_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
+import '../../../data/api/apimanager.dart';
+import '../../../utils/helper_functions.dart';
 
 class MessagesScreenAdmin extends StatelessWidget {
+  final TextEditingController messageController = TextEditingController();
+  final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstanace(); //TODO Fix typo
+
+  MessagesScreenAdmin({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +23,7 @@ class MessagesScreenAdmin extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Row(
@@ -25,14 +34,14 @@ class MessagesScreenAdmin extends StatelessWidget {
                   width: 42,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                  child: BackButton(
+                  child: const BackButton(
                     color: AppUI.whiteColor,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 100,
                 ),
-                Center(
+                const Center(
                   child: CustomText(
                     text: 'Messages',
                     fontSize: 20,
@@ -42,81 +51,111 @@ class MessagesScreenAdmin extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 680.h,
-              width: 600.w,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 18,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, ChatScreenSuperAdmin());
-                        },
-                        child: Container(
-                          // width: ,
-                          height: 60,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                '${AppUI.imgPath}photo.png',
-                                height: 41,
-                                width: 42,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+            ListenableBuilder(
+              listenable: loadingNotifier,
+              builder: (context, child) {
+                if (loadingNotifier.loading) {
+                  collaboratorsList(apiManager, loadingNotifier);
+                  // testFunction();
+                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                } else if (loadingNotifier.response == null) {
+                  return Expanded(
+                    child: Center(
+                      child: buildErrorIndicator(
+                        "Some error occurred, Please try again.",
+                        () => loadingNotifier.change(),
+                      ),
+                    ),
+                  );
+                }
+
+                final List<Collaborator> data = loadingNotifier.response!;
+                return SizedBox(
+                  height: 680.h,
+                  width: 600.w,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final Collaborator collaborator = data[index];
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: InkWell(
+                              onTap: () {
+                                AppUtil.mainNavigator(
+                                  context,
+                                  ChatScreenAdmin(
+                                    receiverId: collaborator.id ?? 0,
+                                    email: collaborator.email ?? "",
+                                    name: collaborator.firstName ?? "",
+                                    pictureLocation: collaborator.pictureLocation,
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                // width: ,
+                                height: 60,
+                                child: Row(
                                   children: [
-                                    CustomText(
-                                      text: 'Matteo',
-                                      fontSize: 15,
-                                      color: AppUI.basicColor,
-                                      fontWeight: FontWeight.w700,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: collaboratorPhoto(collaborator.pictureLocation),
                                     ),
-                                    CustomText(
-                                      text: 'Lorem ipsum dolor sit amet .....',
-                                      fontSize: 12,
-                                      color: AppUI.basicColor,
-                                      fontWeight: FontWeight.w400,
+                                    const SizedBox(
+                                      width: 4,
+                                    ),
+                                    Container(
+                                      width: 100,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text: collaborator.firstName ?? "Unknown",
+                                            fontSize: 15,
+                                            color: AppUI.basicColor,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          const CustomText(
+                                            text: 'Lorem ipsum dolor sit amet .....',
+                                            fontSize: 12,
+                                            color: AppUI.basicColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      height: 29,
+                                      width: 29,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(30),
+                                          color: AppUI.secondColor),
+                                      child: const CustomText(
+                                        text: '3',
+                                        fontSize: 15,
+                                        color: AppUI.whiteColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                height: 29,
-                                width: 29,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: AppUI.secondColor),
-                                child: CustomText(
-                                  text: '3',
-                                  fontSize: 15,
-                                  color: AppUI.whiteColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: AppUI.whiteColor,
-                    )
-                  ],
-                ),
-              ),
+                          const Divider(
+                            thickness: 2,
+                            color: AppUI.whiteColor,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                );
+              },
             )
           ],
         ),

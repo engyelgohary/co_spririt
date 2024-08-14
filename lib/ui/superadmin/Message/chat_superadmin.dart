@@ -217,38 +217,3 @@ class ChatScreenSuperAdmin extends StatelessWidget {
     );
   }
 }
-
-class ListNotifier with ChangeNotifier {
-  List list = [];
-  ListNotifier({required this.list});
-
-  void addItem(item) {
-    list.add(item);
-    notifyListeners();
-  }
-
-  void removeItem(item) {
-    list.remove(item);
-    notifyListeners();
-  }
-
-  void clearList() {
-    list.clear();
-    notifyListeners();
-  }
-}
-
-String currentTime() {
-  return DateFormat("HH:mm").format(DateTime.now());
-}
-
-String currentDate() {
-  return DateFormat("dd-MM-yyyy").format(DateTime.now());
-}
-
-const List<List<dynamic>> messages = [
-  ["Hello", "", false, "12:00", "12-7-2024"],
-  ["Hi", "", true, "12:10", "12-7-2024"],
-  ["Hey", "", false, "12:20", "12-7-2024"],
-  ["Ciao!", "", true, "12:30", "13-7-2024"]
-];

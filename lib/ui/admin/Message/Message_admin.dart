@@ -9,12 +9,33 @@ import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class MessagesScreenAdmin extends StatelessWidget {
-  final TextEditingController messageController = TextEditingController();
-  final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstanace(); //TODO Fix typo
+class MessagesScreenAdmin extends StatefulWidget {
+  const MessagesScreenAdmin({super.key});
 
-  MessagesScreenAdmin({super.key});
+  @override
+  State<MessagesScreenAdmin> createState() => _MessagesScreenAdminState();
+}
+
+class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
+  final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstanace();
+  final Signalr signalr = Signalr();
+
+  @override
+  void initState() {
+    signalr.start();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    signalr.dispose();
+    loadingNotifier.dispose();
+    signalr.listNotifier = null;
+    signalr.receiverId = null;
+    signalr.scrollController = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +77,6 @@ class MessagesScreenAdmin extends StatelessWidget {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   collaboratorsList(apiManager, loadingNotifier);
-                  // testFunction();
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
@@ -84,6 +104,7 @@ class MessagesScreenAdmin extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8, right: 8),
                             child: InkWell(
                               onTap: () {
+                                signalr.receiverId = collaborator.id;
                                 AppUtil.mainNavigator(
                                   context,
                                   ChatScreenAdmin(
@@ -94,19 +115,16 @@ class MessagesScreenAdmin extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: Container(
+                              child: SizedBox(
                                 // width: ,
                                 height: 60,
                                 child: Row(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(25),
-                                      child: collaboratorPhoto(collaborator.pictureLocation),
-                                    ),
+                                    collaboratorPhoto(collaborator.pictureLocation),
                                     const SizedBox(
                                       width: 4,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       width: 100,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,

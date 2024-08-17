@@ -1,6 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 import '../core/app_ui.dart';
@@ -27,7 +31,7 @@ class ListNotifier<T> with ChangeNotifier {
   }
 
   void updateItem(int index, T newItem) {
-    list[index] = newItem;
+    list[index - 1] = newItem;
     notifyListeners();
   }
 }
@@ -205,17 +209,16 @@ Future<void> sendMessage(
   ApiManager apiManager,
   ListNotifier listNotifier,
 ) async {
-  final date = DateTime.now();
   final messageIndex = listNotifier.addItem(Message(
     id: 0,
     receiverId: receiverId,
     read: false,
     sender: true,
     senderId: 0,
-    date: currentTime(),
-    time: currentDate(),
+    date: currentDate(),
+    time: currentTime(),
+    content: content,
   ));
-
   try {
     final result = await apiManager.sendMessage(receiverId, content);
     listNotifier.updateItem(messageIndex, Message.fromJson(result, true));

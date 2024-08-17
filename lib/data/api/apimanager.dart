@@ -661,15 +661,15 @@ class ApiManager {
       }
 
       Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
-      int senderId = int.parse(decodedToken['nameid'].toString());
+      // int senderId = int.parse(decodedToken['nameid'].toString());
 
       final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.messagingApi);
-
+      final body = jsonEncode({"id": 0, "toId": receiverId, "content": content});
       final response = await http.post(
         uri,
-        body: {"id": senderId, "toId": receiverId, "content": content},
+        body: body,
         headers: {
-          'Accept': 'application/json',
+          "Content-Type": "application/json", 
           'Authorization': 'Bearer $token',
         },
       );

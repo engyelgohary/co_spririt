@@ -6,6 +6,7 @@
 //   "timestamp": "2024-08-14T12:08:07.346689",
 //   "read": true
 // }
+// [{Message: {Id: 31, FromId: 39, ToId: 41, Content: مدهش, Timestamp: 2024-08-15T16:43:48.5757581Z, Read: false}, User: {Id: 39, FirstName: yusuf, LastName: alsawah, Email: yalsawah@admin.com}}]
 
 class Message {
   int? id;
@@ -14,6 +15,9 @@ class Message {
   String? content;
   String? date;
   String? time;
+  String? senderEmail;
+  String? senderFirstName;
+  String? senderLastName;
   bool? read;
   bool? sender;
 
@@ -26,6 +30,9 @@ class Message {
     this.time,
     this.read,
     this.sender,
+    this.senderEmail,
+    this.senderFirstName,
+    this.senderLastName,
   });
 
   Message.fromJson(dynamic json, this.sender) {
@@ -37,5 +44,11 @@ class Message {
     this.date = "${date.day}-${date.month}-${date.year}";
     time = "${date.hour}:${date.minute}";
     read = json["read"];
+  }
+
+  void parseTime(timeStamp) {
+    final date = DateTime.parse(timeStamp);
+    this.date = "${date.day}-${date.month}-${date.year}";
+    time = "${date.hour}:${date.minute}";
   }
 }

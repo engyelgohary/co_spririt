@@ -7,23 +7,50 @@ import '../../../data/model/message.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
-class ChatScreenAdmin extends StatelessWidget {
+class ChatScreenAdmin extends StatefulWidget {
   final int receiverId;
   final String name;
   final String email;
   final String? pictureLocation;
-  final TextEditingController messageController = TextEditingController();
-  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
-  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstanace();
 
-  ChatScreenAdmin({
+  const ChatScreenAdmin({
     super.key,
     required this.receiverId,
     required this.name,
     required this.email,
     this.pictureLocation,
   });
+
+  @override
+  State<ChatScreenAdmin> createState() => _ChatScreenAdminState();
+}
+
+class _ChatScreenAdminState extends State<ChatScreenAdmin> {
+  final TextEditingController messageController = TextEditingController();
+  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
+  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstanace();
+  final ScrollController scrollController = ScrollController();
+  final Signalr signalr = Signalr();
+
+  @override
+  void initState() {
+    signalr.listNotifier = listNotifier;
+    signalr.scrollController = scrollController;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    listNotifier.dispose();
+    loadingNotifier.dispose();
+    messageController.dispose();
+    scrollController.dispose();
+    signalr.listNotifier = null;
+    signalr.receiverId = null;
+    signalr.scrollController = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +111,7 @@ class ChatScreenAdmin extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          collaboratorPhoto(pictureLocation),
+                          collaboratorPhoto(widget.pictureLocation),
                           const SizedBox(
                             width: 8,
                           ),
@@ -93,13 +120,13 @@ class ChatScreenAdmin extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                  text: name,
+                                  text: widget.name,
                                   fontSize: 16,
                                   color: AppUI.basicColor,
                                   fontWeight: FontWeight.w700,
                                 ),
                                 CustomText(
-                                  text: email,
+                                  text: widget.email,
                                   fontSize: 12,
                                   color: AppUI.basicColor,
                                   fontWeight: FontWeight.w400,
@@ -116,60 +143,61 @@ class ChatScreenAdmin extends StatelessWidget {
             ),
           ),
           ListenableBuilder(
-              listenable: loadingNotifier,
-              builder: (context, child) {
-                if (loadingNotifier.loading) {
-                  collaboratorsMessages(receiverId, apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
-                } else if (loadingNotifier.response == null) {
-                  return Expanded(
-                    child: Center(
-                      child: buildErrorIndicator(
-                        "Some error occurred, Please try again.",
-                        () => loadingNotifier.change(),
-                      ),
-                    ),
-                  );
-                }
-
-                listNotifier.list = loadingNotifier.response!;
-                return Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ListenableBuilder(
-                      listenable: listNotifier,
-                      builder: (context, child) {
-                        List<Message> list = listNotifier.list;
-                        return ListView.builder(
-                          itemCount: list.length,
-                          itemBuilder: (context, index) {
-                            final message = list[index];
-                            final bubble = CustomChatBubble(
-                              messageText: message.content!,
-                              imageUrl: "", //TODO implement image url
-                              isSender: message.sender!,
-                              time: message.time!,
-                            );
-
-                            if (index == 0 || message.date != message.date) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                child: Column(
-                                  children: [Text(message.date!), bubble],
-                                ),
-                              );
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: bubble,
-                            );
-                          },
-                        );
-                      },
+            listenable: loadingNotifier,
+            builder: (context, child) {
+              if (loadingNotifier.loading) {
+                collaboratorsMessages(widget.receiverId, apiManager, loadingNotifier);
+                return const Expanded(child: Center(child: CircularProgressIndicator()));
+              } else if (loadingNotifier.response == null) {
+                return Expanded(
+                  child: Center(
+                    child: buildErrorIndicator(
+                      "Some error occurred, Please try again.",
+                      () => loadingNotifier.change(),
                     ),
                   ),
                 );
-              }),
+              }
+              listNotifier.list = loadingNotifier.response!;
+              return Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ListenableBuilder(
+                    listenable: listNotifier,
+                    builder: (context, child) {
+                      List<Message> list = listNotifier.list;
+                      return ListView.builder(
+                        controller: scrollController,
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          final message = list[index];
+                          final bubble = CustomChatBubble(
+                            messageText: message.content!,
+                            imageUrl: "", //TODO implement image url
+                            isSender: message.sender!,
+                            time: message.time!,
+                          );
+
+                          if (index == 0 || message.date != list[index - 1].date) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Column(
+                                children: [Text(message.date!), bubble],
+                              ),
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: bubble,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
           Padding(
             // message box
             padding: const EdgeInsets.all(8.0),
@@ -177,44 +205,61 @@ class ChatScreenAdmin extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                    child: CustomInput(
-                  borderColor: Color.fromRGBO(241, 241, 241, 1),
-                  fillColor: Color.fromRGBO(241, 241, 241, 1),
-                  //counterColor: AppUI.borderColor,
-                  //radius: 24,
-                  controller: TextEditingController(),
-                  hint: "Type a message ...",
-                  textInputType: TextInputType.text,
-                  suffixIcon: SizedBox(
-                    width: 55,
-                    child: Row(
-                      children: [
-                        ImageIcon(
-                          AssetImage(
-                            '${AppUI.iconPath}file.png',
+                  child: CustomInput(
+                    borderColor: const Color.fromRGBO(241, 241, 241, 1),
+                    fillColor: const Color.fromRGBO(241, 241, 241, 1),
+                    //counterColor: AppUI.borderColor,
+                    //radius: 24,
+                    controller: messageController,
+                    hint: "Type a message ...",
+                    textInputType: TextInputType.text,
+                    suffixIcon: const SizedBox(
+                      width: 55,
+                      child: Row(
+                        children: [
+                          ImageIcon(
+                            AssetImage(
+                              '${AppUI.iconPath}file.png',
+                            ),
+                            color: AppUI.twoBasicColor,
+                            size: 20,
                           ),
-                          color: AppUI.twoBasicColor,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        ImageIcon(
-                          AssetImage(
-                            '${AppUI.iconPath}chatcamera.png',
+                          SizedBox(
+                            width: 8,
                           ),
-                          color: AppUI.twoBasicColor,
-                          size: 20,
-                        ),
-                      ],
+                          ImageIcon(
+                            AssetImage(
+                              '${AppUI.iconPath}chatcamera.png',
+                            ),
+                            color: AppUI.twoBasicColor,
+                            size: 20,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                ),
                 const SizedBox(
                   width: 8,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    // TODO implement sending messages through api.
+                    if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
+                      sendMessage(
+                        widget.receiverId,
+                        messageController.text.trim(),
+                        apiManager,
+                        listNotifier,
+                      );
+                      messageController.clear();
+                    }
+                    Future.delayed(
+                      const Duration(milliseconds: 300),
+                      () => scrollController.animateTo(scrollController.position.maxScrollExtent,
+                          duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
+                    );
+                  },
                   child: Container(
                     height: 44,
                     width: 42,

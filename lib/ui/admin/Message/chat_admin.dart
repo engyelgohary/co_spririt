@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 import '../../../data/model/message.dart';
-import '../../../utils/components/messageBuble.dart';
+import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
 class ChatScreenAdmin extends StatelessWidget {

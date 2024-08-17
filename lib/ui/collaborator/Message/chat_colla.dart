@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
-
+import '../../../utils/components/messageBubble.dart';
 class ChatScreenColla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

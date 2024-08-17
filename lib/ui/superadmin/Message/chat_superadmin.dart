@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/app_ui.dart';
+import '../../../utils/components/messageBubble.dart';
 import '../../../core/components.dart';
 import '../../../utils/components/messageBuble.dart';
 

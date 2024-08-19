@@ -169,7 +169,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                             ),
                                           ],
                                         ),
-            
+
                                       ),
                                     );
                       },
@@ -201,133 +201,6 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
               ),
             ),
           ),
-          SizedBox(height: 5.h,),
-    Padding(
-      padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
-      child: Text("Requests",
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall!
-              .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-    ),
-          Expanded(
-              child: BlocProvider(
-                create: (context) => requestsCubit,
-                child: BlocBuilder<RequestsCubit, RequestsState>(
-                  bloc: requestsCubit,
-                  builder: (context, state) {
-                    return PagedListView<int, RequestsResponse>.separated(
-                      pagingController: requestsCubit.pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<RequestsResponse>(
-                        itemBuilder: (context, item, index) {
-                          return ListTile(
-                            title: Padding(
-                              padding:  EdgeInsets.symmetric(vertical: 0.h),
-                              child: Text(item.description ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(item.requestType, style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(fontSize: 15)),
-                                Text('${item.statusType}', style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(fontSize: 15)),
-                              ],
-                            ),
-                            trailing:InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    requestsCubit.fetchRequestDetails(item.id??0);
-                                    return BlocBuilder<RequestsCubit, RequestsState>(
-                                      bloc: requestsCubit,
-                                      builder: (context, state) {
-                                        if (state is RequestsSuccess) {
-                                          if (state.requestData == null) {
-                                            return Center(
-                                                child: CircularProgressIndicator(
-                                                  color: AppColor.secondColor,
-                                                )); }
-                                          return Container(
-                                            height: 200.h,
-                                            width: 369.w,
-                                            padding: EdgeInsets.all(20),
-                                            child: Column(
-                                              children: [
-                                                CustomTextInfo(fieldName:'Title :' ,data:"${item.description}"),
-                                                SizedBox(height: 5.h,),
-                                                CustomTextInfo(fieldName:'Type :' ,data:"${item.requestType}"),
-                                                SizedBox(height: 5.h,),
-                                                CustomTextInfo(fieldName:'Status :' ,data:"${item.statusType}"),
-                                                SizedBox(height: 5.h,),
-                                                CustomTextInfo(fieldName:'Admin Name :' ,data:"${item.to}"),
-                                                SizedBox(height: 5.h,),
-                                                CustomTextInfo(fieldName:'Collaborator Name :' ,data:"${item.from}"),
-
-                                              ],
-                                            ),
-                                          );
-                                        } else if (state is RequestsError) {
-                                          return Center(child: Text(state.errorMessage??""));
-                                        } else {
-                                          return Center(child: CircularProgressIndicator(
-                                            color: AppColor.secondColor,
-                                          ));
-                                        }
-                                      },
-                                    );
-                                  },
-                                );                        },
-                              child: CircleAvatar(
-                                backgroundColor: AppColor.SkyColor,
-                                radius: 18.r,
-                                child: Icon(
-                                  Icons.info_outline,
-                                  color: AppColor.secondColor,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-
-                          );
-                        },
-                        firstPageErrorIndicatorBuilder: buildErrorIndicator,
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            Center(child: Text("No Requests found")),
-                        newPageProgressIndicatorBuilder: (_) => Center(
-                          child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColor.secondColor),
-                          ),
-                        ),
-                        firstPageProgressIndicatorBuilder: (_) => Center(
-                          child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(AppColor.secondColor),
-                          ),
-                        ),
-                      ),
-                      separatorBuilder: (context, index) {
-                        return Divider(
-                          height: 0,
-                          color: AppColor.whiteColor,
-                          thickness: 1,
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-          )
         ],
       ),
     );

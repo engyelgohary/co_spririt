@@ -773,7 +773,16 @@ class ApiManager {
       "page": page.toString(),
     });
     try {
-      final response = await http.get(url);
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(url,
+      headers:  {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      );
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
         final List<RequestsResponse> requests =

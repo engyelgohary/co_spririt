@@ -832,6 +832,31 @@ class ApiManager {
       throw Exception('Failed to load type details');
     }
   }
+  Future<void> respondToRequest(int requestId, bool response) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final String baseUrl = 'http://10.10.99.13:3090/api/v1';
+      String url = '$baseUrl/requests/$requestId/respond?response=$response';
+      final http.Response res = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'accept': '*/*',
+        },
+      );
+
+      if (res.statusCode == 204) {
+        print('Request responded successfully');
+      } else {
+        print('Failed to respond to the request: ${res.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
   //Posts
 
   Future<List<Post>> fetchPosts({int page = 1}) async {

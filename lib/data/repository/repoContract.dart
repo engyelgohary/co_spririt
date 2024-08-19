@@ -105,10 +105,12 @@ abstract class RequestsRepository{
   Future<List<RequestsResponse>> fetchAllRequests({int page = 1});
   Future<RequestsResponse> deleteRequests(int id);
   Future<RequestsResponse> fetchRequestDetails(int id);
+  Future<void> respondToRequest(int requestId, bool response);
 }
 abstract class RequestsDataSource{
   Future<RequestsResponse> addRequest(String title,int typeId);
   Future<List<RequestsResponse>> fetchAllRequests({int page = 1});
   Future<RequestsResponse> deleteRequests(int id);
   Future<RequestsResponse> fetchRequestDetails(int id);
+  Future<void> respondToRequest(int requestId, bool response);
 }

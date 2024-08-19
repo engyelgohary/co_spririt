@@ -215,4 +215,9 @@ return await apiManager.fetchAllRequests(page: page);
  return await apiManager.fetchRequestDetails(id);
   }
 
+  @override
+  Future<void> respondToRequest(int requestId, bool response) async {
+    return await apiManager.respondToRequest(requestId, response);
+  }
+
 }

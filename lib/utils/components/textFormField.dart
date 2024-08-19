@@ -1,4 +1,3 @@
-import 'package:co_spririt/main.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +60,70 @@ class CustomTextFormField extends StatelessWidget {
             keyboardType: keyboardType,
           ),
         )
+      ],
+    );
+  }
+}
+
+class CustomText extends StatefulWidget{
+  String fieldName;
+  double? width;
+  var keyboardType;
+  String? Function(String?)? validator;
+  TextEditingController controller;
+  CustomText({super.key,required this.fieldName,
+    this.validator,
+    required this.controller,
+    this.keyboardType = TextInputType.text, this.width = 6});
+
+  @override
+  State<CustomText> createState() => _CustomTextState();
+}
+
+class _CustomTextState extends State<CustomText> {
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      children: [
+        Text(widget.fieldName,style: Theme.of(context)
+            .textTheme
+            .titleLarge!.copyWith(fontSize: 18,fontWeight: FontWeight.w700,color: AppColor.basicColor),),
+        SizedBox(
+          width: widget.width!.w,
+        ),
+        Container(
+          height: 32.h,
+          width: 230.w,
+          child: TextFormField(
+            keyboardType: widget.keyboardType,
+            controller: widget.controller,
+            validator: widget.validator,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
+              fillColor: AppColor.whiteColor,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: AppColor.borderColor
+                  ),
+                  borderRadius: BorderRadius.circular(5.r)),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.r),),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+    color: AppColor.errorColor
+    ),
+                  borderRadius: BorderRadius.circular(5.r)),
+              focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.r)),
+              disabledBorder:  OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.r)),
+              focusColor: AppColor.basicColor,
+              hoverColor: AppColor.basicColor,
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -1,173 +1,186 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../../core/app_ui.dart';
-import '../../../core/components.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../../data/dip.dart';
+import '../../../utils/components/appbar.dart';
+import '../../../utils/components/textFormField.dart';
+import '../../../utils/theme/appColors.dart';
+import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
 
-class ProfileScreenAdmin extends StatelessWidget {
-  const ProfileScreenAdmin({super.key});
+class ProfileScreenAdmin extends StatefulWidget {
+  final String adminId;
+  ProfileScreenAdmin({super.key, required this.adminId});
+
+  @override
+  State<ProfileScreenAdmin> createState() => _ProfileScreenAdminState();
+}
+
+class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
+  late AdminCubit viewModel;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  XFile? _selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    phoneController = TextEditingController();
+    emailController = TextEditingController();
+    viewModel = AdminCubit(adminRepository: injectAdminRepository());
+    viewModel.fetchAdminDetails(int.parse(widget.adminId));
+  }
+
+  Future<void> _pickImage() async {
+    final pickedImage =
+    await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _selectedImage = pickedImage;
+    });
+  }
+
+  void update(){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Admin Update Successfully"),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 42,
-                  width: 42,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor),
-                  child: BackButton(
-                    color: AppUI.whiteColor,
-                  ),
-                ),
-                Center(
-                  child: CustomText(
-                    text: 'Profile',
-                    fontSize: 20,
-                    color: AppUI.basicColor,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Container(
-                  height: 42,
-                  width: 42,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor),
-                  child: ImageIcon(
-                    AssetImage(
-                      '${AppUI.iconPath}edit.png',
-                    ),
-                    color: AppUI.whiteColor,
-                    size: 42,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                  child: Image.asset(
-                    '${AppUI.imgPath}profilephoto.png',
-                    height: 98,
-                    width: 98,
-                    // fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor),
-                  child: ImageIcon(
-                    AssetImage(
-                      '${AppUI.iconPath}camera.png',
-                    ),
-                    color: AppUI.whiteColor,
-                    size: 42,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Column(
-              children: [
-                CustomText(
-                  text: 'Olivier Matteo',
-                  fontSize: 17,
-                  color: AppUI.basicColor,
-                  fontWeight: FontWeight.w400,
-                ),
-                CustomText(
-                  text: 'Super Admin',
-                  fontSize: 17,
-                  color: AppUI.basicColor,
-                  fontWeight: FontWeight.w400,
-                ),
-              ],
-            ),
-            // SizedBox(height: 40,),
-
-            SizedBox(
-              height: 400,
-              width: 600,
-              child: SingleChildScrollView(
+      appBar: AppBar(
+        title: Text(
+          'Profile',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+        ),
+        leading: AppBarCustom(),
+      ),
+      body: BlocProvider(
+        create: (context) => viewModel,
+        child: BlocBuilder<AdminCubit, AdminState>(
+          builder: (context, state) {
+            if (state is AdminLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is AdminSuccess) {
+              final admin = state.adminData;
+              firstNameController.text = admin!.firstName ?? "";
+              lastNameController.text = admin.lastName ?? "";
+              phoneController.text = admin.phone ?? "";
+              emailController.text = admin.email ?? "";
+              return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 40,
+                    Center(
+                      child: GestureDetector(
+                        onTap: _pickImage,
+                        child: CircleAvatar(
+                          radius: 60.r,
+                          backgroundImage: _selectedImage != null
+                              ? FileImage(File(_selectedImage!.path))
+                              : NetworkImage(
+                              'http://10.10.99.13:3090${admin.pictureLocation}')
+                          as ImageProvider,
+                          child: _selectedImage == null &&
+                              admin.pictureLocation == null
+                              ? Icon(Icons.camera_alt, size: 50)
+                              : null,
+                        ),
+                      ),
                     ),
-                    CustomText(
-                      text: 'Full Name',
-                      fontSize: 16,
-                      color: AppUI.basicColor,
-                      fontWeight: FontWeight.w400,
+                    SizedBox(height: 5.h,),
+                    Center(
+                      child: Text(
+                        "${firstNameController.text} ${lastNameController.text}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15),
+                      ),
                     ),
-                    SizedBox(
-                      height: 8,
+                    Center(
+                      child: Text(
+                        'Admin',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15),
+                      ),
                     ),
-                    CustomInput(
-                      controller: TextEditingController(),
-                      textInputType: TextInputType.text,
+                    CustomTextFormField(
+                      fieldName: 'First Name',
+                      controller: firstNameController,
                     ),
-                    SizedBox(
-                      height: 12,
+                    CustomTextFormField(
+                      fieldName: 'Last Name',
+                      controller: lastNameController,
                     ),
-                    CustomText(
-                      text: 'Email Address',
-                      fontSize: 16,
-                      color: AppUI.basicColor,
-                      fontWeight: FontWeight.w400,
+                    CustomTextFormField(
+                      fieldName: 'Email',
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'please enter your email address';
+                        }
+                        bool emailValid = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value);
+                        if (!emailValid) {
+                          return 'invalid email';
+                        }
+                        return null;
+                      },
                     ),
-                    SizedBox(
-                      height: 8,
+                    CustomTextFormField(
+                      fieldName: 'Phone',
+                      controller: phoneController,
                     ),
-                    CustomInput(
-                      controller: TextEditingController(),
-                      textInputType: TextInputType.emailAddress,
+                    Center(
+                      child: Container(
+                        height: 35.h,
+                        width: 135.w,
+                        child: ElevatedButton(
+                          onPressed:  () {
+                            context.read<AdminCubit>().updateAdmin({
+                              'id': widget.adminId,
+                              'firstName': firstNameController.text,
+                              'lastName': lastNameController.text,
+                              'phone': phoneController.text,
+                              'email': emailController.text,
+                              'password': "AdminAdmin",
+                              'canPost': state.adminData!.canPost.toString(),
+                            }, _selectedImage);
+                          },
+                          child: Center(
+                              child: Text('Update',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                      fontSize: 16,
+                                      color: AppColor.whiteColor))),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5.r)))),
+                        ),
+                      ),
                     ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    CustomText(
-                      text: 'Password',
-                      fontSize: 16,
-                      color: AppUI.basicColor,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    CustomInput(
-                      controller: TextEditingController(),
-                      textInputType: TextInputType.visiblePassword,
-                    )
                   ],
                 ),
-              ),
-            )
-          ],
+              );
+            } else if (state is AdminError) {
+              return Center(child: Text(state.errorMessage ?? ""));
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );

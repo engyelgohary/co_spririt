@@ -1,195 +1,265 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spririt/data/dip.dart';
+import 'package:co_spririt/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_admin_cubit.dart';
+import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../core/app_ui.dart';
-import '../../../core/components.dart';
-import 'colllaborator_details.dart';
+import '../../../data/model/Collaborator.dart';
+import '../../../utils/components/appbar.dart';
+import '../../../utils/theme/appColors.dart';
+import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
+import '../../superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 
-
-class CollaboratorsAdminScreen extends StatelessWidget {
+class CollaboratorsAdminScreen extends StatefulWidget {
 
   @override
+  State<CollaboratorsAdminScreen> createState() => _CollaboratorsAdminScreenState();
+}
+
+class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
+  late CollaboratorToAdminCubit collaboratorToAdminCubit;
+  late CollaboratorCubit viewModel;
+  late AdminCubit adminCubit;
+  void initState() {
+    super.initState();
+   collaboratorToAdminCubit = CollaboratorToAdminCubit(adminRepository: injectAdminRepository());
+    viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
+    adminCubit = AdminCubit(adminRepository: injectAdminRepository());
+  }
+  @override
+  void dispose() {
+    collaboratorToAdminCubit.pagingController.dispose();
+    super.dispose();
+  }
+  void onOpportunityAdded() {
+    collaboratorToAdminCubit.pagingController.refresh();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 42,
-                  width: 42,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor),
-                  child: BackButton(
-                    color: AppUI.whiteColor,
-                  ),
-                ),
-                SizedBox(
-                  width: 100.w,
-                ),
-                Center(
-                  child: CustomText(
-                    text: 'Collaborators',
-                    fontSize: 20,
-                    color: AppUI.basicColor,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            SizedBox(
-                height: 680.h,
-                width: 600.w,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 18,
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: InkWell(
-                          onTap: () {
-                            //AppUtil.mainNavigator(context, ChatScreen());
-                          },
-                          child: Container(
-                            // width: ,
-                            height: 40,
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  '${AppUI.imgPath}photo.png',
-                                  height: 41,
-                                  width: 42,
-                                  fit: BoxFit.cover,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Container(
-                                  width: 100.w,
-                                  child: const Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(
-                                        text: 'Matteo',
-                                        fontSize: 15,
-                                        color: AppUI.basicColor,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                      Row(
-                                        children: [
-                                          CustomText(
-                                            text: 'Client1 / ',
-                                            fontSize: 12,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          CustomText(
-                                            text: 'Status 2',
-                                            fontSize: 12,
-                                            color: AppUI.errorColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Spacer(),
-                                Row(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 29,
-                                      width: 29,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(30),
-                                        color: AppUI.opacityColor,
-                                      ),
-                                      child: ImageIcon(
-                                        AssetImage(
-                                          '${AppUI.iconPath}Caht.png',
-                                        ),
-                                        color: AppUI.secondColor,
-                                        size: 14,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.vertical(
-                                                  top: Radius.circular(
-                                                      20.0)),
-                                            ),
-                                            constraints: BoxConstraints(
-                                             // maxHeight: double.infinity,
-                                            ),
-                                            // scrollControlDisabledMaxHeightRatio:
-                                            // 1,
-                                            builder: (context) => Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: CustomCard(
-                                                  child:
-                                                  CollaboratorAdminDetails(),
-                                                  // height:
-                                                  // MediaQuery.sizeOf(context)
-                                                  //     .height *
-                                                  //     .8,
-                                                  radius: 20,
-                                                )));
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 29,
-                                        width: 29,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(30),
-                                          color: AppUI.opacityColor,
-                                        ),
-                                        child: ImageIcon(
-                                          AssetImage(
-                                            '${AppUI.iconPath}details.png',
-                                          ),
-                                          color: AppUI.secondColor,
-                                          size: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+      appBar: AppBar(
+        title: Text(
+          'Collaborators',
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+        ),
+        leading: AppBarCustom(),
+      ),
+      body: BlocProvider.value(
+        value: collaboratorToAdminCubit,
+        child: BlocBuilder<CollaboratorToAdminCubit, CollaboratorToAdminState>(
+          builder: (context, state) {
+            return PagedListView<int, Collaborator>.separated(
+              pagingController: collaboratorToAdminCubit.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Collaborator>(
+                itemBuilder: (context, item, index) {
+                  final adminImage =
+                      'http://10.10.99.13:3090${item.pictureLocation}';
+                    return ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl: adminImage,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(
+                                color: AppColor.secondColor),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          backgroundColor: AppColor.SkyColor,
+                          radius: 20.r,
+                          child: Icon(Icons.error_outline,
+                              color: AppColor.secondColor, size: 20),
+                        ),
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
                         ),
                       ),
-                      Divider(
-                        thickness: 2,
-                        color: AppUI.whiteColor,
-                      )
-                    ],
-                  ),
-                )),
-          ],
+                      title: Text(
+                        '${item.firstName} ${item.lastName}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      subtitle: Text(
+                        "${item.email}",
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.w400, fontSize: 12),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.message_outlined,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15.w),
+                          InkWell(
+                            onTap: () {
+                              showStatusDialog(item.id ??0);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.add_reaction_outlined,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15.w),
+                          InkWell(
+                            onTap: () {
+                              showCollaboratorDetailsBottomSheet(item.id ?? 1);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(Icons.info_outline,
+                                  color: AppColor.secondColor, size: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                },
+              ),    separatorBuilder: (context, index) {
+              return Divider(
+                height: 0,
+                color: AppColor.whiteColor,
+                thickness: 1,
+              );
+            },
+            );
+          },
         ),
       ),
     );
   }
+  void showCollaboratorDetailsBottomSheet(int id) {
+    viewModel.fetchCollaboratorDetails(id);
+    adminCubit.fetchAdmins(1);
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: viewModel),
+            BlocProvider.value(value: adminCubit),
+          ],
+          child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+            bloc: viewModel,
+            builder: (context, collaboratorState) {
+              return BlocBuilder<AdminCubit, AdminState>(
+                bloc: adminCubit,
+                builder: (context, adminState) {
+                  if (collaboratorState is CollaboratorSuccess &&
+                      adminState is AdminSuccess) {
+                    return InfoCollaborator(
+                      collaborator: collaboratorState.collaboratorData,
+                      admin: adminState.getAdmin ?? [],
+                    );
+                  } else if (collaboratorState is CollaboratorError) {
+                    return Center(
+                        child: Text(collaboratorState.errorMessage ?? ""));
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                          color: AppColor.secondColor),
+                    );
+                  }
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+  void showStatusDialog(int collaboratorId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        int? selectedStatus;
+        return AlertDialog(
+          title: Text('Select Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20)),
+          content: DropdownButton<int>(
+            value: selectedStatus,
+            onChanged: (int? newValue) {
+              selectedStatus = newValue;
+            },
+            items: <int>[1, 2, 3].map<DropdownMenuItem<int>>((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text(value.toString(), style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontSize: 18,
+                  color: AppColor.basicColor,
+                ),),
+              );
+            }).toList(),
+          ),
+          actions: [
+            Container(
+              height: 35.h,
+              width: 115.w,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Center(
+                  child: Text(
+                    'Cancel',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontSize: 16,
+                      color: AppColor.thirdColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.greyColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 35.h,
+              width: 115.w,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedStatus != null) {
+                    collaboratorToAdminCubit.setStatusToCollaborator(collaboratorId, selectedStatus!);
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Center(
+                  child: Text('Set Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontSize: 16,
+                    color: AppColor.whiteColor,
+                  ),),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.buttonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

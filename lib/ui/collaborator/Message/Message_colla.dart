@@ -68,7 +68,7 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                  adminsList(apiManager, loadingNotifier);
+                  collaboratorAdminsList(apiManager, loadingNotifier);
                   signalr.start();
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {

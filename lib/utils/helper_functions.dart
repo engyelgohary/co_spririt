@@ -64,7 +64,10 @@ Future<void> collaboratorsList(ApiManager apiManager, LoadingStateNotifier loadi
   loadingNotifier.change();
 }
 
-Future<void> adminsList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+Future<void> collaboratorAdminsList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
   try {
     const storage = FlutterSecureStorage();
     final token = await storage.read(key: 'token');
@@ -82,7 +85,7 @@ Future<void> adminsList(ApiManager apiManager, LoadingStateNotifier loadingNotif
       await apiManager.fetchAdminDetails(collaboratorData.adminId ?? 0)
     ];
   } catch (e) {
-    print("- CollaboratorsList error : $e");
+    print("- collaboratorAdminsList error : $e");
     loadingNotifier.response = null;
   }
   loadingNotifier.change();

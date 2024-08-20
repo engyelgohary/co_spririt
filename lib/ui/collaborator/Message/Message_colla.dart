@@ -28,7 +28,6 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
     super.dispose();
   }
 
-  //TODO Fix typo
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +106,6 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                     pictureLocation: admin.pictureLocation,
                                   ),
                                 );
-                                // AppUtil.mainNavigator(context, ChatScreenSuperAdmin( collaborator: Collaborator(),)); //TODO Chage it to receiver id
                               },
                               child: SizedBox(
                                 // width: ,
@@ -129,8 +127,8 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w700,
                                           ),
-                                          const CustomText(
-                                            text: 'Lorem ipsum dolor sit amet .....',
+                                          CustomText(
+                                            text: admin.email ?? "Unknown",
                                             fontSize: 12,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
@@ -146,11 +144,12 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(30),
                                           color: AppUI.secondColor),
-                                      child: const CustomText(
-                                        text: '3',
-                                        fontSize: 15,
+                                      child: const ImageIcon(
+                                        AssetImage(
+                                          '${AppUI.iconPath}send.png',
+                                        ),
                                         color: AppUI.whiteColor,
-                                        fontWeight: FontWeight.w400,
+                                        size: 19,
                                       ),
                                     ),
                                   ],

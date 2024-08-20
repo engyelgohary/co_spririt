@@ -135,8 +135,8 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w700,
                                           ),
-                                          const CustomText(
-                                            text: 'Lorem ipsum dolor sit amet .....',
+                                          CustomText(
+                                            text: collaborator.email ?? "Unknown",
                                             fontSize: 12,
                                             color: AppUI.basicColor,
                                             fontWeight: FontWeight.w400,
@@ -152,11 +152,12 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(30),
                                           color: AppUI.secondColor),
-                                      child: const CustomText(
-                                        text: '3',
-                                        fontSize: 15,
+                                      child: const ImageIcon(
+                                        AssetImage(
+                                          '${AppUI.iconPath}send.png',
+                                        ),
                                         color: AppUI.whiteColor,
-                                        fontWeight: FontWeight.w400,
+                                        size: 19,
                                       ),
                                     ),
                                   ],

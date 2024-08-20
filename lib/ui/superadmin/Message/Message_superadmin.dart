@@ -127,11 +127,12 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(30),
                                               color: AppUI.secondColor),
-                                          child: const CustomText(
-                                            text: '3',
-                                            fontSize: 15,
+                                          child: const ImageIcon(
+                                            AssetImage(
+                                              '${AppUI.iconPath}send.png',
+                                            ),
                                             color: AppUI.whiteColor,
-                                            fontWeight: FontWeight.w400,
+                                            size: 19,
                                           ),
                                         ),
                                       ],

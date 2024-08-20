@@ -64,6 +64,19 @@ Future<void> collaboratorsList(ApiManager apiManager, LoadingStateNotifier loadi
   loadingNotifier.change();
 }
 
+Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    loadingNotifier.response = [
+      ...await apiManager.fetchAllCollaborators(),
+      ...await apiManager.getAllAdmins()
+    ];
+  } catch (e) {
+    print("- superAdminList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
 Future<void> collaboratorAdminsList(
   ApiManager apiManager,
   LoadingStateNotifier loadingNotifier,

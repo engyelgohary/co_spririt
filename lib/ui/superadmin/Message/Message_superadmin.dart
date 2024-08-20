@@ -1,4 +1,3 @@
-import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/ui/superadmin/Message/chat_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +10,8 @@ import '../../../utils/helper_functions.dart';
 
 class MessagesScreenSuperAdmin extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
-  final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstance(); //TODO Fix typo
+  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
 
   MessagesScreenSuperAdmin({super.key});
 
@@ -54,7 +53,7 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                  collaboratorsList(apiManager, loadingNotifier);
+                  superAdminList(apiManager, loadingNotifier);
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
@@ -67,15 +66,15 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                   );
                 }
 
-                final List<Collaborator> data = loadingNotifier.response!;
+                final List data = loadingNotifier.response!;
                 return SizedBox(
                   height: 680.h,
                   width: 600.w,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: 18,
+                    itemCount: data.length,
                     itemBuilder: (context, index) {
-                      final Collaborator collaborator = data[index];
+                      final recipient = data[index];
                       return Column(
                         children: [
                           Padding(
@@ -85,42 +84,40 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                                 AppUtil.mainNavigator(
                                   context,
                                   ChatScreenSuperAdmin(
-                                    receiverId: collaborator.id ?? 0,
-                                    email: collaborator.email ?? "",
-                                    name: collaborator.firstName ?? "",
-                                    pictureLocation: collaborator.pictureLocation,
+                                    receiverId: recipient.id ?? 0,
+                                    email: recipient.email ?? "",
+                                    name: recipient.firstName ?? "",
+                                    pictureLocation: recipient.pictureLocation,
                                   ),
                                 );
                               },
                               child: SizedBox(
                                 height: 60,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                       children: [
-                                        collaboratorPhoto(collaborator.pictureLocation),
+                                        collaboratorPhoto(recipient.pictureLocation),
                                         const SizedBox(
                                           width: 12,
                                         ),
-                                        SizedBox(
-                                          width: 100,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              CustomText(
-                                                text: collaborator.firstName ?? "Unknown",
-                                                fontSize: 15,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                              const CustomText(
-                                                text: 'Lorem ipsum dolor sit amet .....',
-                                                fontSize: 12,
-                                                color: AppUI.basicColor,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ],
-                                          ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              text: recipient.firstName ?? "Unknown",
+                                              fontSize: 15,
+                                              color: AppUI.basicColor,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            CustomText(
+                                              text: recipient.email ?? "Unknown",
+                                              fontSize: 12,
+                                              color: AppUI.basicColor,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ],
                                         ),
                                         const Spacer(),
                                         Container(

@@ -32,7 +32,7 @@ class ApiConstants {
 class ApiManager {
   ApiManager._();
   static ApiManager? _instance;
-  static ApiManager getInstanace() {
+  static ApiManager getInstance() {
     _instance ??= ApiManager._();
     return _instance!;
   }

@@ -19,7 +19,7 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
   final LoadingStateNotifier<GetAdmin> loadingNotifier = LoadingStateNotifier();
   final ListNotifier<GetAdmin> listNotifier = ListNotifier(list: []);
 
-  final ApiManager apiManager = ApiManager.getInstanace();
+  final ApiManager apiManager = ApiManager.getInstance();
 
   final signalr = Signalr();
   @override

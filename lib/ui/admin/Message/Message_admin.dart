@@ -18,7 +18,7 @@ class MessagesScreenAdmin extends StatefulWidget {
 
 class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
   final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstanace();
+  final ApiManager apiManager = ApiManager.getInstance();
   final Signalr signalr = Signalr();
 
   @override

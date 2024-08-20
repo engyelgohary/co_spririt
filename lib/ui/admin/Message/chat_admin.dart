@@ -29,7 +29,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
   final TextEditingController messageController = TextEditingController();
   final ListNotifier<Message> listNotifier = ListNotifier(list: []);
   final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstanace();
+  final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
   final Signalr signalr = Signalr();
 

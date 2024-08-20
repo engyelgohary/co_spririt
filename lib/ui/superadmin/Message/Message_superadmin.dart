@@ -12,7 +12,7 @@ import '../../../utils/helper_functions.dart';
 class MessagesScreenSuperAdmin extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
   final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstanace(); //TODO Fix typo
+  final ApiManager apiManager = ApiManager.getInstance(); //TODO Fix typo
 
   MessagesScreenSuperAdmin({super.key});
 

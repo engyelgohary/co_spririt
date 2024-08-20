@@ -244,7 +244,6 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                 ),
                 InkWell(
                   onTap: () async {
-                    // TODO implement sending messages through api.
                     if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
                       sendMessage(
                         widget.receiverId,

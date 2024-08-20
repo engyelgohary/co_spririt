@@ -7,23 +7,50 @@ import '../../../core/components.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
-class ChatScreenSuperAdmin extends StatelessWidget {
+class ChatScreenSuperAdmin extends StatefulWidget {
   final int receiverId;
   final String name;
   final String email;
   final String? pictureLocation;
-  final TextEditingController messageController = TextEditingController();
-  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
-  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
-  final ApiManager apiManager = ApiManager.getInstance();
 
-  ChatScreenSuperAdmin({
+  const ChatScreenSuperAdmin({
     super.key,
     required this.receiverId,
     required this.name,
     required this.email,
     this.pictureLocation,
   });
+
+  @override
+  State<ChatScreenSuperAdmin> createState() => _ChatScreenSuperAdminState();
+}
+
+class _ChatScreenSuperAdminState extends State<ChatScreenSuperAdmin> {
+  final TextEditingController messageController = TextEditingController();
+  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
+  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
+  final ScrollController scrollController = ScrollController();
+  final Signalr signalr = Signalr();
+
+  @override
+  void initState() {
+    signalr.listNotifier = listNotifier;
+    signalr.scrollController = scrollController;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    listNotifier.dispose();
+    loadingNotifier.dispose();
+    messageController.dispose();
+    scrollController.dispose();
+    signalr.listNotifier = null;
+    signalr.receiverId = null;
+    signalr.scrollController = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +111,7 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          collaboratorPhoto(pictureLocation),
+                          collaboratorPhoto(widget.pictureLocation),
                           const SizedBox(
                             width: 8,
                           ),
@@ -93,13 +120,13 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                  text: name,
+                                  text: widget.name,
                                   fontSize: 16,
                                   color: AppUI.basicColor,
                                   fontWeight: FontWeight.w700,
                                 ),
                                 CustomText(
-                                  text: email,
+                                  text: widget.email,
                                   fontSize: 12,
                                   color: AppUI.basicColor,
                                   fontWeight: FontWeight.w400,
@@ -119,19 +146,18 @@ class ChatScreenSuperAdmin extends StatelessWidget {
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                    collaboratorsMessages(receiverId, apiManager, loadingNotifier);
+                  collaboratorsMessages(widget.receiverId, apiManager, loadingNotifier);
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
-                } else if (loadingNotifier.response==null) {
-                    return Expanded(
-                      child: Center(
-                        child: buildErrorIndicator(
-                          "Some error occurred, Please try again.",
-                          () => loadingNotifier.change(),
-                        ),
+                } else if (loadingNotifier.response == null) {
+                  return Expanded(
+                    child: Center(
+                      child: buildErrorIndicator(
+                        "Some error occurred, Please try again.",
+                        () => loadingNotifier.change(),
                       ),
-                    );
-                  }
-                
+                    ),
+                  );
+                }
                 listNotifier.list = loadingNotifier.response!;
                 return Flexible(
                   child: Padding(
@@ -141,6 +167,7 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                       builder: (context, child) {
                         List<Message> list = listNotifier.list;
                         return ListView.builder(
+                          controller: scrollController,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             final message = list[index];
@@ -151,7 +178,7 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                               time: message.time!,
                             );
 
-                            if (index == 0 || message.date != list[index-1].date) {
+                            if (index == 0 || message.date != list[index - 1].date) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 4),
                                 child: Column(
@@ -215,13 +242,21 @@ class ChatScreenSuperAdmin extends StatelessWidget {
                   width: 8,
                 ),
                 InkWell(
-                  onTap: () {
-                    // TODO implement sending messages through api.
+                  onTap: () async {
                     if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
-                      listNotifier.addItem(
-                          [messageController.text.trim(), "", true, currentTime(), currentDate()]);
+                      sendMessage(
+                        widget.receiverId,
+                        messageController.text.trim(),
+                        apiManager,
+                        listNotifier,
+                      );
                       messageController.clear();
                     }
+                    Future.delayed(
+                      const Duration(milliseconds: 300),
+                      () => scrollController.animateTo(scrollController.position.maxScrollExtent,
+                          duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
+                    );
                   },
                   child: Container(
                     height: 44,

@@ -861,6 +861,7 @@ class ApiManager {
           print('Tittle: ${post.title}');
           print('Last Edit: ${post.lastEdit}');
           print('Picture Location: ${post.pictureLocation}');
+          print('user picture: ${post.pictureLocationUser}');
           print('---');
         }
 
@@ -907,15 +908,20 @@ class ApiManager {
 
     request.headers['Authorization'] = 'Bearer $token';
 
-    var response = await request.send();
+    try {
+      var response = await request.send();
+      var responseData = await http.Response.fromStream(response);
 
-    var responseData = await http.Response.fromStream(response);
-
-    if (response.statusCode == 201) {
-      print('$responseData');
-      return true;
-    } else {
-      print('Failed to create post: ${responseData.body}');
+      if (response.statusCode == 201) {
+        print('Post created successfully: ${responseData.body}');
+        return true;
+      } else {
+        print('Failed to create post for superadmin: ${responseData.statusCode}, ${responseData.body}');
+        print('Headers: ${response.headers}');
+        return false;
+      }
+    } catch (e) {
+      print('Error occurred: $e');
       return false;
     }
   }

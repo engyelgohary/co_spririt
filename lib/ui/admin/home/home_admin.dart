@@ -285,7 +285,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                         height:
                                         MediaQuery.sizeOf(context).height * .8,
                                         radius: 20,
-                                        child: CreatePost(apiManager: apiManager,),
+                                        child: CreatePost(apiManager: apiManager, onPostCreated: reloadPosts),
                                       ),
                                     );
                                   },
@@ -440,22 +440,53 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                           children: [
                                             Row(
                                               children: [
-                                                Image.asset(
-                                                  '${AppUI.imgPath}photo.png',
-                                                  height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                      0.05,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.08,
+                                                ClipOval(
+                                                  child: post.pictureLocationUser !=
+                                                      null
+                                                      ? CachedNetworkImage(
+                                                    imageUrl:
+                                                    'http://10.10.99.13:3090${post.pictureLocationUser}',
+                                                    placeholder: (context,
+                                                        url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget: (context,
+                                                        url, error) =>
+                                                        Icon(Icons.error),
+                                                    height:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.05,
+                                                    width:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.08,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                      : Image.asset(
+                                                    '${AppUI.imgPath}photo.png',
+                                                    height:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.05,
+                                                    width:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.08,
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width *
                                                       0.02,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.01,
                                                 ),
                                                 Column(
                                                   crossAxisAlignment:
@@ -463,7 +494,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                                   children: [
                                                     CustomText(
                                                       text:
-                                                      'User ID: ${post.userId}',
+                                                      '${post.firstNameUser} ${post.lastNameUser}',
                                                       fontSize: 12,
                                                       color: AppUI.basicColor,
                                                       fontWeight: FontWeight.w400,

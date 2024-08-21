@@ -35,10 +35,19 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
 
           switch (roleType) {
             case "0":
-            // Super Admin doesn't require roleId
-              emit(LoginModelViewSuccess(HomeScreenSuperAdmin()));
-              print(decodedToken);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              int? superAdminId = int.tryParse(decodedToken['nameid']?.toString() ?? '');
+              if (superAdminId != null) {
+                await prefs.setInt('superAdminId', superAdminId);}
+              if (roleId != null) {
+                emit(LoginModelViewSuccess(HomeScreenSuperAdmin(superAdminId: roleId,)));
+                print(decodedToken);
+              } else {
+                print('Role ID "nameid" not found for Admin.');
+                emit(LoginModelViewError('Role ID "nameid" not found for Admin.'));
+              }
               break;
+
             case "1":
               SharedPreferences prefs = await SharedPreferences.getInstance();
               int? adminId = int.tryParse(decodedToken['nameid']?.toString() ?? '');

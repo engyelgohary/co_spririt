@@ -6,7 +6,6 @@ import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.da
 import 'package:co_spririt/ui/superadmin/requests/request_Superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
@@ -45,7 +44,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
             children: [
               Image.asset(
                 '${AppUI.imgPath}Rectangle 15.png',
-                height: 191.h,
+                height: 184.h,
                 width: 375.w,
                 fit: BoxFit.fill,
               ),
@@ -83,32 +82,37 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                     ),
                   ),
                   SizedBox(
-                    height: 12.h,
+                    height: 10.h,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      SizedBox(
+                        width: 29.w,
+                      ),
                       Column(
                         children: [
                           InkWell(
                             onTap: reloadPosts,
                             child: const ImageIcon(
                               AssetImage("${AppUI.iconPath}Home.png"),
-                              size: 24,
+                              size: 25,
                               color: AppUI.secondColor,
                               semanticLabel: 'Home',
                             ),
                           ),
                           SizedBox(
-                            height: 8.h,
+                            height: 6.h,
                           ),
                           const CustomText(
                             text: 'Home',
-                            fontSize: 12,
+                            fontSize: 13,
                             color: AppUI.secondColor,
                             fontWeight: FontWeight.w400,
                           )
                         ],
+                      ),
+                      SizedBox(
+                        width: 45.w,
                       ),
                       InkWell(
                         onTap: () {
@@ -120,20 +124,23 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                               const AssetImage(
                                 "${AppUI.iconPath}request.png",
                               ),
-                              size: 24,
+                              size: 25,
                               color: AppUI.borderColor,
                             ),
                             SizedBox(
-                              height: 8.h,
+                              height: 6.h,
                             ),
                             const CustomText(
                               text: 'Requests',
-                              fontSize: 12,
+                              fontSize: 13,
                               color: AppUI.borderColor,
                               fontWeight: FontWeight.w400,
                             )
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        width: 45.w,
                       ),
                       InkWell(
                         onTap: () {
@@ -146,20 +153,23 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                               const AssetImage(
                                 "${AppUI.iconPath}Caht.png",
                               ),
-                              size: 24,
+                              size: 25,
                               color: AppUI.borderColor,
                             ),
                             SizedBox(
-                              height: 8.h,
+                              height: 6.h,
                             ),
                             const CustomText(
                               text: 'Messages',
-                              fontSize: 12,
+                              fontSize: 13,
                               color: AppUI.borderColor,
                               fontWeight: FontWeight.w400,
                             )
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        width: 45.w,
                       ),
                       InkWell(
                         onTap: () {
@@ -172,15 +182,15 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                               const AssetImage(
                                 "${AppUI.iconPath}menu.png",
                               ),
-                              size: 24,
+                              size: 25,
                               color: AppUI.borderColor,
                             ),
                             SizedBox(
-                              height: 8.h,
+                              height: 6.h,
                             ),
                             const CustomText(
                               text: 'Menu',
-                              fontSize: 12,
+                              fontSize: 13,
                               color: AppUI.borderColor,
                               fontWeight: FontWeight.w400,
                             )

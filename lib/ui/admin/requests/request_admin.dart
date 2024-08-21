@@ -19,8 +19,6 @@ class RequestAdmin extends StatefulWidget {
 }
 
 class _RequestAdminState extends State<RequestAdmin> {
-  final List<String> requests = List.generate(10, (index) => 'Title1');
-
   late RequestsCubit viewModel;
 
   void initState() {
@@ -76,7 +74,7 @@ class _RequestAdminState extends State<RequestAdmin> {
               builderDelegate: PagedChildBuilderDelegate<RequestsResponse>(
                 itemBuilder: (context, item, index) {
                   return ListTile(
-                      title: Padding(
+                  title: Padding(
                         padding:  EdgeInsets.symmetric(vertical: 0.h),
                         child: Text(item.description ?? "",
                             style: Theme.of(context)
@@ -91,7 +89,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                               .textTheme
                               .titleSmall!
                               .copyWith(fontSize: 15)),
-                          Text('${item.statusType}', style: Theme.of(context)
+                          Text(item.type ?? "", style: Theme.of(context)
                               .textTheme
                               .titleSmall!
                               .copyWith(fontSize: 15)),
@@ -100,13 +98,47 @@ class _RequestAdminState extends State<RequestAdmin> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CircleAvatar(
-                            backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
-                            child: Icon(
-                              Icons.add_task,
-                              color: AppColor.secondColor,
-                              size: 20,
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Respond to Request",style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+                                    content: Text("Would you like to accept or reject this request?"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text("Reject"),
+                                        onPressed: () async {
+                                          Navigator.of(context).pop(); // Close the dialog
+                                          await viewModel.respondToRequest(item.id ?? 0, false); // Send rejection
+                                          onOpportunityAdded(); // Refresh the list
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("Accept"),
+                                        onPressed: () async {
+                                          Navigator.of(context).pop(); // Close the dialog
+                                          await viewModel.respondToRequest(item.id ?? 0, true); // Send acceptance
+                                          onOpportunityAdded(); // Refresh the list
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18.r,
+                              child: Icon(
+                                Icons.add_task,
+                                color: AppColor.secondColor,
+                                size: 20,
+                              ),
                             ),
                           ),
                           SizedBox(width: 20.w,),
@@ -135,10 +167,9 @@ class _RequestAdminState extends State<RequestAdmin> {
                                               SizedBox(height: 5.h,),
                                               CustomTextInfo(fieldName:'Type :' ,data:"${item.requestType}"),
                                               SizedBox(height: 5.h,),
-                                              CustomTextInfo(fieldName:'Status :' ,data:"${item.statusType}"),
+                                              CustomTextInfo(fieldName:'Status :' ,data:"${item.type}"),
                                               SizedBox(height: 5.h,),
                                               CustomTextInfo(fieldName:'Collaborator Name :' ,data:"${item.from}"),
-
                                             ],
                                           ),
                                         );

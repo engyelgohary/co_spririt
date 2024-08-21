@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../utils/components/appbar.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
@@ -27,6 +26,7 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
   late TextEditingController phoneController;
   late TextEditingController emailController;
   XFile? _selectedImage;
+  File? cv;
   @override
   void initState() {
     super.initState();
@@ -45,7 +45,6 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
       _selectedImage = pickedImage;
     });
   }
-
   @override
   void dispose() {
     firstNameController.dispose();
@@ -158,7 +157,7 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                               'email': emailController.text,
                               "ContractStart": state.collaboratorData!.contractStart,
                               "ContractEnd":state.collaboratorData!.contractEnd,
-                            }, _selectedImage,state.collaboratorData!.cvLocation as File);
+                            }, _selectedImage,cv);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Profile Update Successfully"),
                             ));

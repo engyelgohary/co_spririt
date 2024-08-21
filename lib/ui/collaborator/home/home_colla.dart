@@ -27,7 +27,7 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
   @override
   void initState() {
     super.initState();
-    apiManager = ApiManager.getInstanace();
+    apiManager = ApiManager.getInstance();
     adminPosts = apiManager.fetchAdminPosts();
   }
 

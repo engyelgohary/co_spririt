@@ -34,7 +34,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   void initState() {
     super.initState();
     admin = widget.admin;
-    apiManager = ApiManager.getInstanace();
+    apiManager = ApiManager.getInstance();
     adminPosts = apiManager.fetchAdminPosts();
 
   }

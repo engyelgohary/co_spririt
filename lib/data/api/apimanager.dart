@@ -7,6 +7,7 @@ import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/data/model/Post.dart';
 import 'package:co_spririt/data/model/RequestsReq.dart';
 import 'package:co_spririt/data/model/RequestsResponse.dart';
+import 'package:co_spririt/data/model/message.dart';
 import 'package:co_spririt/data/model/typeReq.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -35,12 +36,14 @@ class ApiConstants {
   static const String adminRequests= '/api/v1/requests';
   static const String allPostsApi ='/api/v1/post';
   static const String fetchPostsByAdminApi ='/api/v1/post/GetPostsAdmin';
+  static const String messagingApi = '/api/v1/messages';
+  static const String superAdminApi = '/api/v1/SuperAdmin';
 }
 
 class ApiManager {
   ApiManager._();
   static ApiManager? _instance;
-  static ApiManager getInstanace() {
+  static ApiManager getInstance() {
     _instance ??= ApiManager._();
     return _instance!;
   }
@@ -1040,6 +1043,100 @@ class ApiManager {
     } catch (error) {
       print('Error updating post: $error');
       return false;
+    }
+  }
+  // Messages
+  Future<List> getUserMessages(int id) async {
+    final List<Message> output = [];
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.messagingApi}/$id');
+      final response = await http.get(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List messages = jsonDecode(response.body);
+        if (messages.isNotEmpty) {
+          for (var message in messages) {
+            output.add(Message.fromJson(message, id != message["fromId"]));
+          }
+          return output;
+        }
+      } else if (response.statusCode == 404) {
+        return output;
+      }
+      throw Exception("Failed to get user messages code: ${response.statusCode}");
+    } catch (e) {
+      print("Could not get the message error: ${e}");
+      rethrow;
+    }
+  }
+
+// Messages
+  Future<Map> sendMessage(int receiverId, String content) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.messagingApi);
+      final body = jsonEncode({"id": 0, "toId": receiverId, "content": content});
+      final response = await http.post(
+        uri,
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Map responseData = jsonDecode(response.body);
+        return responseData;
+      } else {
+        throw Exception('Failed to get Messages: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Could not send the message error $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getSuperAdminData() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminApi);
+      final response = await http.get(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List responseData = jsonDecode(response.body);
+        responseData = List.from(responseData.map((e) => GetAdmin.fromJson(e)));
+        return responseData;
+      } else {
+        throw Exception('Failed to get super admin data code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Could not get super admin data $e");
+      rethrow;
     }
   }
 }

@@ -60,7 +60,9 @@ dependencies:
   url_launcher: ^6.3.0
   webview_flutter: ^4.5.0
   shared_preferences: ^2.1.0
-
+  flutter_chat_bubble: ^2.0.2
+  awesome_notifications: ^0.9.3+1
+  signalr_core: ^1.1.2
 
 
 

@@ -27,7 +27,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
   @override
   void initState() {
     super.initState();
-    apiManager = ApiManager.getInstanace();
+    apiManager = ApiManager.getInstance();
     futurePosts = apiManager.fetchPosts();
   }
 

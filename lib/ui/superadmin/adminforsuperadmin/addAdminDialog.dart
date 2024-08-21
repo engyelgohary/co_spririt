@@ -46,7 +46,7 @@ class _AddAdminState extends State<AddAdmin> {
           child: Container(
             height: 600.h,
             width: 369.w,
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
               child: Column(
@@ -75,7 +75,7 @@ class _AddAdminState extends State<AddAdmin> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
@@ -87,11 +87,11 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
-                    width: 7,
+                    width: 7.w,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your last name';
@@ -99,11 +99,11 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phone_controller,
-                    width: 35,
+                    width: 35.w,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -112,11 +112,11 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.email_controller,
-                    width: 44,
+                    width: 45.w,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -131,7 +131,7 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

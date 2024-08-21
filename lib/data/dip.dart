@@ -7,44 +7,44 @@ AuthRepository injectAuthRepository(){
   return AuthRepositoryImpl(authRemoteDataSource:injectAuthRemoteDataSource());
 }
 AuthRemoteDataSource injectAuthRemoteDataSource(){
-  return AuthDataSourceImpl(apiManager:ApiManager.getInstanace());
+  return AuthDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 AdminRepository injectAdminRepository(){
   return AdminRepositoryImpl(adminRemoteDataSource: injectAdminRemoteDataSource());
 }
 AdminRemoteDataSource injectAdminRemoteDataSource(){
-  return AdminDataSourceImpl(apiManager:ApiManager.getInstanace());
+  return AdminDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 
 ClientRepository injectClientRepository(){
   return ClientRepositoryImpl(clientRemoteDataSource: injectClientRemoteDataSource());
 }
 ClientRemoteDataSource injectClientRemoteDataSource(){
-  return ClientDataSourceImpl(apiManager:ApiManager.getInstanace());
+  return ClientDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 CollaboratorRepository injectCollaboratorRepository(){
   return CollaboratorRepositoryImpl(collaboratorRemoteDataSource: injectCollaboratorRemoteDataSource());
 }
 CollaboratorRemoteDataSource injectCollaboratorRemoteDataSource(){
-  return CollaboratorDataSourceImpl(apiManager:ApiManager.getInstanace());
+  return CollaboratorDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 OpportunitiesRepository injectOpportunitiesRepository(){
   return OpportunitiesRepositoryImpl(opportunitiesDataSource: injectOpportunitiesRemoteDataSource());
 }
 OpportunitiesDataSource injectOpportunitiesRemoteDataSource(){
-  return OpportunitiesDataSourceImpl(apiManager:ApiManager.getInstanace());
+  return OpportunitiesDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 TypesRepository injectTypesRepository(){
   return TypesRepositoryImpl(typesDataSource: injectTypesDataSource());
 }
 TypesDataSource injectTypesDataSource(){
-  return TypesDataSourceImpl(apiManager: ApiManager.getInstanace());
+  return TypesDataSourceImpl(apiManager: ApiManager.getInstance());
 }
 RequestsRepository injectRequestsRepository(){
   return RequestRepositoryImpl(requestsDataSource: injectRequestsDataSource());
 }
 RequestsDataSource injectRequestsDataSource(){
-return RequestsDataSourceImpl(apiManager:ApiManager.getInstanace());
+return RequestsDataSourceImpl(apiManager:ApiManager.getInstance());
 }
 
 

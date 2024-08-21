@@ -27,7 +27,7 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
   @override
   void initState() {
     super.initState();
-    apiManager = ApiManager.getInstanace();
+    apiManager = ApiManager.getInstance();
     adminPosts = apiManager.fetchAdminPosts();
   }
 
@@ -254,28 +254,61 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            '${AppUI.imgPath}photo.png',
-                                            height: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height * 0.05,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width * 0.08,
+                                          ClipOval(
+                                            child: post.pictureLocationUser !=
+                                                null
+                                                ? CachedNetworkImage(
+                                              imageUrl:
+                                              'http://10.10.99.13:3090${post.pictureLocationUser}',
+                                              placeholder: (context,
+                                                  url) =>
+                                                  CircularProgressIndicator(),
+                                              errorWidget: (context,
+                                                  url, error) =>
+                                                  Icon(Icons.error),
+                                              height:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.05,
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                                  0.08,
+                                              fit: BoxFit.cover,
+                                            )
+                                                : Image.asset(
+                                              '${AppUI.imgPath}photo.png',
+                                              height:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.05,
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                                  0.08,
+                                            ),
                                           ),
-                                          SizedBox(width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width * 0.02),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                0.02,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.01,
+                                          ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .start,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                             children: [
                                               CustomText(
-                                                text: 'User ID: ${post
-                                                    .userId}',
+                                                text:
+                                                '${post.firstNameUser} ${post.lastNameUser}',
                                                 fontSize: 12,
                                                 color: AppUI.basicColor,
                                                 fontWeight: FontWeight.w400,
@@ -286,29 +319,33 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                                                     text: '${post.lastEdit}',
                                                     fontSize: 12,
                                                     color: AppUI.basicColor,
-                                                    fontWeight: FontWeight
-                                                        .w400,
+                                                    fontWeight:
+                                                    FontWeight.w400,
                                                   ),
-                                                  SizedBox(width: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .width * 0.01),
+                                                  SizedBox(
+                                                    width:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.01,
+                                                  ),
                                                   Image.asset(
-                                                    '${AppUI
-                                                        .imgPath}Group.png',
-                                                    height: MediaQuery
-                                                        .of(context)
+                                                    '${AppUI.imgPath}Group.png',
+                                                    height:
+                                                    MediaQuery.of(context)
                                                         .size
-                                                        .height * 0.015,
-                                                    width: MediaQuery
-                                                        .of(context)
+                                                        .height *
+                                                        0.015,
+                                                    width:
+                                                    MediaQuery.of(context)
                                                         .size
-                                                        .width * 0.015,
+                                                        .width *
+                                                        0.015,
                                                   ),
                                                 ],
-                                              ),
+                                              )
                                             ],
-                                          ),
+                                          )
                                         ],
                                       ),
                                       SizedBox(height: MediaQuery

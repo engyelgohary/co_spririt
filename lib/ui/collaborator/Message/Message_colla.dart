@@ -16,8 +16,8 @@ class MessagesScreenColla extends StatefulWidget {
 }
 
 class _MessagesScreenCollaState extends State<MessagesScreenColla> {
-  final LoadingStateNotifier<GetAdmin> loadingNotifier = LoadingStateNotifier();
-  final ListNotifier<GetAdmin> listNotifier = ListNotifier(list: []);
+  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
+  final ListNotifier<dynamic> listNotifier = ListNotifier(list: []);
 
   final ApiManager apiManager = ApiManager.getInstance();
 
@@ -81,7 +81,7 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                   );
                 }
 
-                final List<GetAdmin> data = loadingNotifier.response!;
+                final List<dynamic> data = loadingNotifier.response!;
                 return SizedBox(
                   height: 680.h,
                   width: 600.w,
@@ -116,25 +116,23 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                     const SizedBox(
                                       width: 4,
                                     ),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            text: admin.firstName ?? "Unknown",
-                                            fontSize: 15,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          CustomText(
-                                            text: admin.email ?? "Unknown",
-                                            fontSize: 12,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ],
-                                      ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: admin.firstName ?? "Unknown",
+                                          fontSize: 15,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        CustomText(
+                                          text: admin.email ?? "Unknown",
+                                          fontSize: 12,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ],
                                     ),
                                     const Spacer(),
                                     Container(

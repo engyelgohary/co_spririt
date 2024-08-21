@@ -14,8 +14,6 @@ import 'package:path/path.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
-
-
 class ApiConstants {
   static const String baseUrl = '10.10.99.13:3090';
   static const String loginApi = '/api/auth/signin';
@@ -27,6 +25,7 @@ class ApiConstants {
   static const String opportunitiesDeleteApi = '/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi = '/api/v1/opportunities';
   static const String messagingApi = '/api/v1/messages';
+  static const String superAdminApi = '/api/v1/SuperAdmin';
 }
 
 class ApiManager {
@@ -36,6 +35,7 @@ class ApiManager {
     _instance ??= ApiManager._();
     return _instance!;
   }
+
   final storage = FlutterSecureStorage();
 //Auth
   Future<String?> login({required String email, required String password}) async {
@@ -70,6 +70,7 @@ class ApiManager {
       return null;
     }
   }
+
 //Admin
   Future<List<GetAdmin>> getAllAdmins({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi, {
@@ -81,18 +82,17 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
-        final List<GetAdmin> admins =
-            jsonList.map((json) => GetAdmin.fromJson(json)).toList();
+        final List<GetAdmin> admins = jsonList.map((json) => GetAdmin.fromJson(json)).toList();
         return admins;
       } else {
-        throw Exception(
-            'Failed to load admins. Status code: ${response.statusCode}');
+        throw Exception('Failed to load admins. Status code: ${response.statusCode}');
       }
     } catch (error) {
       print('Error fetching admins: $error');
       throw Exception('Error fetching admins: $error');
     }
   }
+
   Future<GetAdmin> addAdmin(Map<String, dynamic> adminData, XFile? image) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi);
     var request = http.MultipartRequest('POST', uri);
@@ -127,6 +127,7 @@ class ApiManager {
       throw Exception('Failed to add admin: ${responseData.body}');
     }
   }
+
   Future<GetAdmin> fetchAdminDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.get(uri);
@@ -137,10 +138,10 @@ class ApiManager {
       throw Exception('Failed to load admin details');
     }
   }
+
   Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     try {
-      var uri = Uri.http(
-          ApiConstants.baseUrl, '${ApiConstants.adminApi}/${adminData['id']}');
+      var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/${adminData['id']}');
       var request = http.MultipartRequest('PUT', uri);
 
       // Adding fields to the request
@@ -181,6 +182,7 @@ class ApiManager {
       throw Exception('No Internet connection');
     }
   }
+
   Future<GetAdmin> deleteAdmin(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.delete(uri);
@@ -192,6 +194,7 @@ class ApiManager {
       throw Exception('Failed to delete admin ');
     }
   }
+
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) async {
     try {
       final token = await storage.read(key: 'token');
@@ -199,7 +202,8 @@ class ApiManager {
         throw Exception('No token found. Please log in.');
       }
       final response = await http.get(
-        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.adminApi}/collaborators?page=$page'),
+        Uri.parse(
+            'http://${ApiConstants.baseUrl}${ApiConstants.adminApi}/collaborators?page=$page'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
@@ -208,7 +212,8 @@ class ApiManager {
       if (response.statusCode == 200) {
         List<dynamic> responseData = jsonDecode(response.body);
         print('Response data: $responseData'); // Add debug print statement
-        List<Collaborator> opportunities = responseData.map((data) => Collaborator.fromJson(data)).toList();
+        List<Collaborator> opportunities =
+            responseData.map((data) => Collaborator.fromJson(data)).toList();
         print('Opportunities: $opportunities'); // Add debug print statement
         return opportunities;
       } else {
@@ -228,18 +233,17 @@ class ApiManager {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
-        final List<Client> clients =
-            jsonList.map((json) => Client.fromJson(json)).toList();
+        final List<Client> clients = jsonList.map((json) => Client.fromJson(json)).toList();
         return clients;
       } else {
-        throw Exception(
-            'Failed to load clients. Status code: ${response.statusCode}');
+        throw Exception('Failed to load clients. Status code: ${response.statusCode}');
       }
     } catch (error) {
       print('Error fetching clients: $error');
       throw Exception('Error fetching clients: $error');
     }
   }
+
   Future<Client> addClient(String first, String email, String last, String phone) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.clientApi);
     var registerReq = ClientReq(
@@ -262,6 +266,7 @@ class ApiManager {
       throw Exception('Failed to add client: ${response.body}');
     }
   }
+
   Future<Client> deleteClient(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
     final response = await http.delete(uri);
@@ -270,10 +275,10 @@ class ApiManager {
     } else if (response.statusCode == 200) {
       return Client.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(
-          'Failed to delete client. Status code: ${response.statusCode}');
+      throw Exception('Failed to delete client. Status code: ${response.statusCode}');
     }
   }
+
   Future<Client> fetchClientDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
     final response = await http.get(uri);
@@ -284,7 +289,9 @@ class ApiManager {
       throw Exception('Failed to load client details');
     }
   }
-  Future<void> updateClient(int id, String firstName, String lastName, String email, String contactNumber) async {
+
+  Future<void> updateClient(
+      int id, String firstName, String lastName, String email, String contactNumber) async {
     try {
       var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.clientApi}/$id');
       var clientData = ClientReq(
@@ -302,17 +309,16 @@ class ApiManager {
       );
 
       if (response.statusCode != 204 && response.statusCode != 200) {
-        throw Exception(
-            'Failed to update client. Status code: ${response.statusCode}');
+        throw Exception('Failed to update client. Status code: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception(e);
     }
   }
+
 //Collaborator
   Future<List<Collaborator>> fetchAllCollaborators({int page = 1}) async {
-    final Uri url =
-        Uri.http(ApiConstants.baseUrl, ApiConstants.collaboratorApi, {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.collaboratorApi, {
       "page": page.toString(),
     });
     try {
@@ -323,17 +329,16 @@ class ApiManager {
             jsonList.map((json) => Collaborator.fromJson(json)).toList();
         return collaborator;
       } else {
-        throw Exception(
-            'Failed to load collaborator. Status code: ${response.statusCode}');
+        throw Exception('Failed to load collaborator. Status code: ${response.statusCode}');
       }
     } catch (error) {
       print('Error fetching collaborator: $error');
       throw Exception('Error fetching collaborator: $error');
     }
   }
+
   Future<Collaborator> deleteCollaborator(int id) async {
-    var uri =
-        Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
     final response = await http.delete(uri);
     if (response.statusCode == 204) {
       return Collaborator();
@@ -343,7 +348,9 @@ class ApiManager {
       throw Exception('Failed to delete collaborator ');
     }
   }
-  Future<Collaborator> addCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
+
+  Future<Collaborator> addCollaborator(
+      Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.collaboratorApi);
     var request = http.MultipartRequest('POST', uri);
     request.fields['FirstName'] = collaboratorData['FirstName'];
@@ -390,6 +397,7 @@ class ApiManager {
       throw Exception(e.toString());
     }
   }
+
   Future<Collaborator> fetchCollaboratorDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
     final response = await http.get(uri);
@@ -399,7 +407,9 @@ class ApiManager {
       throw Exception('Failed to load collaborator details');
     }
   }
-  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File? cv) async {
+
+  Future<Collaborator> updateCollaborator(
+      Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
     try {
       var uri = Uri.http(
           ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/${collaboratorData['id']}');
@@ -455,8 +465,10 @@ class ApiManager {
       throw Exception('No Internet connection');
     }
   }
+
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) async {
-    final url = Uri.parse("http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/admin/$adminId"); // Ensure the URL starts with http:// or https://
+    final url = Uri.parse(
+        "http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/admin/$adminId"); // Ensure the URL starts with http:// or https://
 
     try {
       final response = await http.put(url);
@@ -473,8 +485,10 @@ class ApiManager {
       throw Exception('Failed to assign collaborator due to an error');
     }
   }
+
   Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) async {
-    final url = Uri.parse("http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/client/$clientId"); // Ensure the URL starts with http:// or https://
+    final url = Uri.parse(
+        "http://${ApiConstants.baseUrl}${ApiConstants.collaboratorApi}/$collaboratorId/client/$clientId"); // Ensure the URL starts with http:// or https://
 
     try {
       final response = await http.put(url);
@@ -491,6 +505,7 @@ class ApiManager {
       throw Exception('Failed to assign collaborator due to an error');
     }
   }
+
 //Opportunities
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) async {
     final token = await storage.read(key: 'token');
@@ -504,7 +519,6 @@ class ApiManager {
       ..fields['Description'] = opportunity.description ?? ''
       ..fields['ClientId'] = opportunity.clientId.toString()
       ..headers['Authorization'] = 'Bearer $token'; // Add the token to the headers
-
 
     if (descriptionFile != null) {
       request.files.add(
@@ -521,6 +535,7 @@ class ApiManager {
       throw Exception('Failed to submit opportunity');
     }
   }
+
   Future<List<Client>> fetchClientsByCollaborator() async {
     final token = await storage.read(key: 'token');
 
@@ -537,13 +552,14 @@ class ApiManager {
 
     if (response.statusCode == 200) {
       final List<dynamic> clientJson = jsonDecode(response.body);
-     return clientJson.map((json) => Client.fromJson(json)).toList();
+      return clientJson.map((json) => Client.fromJson(json)).toList();
     } else {
       print(Exception);
       print(response.statusCode);
       throw Exception('Failed to load clients');
     }
   }
+
   Future<List<Opportunities>> getOpportunityData() async {
     try {
       final token = await storage.read(key: 'token');
@@ -553,7 +569,8 @@ class ApiManager {
       Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
       int collaboratorId = int.parse(decodedToken['nameid'].toString());
       final response = await http.get(
-        Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesColApi}?collaboratorId=$collaboratorId'),
+        Uri.parse(
+            'http://${ApiConstants.baseUrl}${ApiConstants.opportunitiesColApi}?collaboratorId=$collaboratorId'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
@@ -562,7 +579,8 @@ class ApiManager {
       if (response.statusCode == 200) {
         List<dynamic> responseData = jsonDecode(response.body);
         print('Response data: $responseData'); // Add debug print statement
-        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        List<Opportunities> opportunities =
+            responseData.map((data) => Opportunities.fromJson(data)).toList();
         print('Opportunities: $opportunities'); // Add debug print statement
         return opportunities;
       } else {
@@ -572,9 +590,9 @@ class ApiManager {
       rethrow;
     }
   }
+
   Future<Opportunities> deleteOpportunities(int id) async {
-    var uri =
-    Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunitiesDeleteApi}/$id');
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunitiesDeleteApi}/$id');
     final response = await http.delete(uri);
     if (response.statusCode == 204) {
       return Opportunities(); // No content, return an empty Opportunities object
@@ -590,6 +608,7 @@ class ApiManager {
       throw Exception('Failed to delete Opportunities: ${response.statusCode}');
     }
   }
+
   Future<List<Opportunities>> getOpportunityDataAdmin() async {
     try {
       final token = await storage.read(key: 'token');
@@ -606,7 +625,8 @@ class ApiManager {
       if (response.statusCode == 200) {
         List<dynamic> responseData = jsonDecode(response.body);
         print('Response data: $responseData'); // Add debug print statement
-        List<Opportunities> opportunities = responseData.map((data) => Opportunities.fromJson(data)).toList();
+        List<Opportunities> opportunities =
+            responseData.map((data) => Opportunities.fromJson(data)).toList();
         print('Opportunities: $opportunities'); // Add debug print statement
         return opportunities;
       } else {
@@ -660,16 +680,13 @@ class ApiManager {
         throw Exception('No token found. Please log in.');
       }
 
-      Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
-      // int senderId = int.parse(decodedToken['nameid'].toString());
-
       final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.messagingApi);
       final body = jsonEncode({"id": 0, "toId": receiverId, "content": content});
       final response = await http.post(
         uri,
         body: body,
         headers: {
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
           'Authorization': 'Bearer $token',
         },
       );
@@ -682,6 +699,35 @@ class ApiManager {
       }
     } catch (e) {
       print("Could not send the message error $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getSuperAdminData() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.superAdminApi);
+      final response = await http.get(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List responseData = jsonDecode(response.body);
+        responseData = List.from(responseData.map((e) => GetAdmin.fromJson(e)));
+        return responseData;
+      } else {
+        throw Exception('Failed to get super admin data code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Could not get super admin data $e");
       rethrow;
     }
   }

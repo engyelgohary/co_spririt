@@ -56,7 +56,10 @@ String currentDate() {
 
 Future<void> collaboratorsList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
   try {
-    loadingNotifier.response = await apiManager.getCollaboratorsToAdmin();
+    loadingNotifier.response = [
+      ...await apiManager.getSuperAdminData(),
+      ...await apiManager.getCollaboratorsToAdmin(),
+    ];
   } catch (e) {
     print("- CollaboratorsList error : $e");
     loadingNotifier.response = null;
@@ -68,7 +71,7 @@ Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingN
   try {
     loadingNotifier.response = [
       ...await apiManager.fetchAllCollaborators(),
-      ...await apiManager.getAllAdmins()
+      ...await apiManager.getAllAdmins(),
     ];
   } catch (e) {
     print("- superAdminList error : $e");
@@ -94,8 +97,9 @@ Future<void> collaboratorAdminsList(
     final collaboratorData =
         await apiManager.fetchCollaboratorDetails(int.parse(decodedToken['nameid']));
 
-    loadingNotifier.response = <GetAdmin>[
-      await apiManager.fetchAdminDetails(collaboratorData.adminId ?? 0)
+    loadingNotifier.response = [
+      ...await apiManager.getSuperAdminData(),
+      await apiManager.fetchAdminDetails(collaboratorData.adminId ?? 0),
     ];
   } catch (e) {
     print("- collaboratorAdminsList error : $e");

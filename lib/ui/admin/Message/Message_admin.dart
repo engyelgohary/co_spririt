@@ -17,7 +17,7 @@ class MessagesScreenAdmin extends StatefulWidget {
 }
 
 class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
-  final LoadingStateNotifier<Collaborator> loadingNotifier = LoadingStateNotifier();
+  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final Signalr signalr = Signalr();
 
@@ -89,7 +89,7 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                   );
                 }
 
-                final List<Collaborator> data = loadingNotifier.response!;
+                final List<dynamic> data = loadingNotifier.response!;
                 return SizedBox(
                   height: 680.h,
                   width: 600.w,
@@ -97,7 +97,7 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                     scrollDirection: Axis.vertical,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      final Collaborator collaborator = data[index];
+                      final dynamic collaborator = data[index];
                       return Column(
                         children: [
                           Padding(
@@ -124,25 +124,23 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                                     const SizedBox(
                                       width: 4,
                                     ),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            text: collaborator.firstName ?? "Unknown",
-                                            fontSize: 15,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          CustomText(
-                                            text: collaborator.email ?? "Unknown",
-                                            fontSize: 12,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ],
-                                      ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: collaborator.firstName ?? "Unknown",
+                                          fontSize: 15,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        CustomText(
+                                          text: collaborator.email ?? "Unknown",
+                                          fontSize: 12,
+                                          color: AppUI.basicColor,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ],
                                     ),
                                     const Spacer(),
                                     Container(

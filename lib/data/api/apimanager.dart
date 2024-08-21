@@ -4,6 +4,7 @@ import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/Post.dart';
 import 'package:co_spririt/data/model/RequestsReq.dart';
 import 'package:co_spririt/data/model/RequestsResponse.dart';
 import 'package:co_spririt/data/model/typeReq.dart';
@@ -13,6 +14,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -31,9 +33,8 @@ class ApiConstants {
   static const String opportunitiesAdminApi='/api/v1/opportunities';
   static const String superAdminTypes= '/api/v1/request-type';
   static const String adminRequests= '/api/v1/requests';
-
-
-
+  static const String allPostsApi ='/api/v1/post';
+  static const String fetchPostsByAdminApi ='/api/v1/post/GetPostsAdmin';
 }
 
 class ApiManager {
@@ -772,7 +773,16 @@ class ApiManager {
       "page": page.toString(),
     });
     try {
-      final response = await http.get(url);
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(url,
+      headers:  {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      );
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
         final List<RequestsResponse> requests =
@@ -822,5 +832,216 @@ class ApiManager {
       throw Exception('Failed to load type details');
     }
   }
+  Future<void> respondToRequest(int requestId, bool response) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final String baseUrl = 'http://10.10.99.13:3090/api/v1';
+      String url = '$baseUrl/requests/$requestId/respond?response=$response';
+      final http.Response res = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'accept': '*/*',
+        },
+      );
+
+      if (res.statusCode == 204) {
+        print('Request responded successfully');
+      } else {
+        print('Failed to respond to the request: ${res.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+  //Posts
+
+  Future<List<Post>> fetchPosts({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.allPostsApi, {'page': '$page'});
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        for (var postJson in jsonList) {
+          final post = Post.fromJson(postJson);
+          print('Post ID: ${post.id}');
+          print('User ID: ${post.userId}');
+          print('Content: ${post.content}');
+          print('Tittle: ${post.title}');
+          print('Last Edit: ${post.lastEdit}');
+          print('Picture Location: ${post.pictureLocation}');
+          print('---');
+        }
+
+        final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        return posts;
+      } else {
+        throw Exception('Failed to load posts. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching posts: $error');
+      throw Exception('Error fetching posts: $error');
+    }
+  }
+
+  Future<bool> createPost(String title, String content, {File? image}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+      return false;
+    }
+
+    var uri = Uri.parse('http://${ApiConstants.baseUrl}${ApiConstants.allPostsApi}');
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['title'] = title;
+    request.fields['content'] = content;
+
+    // Adding image if present
+    if (image!= null) {
+      var mimeTypeData = lookupMimeType(image.path)!.split('/');
+      request.files.add(
+        http.MultipartFile(
+          'picture',
+          File(image.path).readAsBytes().asStream(),
+          File(image.path).lengthSync(),
+          filename: basename(image.path),
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ),
+      );
+    }
+
+
+    request.headers['Authorization'] = 'Bearer $token';
+
+    var response = await request.send();
+
+    var responseData = await http.Response.fromStream(response);
+
+    if (response.statusCode == 201) {
+      print('$responseData');
+      return true;
+    } else {
+      print('Failed to create post: ${responseData.body}');
+      return false;
+    }
+  }
+  Future<Post> deletePost(int id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.allPostsApi}/$id');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+    }
+
+    final response = await http.delete(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 204) {
+      return Post(id: id);
+    } else if (response.statusCode == 200) {
+      return Post.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to delete post ');
+    }
+  }
+
+  Future<List<Post>> fetchAdminPosts({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.fetchPostsByAdminApi, {'page': '$page'});
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      throw Exception('No token found. Please log in.');
+    }
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        return posts;
+      } else {
+        throw Exception('Failed to load posts. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching posts: $error');
+      throw Exception('Error fetching posts: $error');
+    }
+  }
+  Future<bool> updatePost(int id, String title, String content) async {
+    final Uri url= Uri.http(ApiConstants.baseUrl, '${ApiConstants.allPostsApi}/$id', {
+      'Title': title,
+      'Content': content,
+    });
+
+    final token = await storage.read(key: 'token');
+
+    if (token == null) {
+      print('Authorization token not found.');
+      return false;
+    }
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'Title': title,
+          'Content': content,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Post updated successfully');
+        return true;
+      } else {
+        print('Failed to update post: ${response.body}');
+        return false;
+      }
+    } catch (error) {
+      print('Error updating post: $error');
+      return false;
+    }
+  }
 }
+
 

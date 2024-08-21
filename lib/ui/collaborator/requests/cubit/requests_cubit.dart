@@ -45,7 +45,8 @@ class RequestsCubit extends Cubit<RequestsState> {
           description: request.description,
           requestType: type.type,
           to: admin.firstName,
-          from: collaborator.firstName
+          from: collaborator.firstName,
+          type: request.type,
         );
       }).toList();
       final isLastPage = requestWithTypes.length < 10;
@@ -87,6 +88,14 @@ class RequestsCubit extends Cubit<RequestsState> {
       final requestDetails = await requestsRepository.fetchRequestDetails(id);
       emit(RequestsSuccess(requestData: requestDetails));
     } catch (e) {
+      emit(RequestsError(errorMessage: e.toString()));
+    }
+  }
+  Future<void> respondToRequest(int requestId, bool response) async{
+    try{
+      await requestsRepository.respondToRequest(requestId, response);
+      emit(RequestsSuccess());
+    }catch(e){
       emit(RequestsError(errorMessage: e.toString()));
     }
   }

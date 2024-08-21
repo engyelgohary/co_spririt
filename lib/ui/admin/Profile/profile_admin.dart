@@ -24,6 +24,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
   late TextEditingController phoneController;
   late TextEditingController emailController;
   XFile? _selectedImage;
+
   @override
   void initState() {
     super.initState();
@@ -37,19 +38,16 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
 
   Future<void> _pickImage() async {
     final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       _selectedImage = pickedImage;
     });
   }
 
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    phoneController.dispose();
-    emailController.dispose();
-    super.dispose();
+  void update(){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Admin Update Successfully"),
+    ));
   }
 
   @override
@@ -70,7 +68,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
               return Center(child: CircularProgressIndicator());
             } else if (state is AdminSuccess) {
               final admin = state.adminData;
-              firstNameController.text = "${admin!.firstName}";
+              firstNameController.text = admin!.firstName ?? "";
               lastNameController.text = admin.lastName ?? "";
               phoneController.text = admin.phone ?? "";
               emailController.text = admin.email ?? "";
@@ -86,10 +84,10 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
-                                      'http://10.10.99.13:3090${admin.pictureLocation}')
-                                  as ImageProvider,
+                              'http://10.10.99.13:3090${admin.pictureLocation}')
+                          as ImageProvider,
                           child: _selectedImage == null &&
-                                  admin.pictureLocation == null
+                              admin.pictureLocation == null
                               ? Icon(Icons.camera_alt, size: 50)
                               : null,
                         ),
@@ -130,7 +128,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           return 'please enter your email address';
                         }
                         bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'invalid email';
@@ -147,7 +145,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed:  () {
                             context.read<AdminCubit>().updateAdmin({
                               'id': widget.adminId,
                               'firstName': firstNameController.text,
@@ -157,9 +155,6 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                               'password': "AdminAdmin",
                               'canPost': state.adminData!.canPost.toString(),
                             }, _selectedImage);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Admin Update Successfully"),
-                            ));
                           },
                           child: Center(
                               child: Text('Update',
@@ -167,13 +162,13 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(
-                                          fontSize: 16,
-                                          color: AppColor.whiteColor))),
+                                      fontSize: 16,
+                                      color: AppColor.whiteColor))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
+                                  BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ),

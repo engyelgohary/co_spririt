@@ -16,6 +16,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> login({required String email, required String password}) {
     return authRemoteDataSource.login(email: email, password: password);
   }
+  @override
+  Future<GetAdmin?> fetchAdminDetails(int token) {
+    return authRemoteDataSource.fetchAdminDetails(token);
+  }
 }
 
 class AdminRepositoryImpl implements AdminRepository{
@@ -204,6 +208,11 @@ class RequestRepositoryImpl implements RequestsRepository{
   @override
   Future<RequestsResponse> fetchRequestDetails(int id) {
    return requestsDataSource.fetchRequestDetails(id);
+  }
+
+  @override
+  Future<void> respondToRequest(int requestId, bool response) {
+  return requestsDataSource.respondToRequest(requestId, response);
   }
 
 }

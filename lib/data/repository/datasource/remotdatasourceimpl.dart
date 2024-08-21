@@ -17,6 +17,11 @@ class AuthDataSourceImpl implements AuthRemoteDataSource {
       {required String email, required String password}) async {
     return await apiManager.login(email: email, password: password);
   }
+
+  @override
+  Future<GetAdmin?> fetchAdminDetails(int token) async {
+    return await apiManager.fetchAdminDetails(token);
+  }
 }
 
 class AdminDataSourceImpl implements AdminRemoteDataSource {
@@ -208,6 +213,11 @@ return await apiManager.fetchAllRequests(page: page);
   @override
   Future<RequestsResponse> fetchRequestDetails(int id) async{
  return await apiManager.fetchRequestDetails(id);
+  }
+
+  @override
+  Future<void> respondToRequest(int requestId, bool response) async {
+    return await apiManager.respondToRequest(requestId, response);
   }
 
 }

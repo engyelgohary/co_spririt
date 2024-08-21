@@ -45,7 +45,8 @@ class RequestsCubit extends Cubit<RequestsState> {
           description: request.description,
           requestType: type.type,
           to: admin.firstName,
-          from: collaborator.firstName
+          from: collaborator.firstName,
+          type: request.type,
         );
       }).toList();
       final isLastPage = requestWithTypes.length < 10;

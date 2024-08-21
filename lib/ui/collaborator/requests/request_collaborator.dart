@@ -126,7 +126,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                             .textTheme
                             .titleSmall!
                             .copyWith(fontSize: 15)),
-                        Text('${item.statusType}', style: Theme.of(context)
+                        Text('${item.type}', style: Theme.of(context)
                             .textTheme
                             .titleSmall!
                             .copyWith(fontSize: 15)),
@@ -157,7 +157,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                                           SizedBox(height: 5.h,),
                                           CustomTextInfo(fieldName:'Type :' ,data:"${item.requestType}"),
                                           SizedBox(height: 5.h,),
-                                          CustomTextInfo(fieldName:'Status :' ,data:"${item.statusType}"),
+                                          CustomTextInfo(fieldName:'Status :' ,data:"${item.type}"),
                                           SizedBox(height: 5.h,),
                                           CustomTextInfo(fieldName:'Admin Name :' ,data:"${item.to}"),
 

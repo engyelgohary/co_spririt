@@ -90,4 +90,12 @@ class RequestsCubit extends Cubit<RequestsState> {
       emit(RequestsError(errorMessage: e.toString()));
     }
   }
+  Future<void> respondToRequest(int requestId, bool response) async{
+    try{
+      await requestsRepository.respondToRequest(requestId, response);
+      emit(RequestsSuccess());
+    }catch(e){
+      emit(RequestsError(errorMessage: e.toString()));
+    }
+  }
 }

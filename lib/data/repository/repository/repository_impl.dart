@@ -210,4 +210,9 @@ class RequestRepositoryImpl implements RequestsRepository{
    return requestsDataSource.fetchRequestDetails(id);
   }
 
+  @override
+  Future<void> respondToRequest(int requestId, bool response) {
+  return requestsDataSource.respondToRequest(requestId, response);
+  }
+
 }

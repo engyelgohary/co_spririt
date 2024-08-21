@@ -8,8 +8,9 @@ import '../../../data/api/apimanager.dart';
 
 class CreatePost extends StatefulWidget {
   final ApiManager apiManager;
+  final VoidCallback onPostCreated;
 
-  const CreatePost({required this.apiManager, Key? key}) : super(key: key);
+  const CreatePost({required this.apiManager, Key? key, required this.onPostCreated}) : super(key: key);
 
   @override
   _CreatePostState createState() => _CreatePostState();
@@ -34,15 +35,6 @@ class _CreatePostState extends State<CreatePost> {
   }
 
   Future<void> _createPost() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('adminId');
-
-    if (userId == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('User ID not found.')));
-      return;
-    }
-
     String title = _inputController.text;
     String content = _inputController.text;
     File? imageFile = _pickedFile != null ? File(_pickedFile!.path) : null;
@@ -56,7 +48,8 @@ class _CreatePostState extends State<CreatePost> {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Post created successfully!')));
-        Navigator.of(context).pop(); // Close the modal after creating the post
+        widget.onPostCreated(); // Notify parent to reload posts
+        Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to create post.')));
@@ -67,6 +60,7 @@ class _CreatePostState extends State<CreatePost> {
           .showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     }
   }
+
 
 
   @override

@@ -72,7 +72,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
                         radius: 20.r,
-                        child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                        child:
+                            const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
                       imageBuilder: (context, imageProvider) => CircleAvatar(
                         backgroundImage: imageProvider,
@@ -87,6 +88,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                     ),
                     subtitle: Text(
                       "${item.email}",
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -140,7 +142,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                           child: CircleAvatar(
                             backgroundColor: AppColor.SkyColor,
                             radius: 18.r,
-                            child: const Icon(Icons.info_outline, color: AppColor.secondColor, size: 20),
+                            child: const Icon(Icons.info_outline,
+                                color: AppColor.secondColor, size: 20),
                           ),
                         ),
                       ],

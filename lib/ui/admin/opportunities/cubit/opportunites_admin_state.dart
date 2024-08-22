@@ -1,18 +1,18 @@
-part of 'opportunites_admin_cubit.dart';
+part of 'opportunities_admin_cubit.dart';
 
 @immutable
-sealed class OpportunitesAdminState {}
+sealed class OpportunitiesAdminState {}
 
-final class OpportunitesAdminInitial extends OpportunitesAdminState {}
-final class OpportunityLoading extends OpportunitesAdminState {}
-final class OpportunitySuccess extends OpportunitesAdminState {}
-final class OpportunityLoaded extends OpportunitesAdminState {
-  final List<Opportunities> getOpportunites;
-  OpportunityLoaded(this.getOpportunites);
+final class OpportunitiesAdminInitial extends OpportunitiesAdminState {}
+final class OpportunityLoading extends OpportunitiesAdminState {}
+final class OpportunitySuccess extends OpportunitiesAdminState {}
+final class OpportunityLoaded extends OpportunitiesAdminState {
+  final List<Opportunities> getOpportunities;
+  OpportunityLoaded(this.getOpportunities);
   @override
-  List<Object> get props => [getOpportunites];
+  List<Object> get props => [getOpportunities];
 }
-final class OpportunityFailure extends OpportunitesAdminState {
+final class OpportunityFailure extends OpportunitiesAdminState {
   final String error;
 
   OpportunityFailure(this.error);

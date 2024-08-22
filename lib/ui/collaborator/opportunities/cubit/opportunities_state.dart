@@ -7,10 +7,10 @@ final class OpportunitiesInitial extends OpportunitiesState {}
 final class OpportunityLoading extends OpportunitiesState {}
 final class OpportunitySuccess extends OpportunitiesState {}
 final class OpportunityLoaded extends OpportunitiesState {
-  final List<Opportunities> getOpportunites;
-  OpportunityLoaded(this.getOpportunites);
+  final List<Opportunities> getOpportunities;
+  OpportunityLoaded(this.getOpportunities);
   @override
-  List<Object> get props => [getOpportunites];
+  List<Object> get props => [getOpportunities];
 }
 final class OpportunityFailure extends OpportunitiesState {
   final String error;

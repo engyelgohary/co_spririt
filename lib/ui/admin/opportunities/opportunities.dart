@@ -1,4 +1,4 @@
-import 'package:co_spririt/ui/admin/opportunities/cubit/opportunites_admin_cubit.dart';
+import 'package:co_spririt/ui/admin/opportunities/cubit/opportunities_admin_cubit.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,12 +14,12 @@ class OpportunitiesScreenAdmin extends StatefulWidget {
 }
 
 class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
-  late OpportunitesAdminCubit opportunitiesCubit;
+  late OpportunitiesAdminCubit opportunitiesCubit;
 
   @override
   void initState() {
     super.initState();
-    opportunitiesCubit = OpportunitesAdminCubit(
+    opportunitiesCubit = OpportunitiesAdminCubit(
       opportunitiesRepository: injectOpportunitiesRepository(),
       clientRepository: injectClientRepository(),
       collaboratorRepository: injectCollaboratorRepository(),
@@ -41,24 +41,27 @@ class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
           "Opportunities",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
-      body: BlocBuilder<OpportunitesAdminCubit, OpportunitesAdminState>(
+      body: BlocBuilder<OpportunitiesAdminCubit, OpportunitiesAdminState>(
         bloc: opportunitiesCubit,
         builder: (context, state) {
           if (state is OpportunityLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(color: AppColor.secondColor),
             );
           } else if (state is OpportunityLoaded) {
+            if (state.getOpportunities.isEmpty) {
+              return const Center(child: Text("No Opportunities found"));
+            }
             return ListView.builder(
-              itemCount: state.getOpportunites.length,
+              itemCount: state.getOpportunities.length,
               itemBuilder: (context, index) {
-                final opportunity = state.getOpportunites[index];
+                final opportunity = state.getOpportunities[index];
                 final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
 
                 return Card(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -71,27 +74,29 @@ class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
                               radius: 20,
                               child: Text(
                                 '${opportunity.collaboratorFirstName?.substring(0, 1) ?? ''}${opportunity.collaboratorLastName?.substring(0, 1) ?? ''}',
-                                style: TextStyle(color: AppColor.whiteColor),
+                                style: const TextStyle(color: AppColor.whiteColor),
                               ),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Text(
                               '${opportunity.collaboratorFirstName} ${opportunity.collaboratorLastName}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
-                        SizedBox(height: 8.0),
-                        Text("Client Name: ${opportunity.clientFirstName} ${opportunity.clientLastName}", style: TextStyle(fontSize: 18.0)),
-                        SizedBox(height: 8.0),
-                        Text(opportunity.title ?? '', style: TextStyle(fontSize: 18.0)),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
+                        Text(
+                            "Client Name: ${opportunity.clientFirstName} ${opportunity.clientLastName}",
+                            style: const TextStyle(fontSize: 18.0)),
+                        const SizedBox(height: 8.0),
+                        Text(opportunity.title ?? '', style: const TextStyle(fontSize: 18.0)),
+                        const SizedBox(height: 8.0),
                         Text(opportunity.description ?? ''),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         if (opportunity.descriptionLocation != null)
                           InkWell(
                             onTap: () => _launchURL(url),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
@@ -115,7 +120,7 @@ class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
           } else if (state is OpportunityFailure) {
             return Center(child: Text('Failed to load opportunities: ${state.error}'));
           } else {
-            return Center(child: Text('No opportunities found'));
+            return const Center(child: Text('No opportunities found'));
           }
         },
       ),

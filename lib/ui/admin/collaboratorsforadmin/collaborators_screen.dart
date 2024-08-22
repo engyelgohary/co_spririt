@@ -7,13 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../core/app_util.dart';
 import '../../../data/model/Collaborator.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
 import '../../superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import '../Message/chat_admin.dart';
 
 class CollaboratorsAdminScreen extends StatefulWidget {
+  const CollaboratorsAdminScreen({super.key});
 
   @override
   State<CollaboratorsAdminScreen> createState() => _CollaboratorsAdminScreenState();
@@ -23,20 +26,26 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
   late CollaboratorToAdminCubit collaboratorToAdminCubit;
   late CollaboratorCubit viewModel;
   late AdminCubit adminCubit;
+
+  @override
   void initState() {
     super.initState();
-   collaboratorToAdminCubit = CollaboratorToAdminCubit(adminRepository: injectAdminRepository());
+    collaboratorToAdminCubit = CollaboratorToAdminCubit(adminRepository: injectAdminRepository());
     viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
     adminCubit = AdminCubit(adminRepository: injectAdminRepository());
   }
+
   @override
   void dispose() {
     collaboratorToAdminCubit.pagingController.dispose();
     super.dispose();
   }
+
   void onOpportunityAdded() {
     collaboratorToAdminCubit.pagingController.refresh();
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +53,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
           'Collaborators',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
       body: BlocProvider.value(
         value: collaboratorToAdminCubit,
@@ -54,96 +63,105 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
               pagingController: collaboratorToAdminCubit.pagingController,
               builderDelegate: PagedChildBuilderDelegate<Collaborator>(
                 itemBuilder: (context, item, index) {
-                  final adminImage =
-                      'http://10.10.99.13:3090${item.pictureLocation}';
-                    return ListTile(
-                      leading: CachedNetworkImage(
-                        imageUrl: adminImage,
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(
-                                color: AppColor.secondColor),
-                        errorWidget: (context, url, error) => CircleAvatar(
-                          backgroundColor: AppColor.SkyColor,
-                          radius: 20.r,
-                          child: Icon(Icons.error_outline,
-                              color: AppColor.secondColor, size: 20),
-                        ),
-                        imageBuilder: (context, imageProvider) => CircleAvatar(
-                          backgroundImage: imageProvider,
-                        ),
+                  final adminImage = 'http://10.10.99.13:3090${item.pictureLocation}';
+                  return ListTile(
+                    leading: CachedNetworkImage(
+                      imageUrl: adminImage,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(color: AppColor.secondColor),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                        backgroundColor: AppColor.SkyColor,
+                        radius: 20.r,
+                        child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
-                      title: Text(
-                        '${item.firstName} ${item.lastName}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontWeight: FontWeight.w700),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        backgroundImage: imageProvider,
                       ),
-                      subtitle: Text(
-                        "${item.email}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 12),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
-                              child: Icon(
-                                Icons.message_outlined,
-                                color: AppColor.secondColor,
-                                size: 20,
+                    ),
+                    title: Text(
+                      '${item.firstName} ${item.lastName}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: Text(
+                      "${item.email}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            AppUtil.mainNavigator(
+                              context,
+                              ChatScreenAdmin(
+                                receiverId: item.id ?? 0,
+                                email: item.email ?? "",
+                                name: item.firstName ?? "",
+                                pictureLocation: item.pictureLocation,
                               ),
+                            );
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColor.SkyColor,
+                            radius: 18.r,
+                            child: const Icon(
+                              Icons.message_outlined,
+                              color: AppColor.secondColor,
+                              size: 20,
                             ),
                           ),
-                          SizedBox(width: 15.w),
-                          InkWell(
-                            onTap: () {
-                              showStatusDialog(item.id ??0);
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
-                              child: Icon(
-                                Icons.add_reaction_outlined,
-                                color: AppColor.secondColor,
-                                size: 20,
-                              ),
+                        ),
+                        SizedBox(width: 15.w),
+                        InkWell(
+                          onTap: () {
+                            showStatusDialog(item.id ?? 0);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColor.SkyColor,
+                            radius: 18.r,
+                            child: const Icon(
+                              Icons.add_reaction_outlined,
+                              color: AppColor.secondColor,
+                              size: 20,
                             ),
                           ),
-                          SizedBox(width: 15.w),
-                          InkWell(
-                            onTap: () {
-                              showCollaboratorDetailsBottomSheet(item.id ?? 1);
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
-                              child: Icon(Icons.info_outline,
-                                  color: AppColor.secondColor, size: 20),
-                            ),
+                        ),
+                        SizedBox(width: 15.w),
+                        InkWell(
+                          onTap: () {
+                            showCollaboratorDetailsBottomSheet(item.id ?? 1);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColor.SkyColor,
+                            radius: 18.r,
+                            child: const Icon(Icons.info_outline, color: AppColor.secondColor, size: 20),
                           ),
-                        ],
-                      ),
-                    );
+                        ),
+                      ],
+                    ),
+                  );
                 },
-              ),    separatorBuilder: (context, index) {
-              return Divider(
-                height: 0,
-                color: AppColor.whiteColor,
-                thickness: 1,
-              );
-            },
+              ),
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  height: 0,
+                  color: AppColor.whiteColor,
+                  thickness: 1,
+                );
+              },
             );
           },
         ),
       ),
     );
   }
+
   void showCollaboratorDetailsBottomSheet(int id) {
     viewModel.fetchCollaboratorDetails(id);
     adminCubit.fetchAdmins(1);
@@ -161,19 +179,16 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
               return BlocBuilder<AdminCubit, AdminState>(
                 bloc: adminCubit,
                 builder: (context, adminState) {
-                  if (collaboratorState is CollaboratorSuccess &&
-                      adminState is AdminSuccess) {
+                  if (collaboratorState is CollaboratorSuccess && adminState is AdminSuccess) {
                     return InfoCollaborator(
                       collaborator: collaboratorState.collaboratorData,
                       admin: adminState.getAdmin ?? [],
                     );
                   } else if (collaboratorState is CollaboratorError) {
-                    return Center(
-                        child: Text(collaboratorState.errorMessage ?? ""));
+                    return Center(child: Text(collaboratorState.errorMessage ?? ""));
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                          color: AppColor.secondColor),
+                    return const Center(
+                      child: CircularProgressIndicator(color: AppColor.secondColor),
                     );
                   }
                 },
@@ -184,13 +199,15 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
       },
     );
   }
+
   void showStatusDialog(int collaboratorId) {
     showDialog(
       context: context,
       builder: (context) {
         int? selectedStatus;
         return AlertDialog(
-          title: Text('Select Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20)),
+          title: Text('Select Status',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20)),
           content: DropdownButton<int>(
             value: selectedStatus,
             onChanged: (int? newValue) {
@@ -199,15 +216,18 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
             items: <int>[1, 2, 3].map<DropdownMenuItem<int>>((int value) {
               return DropdownMenuItem<int>(
                 value: value,
-                child: Text(value.toString(), style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontSize: 18,
-                  color: AppColor.basicColor,
-                ),),
+                child: Text(
+                  value.toString(),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        fontSize: 18,
+                        color: AppColor.basicColor,
+                      ),
+                ),
               );
             }).toList(),
           ),
           actions: [
-            Container(
+            SizedBox(
               height: 35.h,
               width: 115.w,
               child: ElevatedButton(
@@ -218,10 +238,10 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                   child: Text(
                     'Cancel',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontSize: 16,
-                      color: AppColor.thirdColor,
-                      fontWeight: FontWeight.w400,
-                    ),
+                          fontSize: 16,
+                          color: AppColor.thirdColor,
+                          fontWeight: FontWeight.w400,
+                        ),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -232,21 +252,25 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: 35.h,
               width: 115.w,
               child: ElevatedButton(
                 onPressed: () {
                   if (selectedStatus != null) {
-                    collaboratorToAdminCubit.setStatusToCollaborator(collaboratorId, selectedStatus!);
+                    collaboratorToAdminCubit.setStatusToCollaborator(
+                        collaboratorId, selectedStatus!);
                     Navigator.of(context).pop();
                   }
                 },
                 child: Center(
-                  child: Text('Set Status', style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontSize: 16,
-                    color: AppColor.whiteColor,
-                  ),),
+                  child: Text(
+                    'Set Status',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          fontSize: 16,
+                          color: AppColor.whiteColor,
+                        ),
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.buttonColor,
@@ -261,5 +285,4 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
       },
     );
   }
-
 }

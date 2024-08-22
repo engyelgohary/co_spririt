@@ -7,11 +7,11 @@ import '../../../../data/model/opportunities.dart';
 
 part 'opportunites_admin_state.dart';
 
-class OpportunitesAdminCubit extends Cubit<OpportunitesAdminState> {
+class OpportunitiesAdminCubit extends Cubit<OpportunitiesAdminState> {
   OpportunitiesRepository opportunitiesRepository;
   ClientRepository clientRepository;
   CollaboratorRepository collaboratorRepository;
-  OpportunitesAdminCubit({required this.opportunitiesRepository,required this.clientRepository,required this.collaboratorRepository}) : super(OpportunitesAdminInitial());
+  OpportunitiesAdminCubit({required this.opportunitiesRepository,required this.clientRepository,required this.collaboratorRepository}) : super(OpportunitiesAdminInitial());
   Future<void> fetchOpportunityData() async {
     try {
       emit(OpportunityLoading());

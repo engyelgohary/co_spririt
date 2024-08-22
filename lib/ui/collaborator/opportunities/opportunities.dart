@@ -21,7 +21,8 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
   @override
   void initState() {
     super.initState();
-    opportunitiesCubit = OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository());
+    opportunitiesCubit =
+        OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository());
     opportunitiesCubit.fetchOpportunityData();
   }
 
@@ -68,12 +69,15 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
         bloc: opportunitiesCubit,
         builder: (context, state) {
           if (state is OpportunityLoading) {
-            return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
+            return const Center(child: CircularProgressIndicator(color: AppColor.secondColor));
           } else if (state is OpportunityLoaded) {
+            if (state.getOpportunities.isEmpty) {
+              return const Center(child: Text("No Opportunites found"));
+            }
             return ListView.builder(
-              itemCount: state.getOpportunites.length,
+              itemCount: state.getOpportunities.length,
               itemBuilder: (context, index) {
-                final opportunity = state.getOpportunites[index];
+                final opportunity = state.getOpportunities[index];
                 final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
                 return Card(
                   margin: EdgeInsets.all(8.0),
@@ -87,7 +91,9 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
                             CircleAvatar(
                               backgroundColor: AppColor.secondColor,
                               child: Text(
-                                  '${opportunity.clientFirstName?.substring(0, 1) ?? ''}${opportunity.clientLastName?.substring(0, 1) ?? ""}',style: TextStyle(color: AppColor.whiteColor),),
+                                '${opportunity.clientFirstName?.substring(0, 1) ?? ''}${opportunity.clientLastName?.substring(0, 1) ?? ""}',
+                                style: TextStyle(color: AppColor.whiteColor),
+                              ),
                             ),
                             SizedBox(width: 8.0),
                             Text(
@@ -125,7 +131,8 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
                                 Icon(Icons.arrow_right_sharp, size: 40, color: AppColor.secondColor)
                               ],
                             ),
-                          ),                      ],
+                          ),
+                      ],
                     ),
                   ),
                 );
@@ -146,14 +153,14 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
       context: context,
       builder: (context) {
         return BlocProvider(
-          create: (context) => OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository()),
+          create: (context) =>
+              OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository()),
           child: AddOpportunities(onOpportunityAdded: onOpportunityAdded),
         );
       },
     ).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error opening dialog: $error')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error opening dialog: $error')));
     });
   }
-
-
 }

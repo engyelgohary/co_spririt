@@ -51,6 +51,9 @@ class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
               child: CircularProgressIndicator(color: AppColor.secondColor),
             );
           } else if (state is OpportunityLoaded) {
+            if (state.getOpportunities.isEmpty) {
+              return const Center(child: Text("No Opportunites found"));
+            }
             return ListView.builder(
               itemCount: state.getOpportunites.length,
               itemBuilder: (context, index) {

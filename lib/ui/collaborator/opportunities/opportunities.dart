@@ -71,9 +71,9 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
             return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
           } else if (state is OpportunityLoaded) {
             return ListView.builder(
-              itemCount: state.getOpportunites.length,
+              itemCount: state.getOpportunities.length,
               itemBuilder: (context, index) {
-                final opportunity = state.getOpportunites[index];
+                final opportunity = state.getOpportunities[index];
                 final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
                 return Card(
                   margin: EdgeInsets.all(8.0),

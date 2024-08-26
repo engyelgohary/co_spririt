@@ -458,78 +458,85 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                                 ],
                                               ),
                                               Spacer(),
-                                              IconButton(onPressed:  () async {
-                                                bool? deleteOrEdit = await showDialog<bool>(
-                                                  context: context,
-                                                  barrierDismissible: false,
-                                                  builder: (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: const Text('Choose Action'),
-                                                      content: const Text('Would you like to delete or edit this post?'),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () => Navigator.of(context).pop(false), // false indicates delete
-                                                          child: const Text('Delete'),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () => Navigator.of(context).pop(true), // true indicates edit
-                                                          child: const Text('Edit'),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () => Navigator.of(context).pop(null), // null indicates cancel
-                                                          child: const Text('Cancel'),
-                                                        ),
-                                                      ],
+                                              // Conditionally show the delete/edit options
+                                              if (post.userId == admin.id)
+                                                IconButton(
+                                                  onPressed: () async {
+                                                    bool? deleteOrEdit = await showDialog<bool>(
+                                                      context: context,
+                                                      barrierDismissible: false,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: const Text('Choose Action'),
+                                                          content: const Text(
+                                                              'Would you like to delete or edit this post?'),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(context).pop(false),
+                                                              child: const Text('Delete'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(context).pop(true),
+                                                              child: const Text('Edit'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(context).pop(null),
+                                                              child: const Text('Cancel'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
                                                     );
-                                                  },
-                                                );
 
-                                                if (deleteOrEdit == true) {
-                                                  final updatedPost = await _showEditDialog(context, post);
-                                                  if (updatedPost != null) {
-                                                    print(
-                                                        'Attempting to update post with ID: ${post
-                                                            .id}');
-
-                                                    await apiManager.updatePost(
-                                                        updatedPost.id,
-                                                        updatedPost.title ?? post.title!,
-                                                        updatedPost.content ?? post.content!);
-
-
-                                                  }
-                                                } else if (deleteOrEdit == false) {
-                                                  // User chose to delete
-                                                  bool? confirmDelete = await showDialog<bool>(
-                                                    context: context,
-                                                    barrierDismissible: false,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: const Text('Confirm Deletion'),
-                                                        content: const Text('Are you sure you want to delete this post?'),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            onPressed: () => Navigator.of(context).pop(false),
-                                                            child: const Text('Cancel'),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () => Navigator.of(context).pop(true),
-                                                            child: const Text('Delete'),
-                                                          ),
-                                                        ],
+                                                    if (deleteOrEdit == true) {
+                                                      final updatedPost =
+                                                      await _showEditDialog(context, post);
+                                                      if (updatedPost != null) {
+                                                        await apiManager.updatePost(
+                                                          updatedPost.id,
+                                                          updatedPost.title ?? post.title!,
+                                                          updatedPost.content ?? post.content!,
+                                                        );
+                                                        reloadPosts();
+                                                      }
+                                                    } else if (deleteOrEdit == false) {
+                                                      bool? confirmDelete = await showDialog<bool>(
+                                                        context: context,
+                                                        barrierDismissible: false,
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            title: const Text('Confirm Deletion'),
+                                                            content: const Text(
+                                                                'Are you sure you want to delete this post?'),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.of(context).pop(false),
+                                                                child: const Text('Cancel'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop(true);
+                                                                  reloadPosts(); 
+                                                                },
+                                                                child: const Text('Delete'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
                                                       );
-                                                    },
-                                                  );
 
-                                                  if (confirmDelete == true) {
-                                                    print('Attempting to delete post with ID: ${post.id}');
-                                                    apiManager.deletePost(post.id);
-                                                    setState(() {
-                                                      adminPosts = apiManager.fetchAdminPosts();
-                                                    });
-                                                  }
-                                                }
-                                              }, icon: Icon(Icons.more_vert_rounded)),
+                                                      if (confirmDelete == true) {
+                                                        apiManager.deletePost(post.id);
+                                                        reloadPosts();
+                                                      }
+                                                    }
+                                                  },
+                                                  icon: Icon(Icons.more_vert_rounded),
+                                                ),
                                             ],
                                           ),
                                           SizedBox(

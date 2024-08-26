@@ -92,7 +92,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                   SizedBox(width: 5.w,),
                   Container(
                     height:30.h,
-                    width: 120.w,
+                    width: 115.w,
                     child: ElevatedButton(
                       onPressed: () {
                         viewModel.addType();

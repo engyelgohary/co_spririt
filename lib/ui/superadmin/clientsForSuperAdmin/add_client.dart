@@ -55,26 +55,27 @@ class _AddClientScreenState extends State<AddClientScreen> {
                 children: [
                   CustomText(
                       fieldName: 'First Name :',
+                      width: 2.w,
                       controller: viewModel.firstName_controller),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
                     keyboardType: TextInputType.text,
-                    width: 8,
+                    width: 2.w,
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'E-mail :',
                     controller: viewModel.email_controller,
-                    width: 38,
+                    width: 30.w,
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Phone :',
                     controller: viewModel.phone_controller,
-                    width: 38,
+                    width: 32.w,
                     keyboardType: TextInputType.phone,
                   ),
                   SizedBox(height: 26.h),

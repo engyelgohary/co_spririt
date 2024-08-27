@@ -39,7 +39,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
 
   }
 
-  void reloadPosts() {
+  Future<void> _reloadPosts() async {
     setState(() {
       adminPosts = apiManager.fetchAdminPosts();
     });
@@ -72,7 +72,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   content: contentController.text,
                 );
                 Navigator.of(context).pop(updatedPost);
-                reloadPosts();
+                _reloadPosts();
               },
               child: const Text('Save'),
             ),
@@ -131,7 +131,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: reloadPosts,
+                            onTap: _reloadPosts,
                             child: const ImageIcon(
                               AssetImage("${AppUI.iconPath}Home.png"),
                               size: 24,
@@ -248,323 +248,298 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
             ],
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: screenWidth * 0.03),
-                    child: Row(
-                      children: [
-                        // Conditionally show the "What's on your mind" field based on canPost
-                        if (admin.canPost == true)
-                          Row(
-                            children: [
-                              Image.asset(
-                                '${AppUI.imgPath}photo.png',
-                                height: 31.h,
-                                width: 30.w,
-                              ),
-                              SizedBox(width: screenWidth * 0.02),
-                              // Conditionally show the "What's on your mind" field based on canPost
-                              if (admin.canPost == true)
-                                InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(20.0)),
-                                      ),
-                                      constraints: const BoxConstraints(
-                                        maxHeight: double.infinity,
-                                      ),
-                                      isScrollControlled: true,
-                                      builder: (context) => CustomCard(
-                                        height:
-                                        MediaQuery.sizeOf(context).height * .8,
-                                        radius: 20,
-                                        child: CreatePost(apiManager: apiManager, onPostCreated: reloadPosts),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: AppUI.whiteColor),
-                                    width: MediaQuery.of(context).size.width * 0.8,
-                                    height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(width: 10.w),
-                                        const Text(
-                                          "What's on your mind",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: AppUI.buttonColor,
-                                            fontWeight: FontWeight.w400,
+            child:  RefreshIndicator(
+              onRefresh: _reloadPosts,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: screenWidth * 0.03),
+                      child: Row(
+                        children: [
+                          // Conditionally show the "What's on your mind" field based on canPost
+                          if (admin.canPost == true)
+                            Row(
+                              children: [
+                                Image.asset(
+                                  '${AppUI.imgPath}photo.png',
+                                  height: 31.h,
+                                  width: 30.w,
+                                ),
+                                SizedBox(width: screenWidth * 0.02),
+                                // Conditionally show the "What's on your mind" field based on canPost
+                                if (admin.canPost == true)
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(20.0)),
+                                        ),
+                                        constraints: const BoxConstraints(
+                                          maxHeight: double.infinity,
+                                        ),
+                                        isScrollControlled: true,
+                                        builder: (context) => CustomCard(
+                                          height:
+                                          MediaQuery.sizeOf(context).height * .8,
+                                          radius: 20,
+                                          child: CreatePost(apiManager: apiManager, onPostCreated: _reloadPosts),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(12),
+                                          color: AppUI.whiteColor),
+                                      width: MediaQuery.of(context).size.width * 0.8,
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(width: 10.w),
+                                          const Text(
+                                            "What's on your mind",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: AppUI.buttonColor,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(width: 140.w),
-                                        Image.asset(
-                                          '${AppUI.iconPath}images.png',
-                                          width: 12.w,
-                                          height: 12.h,
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        Image.asset(
-                                          '${AppUI.iconPath}point.png',
-                                          width: 12.w,
-                                          height: 12.h,
-                                        ),
-                                      ],
+                                          SizedBox(width: 140.w),
+                                          Image.asset(
+                                            '${AppUI.iconPath}images.png',
+                                            width: 12.w,
+                                            height: 12.h,
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Image.asset(
+                                            '${AppUI.iconPath}point.png',
+                                            width: 12.w,
+                                            height: 12.h,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                            ],
-                          ),
-                      ],
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.03,
-                        vertical: 7),
-                    child: FutureBuilder<List<Post>>(
-                      future: adminPosts,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No posts found'));
-                        } else {
-                          // Debugging: Print the length of the data
-                          print('Number of posts: ${snapshot.data!.length}');
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              Post post = snapshot.data![index];
-                              return Column(
-                                children: [
-                                  Container(
-                                    width:
-                                    MediaQuery.of(context).size.width * 0.85,
-                                    decoration: BoxDecoration(
-                                      color: AppUI.whiteColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ClipOval(
-                                                child: post.pictureLocationUser !=
-                                                    null
-                                                    ? CachedNetworkImage(
-                                                  imageUrl:
-                                                  'http://10.10.99.13:3090${post.pictureLocationUser}',
-                                                  placeholder: (context,
-                                                      url) =>
-                                                      CircularProgressIndicator(),
-                                                  errorWidget: (context,
-                                                      url, error) =>
-                                                      Icon(Icons.error),
-                                                  height:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                      0.05,
-                                                  width:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.08,
-                                                  fit: BoxFit.cover,
-                                                )
-                                                    : Image.asset(
-                                                  '${AppUI.imgPath}photo.png',
-                                                  height:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                      0.05,
-                                                  width:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.08,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.02,
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                    0.01,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  CustomText(
-                                                    text:
-                                                    '${post.firstNameUser} ${post.lastNameUser}',
-                                                    fontSize: 12,
-                                                    color: AppUI.basicColor,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      CustomText(
-                                                        text: '${post.lastEdit}',
-                                                        fontSize: 12,
-                                                        color: AppUI.basicColor,
-                                                        fontWeight:
-                                                        FontWeight.w400,
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                            0.01,
-                                                      ),
-                                                      Image.asset(
-                                                        '${AppUI.imgPath}Group.png',
-                                                        height:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                            0.015,
-                                                        width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                            0.015,
-                                                      ),
-                                                    ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.03,
+                          vertical: 7),
+                      child: FutureBuilder<List<Post>>(
+                        future: adminPosts,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Center(child: Text('No posts found'));
+                          } else {
+                            // Debugging: Print the length of the data
+                            print('Number of posts: ${snapshot.data!.length}');
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                Post post = snapshot.data![index];
+                                return Column(
+                                  children: [
+                                    Container(
+                                      width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                      decoration: BoxDecoration(
+                                        color: AppUI.whiteColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipOval(
+                                                  child: post.pictureLocationUser !=
+                                                      null
+                                                      ? CachedNetworkImage(
+                                                    imageUrl:
+                                                    'http://10.10.99.13:3090${post.pictureLocationUser}',
+                                                    placeholder: (context,
+                                                        url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget: (context,
+                                                        url, error) =>
+                                                        Icon(Icons.error),
+                                                    height:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.05,
+                                                    width:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.08,
+                                                    fit: BoxFit.cover,
                                                   )
-                                                ],
-                                              ),
-                                              Spacer(),
-                                              // Conditionally show the delete/edit options
-                                              if (post.userId == admin.id)
-                                                IconButton(
-                                                  onPressed: () async {
-                                                    bool? deleteOrEdit = await showDialog<bool>(
-                                                      context: context,
-                                                      barrierDismissible: false,
-                                                      builder: (BuildContext context) {
-                                                        return AlertDialog(
-                                                          title: const Text('Choose Action'),
-                                                          content: const Text(
-                                                              'Would you like to delete or edit this post?'),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.of(context).pop(false),
-                                                              child: const Text('Delete'),
-                                                            ),
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.of(context).pop(true),
-                                                              child: const Text('Edit'),
-                                                            ),
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.of(context).pop(null),
-                                                              child: const Text('Cancel'),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
-
-                                                    if (deleteOrEdit == true) {
-                                                      final updatedPost =
-                                                      await _showEditDialog(context, post);
-                                                      if (updatedPost != null) {
-                                                        await apiManager.updatePost(
-                                                          updatedPost.id,
-                                                          updatedPost.title ?? post.title!,
-                                                          updatedPost.content ?? post.content!,
-                                                        );
-                                                        reloadPosts();
-                                                      }
-                                                    } else if (deleteOrEdit == false) {
-                                                      bool? confirmDelete = await showDialog<bool>(
+                                                      : Image.asset(
+                                                    '${AppUI.imgPath}photo.png',
+                                                    height:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                        0.05,
+                                                    width:
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.08,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.02,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.01,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                      '${post.firstNameUser} ${post.lastNameUser}',
+                                                      fontSize: 12,
+                                                      color: AppUI.basicColor,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        CustomText(
+                                                          text: '${post.lastEdit}',
+                                                          fontSize: 12,
+                                                          color: AppUI.basicColor,
+                                                          fontWeight:
+                                                          FontWeight.w400,
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                              0.01,
+                                                        ),
+                                                        Image.asset(
+                                                          '${AppUI.imgPath}Group.png',
+                                                          height:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                              0.015,
+                                                          width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                              0.015,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                // Conditionally show the delete/edit options
+                                                if (post.userId == admin.id)
+                                                  IconButton(
+                                                    onPressed: () async {
+                                                      bool? deleteOrEdit = await showDialog<bool>(
                                                         context: context,
                                                         barrierDismissible: false,
                                                         builder: (BuildContext context) {
                                                           return AlertDialog(
-                                                            title: const Text('Confirm Deletion'),
+                                                            title: const Text('Choose Action'),
                                                             content: const Text(
-                                                                'Are you sure you want to delete this post?'),
+                                                                'Would you like to delete or edit this post?'),
                                                             actions: <Widget>[
                                                               TextButton(
                                                                 onPressed: () =>
                                                                     Navigator.of(context).pop(false),
-                                                                child: const Text('Cancel'),
+                                                                child: const Text('Delete'),
                                                               ),
                                                               TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(context).pop(true);
-                                                                  reloadPosts(); 
-                                                                },
-                                                                child: const Text('Delete'),
+                                                                onPressed: () =>
+                                                                    Navigator.of(context).pop(true),
+                                                                child: const Text('Edit'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.of(context).pop(null),
+                                                                child: const Text('Cancel'),
                                                               ),
                                                             ],
                                                           );
                                                         },
                                                       );
 
-                                                      if (confirmDelete == true) {
-                                                        apiManager.deletePost(post.id);
-                                                        reloadPosts();
+                                                      if (deleteOrEdit == true) {
+                                                        final updatedPost =
+                                                        await _showEditDialog(context, post);
+                                                        if (updatedPost != null) {
+                                                          await apiManager.updatePost(
+                                                            updatedPost.id,
+                                                            updatedPost.title ?? post.title!,
+                                                            updatedPost.content ?? post.content!,
+                                                          );
+                                                          _reloadPosts();
+                                                        }
+                                                      } else if (deleteOrEdit == false) {
+                                                        bool? confirmDelete = await showDialog<bool>(
+                                                          context: context,
+                                                          barrierDismissible: false,
+                                                          builder: (BuildContext context) {
+                                                            return AlertDialog(
+                                                              title: const Text('Confirm Deletion'),
+                                                              content: const Text(
+                                                                  'Are you sure you want to delete this post?'),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.of(context).pop(false),
+                                                                  child: const Text('Cancel'),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed: () {
+                                                                    Navigator.of(context).pop(true);
+                                                                    _reloadPosts();
+                                                                  },
+                                                                  child: const Text('Delete'),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+
+                                                        if (confirmDelete == true) {
+                                                          apiManager.deletePost(post.id);
+                                                          _reloadPosts();
+                                                        }
                                                       }
-                                                    }
-                                                  },
-                                                  icon: Icon(Icons.more_vert_rounded),
-                                                ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                                0.01,
-                                          ),
-                                          CustomText(
-                                            text: post.content ?? "no content",
-                                            fontSize: 10,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                                0.01,
-                                          ),
-                                          if (post.pictureLocation != null) ...[
-                                            CachedNetworkImage(
-                                              imageUrl:
-                                              'http://10.10.99.13:3090${post!.pictureLocation}',
-                                              placeholder: (context, url) =>
-                                                  CircularProgressIndicator(),
-                                              errorWidget: (context, url, error) =>
-                                                  Icon(Icons.error),
+                                                    },
+                                                    icon: Icon(Icons.more_vert_rounded),
+                                                  ),
+                                              ],
                                             ),
                                             SizedBox(
                                               height: MediaQuery.of(context)
@@ -572,24 +547,52 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                                   .height *
                                                   0.01,
                                             ),
+                                            CustomText(
+                                              text: post.content ?? "no content",
+                                              fontSize: 10,
+                                              color: AppUI.basicColor,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.01,
+                                            ),
+                                            if (post.pictureLocation != null) ...[
+                                              CachedNetworkImage(
+                                                imageUrl:
+                                                'http://10.10.99.13:3090${post!.pictureLocation}',
+                                                placeholder: (context, url) =>
+                                                    CircularProgressIndicator(),
+                                                errorWidget: (context, url, error) =>
+                                                    Icon(Icons.error),
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                    0.01,
+                                              ),
+                                            ],
                                           ],
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                    MediaQuery.of(context).size.height * 0.02,
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
+                                    SizedBox(
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           )

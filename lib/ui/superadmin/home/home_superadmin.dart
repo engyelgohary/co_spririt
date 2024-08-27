@@ -303,11 +303,18 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             Post post = snapshot.data![index];
+
+                            // Check if both firstNameUser and lastNameUser are null
+                            if (post.firstNameUser == null && post.lastNameUser == null) {
+                              // Delete the post if user ID is not found
+                              apiManager.deletePost(post.id);
+                              return SizedBox.shrink(); // Return an empty widget to avoid rendering this post
+                            }
+
                             return Column(
                               children: [
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
+                                  width: MediaQuery.of(context).size.width * 0.85,
                                   decoration: BoxDecoration(
                                     color: AppUI.whiteColor,
                                     borderRadius: BorderRadius.circular(10),
@@ -319,63 +326,48 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                         Row(
                                           children: [
                                             ClipOval(
-                                              child: post.pictureLocationUser !=
-                                                      null
-                                                  ? CachedNetworkImage(
-                                                      imageUrl:
-                                                          'http://10.10.99.13:3090${post.pictureLocationUser}',
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          CircularProgressIndicator(),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Icon(Icons.error),
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.05,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.08,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : Image.asset(
-                                                      '${AppUI.imgPath}photo.png',
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.05,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.08,
-                                                    ),
+                                              child: post.firstNameUser == null && post.lastNameUser == null
+                                                  ? Image.asset(
+                                                '${AppUI.imgPath}user_not_found.png',  // Replace with your 'User not found' image path
+                                                height: MediaQuery.of(context).size.height * 0.05,
+                                                width: MediaQuery.of(context).size.width * 0.08,
+                                              )
+                                                  : post.pictureLocationUser == null
+                                                  ? Image.asset(
+                                                '${AppUI.imgPath}photo.png',
+                                                height: MediaQuery.of(context).size.height * 0.05,
+                                                width: MediaQuery.of(context).size.width * 0.08,
+                                              )
+                                                  : CachedNetworkImage(
+                                                imageUrl: 'http://10.10.99.13:3090${post.pictureLocationUser}',
+                                                placeholder: (context, url) => CircularProgressIndicator(),
+                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                height: MediaQuery.of(context).size.height * 0.05,
+                                                width: MediaQuery.of(context).size.width * 0.08,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                             SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.01,
+                                              width: MediaQuery.of(context).size.width * 0.02,
+                                              height: MediaQuery.of(context).size.height * 0.01,
                                             ),
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                CustomText(
-                                                  text:
-                                                      '${post.firstNameUser} ${post.lastNameUser}',
-                                                  fontSize: 12,
-                                                  color: AppUI.basicColor,
-                                                  fontWeight: FontWeight.w400,
+                                                Text(
+                                                  post.firstNameUser != null && post.lastNameUser != null
+                                                      ? '${post.firstNameUser} ${post.lastNameUser}'
+                                                      : 'User not found',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: post.firstNameUser != null && post.lastNameUser != null
+                                                        ? AppUI.basicColor
+                                                        : Colors.grey,
+                                                    fontWeight: FontWeight.w400,
+                                                    decoration: post.firstNameUser != null && post.lastNameUser != null
+                                                        ? TextDecoration.none
+                                                        : TextDecoration.lineThrough,
+                                                  ),
                                                 ),
                                                 Row(
                                                   children: [
@@ -383,131 +375,83 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                       text: '${post.lastEdit}',
                                                       fontSize: 12,
                                                       color: AppUI.basicColor,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                                      fontWeight: FontWeight.w400,
                                                     ),
                                                     SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.01,
+                                                      width: MediaQuery.of(context).size.width * 0.01,
                                                     ),
                                                     Image.asset(
                                                       '${AppUI.imgPath}Group.png',
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.015,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.015,
+                                                      height: MediaQuery.of(context).size.height * 0.015,
+                                                      width: MediaQuery.of(context).size.width * 0.015,
                                                     ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
                                             Spacer(),
-                                            IconButton(onPressed:  () async {
-                                              bool? delete = await showDialog<bool>(
-                                                context: context,
-                                                barrierDismissible: false,
-                                                builder: (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: const Text('Choose Action'),
-                                                    content: const Text(
-                                                        'Would you like to delete this post?'),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.of(context).pop(true),
-                                                        // true indicates delete
-                                                        child: const Text('Delete'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.of(context).pop(false),
-                                                        // false indicates cancel
-                                                        child: const Text('Cancel'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
+                                            IconButton(
+                                              onPressed: () async {
+                                                bool? delete = await showDialog<bool>(
+                                                  context: context,
+                                                  barrierDismissible: false,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: const Text('Choose Action'),
+                                                      content: const Text('Would you like to delete this post?'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () => Navigator.of(context).pop(true),
+                                                          child: const Text('Delete'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () => Navigator.of(context).pop(false),
+                                                          child: const Text('Cancel'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
 
-                                              if (delete == true) {
-                                                try {
-                                                  print(
-                                                      'Attempting to delete post with ID: ${post.id}');
-                                                  await apiManager.deletePost(post.id);
-                                                  setState(() {
-                                                    futurePosts = apiManager.fetchPosts();
-                                                  });
-                                                } catch (e) {
-                                                  print('Error occurred: $e');
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    SnackBar(
-                                                        content:
-                                                        Text('Failed to delete post: $e')),
-                                                  );
+                                                if (delete == true) {
+                                                  try {
+                                                    await apiManager.deletePost(post.id);
+                                                    setState(() {
+                                                      futurePosts = apiManager.fetchPosts();
+                                                    });
+                                                  } catch (e) {
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      SnackBar(content: Text('Failed to delete post: $e')),
+                                                    );
+                                                  }
                                                 }
-                                              }
-                                            }, icon: Icon(Icons.more_vert_rounded)),
+                                              },
+                                              icon: Icon(Icons.more_vert_rounded),
+                                            ),
                                           ],
-
                                         ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
+                                        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                         CustomText(
                                           text: post.content ?? "no content",
                                           fontSize: 10,
                                           color: AppUI.basicColor,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                        ),
+                                        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                         if (post.pictureLocation != null) ...[
                                           CachedNetworkImage(
-                                            imageUrl:
-                                                'http://10.10.99.13:3090${post!.pictureLocation}',
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
+                                            imageUrl: 'http://10.10.99.13:3090${post.pictureLocation}',
+                                            placeholder: (context, url) => CircularProgressIndicator(),
+                                            errorWidget: (context, url, error) => Icon(Icons.error),
                                           ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01,
-                                          ),
+                                          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                         ],
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.005,
-                                        ),
+                                        SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                                       ],
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.02,
-                                ),
+                                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                               ],
                             );
                           },

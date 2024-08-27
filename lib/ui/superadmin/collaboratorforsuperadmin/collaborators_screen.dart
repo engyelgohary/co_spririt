@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
@@ -19,6 +20,7 @@ import 'addCollaborator.dart';
 
 class CollaboratorsScreenForSuper extends StatefulWidget {
   const CollaboratorsScreenForSuper({super.key});
+
   @override
   State<CollaboratorsScreenForSuper> createState() =>
       _CollaboratorsScreenForSuperState();
@@ -39,16 +41,15 @@ class _CollaboratorsScreenForSuperState
     viewModel = CollaboratorCubit(
         collaboratorRepository: injectCollaboratorRepository());
     adminCubit = AdminCubit(adminRepository: injectAdminRepository());
-    clientCubit= ClientCubit(clientRepository: injectClientRepository());
+    clientCubit = ClientCubit(clientRepository: injectClientRepository());
   }
-
-
 
   @override
   void dispose() {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+
   void onOpportunityAdded() {
     viewModel.pagingController.refresh();
   }
@@ -268,8 +269,11 @@ class _CollaboratorsScreenForSuperState
       context: context,
       builder: (context) {
         return BlocProvider(
-         create: (context) => CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository()),
-          child: Addcollaborator(onOpportunityAdded: onOpportunityAdded,),
+          create: (context) => CollaboratorCubit(
+              collaboratorRepository: injectCollaboratorRepository()),
+          child: Addcollaborator(
+            onOpportunityAdded: onOpportunityAdded,
+          ),
         );
       },
     );
@@ -379,56 +383,58 @@ class _CollaboratorsScreenForSuperState
                     actions: [
                       Row(
                         children: [
-                          Container(
-                            height: 30.h,
-                            width: 120.w,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              child: Center(
-                                  child: Text('Cancel',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall!
-                                          .copyWith(
-                                              fontSize: 16,
-                                              color: AppColor.thirdColor))),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.greyColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)))),
+                          Flexible(
+                            child: Container(
+                              height: 30.h,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                child: Center(
+                                    child: Text('Cancel',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                                fontSize: 16,
+                                                color: AppColor.thirdColor))),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.greyColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r)))),
+                              ),
                             ),
                           ),
                           SizedBox(
                             width: 8.w,
                           ),
-                          Container(
-                            height: 30.h,
-                            width: 120.w,
-                            child: ElevatedButton(
-                              child: Text('Assign',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          fontSize: 16,
-                                          color: AppColor.whiteColor)),
-                              onPressed: () {
-                                if (selectedClientId != null) {
-                                  context
-                                      .read<CollaboratorCubit>()
-                                      .assignCollaboratorToAdmin(collaboratorId,
-                                          int.parse(selectedClientId!));
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.buttonColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)))),
+                          Flexible(
+                            child: Container(
+                              height: 30.h,
+                              child: ElevatedButton(
+                                child: Text('Assign',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                            fontSize: 16,
+                                            color: AppColor.whiteColor)),
+                                onPressed: () {
+                                  if (selectedClientId != null) {
+                                    context
+                                        .read<CollaboratorCubit>()
+                                        .assignCollaboratorToAdmin(collaboratorId,
+                                            int.parse(selectedClientId!));
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.buttonColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r)))),
+                              ),
                             ),
                           ),
                         ],
@@ -497,13 +503,19 @@ class _CollaboratorsScreenForSuperState
                   child: CircularProgressIndicator(color: AppColor.secondColor),
                 );
               } else if (state is ClientSuccess) {
-                final clients = state.getClient ?? []; // Get the list of clients
+                final clients =
+                    state.getClient ?? []; // Get the list of clients
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
-                    title: Text('Select Client', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
+                    title: Text('Select Client',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15)),
                     content: DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(gapPadding: 10),
@@ -534,17 +546,19 @@ class _CollaboratorsScreenForSuperState
                                 Navigator.of(context).pop(); // Close the dialog
                               },
                               child: Center(
-                                child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontSize: 16,
-                                    color: AppColor.thirdColor
-                                )),
+                                child: Text('Cancel',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                            fontSize: 16,
+                                            color: AppColor.thirdColor)),
                               ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColor.greyColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(5.r))
-                                  )
-                              ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)))),
                             ),
                           ),
                           SizedBox(width: 8.w),
@@ -552,25 +566,28 @@ class _CollaboratorsScreenForSuperState
                             height: 30.h,
                             width: 120.w,
                             child: ElevatedButton(
-                              child: Text('Assign', style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 16,
-                                  color: AppColor.whiteColor
-                              )),
+                              child: Text('Assign',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          fontSize: 16,
+                                          color: AppColor.whiteColor)),
                               onPressed: () {
                                 if (selectedClientId != null) {
-                                  context.read<CollaboratorCubit>().assignCollaboratorToClient(
-                                      collaboratorId,
-                                      int.parse(selectedClientId!)
-                                  );
+                                  context
+                                      .read<CollaboratorCubit>()
+                                      .assignCollaboratorToClient(
+                                          collaboratorId,
+                                          int.parse(selectedClientId!));
                                   Navigator.of(context).pop();
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColor.buttonColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(5.r))
-                                  )
-                              ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.r)))),
                             ),
                           ),
                         ],
@@ -582,10 +599,12 @@ class _CollaboratorsScreenForSuperState
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Client'),
-                    content: Text('Failed to load clients: ${state.errorMessage}'),
+                    content:
+                        Text('Failed to load clients: ${state.errorMessage}'),
                     actions: [
                       Container(
                         height: 30.h,
@@ -595,17 +614,19 @@ class _CollaboratorsScreenForSuperState
                             Navigator.of(context).pop(); // Close the dialog
                           },
                           child: Center(
-                            child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                fontSize: 16,
-                                color: AppColor.thirdColor
-                            )),
+                            child: Text('Cancel',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        fontSize: 16,
+                                        color: AppColor.thirdColor)),
                           ),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r))
-                              )
-                          ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ],
@@ -620,5 +641,4 @@ class _CollaboratorsScreenForSuperState
       },
     );
   }
-
 }

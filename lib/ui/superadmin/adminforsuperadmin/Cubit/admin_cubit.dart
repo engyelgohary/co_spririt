@@ -98,6 +98,7 @@ class AdminCubit extends Cubit<AdminState> {
       pagingController.refresh(); // Refresh the list
     } catch (e) {
       emit(AdminError(errorMessage: e.toString()));
+      pagingController.refresh();
     }
   }
 }

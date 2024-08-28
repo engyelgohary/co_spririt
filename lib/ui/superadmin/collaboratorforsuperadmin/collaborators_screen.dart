@@ -458,7 +458,7 @@ class _CollaboratorsScreenForSuperState
                         width: 120.w,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
+                            Navigator.of(context).pop();
                           },
                           child: Center(
                               child: Text('Cancel',
@@ -538,56 +538,60 @@ class _CollaboratorsScreenForSuperState
                     actions: [
                       Row(
                         children: [
-                          Container(
-                            height: 30.h,
-                            width: 120.w,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              child: Center(
-                                child: Text('Cancel',
+                          Flexible(
+                            child: Container(
+                              height: 30.h,
+                              width: 120.w,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                child: Center(
+                                  child: Text('Cancel',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              fontSize: 16,
+                                              color: AppColor.thirdColor)),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.greyColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r)))),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Flexible(
+                            child: Container(
+                              height: 30.h,
+                              width: 120.w,
+                              child: ElevatedButton(
+                                child: Text('Assign',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
                                         .copyWith(
                                             fontSize: 16,
-                                            color: AppColor.thirdColor)),
+                                            color: AppColor.whiteColor)),
+                                onPressed: () {
+                                  if (selectedClientId != null) {
+                                    context
+                                        .read<CollaboratorCubit>()
+                                        .assignCollaboratorToClient(
+                                            collaboratorId,
+                                            int.parse(selectedClientId!));
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.buttonColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.r)))),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.greyColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)))),
-                            ),
-                          ),
-                          SizedBox(width: 8.w),
-                          Container(
-                            height: 30.h,
-                            width: 120.w,
-                            child: ElevatedButton(
-                              child: Text('Assign',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          fontSize: 16,
-                                          color: AppColor.whiteColor)),
-                              onPressed: () {
-                                if (selectedClientId != null) {
-                                  context
-                                      .read<CollaboratorCubit>()
-                                      .assignCollaboratorToClient(
-                                          collaboratorId,
-                                          int.parse(selectedClientId!));
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColor.buttonColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.r)))),
                             ),
                           ),
                         ],

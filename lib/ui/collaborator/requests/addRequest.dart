@@ -93,7 +93,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                           controller: viewModel.title_controller,
                           decoration: InputDecoration(
                             hintText: 'Title',
-                            hintStyle: Theme.of(context).textTheme.titleMedium,
+                            hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
                             border: InputBorder.none,
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(vertical: 8.0),
@@ -149,36 +149,40 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    height: 35.h,
-                    width: 120.w,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      child: Center(
-                        child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor)),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.greyColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                  Flexible(
+                    child: Container(
+                      height: 35.h,
+                      width: 120.w,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the dialog
+                        },
+                        child: Center(
+                          child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.greyColor,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(width: 5.w),
-                  Container(
-                    height: 35.h,
-                    width: 120.w,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        viewModel.addRequest();
-                      },
-                      child: Center(
-                        child: Text('Submit', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor)),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                  Flexible(
+                    child: Container(
+                      height: 35.h,
+                      width: 120.w,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.addRequest();
+                        },
+                        child: Center(
+                          child: Text('Submit', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor)),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                        ),
                       ),
                     ),
                   ),

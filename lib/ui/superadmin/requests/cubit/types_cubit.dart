@@ -37,13 +37,25 @@ class TypesCubit extends Cubit<TypesState> {
     if (!formKey.currentState!.validate()) return;
     emit(TypesLoading());
     try {
+      final existingTypes = await typesRepository.fetchAllTypes();
+
+      // Check if the type already exists
+      final isDuplicate = existingTypes.any((type) => type.type == Type_controller.text);
+
+      if (isDuplicate) {
+        emit(TypesError(errorMessage: "Type already exists"));
+        return;
+      }
+
+      // Add the new type if it's unique
       final response = await typesRepository.addType(Type_controller.text);
-      emit(TypesSuccess(typeData:response));
+      emit(TypesSuccess(typeData: response));
     } catch (e) {
       emit(TypesError(errorMessage: e.toString()));
       print(e.toString());
     }
   }
+
   Future<void> deleteType(int id) async {
     try {
       emit(TypesLoading());

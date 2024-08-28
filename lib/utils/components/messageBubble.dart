@@ -1,52 +1,108 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+
+import '../../data/api/apimanager.dart';
 
 class CustomChatBubble extends StatelessWidget {
-  final String messageText;
-  final bool isSender;
-  final String imageUrl;
-  final String time;
+  final Message message;
   const CustomChatBubble({
     super.key,
-    this.messageText = "",
-    this.isSender = true,
-    this.imageUrl = "",
-    required this.time,
+    required this.message,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ChatBubble(
-      alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
-      clipper: ChatBubbleClipper5(
-        type: isSender ? BubbleType.sendBubble : BubbleType.receiverBubble,
-      ),
-      backGroundColor: isSender ? AppColor.secondColor : AppColor.greyColor,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          imageUrl.isEmpty
-              ? SelectableText(
-            messageText,
-            style: const TextStyle(fontSize: 16),
-          )
-          // TODO it can be constrained box
-              : Image.network(
-            imageUrl,
-            // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS02ewphwfAoFZYw0PSaE-GKNluuJ6a9z4gIZl6z7cFJrTwZpFo "
-            // "https://images.unsplash.com/photo-1555993539-1732b0258235?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            width: MediaQuery.of(context).size.width / 2,
-          ),
+    List<Widget> images = [];
+    List<Widget> files = [];
+
+    List<Widget> columnWidgets = [
+      Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: SelectableText(
+          message.content ?? "",
+          style: const TextStyle(fontSize: 16),
+        ),
+      )
+    ];
+
+    for (var attachment in message.attachments) {
+      if (attachment.fileType!.contains("image")) {
+        images.add(
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              time,
-              style: const TextStyle(color: Color.fromARGB(255, 80, 78, 78)),
-              // textAlign: isSender ? TextAlign.start : TextAlign.end
+            padding: const EdgeInsets.only(top: 8),
+            child: Image.network(
+              "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
+              width: 200,
             ),
           ),
-        ],
+        );
+      } else {
+        images.add(Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: ElevatedButton(
+            child: Text(
+              style: TextStyle(color: Colors.black),
+              attachment.fileName ?? "",
+            ),
+            onPressed: () async {
+              FileDownloader.downloadFile(
+                url: "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
+                onDownloadCompleted: (path) {
+                  AwesomeNotifications().createNotification(
+                    content: NotificationContent(
+                      id: 16,
+                      channelKey: 'basic_channel',
+                      title: "Download is complete",
+                      body: "download location: ${path}",
+                      notificationLayout: NotificationLayout.BigText,
+                    ),
+                  );
+                },
+                onDownloadError: (errorMessage) {
+                  AwesomeNotifications().createNotification(
+                    content: NotificationContent(
+                      id: 16,
+                      channelKey: 'basic_channel',
+                      title: "Download faild",
+                      body: "download error message:  ${errorMessage}",
+                      notificationLayout: NotificationLayout.BigText,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ));
+      }
+    }
+
+    columnWidgets.addAll(images);
+    columnWidgets.addAll(files);
+    columnWidgets.add(
+      Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: Text(
+          message.time ?? "",
+          style: const TextStyle(color: Color.fromARGB(255, 80, 78, 78)),
+          textAlign: TextAlign.start,
+        ),
+      ),
+    );
+
+    return ChatBubble(
+      alignment: message.isSender ?? false ? Alignment.centerRight : Alignment.centerLeft,
+      clipper: ChatBubbleClipper5(
+        type: message.isSender ?? false ? BubbleType.sendBubble : BubbleType.receiverBubble,
+      ),
+      backGroundColor: message.isSender ?? false ? AppColor.secondColor : AppColor.greyColor,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: columnWidgets,
       ),
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
@@ -81,9 +80,9 @@ Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingN
 }
 
 Future<void> collaboratorAdminsList(
-    ApiManager apiManager,
-    LoadingStateNotifier loadingNotifier,
-    ) async {
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
   try {
     const storage = FlutterSecureStorage();
     final token = await storage.read(key: 'token');
@@ -95,7 +94,7 @@ Future<void> collaboratorAdminsList(
     Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
 
     final collaboratorData =
-    await apiManager.fetchCollaboratorDetails(int.parse(decodedToken['nameid']));
+        await apiManager.fetchCollaboratorDetails(int.parse(decodedToken['nameid']));
 
     loadingNotifier.response = [
       ...await apiManager.getSuperAdminData(),
@@ -126,15 +125,15 @@ class Signalr {
 
   final connection = HubConnectionBuilder()
       .withUrl(
-    'http://${ApiConstants.baseUrl}/chat',
-    HttpConnectionOptions(
-      logMessageContent: true,
-      logging: (level, message) {
-        // print("-level = $level");
-        print("-message = $message");
-      },
-    ),
-  )
+        'http://${ApiConstants.baseUrl}/chat',
+        HttpConnectionOptions(
+          logMessageContent: true,
+          logging: (level, message) {
+            // print("-level = $level");
+            print("-message = $message");
+          },
+        ),
+      )
       .build();
 
   Future<void> start() async {
@@ -158,7 +157,7 @@ class Signalr {
             senderId: message[0]["Message"]["FromId"],
             receiverId: message[0]["Message"]["ToId"],
             content: message[0]["Message"]["Content"],
-            sender: false,
+            isSender: false,
             read: message[0]["Message"]["Read"],
             senderEmail: message[0]["User"]["Email"],
             senderFirstName: message[0]["User"]["FirstName"],
@@ -194,7 +193,7 @@ class Signalr {
             if (scrollController != null) {
               Future.delayed(
                 const Duration(milliseconds: 300),
-                    () => scrollController!.animateTo(scrollController!.position.maxScrollExtent,
+                () => scrollController!.animateTo(scrollController!.position.maxScrollExtent,
                     duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
               );
             }
@@ -210,10 +209,10 @@ class Signalr {
 }
 
 Future<void> collaboratorsMessages(
-    int id,
-    ApiManager apiManager,
-    LoadingStateNotifier loadingNotifier,
-    ) async {
+  int id,
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
   try {
     loadingNotifier.response = await apiManager.getUserMessages(id);
   } catch (e) {
@@ -224,23 +223,24 @@ Future<void> collaboratorsMessages(
 }
 
 Future<void> sendMessage(
-    int receiverId,
-    String content,
-    ApiManager apiManager,
-    ListNotifier listNotifier,
-    ) async {
+  int receiverId,
+  String content,
+  ApiManager apiManager,
+  ListNotifier listNotifier,
+  List<String> attachments,
+) async {
   final messageIndex = listNotifier.addItem(Message(
     id: 0,
     receiverId: receiverId,
     read: false,
-    sender: true,
+    isSender: true,
     senderId: 0,
     date: currentDate(),
     time: currentTime(),
     content: content,
   ));
   try {
-    final result = await apiManager.sendMessage(receiverId, content);
+    final result = await apiManager.sendMessage(receiverId, content, attachments);
     listNotifier.updateItem(messageIndex, Message.fromJson(result, true));
   } catch (e) {
     print("- sendMessage error : $e");
@@ -268,16 +268,16 @@ dynamic collaboratorPhoto(String? pictureLocation) {
     borderRadius: BorderRadius.circular(25),
     child: pictureLocation == null
         ? Image.asset(
-      '${AppUI.imgPath}photo.png',
-      height: 41,
-      width: 42,
-      fit: BoxFit.cover,
-    )
+            '${AppUI.imgPath}photo.png',
+            height: 41,
+            width: 42,
+            fit: BoxFit.cover,
+          )
         : Image.network(
-      'http://${ApiConstants.baseUrl}/$pictureLocation',
-      height: 41,
-      width: 42,
-      fit: BoxFit.cover,
-    ),
+            'http://${ApiConstants.baseUrl}/$pictureLocation',
+            height: 41,
+            width: 42,
+            fit: BoxFit.cover,
+          ),
   );
 }

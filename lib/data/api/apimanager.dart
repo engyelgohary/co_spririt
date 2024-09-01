@@ -164,7 +164,8 @@ class ApiManager {
 
       // Adding image if present
       if (image != null) {
-        var mimeTypeData = lookupMimeType(image.path)!.split('/');
+        var mimeTypeData =
+            lookupMimeType(image.path)!.split('/'); // TODO use this method in your send message
         request.files.add(
           http.MultipartFile(
             'picture',
@@ -179,8 +180,12 @@ class ApiManager {
       var response = await request.send().timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 204) {
+        // On successful request the response is 204 and that causes the bug number 7 - Yusuf
         // No Content
-        return GetAdmin(); // Assuming an empty GetAdmin object
+        adminData["id"] = int.parse(adminData["id"]);
+        adminData["canPost"] = bool.parse(adminData["canPost"], caseSensitive: false);
+        return GetAdmin.fromJson(adminData);
+        // return GetAdmin(); // Assuming an empty GetAdmin object
       } else if (response.statusCode == 200) {
         var responseData = await http.Response.fromStream(response);
         return GetAdmin.fromJson(jsonDecode(responseData.body));

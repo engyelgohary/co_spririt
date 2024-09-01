@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,10 +9,9 @@ import '../../../utils/components/appbar.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-
 class ProfileScreenColla extends StatefulWidget {
   final String collaboratorId;
-   ProfileScreenColla({super.key,required this.collaboratorId});
+  ProfileScreenColla({super.key, required this.collaboratorId});
 
   @override
   State<ProfileScreenColla> createState() => _ProfileScreenCollaState();
@@ -34,17 +32,19 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-    viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository(),);
+    viewModel = CollaboratorCubit(
+      collaboratorRepository: injectCollaboratorRepository(),
+    );
     viewModel.fetchCollaboratorDetails(int.parse(widget.collaboratorId));
   }
 
   Future<void> _pickImage() async {
-    final pickedImage =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       _selectedImage = pickedImage;
     });
   }
+
   @override
   void dispose() {
     firstNameController.dispose();
@@ -53,6 +53,7 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
     emailController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,14 +62,14 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
           'Profile',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
       body: BlocProvider(
         create: (context) => viewModel,
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: const CircularProgressIndicator());
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               firstNameController.text = "${collaborator!.firstName}";
@@ -87,32 +88,27 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
-                              'http://10.10.99.13:3090${collaborator.pictureLocation}')
-                          as ImageProvider,
-                          child: _selectedImage == null &&
-                              collaborator.pictureLocation == null
-                              ? Icon(Icons.camera_alt, size: 50)
+                                      'http://10.10.99.13:3090${collaborator.pictureLocation}')
+                                  as ImageProvider,
+                          child: _selectedImage == null && collaborator.pictureLocation == null
+                              ? const Icon(Icons.camera_alt, size: 50)
                               : null,
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.h,),
+                    SizedBox(
+                      height: 5.h,
+                    ),
                     Center(
                       child: Text(
                         "${firstNameController.text} ${lastNameController.text}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 15),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
                       ),
                     ),
                     Center(
                       child: Text(
                         'Collaborator',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 15),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
                       ),
                     ),
                     CustomTextFormField(
@@ -131,7 +127,7 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                           return 'please enter your email address';
                         }
                         bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'invalid email';
@@ -156,25 +152,28 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                               'phone': phoneController.text,
                               'email': emailController.text,
                               "ContractStart": state.collaboratorData!.contractStart,
-                              "ContractEnd":state.collaboratorData!.contractEnd,
-                            }, _selectedImage,cv);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              "ContractEnd": state.collaboratorData!.contractEnd,
+                              "oldPicture": collaborator.pictureLocation,
+                            }, _selectedImage, cv);
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content: Text("Profile Update Successfully"),
                             ));
                           },
-                          child: Center(
-                              child: Text('Update',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                      fontSize: 16,
-                                      color: AppColor.whiteColor))),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.buttonColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                            backgroundColor: AppColor.buttonColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Update',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor),
+                            ),
+                          ),
                         ),
                       ),
                     ),

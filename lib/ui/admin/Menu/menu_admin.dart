@@ -99,7 +99,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   CustomMenuCard(
                     name: 'Notifications',
                     onFunction: () {
-                      Navigator.pushNamed(context, NotifactionScreenAdmin.routName);
+                      Navigator.pushNamed(context, NotificationScreenAdmin.routName);
                     },
                   ),
                   CustomMenuCard(

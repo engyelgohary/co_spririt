@@ -4,15 +4,28 @@ import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NotifactionScreenSuperAdmin extends StatefulWidget {
-  static const String routName = 'Notifaction SuperAdmin';
-  const NotifactionScreenSuperAdmin({super.key});
+import '../../../data/api/apimanager.dart';
+import '../../../data/model/Notification.dart';
+import '../../../utils/helper_functions.dart';
+
+class NotificationScreenSuperAdmin extends StatefulWidget {
+  static const String routName = 'Notification Collaborator';
+  const NotificationScreenSuperAdmin({super.key});
 
   @override
-  State<NotifactionScreenSuperAdmin> createState() => _NotifactionScreenSuperAdminState();
+  State<NotificationScreenSuperAdmin> createState() => _NotificationScreenSuperAdminState();
 }
 
-class _NotifactionScreenSuperAdminState extends State<NotifactionScreenSuperAdmin> {
+class _NotificationScreenSuperAdminState extends State<NotificationScreenSuperAdmin> {
+  final LoadingStateNotifier<UserNotification> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
+
+  @override
+  void dispose() {
+    loadingNotifier.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

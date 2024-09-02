@@ -3,15 +3,15 @@ import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NotifactionScreenAdmin extends StatefulWidget {
+class NotificationScreenAdmin extends StatefulWidget {
   static const String routName = 'Notifaction Admin';
-  const NotifactionScreenAdmin({super.key});
+  const NotificationScreenAdmin({super.key});
 
   @override
-  State<NotifactionScreenAdmin> createState() => _NotifactionScreenAdminState();
+  State<NotificationScreenAdmin> createState() => _NotificationScreenAdminState();
 }
 
-class _NotifactionScreenAdminState extends State<NotifactionScreenAdmin> {
+class _NotificationScreenAdminState extends State<NotificationScreenAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

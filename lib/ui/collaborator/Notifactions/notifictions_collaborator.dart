@@ -3,15 +3,27 @@ import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NotifactionScreenCollaborator extends StatefulWidget {
-  static const String routName = 'Notifaction Collaborator';
-  const NotifactionScreenCollaborator({super.key});
+import '../../../data/api/apimanager.dart';
+import '../../../utils/helper_functions.dart';
+
+class NotificationScreenCollaborator extends StatefulWidget {
+  static const String routName = 'Notification Collaborator';
+  const NotificationScreenCollaborator({super.key});
 
   @override
-  State<NotifactionScreenCollaborator> createState() => _NotifactionScreenCollaboratorState();
+  State<NotificationScreenCollaborator> createState() => _NotificationScreenCollaboratorState();
 }
 
-class _NotifactionScreenCollaboratorState extends State<NotifactionScreenCollaborator> {
+class _NotificationScreenCollaboratorState extends State<NotificationScreenCollaborator> {
+  final LoadingStateNotifier<UserNotification> loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
+
+  @override
+  void dispose() {
+    loadingNotifier.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -80,8 +80,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                     ),
                     InkWell(
                       onTap: () {
-                        AppUtil.mainNavigator(
-                            context, const NotifactionScreenSuperAdmin());
+                        AppUtil.mainNavigator(context, const NotificationScreenSuperAdmin());
                       },
                       child: Padding(
                         padding: EdgeInsets.only(right: 13.w),

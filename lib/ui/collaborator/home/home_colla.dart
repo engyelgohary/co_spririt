@@ -72,7 +72,7 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(context,
-                              NotifactionScreenCollaborator());
+                              NotificationScreenCollaborator(),);
                         },
                         child: Padding(
                           padding: EdgeInsets.only(right: 13.w),

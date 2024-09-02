@@ -4,6 +4,7 @@ import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/Notification.dart';
 import 'package:co_spririt/data/model/Post.dart';
 import 'package:co_spririt/data/model/RequestsReq.dart';
 import 'package:co_spririt/data/model/RequestsResponse.dart';
@@ -36,6 +37,7 @@ class ApiConstants {
   static const String fetchPostsByAdminApi = '/api/v1/post/GetPostsAdmin';
   static const String messagingApi = '/api/v1/messages';
   static const String superAdminApi = '/api/v1/SuperAdmin';
+  static const String notificationApi = '/api/v1/NotificationMessage';
 }
 
 class ApiManager {
@@ -1171,6 +1173,57 @@ class ApiManager {
       }
     } catch (e) {
       print("Could not get super admin data $e");
+      rethrow;
+    }
+  }
+
+  Future<List<UserNotification>> getUserNotification() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.notificationApi);
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        List responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => UserNotification.fromJson(e)));
+      }
+      throw Exception('Failed to get user notification code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get user notification $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> readUserNotification(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.notificationApi}/Read/$id");
+      final response = await http.put(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to read user notification code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not read user notification $e");
       rethrow;
     }
   }

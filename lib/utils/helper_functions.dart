@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spririt/data/model/Notification.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -107,7 +108,7 @@ Future<void> collaboratorAdminsList(
   loadingNotifier.change();
 }
 
-class Signalr {
+class   Signalr {
   Signalr.signalr();
   static Signalr? _instance;
 
@@ -280,4 +281,32 @@ dynamic collaboratorPhoto(String? pictureLocation) {
             fit: BoxFit.cover,
           ),
   );
+}
+
+Future<void> notificationList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await apiManager.getUserNotification();
+  } catch (e) {
+    print("- notificationList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> readNotification(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+  UserNotification notification,
+) async {
+  try {
+    await apiManager.readUserNotification(notification.id ?? 0);
+    notification.isRead = true;
+    loadingNotifier.change();
+  } catch (e) {
+    print("- notificationList error : $e");
+    loadingNotifier.response = null;
+  }
 }

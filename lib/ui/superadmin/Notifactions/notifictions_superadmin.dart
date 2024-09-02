@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
@@ -32,79 +31,81 @@ class _NotificationScreenSuperAdminState extends State<NotificationScreenSuperAd
       appBar: AppBar(
         title: Text(
           'Alerts',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+          style: Theme.of(context).textTheme.titleSmall,
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
-      body: ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage("assets/images/photo.png"),
-              radius: 25,
-            ),
-            title: Text('Matteo',
-                style:
-                Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w700)),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Contract 1 20/03/2024',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.w400, fontSize: 12)),
-                Text(
-                  index % 2 == 0 ? 'End' : 'End Soon',
-                  style: TextStyle(
-                    color: index % 2 == 0 ? AppColor.errorColor : AppColor.secondColor,
-                  ),
+      body: ListenableBuilder(
+          listenable: loadingNotifier,
+          builder: (context, child) {
+            if (loadingNotifier.loading) {
+              notificationList(apiManager, loadingNotifier);
+              return const Center(child: CircularProgressIndicator());
+            } else if (loadingNotifier.response == null) {
+              return Center(
+                child: buildErrorIndicator(
+                  "Some error occurred, Please try again.",
+                  () => loadingNotifier.change(),
                 ),
-              ],
-            ),
-            trailing: InkWell(
-              onTap: () async {
-                await AwesomeNotifications().createNotification(
-                    content: NotificationContent(
-                        id: 16, // -1 is replaced by a random number
-                        channelKey: 'basic_channel',
-                        title: 'Huston! The eagle has landed!',
-                        body: "A small step for a man, but a giant leap to Flutter's community!",
-                        bigPicture:
-                        'https://storage.googleapis.com/cms-storage-bucket/d406c736e7c4c57f5f61.png',
-                        largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
-                        notificationLayout: NotificationLayout.BigPicture,
-                        payload: {'notificationId': '1234567890'}),
-                    actionButtons: [
-                      NotificationActionButton(
-                        key: 'DISMISS',
-                        label: 'Dismiss',
-                        actionType: ActionType.DismissAction,
-                        isDangerousOption: true,
-                      )
-                    ]);
+              );
+            }
+
+            final data = loadingNotifier.response ?? [];
+            return ListView.separated(
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  color: AppColor.whiteColor,
+                  thickness: 2,
+                );
               },
-              child: CircleAvatar(
-                backgroundColor: AppColor.SkyColor,
-                radius: 18.r,
-                child: Icon(
-                  Icons.info_outline,
-                  color: AppColor.secondColor,
-                  size: 20,
-                ),
-              ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            height: 0,
-            color: AppColor.whiteColor,
-            thickness: 1,
-          );
-        },
-      ),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final notification = data[index];
+                return Card(
+                  color: AppColor.backgroundColor,
+                  elevation: 0,
+                  // margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  child: ListTile(
+                    onTap: () {},
+                    leading: CircleAvatar(
+                      backgroundColor: AppColor.secondColor,
+                      radius: 25,
+                      child: Center(
+                        child: Icon(
+                          notification.isRead ?? false ? Icons.drafts : Icons.mail,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    title: Text(notification.title ?? "",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w600)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("${notification.date} ${notification.time}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontWeight: FontWeight.w400, fontSize: 12)),
+                      ],
+                    ),
+                    trailing: CircleAvatar(
+                      backgroundColor: AppColor.SkyColor,
+                      radius: 18.r,
+                      child: const Icon(
+                        Icons.info_outline,
+                        color: AppColor.secondColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
     );
   }
 }

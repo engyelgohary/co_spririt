@@ -166,8 +166,7 @@ class ApiManager {
 
       // Adding image if present
       if (image != null) {
-        var mimeTypeData =
-            lookupMimeType(image.path)!.split('/'); // TODO use this method in your send message
+        var mimeTypeData = lookupMimeType(image.path)!.split('/');
         request.files.add(
           http.MultipartFile(
             'picture',
@@ -1127,7 +1126,12 @@ class ApiManager {
       request.fields.addAll(body);
 
       for (final file in attachments) {
-        request.files.add(await http.MultipartFile.fromPath("Attachments", file));
+        final mimeTypeData = lookupMimeType(file)!.split('/');
+        request.files.add(await http.MultipartFile.fromPath(
+          "Attachments",
+          file,
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ));
       }
 
       request.headers.addAll({

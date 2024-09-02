@@ -68,7 +68,6 @@ class _NotificationScreenCollaboratorState extends State<NotificationScreenColla
                   // margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: ListTile(
                     onTap: () {
-                      print(notification.id);
                       readNotification(apiManager, readNotifier, notification);
                     },
                     leading: CircleAvatar(

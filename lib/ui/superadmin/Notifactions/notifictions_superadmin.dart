@@ -60,21 +60,28 @@ class _NotificationScreenSuperAdminState extends State<NotificationScreenSuperAd
               },
               itemCount: data.length,
               itemBuilder: (context, index) {
+                final LoadingStateNotifier readNotifier = LoadingStateNotifier();
                 final notification = data[index];
                 return Card(
                   color: AppColor.backgroundColor,
                   elevation: 0,
                   // margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      readNotification(apiManager, readNotifier, notification);
+                    },
                     leading: CircleAvatar(
                       backgroundColor: AppColor.secondColor,
                       radius: 25,
                       child: Center(
-                        child: Icon(
-                          notification.isRead ?? false ? Icons.drafts : Icons.mail,
-                          color: Colors.white,
-                        ),
+                        child: ListenableBuilder(
+                            listenable: readNotifier,
+                            builder: (context, child) {
+                              return Icon(
+                                notification.isRead ?? false ? Icons.drafts : Icons.mail,
+                                color: Colors.white,
+                              );
+                            }),
                       ),
                     ),
                     title: Text(notification.title ?? "",
@@ -85,11 +92,13 @@ class _NotificationScreenSuperAdminState extends State<NotificationScreenSuperAd
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${notification.date} ${notification.time}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(fontWeight: FontWeight.w400, fontSize: 12)),
+                        Text(
+                          "${notification.date} ${notification.time}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
+                        ),
                       ],
                     ),
                     trailing: CircleAvatar(

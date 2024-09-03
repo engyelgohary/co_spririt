@@ -31,24 +31,19 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminImageSelected(pickedFile));
     }
   }
-
   void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     emit(AdminLoading());
     try {
       print('Attempting to update admin');
       var updatedAdmin = await adminRepository.updateAdmin(adminData, image);
-      if (image == null) {
-        updatedAdmin.pictureLocation = adminData["oldPicture"];
-      }
       emit(AdminSuccess(adminData: updatedAdmin));
       print('Admin updated successfully');
       pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(AdminError(errorMessage: e.toString()));
+      emit(AdminError(errorMessage:e.toString()));
       print('Error updating admin: $e');
     }
   }
-
   void fetchAdmins(int pageKey) async {
     emit(AdminLoading());
     try {
@@ -66,7 +61,6 @@ class AdminCubit extends Cubit<AdminState> {
       pagingController.error = error;
     }
   }
-
   Future<void> fetchAdminDetails(int id) async {
     try {
       final adminDetails = await adminRepository.fetchAdminDetails(id);
@@ -75,7 +69,6 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminError(errorMessage: e.toString()));
     }
   }
-
   void register() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -97,7 +90,6 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminError(errorMessage: e.toString()));
     }
   }
-
   Future<void> deleteAdmin(int id) async {
     try {
       emit(AdminLoading());
@@ -109,3 +101,5 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 }
+
+

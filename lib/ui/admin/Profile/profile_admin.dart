@@ -11,7 +11,7 @@ import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
 
 class ProfileScreenAdmin extends StatefulWidget {
   final String adminId;
-  const ProfileScreenAdmin({super.key, required this.adminId});
+  ProfileScreenAdmin({super.key, required this.adminId});
 
   @override
   State<ProfileScreenAdmin> createState() => _ProfileScreenAdminState();
@@ -37,14 +37,15 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
   }
 
   Future<void> _pickImage() async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage =
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       _selectedImage = pickedImage;
     });
   }
 
-  void update() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  void update(){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Admin Update Successfully"),
     ));
   }
@@ -57,14 +58,14 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
           'Profile',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: const AppBarCustom(),
+        leading: AppBarCustom(),
       ),
       body: BlocProvider(
         create: (context) => viewModel,
         child: BlocBuilder<AdminCubit, AdminState>(
           builder: (context, state) {
             if (state is AdminLoading) {
-              return const Center(child: const CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
             } else if (state is AdminSuccess) {
               final admin = state.adminData;
               firstNameController.text = admin!.firstName ?? "";
@@ -82,27 +83,33 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           radius: 60.r,
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
-                              : NetworkImage('http://10.10.99.13:3090${admin.pictureLocation}')
-                                  as ImageProvider,
-                          child: _selectedImage == null && admin.pictureLocation == null
-                              ? const Icon(Icons.camera_alt, size: 50)
+                              : NetworkImage(
+                              'http://10.10.99.13:3090${admin.pictureLocation}')
+                          as ImageProvider,
+                          child: _selectedImage == null &&
+                              admin.pictureLocation == null
+                              ? Icon(Icons.camera_alt, size: 50)
                               : null,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
+                    SizedBox(height: 5.h,),
                     Center(
                       child: Text(
                         "${firstNameController.text} ${lastNameController.text}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15),
                       ),
                     ),
                     Center(
                       child: Text(
                         'Admin',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontSize: 15),
                       ),
                     ),
                     CustomTextFormField(
@@ -121,7 +128,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           return 'please enter your email address';
                         }
                         bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'invalid email';
@@ -138,32 +145,30 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
-                          onPressed: () {
-                            
+                          onPressed:  () {
                             context.read<AdminCubit>().updateAdmin({
                               'id': widget.adminId,
                               'firstName': firstNameController.text,
                               'lastName': lastNameController.text,
                               'phone': phoneController.text,
                               'email': emailController.text,
-                              'password': "AdminAdmin", // TODO Password is hard coded
+                              'password': "AdminAdmin",
                               'canPost': state.adminData!.canPost.toString(),
-                              'oldPicture': admin.pictureLocation,
                             }, _selectedImage);
                           },
+                          child: Center(
+                              child: Text('Update',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                      fontSize: 16,
+                                      color: AppColor.whiteColor))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
-                          child: Center(
-                            child: Text(
-                              'Update',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontSize: 16, color: AppColor.whiteColor),
-                            ),
-                          ),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ),

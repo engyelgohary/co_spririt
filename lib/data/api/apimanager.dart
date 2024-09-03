@@ -489,12 +489,8 @@ class ApiManager {
       var response = await request.send().timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 204) {
-        // On successful request the response is 204 and that causes the bug number 7 - Yusuf
         // No Content
-
-        collaboratorData["id"] = int.parse(collaboratorData["id"]);
-        return Collaborator.fromJson(collaboratorData);
-        // return Collaborator(); // Assuming an empty GetAdmin object
+        return Collaborator(); // Assuming an empty GetAdmin object
       } else if (response.statusCode == 200) {
         var responseData = await http.Response.fromStream(response);
         return Collaborator.fromJson(jsonDecode(responseData.body));

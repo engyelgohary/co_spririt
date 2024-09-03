@@ -46,7 +46,6 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
       pagingController.error = error;
     }
   }
-
   Future<void> deleteCollaborator(int id) async {
     try {
       emit(CollaboratorLoading());
@@ -58,28 +57,26 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
       print(e.toString());
     }
   }
-
   Future<void> addCollaborator() async {
     if (!formKey.currentState!.validate()) return;
-    final collaboratorData = {
-      'FirstName': firstNameController.text,
-      'LastName': lastNameController.text,
-      'Phone': phoneController.text,
-      "Email": emailController.text,
-      "ContractStart": contractStartController.text,
-      "ContractEnd": contractEndController.text
-    };
+final collaboratorData = {
+  'FirstName': firstNameController.text,
+  'LastName' : lastNameController.text,
+  'Phone':phoneController.text,
+  "Email":emailController.text,
+  "ContractStart": contractStartController.text,
+  "ContractEnd":contractEndController.text
+};
     emit(CollaboratorLoading());
 
     try {
-      final result = await collaboratorRepository.addCollaborator(collaboratorData, image, cv);
+      final result = await collaboratorRepository.addCollaborator(collaboratorData,image,cv);
       emit(CollaboratorSuccess(collaboratorData: result));
     } catch (e) {
-      emit(CollaboratorError(errorMessage: e.toString()));
-      print(e.toString());
+      emit(CollaboratorError(errorMessage:e.toString()));
+   print(e.toString());
     }
   }
-
   void selectImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -87,16 +84,13 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
       emit(CollaboratorImageSelected(pickedFile));
     }
   }
-
   void selectCv() async {
-    final result =
-        await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
     if (result != null) {
       cv = File(result.files.single.path!);
       emit(CollaboratorCvSelected(cv!));
     }
   }
-
   Future<void> fetchCollaboratorDetails(int id) async {
     try {
       final collaboratorDetails = await collaboratorRepository.fetchCollaboratorDetails(id);
@@ -105,45 +99,36 @@ class CollaboratorCubit extends Cubit<CollaboratorState> {
       emit(CollaboratorError(errorMessage: e.toString()));
     }
   }
-
-  void updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) async {
+  void updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image,File?cv) async {
     emit(CollaboratorLoading());
     try {
       print('Attempting to update Collaborator');
-      var updatedCollaborator =
-          await collaboratorRepository.updateCollaborator(collaboratorData, image, cv);
-      if (image == null) {
-        updatedCollaborator.pictureLocation = collaboratorData["oldPicture"];
-      }
+      var updatedCollaborator = await collaboratorRepository.updateCollaborator(collaboratorData, image, cv);
       emit(CollaboratorSuccess(collaboratorData: updatedCollaborator));
       print('Collaborator updated successfully');
       pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(CollaboratorError(errorMessage: e.toString()));
+      emit(CollaboratorError(errorMessage:e.toString()));
       print('Error updating Collaborator: $e');
     }
-  } 
-
+  }
   Future<void> assignCollaboratorToAdmin(int collaboratorId, int adminId) async {
     emit(CollaboratorLoading());
-    try {
-      var assignToAdmin =
-          await collaboratorRepository.assignCollaboratorToAdmin(collaboratorId, adminId);
-      emit(CollaboratorSuccess(collaboratorData: assignToAdmin));
-    } catch (e) {
-      emit(CollaboratorError(errorMessage: e.toString()));
+    try{
+      var assignToAdmin = await collaboratorRepository.assignCollaboratorToAdmin(collaboratorId, adminId);
+      emit(CollaboratorSuccess(collaboratorData:  assignToAdmin));
+    }catch(e){
+      emit(CollaboratorError(errorMessage:e.toString()));
       print(e.toString());
     }
   }
-
   Future<void> assignCollaboratorToClient(int collaboratorId, int clientId) async {
     emit(CollaboratorLoading());
-    try {
-      var assignToClient =
-          await collaboratorRepository.assignCollaboratorToClient(collaboratorId, clientId);
-      emit(CollaboratorSuccess(collaboratorData: assignToClient));
-    } catch (e) {
-      emit(CollaboratorError(errorMessage: e.toString()));
+    try{
+      var assignToClient = await collaboratorRepository.assignCollaboratorToClient(collaboratorId, clientId);
+      emit(CollaboratorSuccess(collaboratorData:  assignToClient));
+    }catch(e){
+      emit(CollaboratorError(errorMessage:e.toString()));
       print(e.toString());
     }
   }

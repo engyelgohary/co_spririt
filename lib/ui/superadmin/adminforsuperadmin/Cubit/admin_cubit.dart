@@ -34,16 +34,17 @@ class AdminCubit extends Cubit<AdminState> {
   void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     emit(AdminLoading());
     try {
-      print('Attempting to update admin');
-      var updatedAdmin = await adminRepository.updateAdmin(adminData, image);
+      await adminRepository.updateAdmin(adminData, image);
+
+      // Re-fetch the admin details to ensure the UI has the latest data
+      int id = int.parse(adminData['id'].toString());
+      var updatedAdmin = await adminRepository.fetchAdminDetails(id);
       emit(AdminSuccess(adminData: updatedAdmin));
-      print('Admin updated successfully');
-      pagingController.refresh(); // Refresh the list
     } catch (e) {
-      emit(AdminError(errorMessage:e.toString()));
-      print('Error updating admin: $e');
+      emit(AdminError(errorMessage: e.toString()));
     }
   }
+
   void fetchAdmins(int pageKey) async {
     emit(AdminLoading());
     try {

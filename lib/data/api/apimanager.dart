@@ -557,7 +557,7 @@ class ApiManager {
 
     if (response.statusCode != 200) {
       print(response.statusCode);
-      throw Exception('Failed to submit opportunity');
+      throw Exception('please choose a client');
     }
   }
   Future<List<Client>> fetchClientsByCollaborator() async {

@@ -73,16 +73,33 @@ class RequestsCubit extends Cubit<RequestsState> {
     }
   }
   Future<void> addRequest() async {
+    // Validate form fields
     if (!formKey.currentState!.validate()) return;
+
+    // Check if the title is empty
+    if (title_controller.text.isEmpty ||selectedTypeId == null ) {
+      emit(RequestsError(
+        errorMessage: "Please enter all request details.",
+
+      ));
+      return;
+    }
+
     emit(RequestsLoading());
     try {
-      final response = await requestsRepository.addRequest(title_controller.text,selectedTypeId ?? 2);
-      emit(RequestsSuccess(requestData:response));
+      final response = await requestsRepository.addRequest(
+        title_controller.text,
+        selectedTypeId!,
+      );
+      emit(RequestsSuccess(requestData: response));
     } catch (e) {
-      emit(RequestsError(errorMessage: e.toString()));
+      emit(RequestsError(
+        errorMessage: "You are not assigned to an admin yet."
+      ));
       print(e.toString());
     }
   }
+
   Future<void> fetchRequestDetails(int id) async {
     try {
       final requestDetails = await requestsRepository.fetchRequestDetails(id);

@@ -78,11 +78,12 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
                     controller: viewModel.firstNameController,
+                    width: 2.w,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your first name';
@@ -90,11 +91,11 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastNameController,
-                    width: 7,
+                    width: 2.w,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your last name';
@@ -102,11 +103,11 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phoneController,
-                    width: 35,
+                    width: 30.w,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -115,11 +116,11 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.emailController,
-                    width: 44,
+                    width: 38.w,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -134,7 +135,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   Text(
                     "Contract Info : ",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(

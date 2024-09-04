@@ -25,14 +25,13 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
     return BlocConsumer<TypesCubit, TypesState>(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is  TypesLoading) {
+        if (state is TypesLoading) {
           CircularProgressIndicator();
         } else if (state is TypesError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage ?? ""),
           ));
-          print(state.errorMessage);
         } else if (state is TypesSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
@@ -46,10 +45,13 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
           height: 155.h,
           width: 319.w,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35.r)
+            borderRadius: BorderRadius.circular(35.r),
           ),
           child: AlertDialog(
-            title: Text("Add Type",style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),),
+            title: Text(
+              "Add Type",
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
+            ),
             content: Form(
               key: viewModel.formKey,
               child: Row(
@@ -63,7 +65,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                         hintStyle: Theme.of(context).textTheme.titleMedium,
                         border: InputBorder.none,
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0), // Adjust padding
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
                       ),
                     ),
                   ),
@@ -75,34 +77,46 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height:30.h,
+                    height: 30.h,
                     width: 120.w,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
                       },
-                      child: Center(child: Text('Cancel',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.thirdColor))),
+                      child: Center(
+                        child: Text(
+                          'Cancel',
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor),
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.greyColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.r)))),
+                        backgroundColor: AppColor.greyColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 5.w,),
+                  SizedBox(width: 5.w),
                   Container(
-                    height:30.h,
-                    width: 120.w,
+                    height: 30.h,
+                    width: 115.w,
                     child: ElevatedButton(
                       onPressed: () {
                         viewModel.addType();
                       },
-                      child: Center(child: Text('Add',style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16,color: AppColor.whiteColor))),
+                      child: Center(
+                        child: Text(
+                          'Add',
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor),
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.buttonColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.r)))),
+                        backgroundColor: AppColor.buttonColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -111,8 +125,6 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
           ),
         );
       },
-
     );
-
   }
 }

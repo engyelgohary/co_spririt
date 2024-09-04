@@ -8,12 +8,26 @@ import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class MessagesScreenSuperAdmin extends StatelessWidget {
-  final TextEditingController messageController = TextEditingController();
+class MessagesScreenSuperAdmin extends StatefulWidget {
+  const MessagesScreenSuperAdmin({super.key});
+
+  @override
+  State<MessagesScreenSuperAdmin> createState() => _MessagesScreenSuperAdminState();
+}
+
+class _MessagesScreenSuperAdminState extends State<MessagesScreenSuperAdmin> {
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
+  final Signalr signalr = Signalr();
 
-  MessagesScreenSuperAdmin({super.key});
+  @override
+  void dispose() {
+    loadingNotifier.dispose();
+    signalr.listNotifier = null;
+    signalr.receiverId = null;
+    signalr.scrollController = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +74,7 @@ class MessagesScreenSuperAdmin extends StatelessWidget {
                     child: Center(
                       child: buildErrorIndicator(
                         "Some error occurred, Please try again.",
-                            () => loadingNotifier.change(),
+                        () => loadingNotifier.change(),
                       ),
                     ),
                   );

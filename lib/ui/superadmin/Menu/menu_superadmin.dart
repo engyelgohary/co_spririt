@@ -27,7 +27,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
           CustomMenuCard(name:'Collaborators' ,onFunction:(){ AppUtil.mainNavigator(context,CollaboratorsScreenForSuper());},),
           CustomMenuCard(name:'Admins' ,onFunction:(){ AppUtil.mainNavigator(context,AdminScreenForSuper());},),
           CustomMenuCard(name:'Clients' ,onFunction:(){ AppUtil.mainNavigator(context,ClientScreenfoSuper());},),
-          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenSuperAdmin.routName);},),
+          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotificationScreenSuperAdmin.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ AppUtil.mainNavigator(context,MessagesScreenSuperAdmin());},),
           CustomMenuCard(name:'Requests' ,onFunction:(){ Navigator.pushNamed(context, RequestSuperAdmin.routeName);},),
           CustomMenuCard(name:'Log out',color: AppColor.secondColor, onFunction:(){ Navigator.pushNamed(context, LoginScreen.routeName);},)

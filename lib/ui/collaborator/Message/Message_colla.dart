@@ -10,21 +10,22 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
 class MessagesScreenColla extends StatefulWidget {
-  MessagesScreenColla({super.key});
+  const MessagesScreenColla({super.key});
   @override
   State<MessagesScreenColla> createState() => _MessagesScreenCollaState();
 }
 
 class _MessagesScreenCollaState extends State<MessagesScreenColla> {
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
-  final ListNotifier<dynamic> listNotifier = ListNotifier(list: []);
-
   final ApiManager apiManager = ApiManager.getInstance();
-
   final signalr = Signalr();
+
   @override
   void dispose() {
-    signalr.connection.stop();
+    loadingNotifier.dispose();
+    signalr.listNotifier = null;
+    signalr.receiverId = null;
+    signalr.scrollController = null;
     super.dispose();
   }
 
@@ -68,14 +69,13 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   collaboratorAdminsList(apiManager, loadingNotifier);
-                  signalr.start();
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
                       child: buildErrorIndicator(
                         "Some error occurred, Please try again.",
-                            () => loadingNotifier.change(),
+                        () => loadingNotifier.change(),
                       ),
                     ),
                   );

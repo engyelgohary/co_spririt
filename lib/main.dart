@@ -53,15 +53,15 @@ class MyApp extends StatelessWidget {
             Splash.routeName:(context) =>Splash(),
             LoginScreen.routeName: (context) => LoginScreen(),
             // Super Admin
-            NotifactionScreenSuperAdmin.routName: (context) => NotifactionScreenSuperAdmin(),
-            MenuScreenSuperAdmin.routeName:(context) => MenuScreenSuperAdmin(),
-            RequestSuperAdmin.routeName:(context) =>RequestSuperAdmin(),
+            NotificationScreenSuperAdmin.routName: (context) => NotificationScreenSuperAdmin(),
+            MenuScreenSuperAdmin.routeName: (context) => MenuScreenSuperAdmin(),
+            RequestSuperAdmin.routeName: (context) => RequestSuperAdmin(),
             //   Admin
-            NotifactionScreenAdmin.routName:(context) => NotifactionScreenAdmin(),
-            RequestAdmin.routeName:(context) => RequestAdmin(),
+            NotificationScreenAdmin.routName: (context) => NotificationScreenAdmin(),
+            RequestAdmin.routeName: (context) => RequestAdmin(),
             //   Collaborator
-            NotifactionScreenCollaborator.routName:(context) => NotifactionScreenCollaborator(),
-            RequestCollaborator.routeName:(context) => RequestCollaborator()
+            NotificationScreenCollaborator.routName: (context) => NotificationScreenCollaborator(),
+            RequestCollaborator.routeName: (context) => RequestCollaborator()
           },
           theme: AppTheme.mainTheme,
         );

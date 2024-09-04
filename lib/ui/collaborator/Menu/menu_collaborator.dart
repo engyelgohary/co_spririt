@@ -83,7 +83,7 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                   ),
                 ),
                 CustomMenuCard(name:'Profile' ,onFunction:(){ AppUtil.mainNavigator(context,ProfileScreenColla(collaboratorId: widget.ColaboratorId,));},),
-          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotifactionScreenCollaborator.routName);},),
+          CustomMenuCard(name:'Notifications' ,onFunction:(){ Navigator.pushNamed(context, NotificationScreenCollaborator.routName);},),
           CustomMenuCard(name:'Message' ,onFunction:(){ AppUtil.mainNavigator(context,MessagesScreenColla());},),
           CustomMenuCard(name:'Opportunities' ,onFunction:(){ AppUtil.mainNavigator(context,OpportunitiesScreenColla());},),
           CustomMenuCard(name:'Requests' ,onFunction:(){ Navigator.pushNamed(context, RequestCollaborator.routeName);},),

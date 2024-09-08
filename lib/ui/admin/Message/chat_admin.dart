@@ -1,4 +1,5 @@
 import 'package:co_spririt/data/api/apimanager.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
@@ -32,6 +33,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
   final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
   final Signalr signalr = Signalr();
+  Set<String> selectedAttachments = {};
 
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
           Container(
             height: 145,
             decoration:
-            BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
+                BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -153,7 +155,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                   child: Center(
                     child: buildErrorIndicator(
                       "Some error occurred, Please try again.",
-                          () => loadingNotifier.change(),
+                      () => loadingNotifier.change(),
                     ),
                   ),
                 );
@@ -171,12 +173,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                         itemCount: list.length,
                         itemBuilder: (context, index) {
                           final message = list[index];
-                          final bubble = CustomChatBubble(
-                            messageText: message.content!,
-                            imageUrl: "", //TODO implement image url
-                            isSender: message.sender!,
-                            time: message.time!,
-                          );
+                          final bubble = CustomChatBubble(message: message);
 
                           if (index == 0 || message.date != list[index - 1].date) {
                             return Padding(
@@ -186,6 +183,7 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                               ),
                             );
                           }
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: bubble,
@@ -213,27 +211,41 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                     controller: messageController,
                     hint: "Type a message ...",
                     textInputType: TextInputType.text,
-                    suffixIcon: const SizedBox(
+                    suffixIcon: SizedBox(
                       width: 55,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}file.png',
+                          InkWell(
+                            onTap: () async {
+                              final res = await FilePicker.platform.pickFiles(allowMultiple: true);
+                              if (res != null) {
+                                for (var file in res.files) {
+                                  selectedAttachments.add(file.path!);
+                                }
+                              }
+                            },
+                            child: const ImageIcon(
+                              AssetImage(
+                                '${AppUI.iconPath}file.png',
+                              ),
+                              color: AppUI.twoBasicColor,
+                              size: 20,
                             ),
-                            color: AppUI.twoBasicColor,
-                            size: 20,
                           ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}chatcamera.png',
-                            ),
-                            color: AppUI.twoBasicColor,
-                            size: 20,
-                          ),
+                          // SizedBox(
+                          //   width: 8,
+                          // ),
+                          // InkWell(
+                          //   onTap: () {},
+                          //   child: ImageIcon(
+                          //     AssetImage(
+                          //       '${AppUI.iconPath}chatcamera.png',
+                          //     ),
+                          //     color: AppUI.twoBasicColor,
+                          //     size: 20,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -245,17 +257,14 @@ class _ChatScreenAdminState extends State<ChatScreenAdmin> {
                 InkWell(
                   onTap: () async {
                     if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
-                      sendMessage(
-                        widget.receiverId,
-                        messageController.text.trim(),
-                        apiManager,
-                        listNotifier,
-                      );
+                      sendMessage(widget.receiverId, messageController.text.trim(), apiManager,
+                          listNotifier, selectedAttachments.toList());
                       messageController.clear();
+                      selectedAttachments.clear();
                     }
                     Future.delayed(
                       const Duration(milliseconds: 300),
-                          () => scrollController.animateTo(scrollController.position.maxScrollExtent,
+                      () => scrollController.animateTo(scrollController.position.maxScrollExtent,
                           duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
                     );
                   },

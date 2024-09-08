@@ -1,4 +1,3 @@
-import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/ui/admin/Message/chat_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,14 +21,7 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
   final Signalr signalr = Signalr();
 
   @override
-  void initState() {
-    signalr.start();
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    signalr.dispose();
     loadingNotifier.dispose();
     signalr.listNotifier = null;
     signalr.receiverId = null;
@@ -83,7 +75,7 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
                     child: Center(
                       child: buildErrorIndicator(
                         "Some error occurred, Please try again.",
-                            () => loadingNotifier.change(),
+                        () => loadingNotifier.change(),
                       ),
                     ),
                   );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/dip.dart';
+import '../../utils/helper_functions.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'LoginScreen';
@@ -40,6 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text("Sign IN Success"),
             duration: Duration(seconds: 3),
           ));
+          final signalr = Signalr();
+          signalr.start();
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => state.homeScreen),

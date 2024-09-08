@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
@@ -32,21 +33,24 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
   final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
+  Set<String> selectedAttachments = {};
 
   @override
   void initState() {
     signalr.listNotifier = listNotifier;
     signalr.scrollController = scrollController;
-    print("Signlar receiverId : ${signalr.receiverId}");
-    print("Signlar senderId : ${signalr.senderId}");
-    print("Signlar list : ${signalr.listNotifier == null}");
     super.initState();
   }
 
   @override
   void dispose() {
+    listNotifier.dispose();
+    loadingNotifier.dispose();
+    messageController.dispose();
+    scrollController.dispose();
     signalr.listNotifier = null;
     signalr.receiverId = null;
+    signalr.scrollController = null;
     super.dispose();
   }
 
@@ -61,7 +65,7 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
           Container(
             height: 135,
             decoration:
-            BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
+                BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -146,7 +150,7 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
                     child: Center(
                       child: buildErrorIndicator(
                         "Some error occurred, Please try again.",
-                            () => loadingNotifier.change(),
+                        () => loadingNotifier.change(),
                       ),
                     ),
                   );
@@ -165,12 +169,7 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             final message = list[index];
-                            final bubble = CustomChatBubble(
-                              messageText: message.content!,
-                              imageUrl: "", //TODO implement image url
-                              isSender: message.sender!,
-                              time: message.time!,
-                            );
+                            final bubble = CustomChatBubble(message: message);
 
                             if (index == 0 || message.date != list[index - 1].date) {
                               return Padding(
@@ -212,27 +211,40 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
                     controller: messageController,
                     hint: "Type a message ...",
                     textInputType: TextInputType.text,
-                    suffixIcon: const SizedBox(
+                    suffixIcon: SizedBox(
                       width: 55,
                       child: Row(
                         children: [
-                          ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}file.png',
+                          InkWell(
+                            onTap: () async {
+                              final res = await FilePicker.platform.pickFiles(allowMultiple: true);
+                              if (res != null) {
+                                for (var file in res.files) {
+                                  selectedAttachments.add(file.path!);
+                                }
+                              }
+                            },
+                            child: const ImageIcon(
+                              AssetImage(
+                                '${AppUI.iconPath}file.png',
+                              ),
+                              color: AppUI.twoBasicColor,
+                              size: 20,
                             ),
-                            color: AppUI.twoBasicColor,
-                            size: 20,
                           ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}chatcamera.png',
-                            ),
-                            color: AppUI.twoBasicColor,
-                            size: 20,
-                          ),
+                          // SizedBox(
+                          //   width: 8,
+                          // ),
+                          // InkWell(
+                          //   onTap: () {},
+                          //   child: ImageIcon(
+                          //     AssetImage(
+                          //       '${AppUI.iconPath}chatcamera.png',
+                          //     ),
+                          //     color: AppUI.twoBasicColor,
+                          //     size: 20,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -243,20 +255,15 @@ class _ChatScreenCollaState extends State<ChatScreenColla> {
                 ),
                 InkWell(
                   onTap: () async {
-                    print("jumped");
                     if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
-                      sendMessage(
-                        widget.receiverId,
-                        messageController.text.trim(),
-                        apiManager,
-                        listNotifier,
-                      );
-
+                      sendMessage(widget.receiverId, messageController.text.trim(), apiManager,
+                          listNotifier, selectedAttachments.toList());
                       messageController.clear();
+                      selectedAttachments.clear();
                     }
                     Future.delayed(
                       const Duration(milliseconds: 300),
-                          () => scrollController.animateTo(scrollController.position.maxScrollExtent,
+                      () => scrollController.animateTo(scrollController.position.maxScrollExtent,
                           duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
                     );
                   },

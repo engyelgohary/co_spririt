@@ -103,7 +103,11 @@ final collaboratorData = {
     emit(CollaboratorLoading());
     try {
       print('Attempting to update Collaborator');
-      var updatedCollaborator = await collaboratorRepository.updateCollaborator(collaboratorData, image, cv);
+      await collaboratorRepository.updateCollaborator(collaboratorData, image, cv);
+
+      int id = int.parse(collaboratorData['id'].toString());
+      var updatedCollaborator = await collaboratorRepository.fetchCollaboratorDetails(id);
+
       emit(CollaboratorSuccess(collaboratorData: updatedCollaborator));
       print('Collaborator updated successfully');
       pagingController.refresh(); // Refresh the list

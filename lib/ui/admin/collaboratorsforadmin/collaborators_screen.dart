@@ -146,6 +146,11 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                                 color: AppColor.secondColor, size: 20),
                           ),
                         ),
+                        SizedBox(width: 15.w),
+                        CircleAvatar(
+                          radius: 10,
+                          backgroundColor: _getStatusColor(item.status), // Dynamic color based on status
+                        ),
                       ],
                     ),
                   );
@@ -226,7 +231,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                     Icon(Icons.circle, color: Colors.red),
                     SizedBox(width: 8),
                     Text(
-                      'Red (1)',
+                      'Red',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontSize: 18,
                         color: AppColor.basicColor,
@@ -242,7 +247,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                     Icon(Icons.circle, color: Colors.green),
                     SizedBox(width: 8),
                     Text(
-                      'Green (2)',
+                      'Green',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontSize: 18,
                         color: AppColor.basicColor,
@@ -258,7 +263,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                     Icon(Icons.circle, color: Colors.orange),
                     SizedBox(width: 8),
                     Text(
-                      'Orange (3)',
+                      'Orange',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontSize: 18,
                         color: AppColor.basicColor,
@@ -328,4 +333,17 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
       },
     );
   }
+  Color _getStatusColor(int? status) {
+    switch (status) {
+      case 1:
+        return Colors.red; // Status 1 (Red)
+      case 2:
+        return Colors.green; // Status 2 (Green)
+      case 3:
+        return Colors.orange; // Status 3 (Orange)
+      default:
+        return Colors.grey; // Default color (Unknown status)
+    }
+  }
+
 }

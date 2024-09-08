@@ -112,7 +112,9 @@ class InfoCollaborator extends StatelessWidget {
             SizedBox(height: 16.h),
             CustomTextInfo(fieldName: 'Last Communications:', data: formattedDate),
             SizedBox(height: 16.h),
-            CustomTextInfo(fieldName: 'Status :', data: "${collaborator!.status}"),
+            CustomTextInfo(fieldName: 'Status :', data: collaborator != null
+                ? _getStatusText(collaborator!.status)
+                : 'Unknown'),
             SizedBox(height: 16.h),
             CustomTextInfo(fieldName: 'Assigned To Admin:', data: adminName),
             SizedBox(height: 16.h),
@@ -156,5 +158,17 @@ class InfoCollaborator extends StatelessWidget {
         ),
       ),
     );
+  }
+  String _getStatusText(int? status) {
+    switch (status) {
+      case 1:
+        return 'Red';
+      case 2:
+        return 'Green';
+      case 3:
+        return 'Orange';
+      default:
+        return 'Unknown';
+    }
   }
 }

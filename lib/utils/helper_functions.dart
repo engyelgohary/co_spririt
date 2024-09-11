@@ -108,7 +108,7 @@ Future<void> collaboratorAdminsList(
   loadingNotifier.change();
 }
 
-class   Signalr {
+class Signalr {
   Signalr.signalr();
   static Signalr? _instance;
 
@@ -166,13 +166,12 @@ class   Signalr {
           );
           incomingMessage.parseTime(message[0]["Message"]["Timestamp"]);
 
-          if (senderId == incomingMessage.senderId ||
-              incomingMessage.senderId == incomingMessage.receiverId) {
+          if (senderId != incomingMessage.senderId && senderId != incomingMessage.receiverId) {
             return;
-          } else if (receiverId != incomingMessage.senderId) {
+          } else if (senderId == incomingMessage.receiverId && listNotifier == null) {
             AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: 16, // -1 is replaced by a random number
+                id: 16,
                 channelKey: 'basic_channel',
                 title: 'New message from: ${incomingMessage.senderFirstName}',
                 body: incomingMessage.content,
@@ -189,7 +188,7 @@ class   Signalr {
             );
             print(
                 "Message Notification content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
-          } else if (listNotifier != null) {
+          } else if (senderId == incomingMessage.receiverId && listNotifier != null) {
             listNotifier!.addItem(incomingMessage);
             if (scrollController != null) {
               Future.delayed(

@@ -8,7 +8,7 @@ import '../../../data/model/Notification.dart';
 import '../../../utils/helper_functions.dart';
 
 class NotificationScreenSuperAdmin extends StatefulWidget {
-  static const String routName = 'Notification Collaborator';
+  static const String routName = 'Notification SuperAdmin ';
   const NotificationScreenSuperAdmin({super.key});
 
   @override
@@ -50,7 +50,12 @@ class _NotificationScreenSuperAdminState extends State<NotificationScreenSuperAd
               );
             }
 
-            final data = loadingNotifier.response ?? [];
+            final data = loadingNotifier.response!.reversed.toList();
+
+            if (data.isEmpty) {
+              return const Center(child: Text("You don't have notifications."));
+            }
+
             return ListView.separated(
               separatorBuilder: (context, index) {
                 return const Divider(

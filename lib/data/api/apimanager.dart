@@ -1191,6 +1191,8 @@ class ApiManager {
       if (response.statusCode == 200) {
         List responseData = jsonDecode(response.body);
         return List.from(responseData.map((e) => UserNotification.fromJson(e)));
+      } else if (response.statusCode == 404) {
+        return [];
       }
       throw Exception('Failed to get user notification code: ${response.statusCode}');
     } catch (e) {

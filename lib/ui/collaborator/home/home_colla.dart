@@ -190,7 +190,7 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                     InkWell(
                       onTap: () {
                         AppUtil.mainNavigator(
-                            context, MenuScreenCollaborators(ColaboratorId: widget.CollaboratorId,));
+                            context, MenuScreenCollaborators(CollaboratorId: widget.CollaboratorId,));
                       },
                       child: Column(
                         children: [

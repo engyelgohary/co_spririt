@@ -16,9 +16,9 @@ import '../opportunities/opportunities.dart';
 
 class MenuScreenCollaborators extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';
-  final String ColaboratorId;
+  final String CollaboratorId;
 
-   MenuScreenCollaborators({required this.ColaboratorId});
+  MenuScreenCollaborators({required this.CollaboratorId});
 
   @override
   State<MenuScreenCollaborators> createState() => _MenuScreenCollaboratorsState();
@@ -31,7 +31,7 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
   void initState() {
     super.initState();
     adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.ColaboratorId));
+    adminCubit.fetchCollaboratorDetails(int.parse(widget.CollaboratorId));
   }
 
   @override

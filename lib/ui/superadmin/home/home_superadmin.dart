@@ -338,7 +338,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                 width: MediaQuery.of(context).size.width * 0.08,
                                               )
                                                   : CachedNetworkImage(
-                                                imageUrl: 'http://10.10.99.13:3090${post.pictureLocationUser}',
+                                                imageUrl: 'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
                                                 placeholder: (context, url) => CircularProgressIndicator(),
                                                 errorWidget: (context, url, error) => Icon(Icons.error),
                                                 height: MediaQuery.of(context).size.height * 0.05,
@@ -439,7 +439,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                         if (post.pictureLocation != null) ...[
                                           CachedNetworkImage(
-                                            imageUrl: 'http://10.10.99.13:3090${post.pictureLocation}',
+                                            imageUrl: 'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                             placeholder: (context, url) => CircularProgressIndicator(),
                                             errorWidget: (context, url, error) => Icon(Icons.error),
                                           ),

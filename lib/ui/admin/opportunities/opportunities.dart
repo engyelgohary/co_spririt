@@ -3,6 +3,7 @@ import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 
@@ -58,7 +59,7 @@ class _OpportunitiesScreenAdminState extends State<OpportunitiesScreenAdmin> {
               itemCount: state.getOpportunities.length,
               itemBuilder: (context, index) {
                 final opportunity = state.getOpportunities[index];
-                final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
+                final url = "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}";
 
                 return Card(
                   margin: const EdgeInsets.all(8.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
@@ -44,10 +45,10 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
           "Opportunities",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
         actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
                 _showAddOpportunityDialog();
@@ -55,7 +56,7 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
               child: CircleAvatar(
                 radius: 18.r,
                 backgroundColor: AppColor.secondColor,
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   color: Colors.white,
                   size: 20,
@@ -78,9 +79,9 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
               itemCount: state.getOpportunities.length,
               itemBuilder: (context, index) {
                 final opportunity = state.getOpportunities[index];
-                final url = "http://10.10.99.13:3090${opportunity.descriptionLocation}";
+                final url = "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}";
                 return Card(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -92,32 +93,32 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
                               backgroundColor: AppColor.secondColor,
                               child: Text(
                                 '${opportunity.clientFirstName?.substring(0, 1) ?? ''}${opportunity.clientLastName?.substring(0, 1) ?? ""}',
-                                style: TextStyle(color: AppColor.whiteColor),
+                                style: const TextStyle(color: AppColor.whiteColor),
                               ),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Text(
                               '${opportunity.clientFirstName} ${opportunity.clientLastName}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             InkWell(
                               onTap: () {
                                 opportunitiesCubit.deleteOpportunity(opportunity.id!);
                               },
-                              child: Icon(Icons.delete, color: AppColor.errorColor),
+                              child: const Icon(Icons.delete, color: AppColor.errorColor),
                             )
                           ],
                         ),
-                        SizedBox(height: 8.0),
-                        Text(opportunity.title ?? '', style: TextStyle(fontSize: 18.0)),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
+                        Text(opportunity.title ?? '', style: const TextStyle(fontSize: 18.0)),
+                        const SizedBox(height: 8.0),
                         Text(opportunity.description ?? ''),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         if (opportunity.descriptionLocation != null)
                           InkWell(
                             onTap: () => _launchURL(url),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
@@ -141,7 +142,7 @@ class _OpportunitiesScreenCollaState extends State<OpportunitiesScreenColla> {
           } else if (state is OpportunityFailure) {
             return Center(child: Text('Failed to load opportunities: ${state.error}'));
           } else {
-            return Center(child: Text('No opportunities found'));
+            return const Center(child: Text('No opportunities found'));
           }
         },
       ),

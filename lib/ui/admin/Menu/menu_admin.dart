@@ -141,7 +141,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
   }
   ImageProvider<Object> _getImageProvider(String? pictureLocation) {
     if (pictureLocation != null && pictureLocation.isNotEmpty) {
-      return NetworkImage('http://10.10.99.13:3090$pictureLocation');
+      return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
     } else {
       return AssetImage('assets/images/Rectangle 5.png');
     }

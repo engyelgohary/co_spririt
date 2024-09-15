@@ -856,8 +856,8 @@ class ApiManager {
       if (token == null) {
         throw Exception('No token found. Please log in.');
       }
-      final String baseUrl = 'http://10.10.99.13:3090/api/v1';
-      String url = '$baseUrl/requests/$requestId/respond?response=$response';
+      String url =
+          'http://${ApiConstants.baseUrl}${ApiConstants.adminRequests}/$requestId/respond?response=$response';
       final http.Response res = await http.put(
         Uri.parse(url),
         headers: {

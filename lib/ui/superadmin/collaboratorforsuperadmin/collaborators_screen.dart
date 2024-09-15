@@ -456,7 +456,6 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
     );
   }
 
-  // TODO fix
   void showAssignToClientDialog(int collaboratorId) {
     clientCubit.fetchClients(1);
     showDialog(

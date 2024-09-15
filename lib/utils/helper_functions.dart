@@ -309,3 +309,14 @@ Future<void> readNotification(
     loadingNotifier.response = null;
   }
 }
+
+Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    loadingNotifier.response = await apiManager.getOpportunities();
+  } catch (e) {
+    print("- CollaboratorsList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+

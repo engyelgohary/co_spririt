@@ -11,9 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../testpage.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
+import '../opportunities/add_opportunities.dart';
 import '../opportunities/opportunities.dart';
 
 class MenuScreenCollaborators extends StatefulWidget {
@@ -120,9 +120,9 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                     },
                   ),
                   CustomMenuCard(
-                    name: 'Test Page',
+                    name: 'Opportunities V2',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, TestPage());
+                      AppUtil.mainNavigator(context, AddOpportunitiesV2());
                     },
                   ),
                   CustomMenuCard(

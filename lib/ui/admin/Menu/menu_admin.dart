@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_util.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/components/appbar.dart';
@@ -14,6 +15,7 @@ import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../collaboratorsforadmin/collaborators_screen.dart';
 import '../opportunities/opportunities.dart';
+import '../opportunities/opportunities_v2.dart';
 import '../requests/request_admin.dart';
 
 class MenuScreenAdmin extends StatefulWidget {
@@ -65,7 +67,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image:  _getImageProvider(admin!.pictureLocation),
+                            image: _getImageProvider(admin!.pictureLocation),
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -77,10 +79,10 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                       subtitle: Text(
                         "Admin",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: AppColor.borderColor,
-                        ),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: AppColor.borderColor,
+                            ),
                       ),
                     ),
                   ),
@@ -121,6 +123,12 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                     },
                   ),
                   CustomMenuCard(
+                    name: 'Opportunities  v2',
+                    onFunction: () {
+                      AppUtil.mainNavigator(context, OpportunitiesV2());
+                    },
+                  ),
+                  CustomMenuCard(
                     name: 'Log out',
                     color: AppColor.secondColor,
                     onFunction: () {
@@ -139,6 +147,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
       ),
     );
   }
+
   ImageProvider<Object> _getImageProvider(String? pictureLocation) {
     if (pictureLocation != null && pictureLocation.isNotEmpty) {
       return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');

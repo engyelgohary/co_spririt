@@ -21,8 +21,11 @@ import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
+import '../model/opportunity.dart';
+
 class ApiConstants {
-  static const String baseUrl = '10.10.99.13:3090';
+  // static const String baseUrl = '10.10.99.13:3090';
+  static const String baseUrl = '10.100.102.6:3090';
   static const String loginApi = '/api/auth/signin';
   static const String adminApi = '/api/v1/admin';
   static const String clientApi = '/api/v1/client';
@@ -1222,6 +1225,89 @@ class ApiManager {
       throw Exception('Failed to read user notification code: ${response.statusCode}');
     } catch (e) {
       print("Could not read user notification $e");
+      rethrow;
+    }
+  }
+
+  Future<List<Opportunity>> getOpportunities() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunitiesAdminApi);
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => Opportunity.fromJson(e)));
+      }
+      throw Exception('Failed to read user notification code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not read user notification $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addOpportunity(
+    String title,
+    String description,
+    String clientId,
+    String opportunityType,
+    String industry,
+    String feasibility,
+    String risks,
+    String? descriptionFile,
+  ) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunitiesAdminApi);
+      final request = http.MultipartRequest("POST", uri);
+
+      final body = {
+        "Description": description,
+        "ClientId": clientId,
+        "Opportunity_Title": title,
+        "Opportunity_Type": opportunityType,
+        "Industry": industry,
+        "Feasibility": feasibility,
+        "Risks": risks
+      };
+
+      if (descriptionFile != null) {
+        final mimeTypeData = lookupMimeType(descriptionFile)!.split('/');
+        request.files.add(await http.MultipartFile.fromPath(
+          "DescriptionFile",
+          descriptionFile,
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ));
+      }
+
+      request.fields.addAll(body);
+
+      request.headers.addAll({
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      final response = await request.send();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw Exception('Failed to add opportunity: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add opportunity $e");
       rethrow;
     }
   }

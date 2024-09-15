@@ -84,7 +84,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+              child:
+                  const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
               showAddBottomSheet();
@@ -126,7 +127,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
                           radius: 20.r,
-                          child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                          child: const Icon(Icons.error_outline,
+                              color: AppColor.secondColor, size: 20),
                         ),
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           backgroundImage: imageProvider,
@@ -214,8 +216,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child:
-                                  const Icon(Icons.info_outline, color: AppColor.secondColor, size: 20),
+                              child: const Icon(Icons.info_outline,
+                                  color: AppColor.secondColor, size: 20),
                             ),
                           ),
                         ],
@@ -454,6 +456,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
     );
   }
 
+  // TODO fix
   void showAssignToClientDialog(int collaboratorId) {
     clientCubit.fetchClients(1);
     showDialog(

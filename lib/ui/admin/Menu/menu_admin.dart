@@ -110,12 +110,12 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                       AppUtil.mainNavigator(context, const MessagesScreenAdmin());
                     },
                   ),
-                  CustomMenuCard(
-                    name: 'Opportunities',
-                    onFunction: () {
-                      AppUtil.mainNavigator(context, const OpportunitiesScreenAdmin());
-                    },
-                  ),
+                  // CustomMenuCard(
+                  //   name: 'Opportunities',
+                  //   onFunction: () {
+                  //     AppUtil.mainNavigator(context, const OpportunitiesScreenAdmin());
+                  //   },
+                  // ),
                   CustomMenuCard(
                     name: 'Requests',
                     onFunction: () {
@@ -123,7 +123,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                     },
                   ),
                   CustomMenuCard(
-                    name: 'Opportunity',
+                    name: 'Opportunities',
                     onFunction: () {
                       AppUtil.mainNavigator(context, const OpportunitiesV2());
                     },

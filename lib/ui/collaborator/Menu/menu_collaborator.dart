@@ -107,12 +107,12 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                       AppUtil.mainNavigator(context, const MessagesScreenColla());
                     },
                   ),
-                  CustomMenuCard(
-                    name: 'Opportunities',
-                    onFunction: () {
-                      AppUtil.mainNavigator(context, const OpportunitiesScreenColla());
-                    },
-                  ),
+                  // CustomMenuCard(
+                  //   name: 'Opportunities',
+                  //   onFunction: () {
+                  //     AppUtil.mainNavigator(context, const OpportunitiesScreenColla());
+                  //   },
+                  // ),
                   CustomMenuCard(
                     name: 'Requests',
                     onFunction: () {
@@ -120,7 +120,7 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                     },
                   ),
                   CustomMenuCard(
-                    name: 'OPP Finder',
+                    name: 'Opportunities',
                     onFunction: () {
                       AppUtil.mainNavigator(context, const AddOpportunitiesV2());
                     },

@@ -32,7 +32,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "OPP Finder",
+          "Opportunities",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: const AppBarCustom(),

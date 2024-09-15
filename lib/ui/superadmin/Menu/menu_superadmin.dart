@@ -65,7 +65,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
             },
           ),
           CustomMenuCard(
-            name: 'Opportunity',
+            name: 'Opportunities',
             onFunction: () {
               AppUtil.mainNavigator(context, const OpportunitiesV2());
             },

@@ -29,8 +29,8 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Opportunities V2",
+        title: SelectableText(
+          "Opportunities",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: const AppBarCustom(),
@@ -50,7 +50,7 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
             );
           } else if (loadingNotifier.response!.isEmpty) {
             return const Center(
-              child: Text("Nothing to show."),
+              child: SelectableText("Nothing to show."),
             );
           }
 
@@ -66,157 +66,173 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
             itemCount: data!.length,
             itemBuilder: (context, index) {
               final opportunity = data[index];
-              return Card(
-                color: AppColor.backgroundColor,
-                elevation: 0,
-                child: ListTile(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Title:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Industry:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Feasibility:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Risks:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Type:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    "Description File:",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  )
-                                ],
+              return ListTile(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      contentPadding: const EdgeInsets.all(32.0),
+                      content: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxHeight: MediaQuery.of(context).size.width / 0.75),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SelectableText(
+                                "Title:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    opportunity.title ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    opportunity.industry ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    opportunity.feasibility ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    opportunity.risks ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    opportunity.type ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.download),
-                                    onPressed: () {
-                                      if (opportunity.descriptionLocation != null) {
-                                        FileDownloader.downloadFile(
-                                          url:
-                                              "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
-                                          onDownloadCompleted: (path) {
-                                            AwesomeNotifications().createNotification(
-                                              content: NotificationContent(
-                                                id: 16,
-                                                channelKey: 'basic_channel',
-                                                title: "Download is complete",
-                                                body: "download location: ${path}",
-                                                notificationLayout: NotificationLayout.BigText,
-                                              ),
-                                            );
-                                          },
-                                          onDownloadError: (errorMessage) {
-                                            AwesomeNotifications().createNotification(
-                                              content: NotificationContent(
-                                                id: 16,
-                                                channelKey: 'basic_channel',
-                                                title: "Download faild",
-                                                body: "download error message:  ${errorMessage}",
-                                                notificationLayout: NotificationLayout.BigText,
-                                              ),
-                                            );
-                                          },
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SelectableText(
+                                  opportunity.title ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SelectableText(
+                                "Industry:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SelectableText(
+                                  opportunity.industry ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SelectableText(
+                                "Feasibility:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SelectableText(
+                                  opportunity.feasibility ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SelectableText(
+                                "Risks:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SelectableText(
+                                  opportunity.risks ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SelectableText(
+                                "Type:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SelectableText(
+                                  opportunity.type ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SelectableText(
+                                "Description File:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () {
+                                  if (opportunity.descriptionLocation != null) {
+                                    FileDownloader.downloadFile(
+                                      url:
+                                          "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
+                                      onDownloadCompleted: (path) {
+                                        AwesomeNotifications().createNotification(
+                                          content: NotificationContent(
+                                            id: 16,
+                                            channelKey: 'basic_channel',
+                                            title: "Download is complete",
+                                            body: "download location: ${path}",
+                                            notificationLayout: NotificationLayout.BigText,
+                                          ),
                                         );
-                                      }
-                                    },
-                                  )
-                                ],
+                                      },
+                                      onDownloadError: (errorMessage) {
+                                        AwesomeNotifications().createNotification(
+                                          content: NotificationContent(
+                                            id: 16,
+                                            channelKey: 'basic_channel',
+                                            title: "Download faild",
+                                            body: "download error message:  ${errorMessage}",
+                                            notificationLayout: NotificationLayout.BigText,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
                               ),
-                            ),
-                          ],
+                              const SelectableText(
+                                "Description:",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: SingleChildScrollView(
+                                  child: SelectableText(
+                                    // : true,
+                                    opportunity.result ?? "N/A",
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        actions: [
-                          TextButton(
-                            child: const Text("Ok"),
-                            onPressed: () => Navigator.of(context).pop(),
-                          )
-                        ],
                       ),
-                    );
-                  },
-                  leading: const CircleAvatar(
-                    backgroundColor: AppColor.secondColor,
-                    radius: 25,
-                    child: Center(
-                      child: Icon(
-                        Icons.lightbulb_sharp,
-                        color: Colors.white,
-                      ),
+                      actions: [
+                        TextButton(
+                          child: const SelectableText("Ok"),
+                          onPressed: () => Navigator.of(context).pop(),
+                        )
+                      ],
+                    ),
+                  );
+                },
+                leading: const CircleAvatar(
+                  backgroundColor: AppColor.secondColor,
+                  radius: 25,
+                  child: Center(
+                    child: Icon(
+                      Icons.lightbulb_sharp,
+                      color: Colors.white,
                     ),
                   ),
-                  title: Text(opportunity.title ?? "",
+                ),
+                title: SelectableText(opportunity.title ?? "",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(fontWeight: FontWeight.w600)),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SelectableText(
+                      "${opportunity.industry}",
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
-                          .copyWith(fontWeight: FontWeight.w600)),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${opportunity.industry}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  trailing: CircleAvatar(
-                    backgroundColor: AppColor.SkyColor,
-                    radius: 18.r,
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: AppColor.secondColor,
-                      size: 20,
+                          .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
                     ),
+                  ],
+                ),
+                trailing: CircleAvatar(
+                  backgroundColor: AppColor.SkyColor,
+                  radius: 18.r,
+                  child: const Icon(
+                    Icons.info_outline,
+                    color: AppColor.secondColor,
+                    size: 20,
                   ),
                 ),
               );

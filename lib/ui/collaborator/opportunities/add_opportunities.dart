@@ -1,5 +1,4 @@
 import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/data/model/opportunity.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +32,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Opportunities",
+          "OPP Finder",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: const AppBarCustom(),
@@ -174,7 +173,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                           ),
                           child: Center(
                             child: Text(
-                              'Update',
+                              'Add',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!

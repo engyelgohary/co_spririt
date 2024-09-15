@@ -48,12 +48,12 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
             'Menu',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
           ),
-          leading: AppBarCustom(),
+          leading: const AppBarCustom(),
         ),
         body: BlocBuilder<AdminCubit, AdminState>(
           builder: (context, state) {
             if (state is AdminLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is AdminSuccess) {
               final admin = state.adminData;
               return Column(
@@ -95,7 +95,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   CustomMenuCard(
                     name: 'Collaborators',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, CollaboratorsAdminScreen());
+                      AppUtil.mainNavigator(context, const CollaboratorsAdminScreen());
                     },
                   ),
                   CustomMenuCard(
@@ -107,13 +107,13 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   CustomMenuCard(
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, MessagesScreenAdmin());
+                      AppUtil.mainNavigator(context, const MessagesScreenAdmin());
                     },
                   ),
                   CustomMenuCard(
                     name: 'Opportunities',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, OpportunitiesScreenAdmin());
+                      AppUtil.mainNavigator(context, const OpportunitiesScreenAdmin());
                     },
                   ),
                   CustomMenuCard(
@@ -123,9 +123,9 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                     },
                   ),
                   CustomMenuCard(
-                    name: 'Opportunities  v2',
+                    name: 'Opportunity',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, OpportunitiesV2());
+                      AppUtil.mainNavigator(context, const OpportunitiesV2());
                     },
                   ),
                   CustomMenuCard(
@@ -152,7 +152,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
     if (pictureLocation != null && pictureLocation.isNotEmpty) {
       return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
     } else {
-      return AssetImage('assets/images/Rectangle 5.png');
+      return const AssetImage('assets/images/Rectangle 5.png');
     }
   }
 }

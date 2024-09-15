@@ -46,12 +46,12 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
             'Menu',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
           ),
-          leading: AppBarCustom(),
+          leading: const AppBarCustom(),
         ),
         body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               return Column(
@@ -104,13 +104,13 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                   CustomMenuCard(
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, MessagesScreenColla());
+                      AppUtil.mainNavigator(context, const MessagesScreenColla());
                     },
                   ),
                   CustomMenuCard(
                     name: 'Opportunities',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, OpportunitiesScreenColla());
+                      AppUtil.mainNavigator(context, const OpportunitiesScreenColla());
                     },
                   ),
                   CustomMenuCard(
@@ -120,9 +120,9 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                     },
                   ),
                   CustomMenuCard(
-                    name: 'Opportunities V2',
+                    name: 'OPP Finder',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, AddOpportunitiesV2());
+                      AppUtil.mainNavigator(context, const AddOpportunitiesV2());
                     },
                   ),
                   CustomMenuCard(
@@ -149,7 +149,7 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
     if (pictureLocation != null && pictureLocation.isNotEmpty) {
       return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
     } else {
-      return AssetImage('assets/images/Rectangle 5.png');
+      return const AssetImage('assets/images/Rectangle 5.png');
     }
   }
 }

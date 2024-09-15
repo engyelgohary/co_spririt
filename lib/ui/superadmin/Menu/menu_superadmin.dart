@@ -24,14 +24,14 @@ class MenuScreenSuperAdmin extends StatelessWidget {
           'Menu',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
       body: Column(
         children: [
           CustomMenuCard(
             name: 'Collaborators',
             onFunction: () {
-              AppUtil.mainNavigator(context, CollaboratorsScreenForSuper());
+              AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
             },
           ),
           CustomMenuCard(
@@ -43,7 +43,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
           CustomMenuCard(
             name: 'Clients',
             onFunction: () {
-              AppUtil.mainNavigator(context, ClientScreenfoSuper());
+              AppUtil.mainNavigator(context, const ClientScreenfoSuper());
             },
           ),
           CustomMenuCard(
@@ -55,7 +55,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
           CustomMenuCard(
             name: 'Message',
             onFunction: () {
-              AppUtil.mainNavigator(context, MessagesScreenSuperAdmin());
+              AppUtil.mainNavigator(context, const MessagesScreenSuperAdmin());
             },
           ),
           CustomMenuCard(
@@ -65,9 +65,9 @@ class MenuScreenSuperAdmin extends StatelessWidget {
             },
           ),
           CustomMenuCard(
-            name: 'Opportunities V2',
+            name: 'Opportunity',
             onFunction: () {
-              AppUtil.mainNavigator(context, OpportunitiesV2());
+              AppUtil.mainNavigator(context, const OpportunitiesV2());
             },
           ),
           CustomMenuCard(

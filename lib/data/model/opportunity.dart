@@ -37,13 +37,13 @@ class Opportunity {
   String? industry;
   String? feasibility;
   String? risks;
-  int? result;
+  String? result;
 
   factory Opportunity.fromJson(Map<String, dynamic> json) {
     return Opportunity(
       id: json['id'],
       description: json['description'],
-      descriptionLocation: json['descriptionLocation'], 
+      descriptionLocation: json['descriptionLocation'],
       clientId: json['clientId'],
       collaboratorId: json['collaboratorId'],
       title: json['opportunity_Title'],
@@ -51,7 +51,7 @@ class Opportunity {
       industry: json['industry'],
       feasibility: json['feasibility'],
       risks: json['risks'],
-      result: json['result'],
+      result: json['generated_Result'],
     );
   }
 }

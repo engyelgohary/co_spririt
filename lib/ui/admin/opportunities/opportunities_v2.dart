@@ -73,12 +73,13 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                     builder: (context) => AlertDialog(
                       contentPadding: const EdgeInsets.all(32.0),
                       content: ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: MediaQuery.of(context).size.width / 0.75),
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height / 0.75,
+                            maxWidth: MediaQuery.of(context).size.width / 0.75),
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
+                            // mainAxisSize: MainAxisSize.min,
                             children: [
                               const SelectableText(
                                 "Title:",
@@ -178,12 +179,9 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 16),
-                                child: SingleChildScrollView(
-                                  child: SelectableText(
-                                    // : true,
-                                    opportunity.result ?? "N/A",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
+                                child: SelectableText(
+                                  opportunity.result ?? "N/A",
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
                             ],
@@ -192,7 +190,7 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                       ),
                       actions: [
                         TextButton(
-                          child: const SelectableText("Ok"),
+                          child: const Text("Ok"),
                           onPressed: () => Navigator.of(context).pop(),
                         )
                       ],
@@ -209,7 +207,7 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                     ),
                   ),
                 ),
-                title: SelectableText(opportunity.title ?? "",
+                title: Text(opportunity.title ?? "",
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -217,7 +215,7 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SelectableText(
+                    Text(
                       "${opportunity.industry}",
                       style: Theme.of(context)
                           .textTheme

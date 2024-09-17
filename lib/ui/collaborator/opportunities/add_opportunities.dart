@@ -16,16 +16,38 @@ class AddOpportunitiesV2 extends StatefulWidget {
 }
 
 class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
-  final title = TextEditingController();
-  final description = TextEditingController();
-  final industry = TextEditingController();
-  final clientId = TextEditingController();
-  final opportunityType = TextEditingController();
-  final feasibility = TextEditingController();
-  final risks = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final industryController = TextEditingController();
+  final clientIdController = TextEditingController();
+  final typeController = TextEditingController();
+  final risksController = TextEditingController();
+  String? type;
+  String? industry;
+  String? feasibility;
   String? descriptionFilePath;
-  final apiManager = ApiManager.getInstance();
+  final apiManagerController = ApiManager.getInstance();
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier(loading: false);
+
+  final feasibilityOptions = ["Low", "Medium", "High"];
+  final industryOptions = [
+    "Technology",
+    "AI",
+    "Data Science",
+    "Manufacturing",
+    "Food & Beverage",
+    "Networks",
+    "Marketing",
+    "Others",
+  ];
+  final typeOptions = [
+    "Web Application",
+    "Mobile Application",
+    "Dashboard",
+    "Chatbot",
+    "Product",
+    "Others",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,31 +70,36 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                 children: [
                   CustomTextFormField(
                     fieldName: 'Title',
-                    controller: title,
+                    controller: titleController,
                   ),
                   CustomTextFormField(
                     fieldName: 'Description',
-                    controller: description,
+                    controller: descriptionController,
                   ),
                   CustomTextFormField(
                     fieldName: 'Client Id',
-                    controller: clientId,
+                    controller: clientIdController,
                   ),
-                  CustomTextFormField(
-                    fieldName: 'Type',
-                    controller: opportunityType,
+                  CustomDropDownMenu(
+                    fieldName: "Type",
+                    controller: typeController,
+                    dropDownOptions: typeOptions,
+                    selection: (selected) => type = selected,
                   ),
-                  CustomTextFormField(
+                  CustomDropDownMenu(
                     fieldName: 'Industry',
-                    controller: industry,
+                    controller: industryController,
+                    dropDownOptions: industryOptions,
+                    selection: (selected) => industry = selected,
                   ),
-                  CustomTextFormField(
+                  CustomDropDownMenu(
                     fieldName: 'Feasibility',
-                    controller: feasibility,
+                    selection: (selected) => feasibility,
+                    dropDownOptions: feasibilityOptions,
                   ),
                   CustomTextFormField(
                     fieldName: 'Risks',
-                    controller: risks,
+                    controller: risksController,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -119,13 +146,15 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                         width: 135.w,
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (title.text.trim().isEmpty ||
-                                description.text.trim().isEmpty ||
-                                clientId.text.trim().isEmpty ||
-                                opportunityType.text.trim().isEmpty ||
-                                industry.text.trim().isEmpty ||
-                                feasibility.text.trim().isEmpty ||
-                                risks.text.trim().isEmpty) {
+                            if (titleController.text.trim().isEmpty ||
+                                descriptionController.text.trim().isEmpty ||
+                                clientIdController.text.trim().isEmpty ||
+                                typeController.text.trim().isEmpty ||
+                                industryController.text.trim().isEmpty ||
+                                risksController.text.trim().isEmpty ||
+                                feasibility == null ||
+                                (industry == null && industryController.text.isEmpty) ||
+                                (type == null && typeController.text.isEmpty)) {
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text('Please fill the missing data'),
                                 duration: Duration(seconds: 2),
@@ -134,14 +163,14 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             }
                             loadingNotifier.change();
                             try {
-                              await apiManager.addOpportunity(
-                                title.text,
-                                description.text,
-                                clientId.text,
-                                opportunityType.text,
-                                industry.text,
-                                feasibility.text,
-                                risks.text,
+                              await apiManagerController.addOpportunity(
+                                titleController.text,
+                                descriptionController.text,
+                                clientIdController.text,
+                                typeController.text,
+                                industryController.text,
+                                feasibility.toString(),
+                                risksController.text,
                                 descriptionFilePath,
                               );
                               if (context.mounted) {
@@ -149,13 +178,13 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                                   content: Text('Opportunity has been added successfully'),
                                   duration: Duration(seconds: 2),
                                 ));
-                                title.clear();
-                                description.clear();
-                                clientId.clear();
-                                opportunityType.clear();
-                                industry.clear();
-                                feasibility.clear();
-                                risks.clear();
+                                titleController.clear();
+                                descriptionController.clear();
+                                clientIdController.clear();
+                                typeController.clear();
+                                industryController.clear();
+                                feasibility = null;
+                                risksController.clear();
                                 descriptionFilePath = null;
                               }
                             } catch (e) {

@@ -9,50 +9,46 @@ class CustomTextFormField extends StatelessWidget {
   var keyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
-   CustomTextFormField({super.key,required this.fieldName,
-     this.suffixIcon,
-     this.isObscure = false,
-     this.validator,
-     required this.controller,
-     this.keyboardType = TextInputType.text});
+  CustomTextFormField(
+      {super.key,
+      required this.fieldName,
+      this.suffixIcon,
+      this.isObscure = false,
+      this.validator,
+      required this.controller,
+      this.keyboardType = TextInputType.text});
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding:EdgeInsets.symmetric(horizontal: 15.w) ,
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Text(
             fieldName,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall,
+            style: Theme.of(context).textTheme.titleSmall,
             textAlign: TextAlign.start,
           ),
         ),
-        Padding(padding: EdgeInsets.only(top: 15.h,bottom: 20.h,right: 12.w,left: 12.w),
+        Padding(
+          padding: EdgeInsets.only(top: 15.h, bottom: 20.h, right: 12.w, left: 12.w),
           child: TextFormField(
             decoration: InputDecoration(
-              fillColor: AppColor.whiteColor,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColor.whiteColor
+                fillColor: AppColor.whiteColor,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColor.whiteColor),
+                    borderRadius: BorderRadius.circular(5.r)),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.r),
                 ),
-                  borderRadius: BorderRadius.circular(5.r)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r),),
-              errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.r)),
-                disabledBorder:  OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.r)),
+                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                 focusColor: AppColor.basicColor,
                 hoverColor: AppColor.basicColor,
                 suffixIconColor: AppColor.basicColor,
-                suffixIcon: suffixIcon
-            ),
+                suffixIcon: suffixIcon),
             style: const TextStyle(color: AppColor.blackColor),
             validator: validator,
             controller: controller,
@@ -65,16 +61,19 @@ class CustomTextFormField extends StatelessWidget {
   }
 }
 
-class CustomText extends StatefulWidget{
+class CustomText extends StatefulWidget {
   String fieldName;
   double? width;
   var keyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
-  CustomText({super.key,required this.fieldName,
-    this.validator,
-    required this.controller,
-    this.keyboardType = TextInputType.text, this.width = 6});
+  CustomText(
+      {super.key,
+      required this.fieldName,
+      this.validator,
+      required this.controller,
+      this.keyboardType = TextInputType.text,
+      this.width = 6});
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -83,11 +82,15 @@ class CustomText extends StatefulWidget{
 class _CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       children: [
-        Text(widget.fieldName,style: Theme.of(context)
-            .textTheme
-            .titleLarge!.copyWith(fontSize: 18,fontWeight: FontWeight.w700,color: AppColor.basicColor),),
+        Text(
+          widget.fieldName,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
+        ),
         SizedBox(
           width: widget.width!.w,
         ),
@@ -104,26 +107,102 @@ class _CustomTextState extends State<CustomText> {
               fillColor: AppColor.whiteColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: AppColor.borderColor
-                  ),
+                  borderSide: const BorderSide(color: AppColor.borderColor),
                   borderRadius: BorderRadius.circular(5.r)),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.r),),
+                borderRadius: BorderRadius.circular(5.r),
+              ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-    color: AppColor.errorColor
-    ),
+                  borderSide: const BorderSide(color: AppColor.errorColor),
                   borderRadius: BorderRadius.circular(5.r)),
-              focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r)),
-              disabledBorder:  OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r)),
+              focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+              disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
               focusColor: AppColor.basicColor,
               hoverColor: AppColor.basicColor,
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class CustomDropDownMenu extends StatefulWidget {
+  final String fieldName;
+  final TextEditingController? controller;
+  final List dropDownOptions;
+  Function(String selected) selection;
+
+  CustomDropDownMenu({
+    super.key,
+    required this.fieldName,
+    this.controller,
+    required this.dropDownOptions,
+    required this.selection,
+  });
+  @override
+  State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
+}
+
+class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
+  String? selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Text(
+            widget.fieldName,
+            style: Theme.of(context).textTheme.titleSmall,
+            textAlign: TextAlign.start,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 15.h, bottom: 20.h, right: 12.w, left: 12.w),
+          child: Container(
+            color: AppColor.whiteColor,
+            child: DropdownMenu(
+              width: double.maxFinite,
+              dropdownMenuEntries: widget.dropDownOptions
+                  .map(
+                    (e) => DropdownMenuEntry(label: e.toString(), value: e),
+                  )
+                  .toList(),
+              onSelected: (value) => setState(() {
+                selected = value;
+                widget.selection(value);
+              }),
+            ),
+          ),
+        ),
+        if (selected != null && selected!.toLowerCase() == "others")
+          Padding(
+            padding: EdgeInsets.only(bottom: 20.h, right: 12.w, left: 12.w),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Type the other option",
+                fillColor: AppColor.whiteColor,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: AppColor.whiteColor),
+                    borderRadius: BorderRadius.circular(5.r)),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.r),
+                ),
+                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                focusColor: AppColor.basicColor,
+                hoverColor: AppColor.basicColor,
+                suffixIconColor: AppColor.basicColor,
+              ),
+              style: const TextStyle(color: AppColor.blackColor),
+              controller: widget.controller,
+            ),
+          )
       ],
     );
   }

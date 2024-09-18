@@ -76,26 +76,29 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                     fieldName: 'Description',
                     controller: descriptionController,
                   ),
-                  CustomTextFormField(
-                    fieldName: 'Client Id',
-                    controller: clientIdController,
-                  ),
+                  // CustomTextFormField(
+                  //   fieldName: 'Client Id',
+                  //   controller: clientIdController,
+                  // ),
                   CustomDropDownMenu(
                     fieldName: "Type",
                     controller: typeController,
                     dropDownOptions: typeOptions,
                     selection: (selected) => type = selected,
+                    initialSelection: type,
                   ),
                   CustomDropDownMenu(
                     fieldName: 'Industry',
                     controller: industryController,
                     dropDownOptions: industryOptions,
                     selection: (selected) => industry = selected,
+                    initialSelection: industry,
                   ),
                   CustomDropDownMenu(
                     fieldName: 'Feasibility',
-                    selection: (selected) => feasibility,
+                    selection: (selected) => feasibility = selected,
                     dropDownOptions: feasibilityOptions,
+                    initialSelection: feasibility,
                   ),
                   CustomTextFormField(
                     fieldName: 'Risks',
@@ -152,9 +155,6 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                           onPressed: () async {
                             if (titleController.text.trim().isEmpty ||
                                 descriptionController.text.trim().isEmpty ||
-                                clientIdController.text.trim().isEmpty ||
-                                typeController.text.trim().isEmpty ||
-                                industryController.text.trim().isEmpty ||
                                 risksController.text.trim().isEmpty ||
                                 feasibility == null ||
                                 (industry == null && industryController.text.isEmpty) ||
@@ -170,9 +170,10 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               await apiManagerController.addOpportunity(
                                 titleController.text,
                                 descriptionController.text,
-                                clientIdController.text,
-                                typeController.text,
-                                industryController.text,
+                                // TODO it is hardcoded for now :(
+                                "1", // clientIdController.text,
+                                type ?? typeController.text,
+                                industry ?? industryController.text,
                                 feasibility.toString(),
                                 risksController.text,
                                 descriptionFilePath,

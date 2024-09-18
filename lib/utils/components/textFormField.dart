@@ -129,6 +129,7 @@ class _CustomTextState extends State<CustomText> {
 
 class CustomDropDownMenu extends StatefulWidget {
   final String fieldName;
+  final String? initialSelection;
   final TextEditingController? controller;
   final List dropDownOptions;
   Function(String selected) selection;
@@ -139,6 +140,7 @@ class CustomDropDownMenu extends StatefulWidget {
     this.controller,
     required this.dropDownOptions,
     required this.selection,
+    this.initialSelection,
   });
   @override
   State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
@@ -165,6 +167,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
           child: Container(
             color: AppColor.whiteColor,
             child: DropdownMenu(
+              initialSelection: widget.initialSelection,
               width: double.maxFinite,
               dropdownMenuEntries: widget.dropDownOptions
                   .map(

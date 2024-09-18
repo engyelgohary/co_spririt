@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/model/Notification.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
@@ -273,8 +274,8 @@ dynamic collaboratorPhoto(String? pictureLocation) {
             width: 42,
             fit: BoxFit.cover,
           )
-        : Image.network(
-            'http://${ApiConstants.baseUrl}/$pictureLocation',
+        : CachedNetworkImage(
+            imageUrl: 'http://${ApiConstants.baseUrl}/$pictureLocation',
             height: 41,
             width: 42,
             fit: BoxFit.cover,
@@ -319,4 +320,3 @@ Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadi
   }
   loadingNotifier.change();
 }
-

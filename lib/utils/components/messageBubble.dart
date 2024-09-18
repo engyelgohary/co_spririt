@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
@@ -34,8 +35,8 @@ class CustomChatBubble extends StatelessWidget {
         images.add(
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Image.network(
-              "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
+            child: CachedNetworkImage(
+              imageUrl: "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
               width: 200,
             ),
           ),

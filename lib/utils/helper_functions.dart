@@ -320,3 +320,16 @@ Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadi
   }
   loadingNotifier.change();
 }
+
+Future<void> deleteOpportunityButton(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+  int id,
+) async {
+  try {
+    await apiManager.deleteOpportunity(id);
+  } catch (e) {
+    print("- Delete Opportunity Button error : $e");
+  }
+  loadingNotifier.change();
+}

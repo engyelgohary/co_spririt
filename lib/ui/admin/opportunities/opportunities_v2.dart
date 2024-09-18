@@ -136,14 +136,15 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),
-                              const SelectableText(
-                                "Description File:",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.download),
-                                onPressed: () {
-                                  if (opportunity.descriptionLocation != null) {
+                              if (opportunity.descriptionLocation != null)
+                                const SelectableText(
+                                  "Description File:",
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                ),
+                              if (opportunity.descriptionLocation != null)
+                                IconButton(
+                                  icon: const Icon(Icons.download),
+                                  onPressed: () {
                                     FileDownloader.downloadFile(
                                       url:
                                           "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
@@ -170,9 +171,8 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                                         );
                                       },
                                     );
-                                  }
-                                },
-                              ),
+                                  },
+                                ),
                               const SelectableText(
                                 "Description:",
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -224,15 +224,29 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                     ),
                   ],
                 ),
-                trailing: CircleAvatar(
-                  backgroundColor: AppColor.SkyColor,
-                  radius: 18.r,
-                  child: const Icon(
-                    Icons.info_outline,
-                    color: AppColor.secondColor,
-                    size: 20,
+                trailing: GestureDetector(
+                  onTap: () {
+                    deleteOpportunityButton(apiManager, loadingNotifier, opportunity.id ?? 0);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: AppColor.SkyColor,
+                    radius: 18.r,
+                    child: const Icon(
+                      Icons.delete,
+                      color: AppColor.errorColor,
+                      size: 20,
+                    ),
                   ),
                 ),
+                // CircleAvatar(
+                //   backgroundColor: AppColor.SkyColor,
+                //   radius: 18.r,
+                //   child: const Icon(
+                //     Icons.info_outline,
+                //     color: AppColor.secondColor,
+                //     size: 20,
+                //   ),
+                // ),
               );
             },
           );

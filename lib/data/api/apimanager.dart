@@ -1266,7 +1266,6 @@ class ApiManager {
     String? descriptionFile,
   ) async {
     try {
-      print("test: $industry");
       final token = await storage.read(key: 'token');
       if (token == null) {
         throw Exception('No token found. Please log in.');
@@ -1312,6 +1311,30 @@ class ApiManager {
       throw Exception('Failed to add opportunity: ${response.statusCode}');
     } catch (e) {
       print("Could not add opportunity $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteOpportunity(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunitiesAdminApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      print(response.body);
+      throw Exception('Failed to delete opportunity: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete opportunity $e");
       rethrow;
     }
   }

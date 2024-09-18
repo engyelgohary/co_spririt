@@ -1266,12 +1266,14 @@ class ApiManager {
     String? descriptionFile,
   ) async {
     try {
+      print("test: $industry");
       final token = await storage.read(key: 'token');
       if (token == null) {
         throw Exception('No token found. Please log in.');
       }
 
-      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunitiesAdminApi);
+      final uri =
+          Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunitiesAdminApi}/AddWithPdf");
       final request = http.MultipartRequest("POST", uri);
 
       final body = {
@@ -1296,6 +1298,7 @@ class ApiManager {
       request.fields.addAll(body);
 
       request.headers.addAll({
+        "Content-Type": "multipart/form-data",
         "accept": '*/*',
         'Authorization': 'Bearer $token',
       });
@@ -1305,6 +1308,7 @@ class ApiManager {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
+      print(await response.stream.bytesToString());
       throw Exception('Failed to add opportunity: ${response.statusCode}');
     } catch (e) {
       print("Could not add opportunity $e");

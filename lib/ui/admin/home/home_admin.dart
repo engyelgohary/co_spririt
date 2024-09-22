@@ -146,29 +146,29 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: () {
-                      AppUtil.mainNavigator(context, RequestAdmin());
-                    },
-                    child: const Column(
-                      children: [
-                        ImageIcon(
-                          AssetImage(
-                            "${AppUI.iconPath}request.png",
-                          ),
-                          size: 24,
-                          color: AppUI.borderColor,
-                        ),
-                        SizedBox(height: 8),
-                        CustomText(
-                          text: 'Requests',
-                          fontSize: 12,
-                          color: AppUI.borderColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     AppUtil.mainNavigator(context, RequestAdmin());
+                  //   },
+                  //   child: const Column(
+                  //     children: [
+                  //       ImageIcon(
+                  //         AssetImage(
+                  //           "${AppUI.iconPath}request.png",
+                  //         ),
+                  //         size: 24,
+                  //         color: AppUI.borderColor,
+                  //       ),
+                  //       SizedBox(height: 8),
+                  //       CustomText(
+                  //         text: 'Requests',
+                  //         fontSize: 12,
+                  //         color: AppUI.borderColor,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   InkWell(
                     onTap: () {
                       AppUtil.mainNavigator(context, const MessagesScreenAdmin());

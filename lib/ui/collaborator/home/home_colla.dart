@@ -114,31 +114,31 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                           )
                         ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, RequestCollaborator());
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}request.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Requests',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     AppUtil.mainNavigator(context, RequestCollaborator());
+                      //   },
+                      //   child: const Column(
+                      //     children: [
+                      //       ImageIcon(
+                      //         AssetImage(
+                      //           "${AppUI.iconPath}request.png",
+                      //         ),
+                      //         size: 24,
+                      //         color: AppUI.borderColor,
+                      //       ),
+                      //       SizedBox(
+                      //         height: 8,
+                      //       ),
+                      //       CustomText(
+                      //         text: 'Requests',
+                      //         fontSize: 12,
+                      //         color: AppUI.borderColor,
+                      //         fontWeight: FontWeight.w400,
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(context, const MessagesScreenColla());

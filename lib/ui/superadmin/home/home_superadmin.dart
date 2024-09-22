@@ -16,8 +16,7 @@ import '../../../data/model/Post.dart';
 import 'creat_post.dart';
 
 class HomeScreenSuperAdmin extends StatefulWidget {
-  const HomeScreenSuperAdmin({Key? key, required this.superAdminId})
-      : super(key: key);
+  const HomeScreenSuperAdmin({Key? key, required this.superAdminId}) : super(key: key);
   static String routeName = 'home screen super admin';
   final String superAdminId;
 
@@ -113,35 +112,34 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                       )
                     ],
                   ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     AppUtil.mainNavigator(context, const RequestSuperAdmin());
+                  //   },
+                  //   child: Column(
+                  //     children: [
+                  //       ImageIcon(
+                  //         const AssetImage(
+                  //           "${AppUI.iconPath}request.png",
+                  //         ),
+                  //         size: 24,
+                  //         color: AppUI.borderColor,
+                  //       ),
+                  //       SizedBox(
+                  //         height: 8.h,
+                  //       ),
+                  //       const CustomText(
+                  //         text: 'Requests',
+                  //         fontSize: 12,
+                  //         color: AppUI.borderColor,
+                  //         fontWeight: FontWeight.w400,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   InkWell(
                     onTap: () {
-                      AppUtil.mainNavigator(context, const RequestSuperAdmin());
-                    },
-                    child: Column(
-                      children: [
-                        ImageIcon(
-                          const AssetImage(
-                            "${AppUI.iconPath}request.png",
-                          ),
-                          size: 24,
-                          color: AppUI.borderColor,
-                        ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        const CustomText(
-                          text: 'Requests',
-                          fontSize: 12,
-                          color: AppUI.borderColor,
-                          fontWeight: FontWeight.w400,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      AppUtil.mainNavigator(
-                          context, MessagesScreenSuperAdmin());
+                      AppUtil.mainNavigator(context, MessagesScreenSuperAdmin());
                     },
                     child: Column(
                       children: [
@@ -166,8 +164,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                   ),
                   InkWell(
                     onTap: () {
-                      AppUtil.mainNavigator(
-                          context, const MenuScreenSuperAdmin());
+                      AppUtil.mainNavigator(context, const MenuScreenSuperAdmin());
                     },
                     child: Column(
                       children: [
@@ -219,8 +216,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                           showModalBottomSheet(
                             context: context,
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0)),
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
                             ),
                             constraints: BoxConstraints(
                               maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -231,9 +227,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                               child: CustomCard(
                                 height: MediaQuery.of(context).size.height * 0.8,
                                 radius: 20,
-                                child: CreatePost(
-                                    apiManager: apiManager,
-                                    onPostCreated: _reloadPosts),
+                                child:
+                                    CreatePost(apiManager: apiManager, onPostCreated: _reloadPosts),
                               ),
                             ),
                           );
@@ -248,9 +243,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
+                              SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                               const Text(
                                 "What's in your mind",
                                 style: TextStyle(
@@ -259,16 +252,13 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.4),
+                              SizedBox(width: MediaQuery.of(context).size.width * 0.4),
                               Image.asset(
                                 '${AppUI.iconPath}images.png',
                                 width: MediaQuery.of(context).size.width * 0.03,
                                 height: MediaQuery.of(context).size.height * 0.03,
                               ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.02),
+                              SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                               Image.asset(
                                 '${AppUI.iconPath}point.png',
                                 width: MediaQuery.of(context).size.width * 0.03,
@@ -283,8 +273,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.03,
-                      vertical: 7),
+                      horizontal: MediaQuery.of(context).size.width * 0.03, vertical: 7),
                   child: FutureBuilder<List<Post>>(
                     future: futurePosts,
                     builder: (context, snapshot) {
@@ -307,7 +296,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                             if (post.firstNameUser == null && post.lastNameUser == null) {
                               // Delete the post if user ID is not found
                               apiManager.deletePost(post.id);
-                              return SizedBox.shrink(); // Return an empty widget to avoid rendering this post
+                              return SizedBox
+                                  .shrink(); // Return an empty widget to avoid rendering this post
                             }
 
                             return Column(
@@ -325,26 +315,38 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                         Row(
                                           children: [
                                             ClipOval(
-                                              child: post.firstNameUser == null && post.lastNameUser == null
+                                              child: post.firstNameUser == null &&
+                                                      post.lastNameUser == null
                                                   ? Image.asset(
-                                                '${AppUI.imgPath}user_not_found.png',  // Replace with your 'User not found' image path
-                                                height: MediaQuery.of(context).size.height * 0.05,
-                                                width: MediaQuery.of(context).size.width * 0.08,
-                                              )
+                                                      '${AppUI.imgPath}user_not_found.png', // Replace with your 'User not found' image path
+                                                      height:
+                                                          MediaQuery.of(context).size.height * 0.05,
+                                                      width:
+                                                          MediaQuery.of(context).size.width * 0.08,
+                                                    )
                                                   : post.pictureLocationUser == null
-                                                  ? Image.asset(
-                                                '${AppUI.imgPath}photo.png',
-                                                height: MediaQuery.of(context).size.height * 0.05,
-                                                width: MediaQuery.of(context).size.width * 0.08,
-                                              )
-                                                  : CachedNetworkImage(
-                                                imageUrl: 'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
-                                                placeholder: (context, url) => CircularProgressIndicator(),
-                                                errorWidget: (context, url, error) => Icon(Icons.error),
-                                                height: MediaQuery.of(context).size.height * 0.05,
-                                                width: MediaQuery.of(context).size.width * 0.08,
-                                                fit: BoxFit.cover,
-                                              ),
+                                                      ? Image.asset(
+                                                          '${AppUI.imgPath}photo.png',
+                                                          height:
+                                                              MediaQuery.of(context).size.height *
+                                                                  0.05,
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.08,
+                                                        )
+                                                      : CachedNetworkImage(
+                                                          imageUrl:
+                                                              'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
+                                                          placeholder: (context, url) =>
+                                                              CircularProgressIndicator(),
+                                                          errorWidget: (context, url, error) =>
+                                                              Icon(Icons.error),
+                                                          height:
+                                                              MediaQuery.of(context).size.height *
+                                                                  0.05,
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.08,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                             ),
                                             SizedBox(
                                               width: MediaQuery.of(context).size.width * 0.02,
@@ -354,16 +356,19 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  post.firstNameUser != null && post.lastNameUser != null
+                                                  post.firstNameUser != null &&
+                                                          post.lastNameUser != null
                                                       ? '${post.firstNameUser} ${post.lastNameUser}'
                                                       : 'User not found',
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    color: post.firstNameUser != null && post.lastNameUser != null
+                                                    color: post.firstNameUser != null &&
+                                                            post.lastNameUser != null
                                                         ? AppUI.basicColor
                                                         : Colors.grey,
                                                     fontWeight: FontWeight.w400,
-                                                    decoration: post.firstNameUser != null && post.lastNameUser != null
+                                                    decoration: post.firstNameUser != null &&
+                                                            post.lastNameUser != null
                                                         ? TextDecoration.none
                                                         : TextDecoration.lineThrough,
                                                   ),
@@ -377,12 +382,15 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                       fontWeight: FontWeight.w400,
                                                     ),
                                                     SizedBox(
-                                                      width: MediaQuery.of(context).size.width * 0.01,
+                                                      width:
+                                                          MediaQuery.of(context).size.width * 0.01,
                                                     ),
                                                     Image.asset(
                                                       '${AppUI.imgPath}Group.png',
-                                                      height: MediaQuery.of(context).size.height * 0.015,
-                                                      width: MediaQuery.of(context).size.width * 0.015,
+                                                      height: MediaQuery.of(context).size.height *
+                                                          0.015,
+                                                      width:
+                                                          MediaQuery.of(context).size.width * 0.015,
                                                     ),
                                                   ],
                                                 ),
@@ -397,14 +405,17 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                   builder: (BuildContext context) {
                                                     return AlertDialog(
                                                       title: const Text('Choose Action'),
-                                                      content: const Text('Would you like to delete this post?'),
+                                                      content: const Text(
+                                                          'Would you like to delete this post?'),
                                                       actions: <Widget>[
                                                         TextButton(
-                                                          onPressed: () => Navigator.of(context).pop(true),
+                                                          onPressed: () =>
+                                                              Navigator.of(context).pop(true),
                                                           child: const Text('Delete'),
                                                         ),
                                                         TextButton(
-                                                          onPressed: () => Navigator.of(context).pop(false),
+                                                          onPressed: () =>
+                                                              Navigator.of(context).pop(false),
                                                           child: const Text('Cancel'),
                                                         ),
                                                       ],
@@ -420,7 +431,9 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                     });
                                                   } catch (e) {
                                                     ScaffoldMessenger.of(context).showSnackBar(
-                                                      SnackBar(content: Text('Failed to delete post: $e')),
+                                                      SnackBar(
+                                                          content:
+                                                              Text('Failed to delete post: $e')),
                                                     );
                                                   }
                                                 }
@@ -439,13 +452,17 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                         if (post.pictureLocation != null) ...[
                                           CachedNetworkImage(
-                                            imageUrl: 'http://${ApiConstants.baseUrl}${post.pictureLocation}',
-                                            placeholder: (context, url) => CircularProgressIndicator(),
+                                            imageUrl:
+                                                'http://${ApiConstants.baseUrl}${post.pictureLocation}',
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(),
                                             errorWidget: (context, url, error) => Icon(Icons.error),
                                           ),
-                                          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                                          SizedBox(
+                                              height: MediaQuery.of(context).size.height * 0.01),
                                         ],
-                                        SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                                        SizedBox(
+                                            height: MediaQuery.of(context).size.height * 0.005),
                                       ],
                                     ),
                                   ),

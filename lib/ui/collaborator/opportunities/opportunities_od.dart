@@ -1,10 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/utils/components/textFormField.dart';
+import 'package:co_spririt/ui/collaborator/opportunities/add_opportunities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/helper_functions.dart';
@@ -17,14 +18,14 @@ final statusColors = {
   "Accepted": Colors.green
 };
 
-class OpportunitiesV2 extends StatefulWidget {
-  const OpportunitiesV2({super.key});
+class OpportunitiesPageOD extends StatefulWidget {
+  const OpportunitiesPageOD({super.key});
 
   @override
-  State<OpportunitiesV2> createState() => _OpportunitiesV2State();
+  State<OpportunitiesPageOD> createState() => _OpportunitiesPageODState();
 }
 
-class _OpportunitiesV2State extends State<OpportunitiesV2> {
+class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
   final LoadingStateNotifier<Opportunity> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   @override
@@ -43,6 +44,12 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
         ),
         leading: const AppBarCustom(),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(
+            Icons.add,
+            color: AppColor.secondColor,
+          ),
+          onPressed: () => AppUtil.mainNavigator(context, const AddOpportunitiesV2())),
       body: ListenableBuilder(
         listenable: loadingNotifier,
         builder: (context, child) {
@@ -109,55 +116,16 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
                 const SizedBox(height: 8.0),
                 const Text('Description:', style: TextStyle(fontSize: 16.0)),
                 Expanded(child: Text("${opportunity.description}")),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const Row(
                   children: [
-                    const Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: AppColor.secondColor,
-                          radius: 20,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          'OD name',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    CircleAvatar(
+                      backgroundColor: AppColor.secondColor,
+                      radius: 20,
                     ),
-                    PopupMenuButton(
-                      onSelected: (value) async {
-                        if (opportunity.id == null) {
-                          return;
-                        } else if (value == "Delete") {
-                          loadingIndicatorDialog(context);
-                          try {
-                            await apiManager.deleteOpportunity(opportunity.id ?? 0);
-                            loadingNotifier.change();
-                          } catch (e) {
-                            snackBar(context, "Could not delete opportunity");
-                          }
-                          Navigator.of(context).pop();
-                        } else if (value == "Update") {
-                          loadingIndicatorDialog(context);
-                          try {
-                            final status = await apiManager.getOpportunityStatus();
-                            Navigator.of(context).pop();
-                            updateStatusDialog(opportunity.id ?? 0, 0,
-                                status); // TODO change these hardcoded things
-                          } catch (e) {
-                            Navigator.of(context).pop();
-                            snackBar(context, "Could not get opportunity status");
-                          }
-                        }
-                      },
-                      child: const Icon(Icons.settings),
-                      itemBuilder: (context) {
-                        return [
-                          const PopupMenuItem(value: "Delete", child: Text("Delete")),
-                          const PopupMenuItem(value: "Update", child: Text("Update")),
-                        ];
-                      },
+                    SizedBox(width: 8.0),
+                    Text(
+                      'OD name',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -165,58 +133,6 @@ class _OpportunitiesV2State extends State<OpportunitiesV2> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> updateStatusDialog(int id, double score, List status) {
-    status = status.map((e) => e["name"]).toList();
-    TextEditingController updatedStatus = TextEditingController();
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomDropDownMenu(
-              fieldName: "Status",
-              selection: updatedStatus,
-              dropDownOptions: status,
-            ),
-            StatefulBuilder(
-              builder: (context, setState) => Slider(
-                value: score,
-                divisions: 10,
-                min: 0,
-                max: 10,
-                label: score.round().toString(),
-                onChanged: (value) => setState(
-                  () => score = value,
-                ),
-              ),
-            )
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: const Text("Update"),
-            onPressed: () async {
-              if (updatedStatus.text.isEmpty) {
-                return;
-              }
-              loadingIndicatorDialog(context);
-              try {
-                await apiManager.updateOpportunityStatus(id, updatedStatus.text, score.toInt());
-                snackBar(context, "Opportunity status changed successfully");
-              } catch (e) {
-                snackBar(context, "Could not get opportunity status");
-              }
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              loadingNotifier.change();
-            },
-          )
-        ],
       ),
     );
   }

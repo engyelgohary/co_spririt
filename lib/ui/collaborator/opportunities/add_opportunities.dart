@@ -16,47 +16,20 @@ class AddOpportunitiesV2 extends StatefulWidget {
 }
 
 class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final industryController = TextEditingController();
-  final clientIdController = TextEditingController();
-  final typeController = TextEditingController();
-  final risksController = TextEditingController();
+  final title = TextEditingController();
+  final description = TextEditingController();
+  final risk = TextEditingController();
   final client = TextEditingController();
   final type = TextEditingController();
   final industry = TextEditingController();
   final feasibility = TextEditingController();
   String? descriptionFilePath;
-  final apiManagerController = ApiManager.getInstance();
-  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier(loading: false);
-
+  final apiManager = ApiManager.getInstance();
+  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
+  List risks = [];
+  List solutions = [];
+  Map<dynamic, dynamic> clients = {};
   final feasibilityOptions = ["Low", "Medium", "High", "I don't know"];
-
-  final industryOptions = [
-    "Technology",
-    "AI",
-    "Data Science",
-    "Manufacturing",
-    "Food & Beverage",
-    "Networks",
-    "Marketing",
-    "Others",
-  ];
-
-  final typeOptions = [
-    "Web Application",
-    "Mobile Application",
-    "Dashboard",
-    "Chatbot",
-    "Product",
-    "Others",
-  ];
-
-  final clientOptions = [
-    "Client a",
-    "Client b",
-    "Client c",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -72,48 +45,54 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
         listenable: loadingNotifier,
         builder: (context, child) {
           if (loadingNotifier.loading) {
+            addOpportunityBackend(apiManager, loadingNotifier);
             return const Center(child: CircularProgressIndicator());
+          } else if (loadingNotifier.response == null) {
+            return Center(
+              child: buildErrorIndicator(
+                "Some error occurred, Please try again.",
+                () => loadingNotifier.change(),
+              ),
+            );
           }
+
+          risks = loadingNotifier.response![0].map((e) => e["name"]).toList();
+          solutions = loadingNotifier.response![1].map((e) => e["name"]).toList();
+          clients = loadingNotifier.response![2];
+
           return SingleChildScrollView(
             child: Column(
               children: [
                 CustomTextFormField(
                   fieldName: 'Title',
-                  controller: titleController,
-                  hintText: "test hint text",
+                  controller: title,
+                  hintText: "Opportunity title",
                 ),
                 CustomTextFormField(
                   fieldName: 'Description',
-                  controller: descriptionController,
-                  hintText: "test hint text",
+                  controller: description,
+                  hintText: "Describe the opportunity. Slow system, old system, etc...",
                   maxLines: null,
                 ),
                 CustomDropDownMenu(
                   fieldName: 'Client',
-                  controller: clientIdController,
-                  dropDownOptions: clientOptions,
+                  dropDownOptions: clients.keys.toList(),
                   selection: client,
                 ),
                 CustomDropDownMenu(
-                  fieldName: "Type",
-                  controller: typeController,
-                  dropDownOptions: typeOptions,
+                  fieldName: "Corelia's Solution",
+                  dropDownOptions: solutions,
                   selection: type,
                 ),
-                // CustomDropDownMenu(
-                //   fieldName: 'Industry',
-                //   controller: industryController,
-                //   dropDownOptions: industryOptions,
-                //   selection: industry,
-                // ),
                 CustomDropDownMenu(
                   fieldName: 'Feasibility',
-                  selection: industry,
+                  selection: feasibility,
                   dropDownOptions: feasibilityOptions,
                 ),
-                CustomTextFormField(
+                CustomDropDownMenu(
                   fieldName: 'Risks',
-                  controller: risksController,
+                  dropDownOptions: risks,
+                  selection: risk,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -132,7 +111,6 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             final path = await FilePicker.platform.pickFiles(
                               type: FileType.custom,
                               // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
-                              allowedExtensions: ["pdf"],
                             );
                             if (path != null) {
                               descriptionFilePath = path.paths[0];
@@ -164,29 +142,43 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                       width: 135.w,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (titleController.text.trim().isEmpty ||
-                              descriptionController.text.trim().isEmpty ||
-                              risksController.text.trim().isEmpty ||
-                              feasibility == null ||
-                              (industry == null && industryController.text.isEmpty) ||
-                              (type == null && typeController.text.isEmpty)) {
+                          if (title.text.trim().isEmpty || client.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content: Text('Please fill the missing data'),
                               duration: Duration(seconds: 2),
                             ));
                             return;
                           }
-                          loadingNotifier.change();
+                          final case1 = description.text.isNotEmpty &&
+                              type.text.isNotEmpty &&
+                              feasibility.text.isNotEmpty &&
+                              risk.text.isNotEmpty;
+                          if (descriptionFilePath == null && case1) {
+                            print("case1");
+                          } else if (descriptionFilePath != null && !case1) {
+                            print("case2");
+                          } else if (descriptionFilePath != null && case1) {
+                            print("case3");
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill the missing data'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                          loadingIndicatorDialog(context);
                           try {
-                            await apiManagerController.addOpportunity(
-                              titleController.text,
-                              descriptionController.text,
-                              // TODO it is hardcoded for now :(
-                              "1", // clientIdController.text,
-                              typeController.text,
-                              industryController.text,
-                              feasibility.toString(),
-                              risksController.text,
+                            await apiManager.addOpportunity(
+                              title.text,
+                              description.text,
+                              clients[client.text].id,
+                              type.text,
+                              feasibility.text,
+                              risk.text,
+                              "10", //TODO it is hardcoded for now :(
+                              type.text,
+                              "Submitted", //TODO it is hardcoded for now :(
                               descriptionFilePath,
                             );
                             if (context.mounted) {
@@ -194,13 +186,12 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                                 content: Text('Opportunity has been added successfully'),
                                 duration: Duration(seconds: 2),
                               ));
-                              titleController.clear();
-                              descriptionController.clear();
-                              clientIdController.clear();
-                              typeController.clear();
-                              industryController.clear();
-                              // feasibility = null;
-                              risksController.clear();
+                              title.clear();
+                              description.clear();
+                              type.clear();
+                              client.clear();
+                              feasibility.clear();
+                              risk.clear();
                               descriptionFilePath = null;
                             }
                           } catch (e) {
@@ -210,6 +201,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               duration: Duration(seconds: 2),
                             ));
                           }
+                          Navigator.of(context).pop();
                           loadingNotifier.change();
                         },
                         style: ElevatedButton.styleFrom(

@@ -333,3 +333,46 @@ Future<void> deleteOpportunityButton(
   }
   loadingNotifier.change();
 }
+
+Future<void> addOpportunityBackend(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    final List test = await Future.wait(
+        [apiManager.getRisks(), apiManager.getSolutions(), apiManager.fetchAllClients()]);
+    test[2] =
+        Map.fromIterables(test[2].map((e) => "${e.firstName} ${e.lastName}").toList(), test[2]);
+    loadingNotifier.response = test;
+  } catch (e) {
+    print("- Delete Opportunity Button error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+dynamic loadingIndicatorDialog(BuildContext context, {bool dismissible = false}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return PopScope(
+        canPop: dismissible,
+        child: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 5,
+            backgroundColor: Colors.transparent,
+            color: Colors.green,
+          ),
+        ),
+      );
+    },
+  );
+}
+
+dynamic snackBar(BuildContext context, String message, {int duration = 2}) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    duration: Duration(seconds: duration),
+    content: Text(message),
+  ));
+}

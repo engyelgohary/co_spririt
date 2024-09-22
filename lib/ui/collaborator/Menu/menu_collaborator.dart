@@ -13,8 +13,7 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
-import '../opportunities/add_opportunities.dart';
-import '../opportunities/opportunities.dart';
+import '../opportunities/opportunities_od.dart';
 
 class MenuScreenCollaborators extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';
@@ -107,12 +106,6 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                       AppUtil.mainNavigator(context, const MessagesScreenColla());
                     },
                   ),
-                  // CustomMenuCard(
-                  //   name: 'Opportunities',
-                  //   onFunction: () {
-                  //     AppUtil.mainNavigator(context, const OpportunitiesScreenColla());
-                  //   },
-                  // ),
                   CustomMenuCard(
                     name: 'Requests',
                     onFunction: () {
@@ -121,9 +114,7 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
                   ),
                   CustomMenuCard(
                     name: 'Opportunities',
-                    onFunction: () {
-                      AppUtil.mainNavigator(context, const AddOpportunitiesV2());
-                    },
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
                   ),
                   CustomMenuCard(
                     name: 'Log out',

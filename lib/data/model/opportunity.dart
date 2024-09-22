@@ -1,16 +1,19 @@
 // {
-//     "id": 9,
-//     "description": "Nodejs dev",
-//     "descriptionLocation": "/Opportunities/6baab850-8954-41b4-af66-2bb5f130d500.jpg",
-//     "clientId": 1,
-//     "collaboratorId": 3,
-//     "opportunity_Title": "Backend dev",
-//     "opportunity_Type": "Tech ",
-//     "industry": "Tech",
-//     "feasibility": "Easy",
-//     "risks": "None",
-//     "generated_Result": "I understand the context as follows:\n\n* Opportunity Title: Backend dev\n* Opportunity Type: Tech\n* Industry: Tech\n* Description: Nodejs dev\n* Feasibility: Easy\n* Risks: None\n\nAfter comparing this context with our company's implemented projects, I found that the opportunity has similar properties with \"Financial Extractor\" (LLM extracts financial statements from pdf contracts) and \"CV Matching\" (extract skills from candidate's CV then compare with job description).\n\nBoth of these projects involve working with technical data (financial statements or CVs), which is closely related to the Nodejs dev opportunity. Additionally, the feasibility and risks associated with this opportunity are considered easy and none, respectively, which aligns with our company's experience in implementing these types of projects.\n\nTherefore, I conclude that:\n\nPotential is High\n\nRecommendation: This opportunity has similar aspects with \"CV Matching\" project."
-//   }
+//   "id": 30,
+//   "description": "tu",
+//   "descriptionLocation": "/Opportunities/0ad1272a-9b8a-4c5f-aec2-80bf0ae4ff59.pdf",
+//   "clientId": 1,
+//   "collaboratorId": 3,
+//   "opportunity_Title": "Erp",
+//   "opportunity_Type": "Dashboard",
+//   "industry": "Marketing",
+//   "feasibility": "Medium",
+//   "risks": "dont know",
+//   "score": null,
+//   "solution": null,
+//   "status": "string",
+//   "generated_Result": "After analyzing the provided context, I found that it has a high correlation with our company's projects, specifically:\n\n* IVS: Intelligent video surveillance system for tracking, detecting and segmenting various objects\n* CV Matching: extract skills from candidate's CV then compare with job description\n\nThe context involves computer vision technology, image analysis, and categorization, which are all similar to the properties of our implemented projects. Additionally, the industry interest in artificial intelligence and computer vision aligns with our company's focus on data science and technology.\n\nTherefore, I conclude that:\n\n**Potential is High**\n\nRecommendation: IVS (Intelligent video surveillance system) project, as it has similar aspects with the given context, such as object detection and categorization."
+// }
 
 class Opportunity {
   Opportunity({
@@ -24,6 +27,9 @@ class Opportunity {
     this.industry,
     this.feasibility,
     this.risks,
+    this.score,
+    this.solution,
+    this.status,
     this.result,
   });
 
@@ -37,6 +43,9 @@ class Opportunity {
   String? industry;
   String? feasibility;
   String? risks;
+  double? score;
+  String? solution;
+  String? status;
   String? result;
 
   factory Opportunity.fromJson(Map<String, dynamic> json) {
@@ -51,6 +60,9 @@ class Opportunity {
       industry: json['industry'],
       feasibility: json['feasibility'],
       risks: json['risks'],
+      solution: json['solution'],
+      status: json['status'],
+      score: json['score'],
       result: json['generated_Result'],
     );
   }

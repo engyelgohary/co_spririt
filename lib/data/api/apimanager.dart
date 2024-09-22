@@ -24,7 +24,6 @@ import 'package:jwt_decode/jwt_decode.dart';
 import '../model/opportunity.dart';
 
 class ApiConstants {
-  // static const String baseUrl = '10.10.99.13:3090';
   static const String baseUrl = '10.100.102.6:3090';
   static const String loginApi = '/api/auth/signin';
   static const String adminApi = '/api/v1/admin';
@@ -41,6 +40,10 @@ class ApiConstants {
   static const String messagingApi = '/api/v1/messages';
   static const String superAdminApi = '/api/v1/SuperAdmin';
   static const String notificationApi = '/api/v1/NotificationMessage';
+  static const String opportunityStatusApi = '/api/Status';
+  static const String solutionApi = '/api/Solution';
+  static const String scoreApi = '/api/Score';
+  static const String riskApi = '/api/Risk';
 }
 
 class ApiManager {
@@ -1260,9 +1263,11 @@ class ApiManager {
     String description,
     String clientId,
     String opportunityType,
-    String industry,
     String feasibility,
     String risks,
+    String score,
+    String solution,
+    String status,
     String? descriptionFile,
   ) async {
     try {
@@ -1280,9 +1285,12 @@ class ApiManager {
         "ClientId": clientId,
         "Opportunity_Title": title,
         "Opportunity_Type": opportunityType,
-        "Industry": industry,
+        "Industry": "None ",
         "Feasibility": feasibility,
-        "Risks": risks
+        "Risks": risks,
+        "Score": score,
+        "Solution": solution,
+        "Status": status,
       };
 
       if (descriptionFile != null) {
@@ -1335,6 +1343,315 @@ class ApiManager {
       throw Exception('Failed to delete opportunity: ${response.statusCode}');
     } catch (e) {
       print("Could not delete opportunity $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> updateOpportunityStatus(int id, String status, int score) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri =
+          Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunitiesAdminApi}/changeStatus");
+      final response = await http.put(uri,
+          body: jsonEncode({"id": id, "status": status, "valueOfScore": score}),
+          headers: {
+            'Content-Type': 'application/json',
+            "accept": '*/*',
+            'Authorization': 'Bearer $token',
+          });
+
+      if (response.statusCode == 204) {
+        return true;
+      }
+      print(response.body);
+      throw Exception('Failed to update opportunity: ${response.statusCode}');
+    } catch (e) {
+      print("Could not update opportunity $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getOpportunityStatus() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get opportunity status: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get opportunity status $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addOpportunityStatus(String name) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
+      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add opportunity status: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add opportunity status $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteOpportunityStatus(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityStatusApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete opportunity status: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete opportunity status $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getSolutions() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.solutionApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get Solutions: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get Solutions $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addSolution(String name) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.solutionApi);
+      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add Solutions: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add Solutions $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteSolution(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.solutionApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete Solutions: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete Solutions $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getRisks() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.riskApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get risk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get risk $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addRisk(String name) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.riskApi);
+      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add risk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add risk $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteRisk(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.riskApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete risk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete risk $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getScore() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.scoreApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get score: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get score $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addScore(String name, int value) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.scoreApi);
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "value": value}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add score: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add score $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteScore(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.scoreApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete score: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete score $e");
       rethrow;
     }
   }

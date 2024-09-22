@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/api/apimanager.dart';
 import 'package:co_spririt/ui/superadmin/Menu/menu_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.dart';
-import 'package:co_spririt/ui/superadmin/requests/request_Superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,6 +11,7 @@ import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../data/model/Post.dart';
+import '../../admin/opportunities/opportunities_v2.dart';
 import 'creat_post.dart';
 
 class HomeScreenSuperAdmin extends StatefulWidget {
@@ -74,7 +73,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                       },
                       child: Padding(
                         padding: EdgeInsets.only(right: 13.w),
-                        child: Icon(
+                        child: const Icon(
                           Icons.notifications_outlined,
                           color: AppUI.borderColor,
                           size: 28,
@@ -90,6 +89,20 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  Column(
+                    children: [
+                      InkWell(
+                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
+                          child: const Icon(Icons.lightbulb_outline)),
+                      const SizedBox(height: 8),
+                      const CustomText(
+                        text: 'Opportunity',
+                        fontSize: 12,
+                        color: AppUI.secondColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ),
                   Column(
                     children: [
                       InkWell(
@@ -139,12 +152,12 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                   // ),
                   InkWell(
                     onTap: () {
-                      AppUtil.mainNavigator(context, MessagesScreenSuperAdmin());
+                      AppUtil.mainNavigator(context, const MessagesScreenSuperAdmin());
                     },
                     child: Column(
                       children: [
-                        ImageIcon(
-                          const AssetImage(
+                        const ImageIcon(
+                          AssetImage(
                             "${AppUI.iconPath}Caht.png",
                           ),
                           size: 24,
@@ -168,8 +181,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                     },
                     child: Column(
                       children: [
-                        ImageIcon(
-                          const AssetImage(
+                        const ImageIcon(
+                          AssetImage(
                             "${AppUI.iconPath}menu.png",
                           ),
                           size: 24,
@@ -296,7 +309,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                             if (post.firstNameUser == null && post.lastNameUser == null) {
                               // Delete the post if user ID is not found
                               apiManager.deletePost(post.id);
-                              return SizedBox
+                              return const SizedBox
                                   .shrink(); // Return an empty widget to avoid rendering this post
                             }
 
@@ -337,9 +350,9 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                           imageUrl:
                                                               'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
                                                           placeholder: (context, url) =>
-                                                              CircularProgressIndicator(),
+                                                              const CircularProgressIndicator(),
                                                           errorWidget: (context, url, error) =>
-                                                              Icon(Icons.error),
+                                                              const Icon(Icons.error),
                                                           height:
                                                               MediaQuery.of(context).size.height *
                                                                   0.05,
@@ -396,7 +409,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                 ),
                                               ],
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             IconButton(
                                               onPressed: () async {
                                                 bool? delete = await showDialog<bool>(
@@ -438,7 +451,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                   }
                                                 }
                                               },
-                                              icon: Icon(Icons.more_vert_rounded),
+                                              icon: const Icon(Icons.more_vert_rounded),
                                             ),
                                           ],
                                         ),
@@ -455,8 +468,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                             imageUrl:
                                                 'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                             placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
-                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                const CircularProgressIndicator(),
+                                            errorWidget: (context, url, error) => const Icon(Icons.error),
                                           ),
                                           SizedBox(
                                               height: MediaQuery.of(context).size.height * 0.01),

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spririt/ui/admin/opportunities/opportunities_v2.dart';
 import 'package:co_spririt/ui/collaborator/Menu/menu_collaborator.dart';
 import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
-import 'package:co_spririt/ui/collaborator/requests/request_collaborator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
@@ -93,6 +93,20 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Column(
+                        children: [
+                          InkWell(
+                              onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
+                              child: const Icon(Icons.lightbulb_outline)),
+                          const SizedBox(height: 8),
+                          const CustomText(
+                            text: 'Opportunity',
+                            fontSize: 12,
+                            color: AppUI.secondColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ],
+                      ),
                       const Column(
                         children: [
                           ImageIcon(

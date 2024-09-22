@@ -6,17 +6,22 @@ class CustomTextFormField extends StatelessWidget {
   String fieldName;
   Widget? suffixIcon;
   bool isObscure;
-  var keyboardType;
+  int? maxLines;
+  TextInputType keyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
-  CustomTextFormField(
-      {super.key,
-      required this.fieldName,
-      this.suffixIcon,
-      this.isObscure = false,
-      this.validator,
-      required this.controller,
-      this.keyboardType = TextInputType.text});
+
+  CustomTextFormField({
+    super.key,
+    this.validator,
+    this.suffixIcon,
+    this.maxLines = 1,
+    this.isObscure = false,
+    this.keyboardType = TextInputType.text,
+    required this.fieldName,
+    required this.controller,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,6 +38,7 @@ class CustomTextFormField extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 15.h, bottom: 20.h, right: 12.w, left: 12.w),
           child: TextFormField(
+            maxLines: maxLines,
             decoration: InputDecoration(
                 fillColor: AppColor.whiteColor,
                 filled: true,
@@ -67,13 +73,15 @@ class CustomText extends StatefulWidget {
   var keyboardType;
   String? Function(String?)? validator;
   TextEditingController controller;
-  CustomText(
-      {super.key,
-      required this.fieldName,
-      this.validator,
-      required this.controller,
-      this.keyboardType = TextInputType.text,
-      this.width = 6});
+
+  CustomText({
+    super.key,
+    this.validator,
+    this.width = 6,
+    this.keyboardType = TextInputType.text,
+    required this.fieldName,
+    required this.controller,
+  });
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -136,12 +144,13 @@ class CustomDropDownMenu extends StatefulWidget {
 
   CustomDropDownMenu({
     super.key,
-    required this.fieldName,
     this.controller,
-    required this.dropDownOptions,
-    required this.selection,
     this.initialSelection,
+    required this.fieldName,
+    required this.selection,
+    required this.dropDownOptions,
   });
+
   @override
   State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
 }

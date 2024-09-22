@@ -60,154 +60,81 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
         leading: const AppBarCustom(),
       ),
       body: ListenableBuilder(
-          listenable: loadingNotifier,
-          builder: (context, child) {
-            if (loadingNotifier.loading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomTextFormField(
-                    fieldName: 'Title',
-                    controller: titleController,
-                  ),
-                  CustomTextFormField(
-                    fieldName: 'Description',
-                    controller: descriptionController,
-                  ),
-                  // CustomTextFormField(
-                  //   fieldName: 'Client Id',
-                  //   controller: clientIdController,
-                  // ),
-                  CustomDropDownMenu(
-                    fieldName: "Type",
-                    controller: typeController,
-                    dropDownOptions: typeOptions,
-                    selection: (selected) => type = selected,
-                    initialSelection: type,
-                  ),
-                  CustomDropDownMenu(
-                    fieldName: 'Industry',
-                    controller: industryController,
-                    dropDownOptions: industryOptions,
-                    selection: (selected) => industry = selected,
-                    initialSelection: industry,
-                  ),
-                  CustomDropDownMenu(
-                    fieldName: 'Feasibility',
-                    selection: (selected) => feasibility = selected,
-                    dropDownOptions: feasibilityOptions,
-                    initialSelection: feasibility,
-                  ),
-                  CustomTextFormField(
-                    fieldName: 'Risks',
-                    controller: risksController,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Description File",
-                          style: Theme.of(context).textTheme.titleSmall,
-                          textAlign: TextAlign.start,
-                        ),
-                        SizedBox(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final path = await FilePicker.platform.pickFiles(
-                                type: FileType.custom,
-                                // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
-                                allowedExtensions: ["pdf"],
-                              );
-                              if (path != null) {
-                                descriptionFilePath = path.paths[0];
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.buttonColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.r)))),
-                            child: Center(
-                              child: Text(
-                                'Upload',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(fontSize: 16, color: AppColor.whiteColor),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-                      child: SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+        listenable: loadingNotifier,
+        builder: (context, child) {
+          if (loadingNotifier.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomTextFormField(
+                  fieldName: 'Title',
+                  controller: titleController,
+                ),
+                CustomTextFormField(
+                  fieldName: 'Description',
+                  controller: descriptionController,
+                  maxLines: null,
+                ),
+                // CustomTextFormField(
+                //   fieldName: 'Client Id',
+                //   controller: clientIdController,
+                // ),
+                CustomDropDownMenu(
+                  fieldName: "Type",
+                  controller: typeController,
+                  dropDownOptions: typeOptions,
+                  selection: (selected) => type = selected,
+                  initialSelection: type,
+                ),
+                CustomDropDownMenu(
+                  fieldName: 'Industry',
+                  controller: industryController,
+                  dropDownOptions: industryOptions,
+                  selection: (selected) => industry = selected,
+                  initialSelection: industry,
+                ),
+                CustomDropDownMenu(
+                  fieldName: 'Feasibility',
+                  selection: (selected) => feasibility = selected,
+                  dropDownOptions: feasibilityOptions,
+                  initialSelection: feasibility,
+                ),
+                CustomTextFormField(
+                  fieldName: 'Risks',
+                  controller: risksController,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Description File",
+                        style: Theme.of(context).textTheme.titleSmall,
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (titleController.text.trim().isEmpty ||
-                                descriptionController.text.trim().isEmpty ||
-                                risksController.text.trim().isEmpty ||
-                                feasibility == null ||
-                                (industry == null && industryController.text.isEmpty) ||
-                                (type == null && typeController.text.isEmpty)) {
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text('Please fill the missing data'),
-                                duration: Duration(seconds: 2),
-                              ));
-                              return;
+                            final path = await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
+                              allowedExtensions: ["pdf"],
+                            );
+                            if (path != null) {
+                              descriptionFilePath = path.paths[0];
                             }
-                            loadingNotifier.change();
-                            try {
-                              await apiManagerController.addOpportunity(
-                                titleController.text,
-                                descriptionController.text,
-                                // TODO it is hardcoded for now :(
-                                "1", // clientIdController.text,
-                                type ?? typeController.text,
-                                industry ?? industryController.text,
-                                feasibility.toString(),
-                                risksController.text,
-                                descriptionFilePath,
-                              );
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text('Opportunity has been added successfully'),
-                                  duration: Duration(seconds: 2),
-                                ));
-                                titleController.clear();
-                                descriptionController.clear();
-                                clientIdController.clear();
-                                typeController.clear();
-                                industryController.clear();
-                                feasibility = null;
-                                risksController.clear();
-                                descriptionFilePath = null;
-                              }
-                            } catch (e) {
-                              print("problem with add opportunity");
-                            }
-                            loadingNotifier.change();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.buttonColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5.r),
-                              ),
-                            ),
-                          ),
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                           child: Center(
                             child: Text(
-                              'Add',
+                              'Upload',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
@@ -216,12 +143,91 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
+                    child: SizedBox(
+                      height: 35.h,
+                      width: 135.w,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (titleController.text.trim().isEmpty ||
+                              descriptionController.text.trim().isEmpty ||
+                              risksController.text.trim().isEmpty ||
+                              feasibility == null ||
+                              (industry == null && industryController.text.isEmpty) ||
+                              (type == null && typeController.text.isEmpty)) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('Please fill the missing data'),
+                              duration: Duration(seconds: 2),
+                            ));
+                            return;
+                          }
+                          loadingNotifier.change();
+                          try {
+                            await apiManagerController.addOpportunity(
+                              titleController.text,
+                              descriptionController.text,
+                              // TODO it is hardcoded for now :(
+                              "1", // clientIdController.text,
+                              type ?? typeController.text,
+                              industry ?? industryController.text,
+                              feasibility.toString(),
+                              risksController.text,
+                              descriptionFilePath,
+                            );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text('Opportunity has been added successfully'),
+                                duration: Duration(seconds: 2),
+                              ));
+                              titleController.clear();
+                              descriptionController.clear();
+                              clientIdController.clear();
+                              typeController.clear();
+                              industryController.clear();
+                              feasibility = null;
+                              risksController.clear();
+                              descriptionFilePath = null;
+                            }
+                          } catch (e) {
+                            print("problem with add opportunity");
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('A error occurred'),
+                              duration: Duration(seconds: 2),
+                            ));
+                          }
+                          loadingNotifier.change();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.r),
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Add',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(fontSize: 16, color: AppColor.whiteColor),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-            );
-          }),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

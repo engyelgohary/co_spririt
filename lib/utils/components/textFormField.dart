@@ -180,9 +180,9 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
             color: AppColor.whiteColor,
             child: DropdownMenu(
               menuHeight: 200,
+              width: double.maxFinite,
               controller: widget.selection,
               initialSelection: widget.initialSelection,
-              width: double.maxFinite,
               dropdownMenuEntries: widget.dropDownOptions
                   .map((e) => DropdownMenuEntry(label: e.toString(), value: e))
                   .toList(),
@@ -190,29 +190,116 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
             ),
           ),
         ),
-        if (selected != null && selected!.toLowerCase() == "others")
-          Padding(
-            padding: EdgeInsets.only(bottom: 20.h, right: 12.w, left: 12.w),
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: "Type the other option",
-                fillColor: AppColor.whiteColor,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: AppColor.whiteColor),
-                    borderRadius: BorderRadius.circular(5.r)),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                focusColor: AppColor.basicColor,
-                hoverColor: AppColor.basicColor,
-                suffixIconColor: AppColor.basicColor,
+      ],
+    );
+  }
+}
+
+class CustomDoubleTextFormField extends StatelessWidget {
+  String fieldName;
+  String? hintText1;
+  String? hintText2;
+  Widget? suffixIcon;
+  bool isObscure;
+  int? maxLines;
+  TextInputType keyboardType;
+  String? Function(String?)? validator;
+  TextEditingController controller1;
+  TextEditingController controller2;
+
+  CustomDoubleTextFormField({
+    super.key,
+    this.validator,
+    this.suffixIcon,
+    this.hintText1,
+    this.hintText2,
+    this.maxLines = 1,
+    this.isObscure = false,
+    this.keyboardType = TextInputType.text,
+    required this.fieldName,
+    required this.controller1,
+    required this.controller2,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Text(
+            fieldName,
+            style: Theme.of(context).textTheme.titleSmall,
+            textAlign: TextAlign.start,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 15.h, bottom: 20.h, right: 12.w, left: 12.w),
+          child: Row(
+            children: [
+              Flexible(
+                child: TextFormField(
+                  maxLines: maxLines,
+                  decoration: InputDecoration(
+                      hintText: hintText1,
+                      fillColor: AppColor.whiteColor,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColor.whiteColor),
+                          borderRadius: BorderRadius.circular(5.r)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      focusedErrorBorder:
+                          OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      focusColor: AppColor.basicColor,
+                      hoverColor: AppColor.basicColor,
+                      suffixIconColor: AppColor.basicColor,
+                      suffixIcon: suffixIcon),
+                  style: const TextStyle(color: AppColor.blackColor),
+                  validator: validator,
+                  controller: controller1,
+                  obscureText: isObscure,
+                  keyboardType: keyboardType,
+                ),
               ),
-              style: const TextStyle(color: AppColor.blackColor),
-              controller: widget.controller,
-            ),
-          )
+              SizedBox(
+                width: 10.w,
+              ),
+              Flexible(
+                child: TextFormField(
+                  maxLines: maxLines,
+                  decoration: InputDecoration(
+                      hintText: hintText2,
+                      fillColor: AppColor.whiteColor,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColor.whiteColor),
+                          borderRadius: BorderRadius.circular(5.r)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      focusedErrorBorder:
+                          OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                      focusColor: AppColor.basicColor,
+                      hoverColor: AppColor.basicColor,
+                      suffixIconColor: AppColor.basicColor,
+                      suffixIcon: suffixIcon),
+                  style: const TextStyle(color: AppColor.blackColor),
+                  validator: validator,
+                  controller: controller2,
+                  obscureText: isObscure,
+                  keyboardType: keyboardType,
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }

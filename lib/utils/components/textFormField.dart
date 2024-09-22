@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFormField extends StatelessWidget {
   String fieldName;
+  String? hintText;
   Widget? suffixIcon;
   bool isObscure;
   int? maxLines;
@@ -15,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     this.validator,
     this.suffixIcon,
+    this.hintText,
     this.maxLines = 1,
     this.isObscure = false,
     this.keyboardType = TextInputType.text,
@@ -40,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
           child: TextFormField(
             maxLines: maxLines,
             decoration: InputDecoration(
+                hintText: hintText,
                 fillColor: AppColor.whiteColor,
                 filled: true,
                 enabledBorder: OutlineInputBorder(
@@ -138,11 +141,11 @@ class _CustomTextState extends State<CustomText> {
 class CustomDropDownMenu extends StatefulWidget {
   final String fieldName;
   final String? initialSelection;
-  final TextEditingController? controller;
   final List dropDownOptions;
-  Function(String selected) selection;
+  final TextEditingController? controller;
+  final TextEditingController? selection;
 
-  CustomDropDownMenu({
+  const CustomDropDownMenu({
     super.key,
     this.controller,
     this.initialSelection,
@@ -176,17 +179,14 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
           child: Container(
             color: AppColor.whiteColor,
             child: DropdownMenu(
+              menuHeight: 200,
+              controller: widget.selection,
               initialSelection: widget.initialSelection,
               width: double.maxFinite,
               dropdownMenuEntries: widget.dropDownOptions
-                  .map(
-                    (e) => DropdownMenuEntry(label: e.toString(), value: e),
-                  )
+                  .map((e) => DropdownMenuEntry(label: e.toString(), value: e))
                   .toList(),
-              onSelected: (value) => setState(() {
-                selected = value;
-                widget.selection(value);
-              }),
+              onSelected: (value) => setState(() => selected = value),
             ),
           ),
         ),
@@ -201,9 +201,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
                 enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: AppColor.whiteColor),
                     borderRadius: BorderRadius.circular(5.r)),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.r),
-                ),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                 errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                 focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                 disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),

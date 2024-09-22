@@ -22,14 +22,16 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
   final clientIdController = TextEditingController();
   final typeController = TextEditingController();
   final risksController = TextEditingController();
-  String? type;
-  String? industry;
-  String? feasibility;
+  final client = TextEditingController();
+  final type = TextEditingController();
+  final industry = TextEditingController();
+  final feasibility = TextEditingController();
   String? descriptionFilePath;
   final apiManagerController = ApiManager.getInstance();
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier(loading: false);
 
-  final feasibilityOptions = ["Low", "Medium", "High"];
+  final feasibilityOptions = ["Low", "Medium", "High", "I don't know"];
+
   final industryOptions = [
     "Technology",
     "AI",
@@ -40,6 +42,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
     "Marketing",
     "Others",
   ];
+
   final typeOptions = [
     "Web Application",
     "Mobile Application",
@@ -47,6 +50,12 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
     "Chatbot",
     "Product",
     "Others",
+  ];
+
+  final clientOptions = [
+    "Client a",
+    "Client b",
+    "Client c",
   ];
 
   @override
@@ -71,35 +80,36 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                 CustomTextFormField(
                   fieldName: 'Title',
                   controller: titleController,
+                  hintText: "test hint text",
                 ),
                 CustomTextFormField(
                   fieldName: 'Description',
                   controller: descriptionController,
+                  hintText: "test hint text",
                   maxLines: null,
                 ),
-                // CustomTextFormField(
-                //   fieldName: 'Client Id',
-                //   controller: clientIdController,
-                // ),
+                CustomDropDownMenu(
+                  fieldName: 'Client',
+                  controller: clientIdController,
+                  dropDownOptions: clientOptions,
+                  selection: client,
+                ),
                 CustomDropDownMenu(
                   fieldName: "Type",
                   controller: typeController,
                   dropDownOptions: typeOptions,
-                  selection: (selected) => type = selected,
-                  initialSelection: type,
+                  selection: type,
                 ),
-                CustomDropDownMenu(
-                  fieldName: 'Industry',
-                  controller: industryController,
-                  dropDownOptions: industryOptions,
-                  selection: (selected) => industry = selected,
-                  initialSelection: industry,
-                ),
+                // CustomDropDownMenu(
+                //   fieldName: 'Industry',
+                //   controller: industryController,
+                //   dropDownOptions: industryOptions,
+                //   selection: industry,
+                // ),
                 CustomDropDownMenu(
                   fieldName: 'Feasibility',
-                  selection: (selected) => feasibility = selected,
+                  selection: industry,
                   dropDownOptions: feasibilityOptions,
-                  initialSelection: feasibility,
                 ),
                 CustomTextFormField(
                   fieldName: 'Risks',
@@ -173,8 +183,8 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               descriptionController.text,
                               // TODO it is hardcoded for now :(
                               "1", // clientIdController.text,
-                              type ?? typeController.text,
-                              industry ?? industryController.text,
+                              typeController.text,
+                              industryController.text,
                               feasibility.toString(),
                               risksController.text,
                               descriptionFilePath,
@@ -189,7 +199,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               clientIdController.clear();
                               typeController.clear();
                               industryController.clear();
-                              feasibility = null;
+                              // feasibility = null;
                               risksController.clear();
                               descriptionFilePath = null;
                             }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_util.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/components/appbar.dart';
@@ -13,7 +14,7 @@ import '../Message/Message_admin.dart';
 import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../collaboratorsforadmin/collaborators_screen.dart';
-import '../opportunities/opportunities.dart';
+import '../opportunities/opportunities_v2.dart';
 import '../requests/request_admin.dart';
 
 class MenuScreenAdmin extends StatefulWidget {
@@ -46,12 +47,12 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
             'Menu',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
           ),
-          leading: AppBarCustom(),
+          leading: const AppBarCustom(),
         ),
         body: BlocBuilder<AdminCubit, AdminState>(
           builder: (context, state) {
             if (state is AdminLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is AdminSuccess) {
               final admin = state.adminData;
               return Column(
@@ -65,7 +66,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image:  _getImageProvider(admin!.pictureLocation),
+                            image: _getImageProvider(admin!.pictureLocation),
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -77,10 +78,10 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                       subtitle: Text(
                         "Admin",
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: AppColor.borderColor,
-                        ),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: AppColor.borderColor,
+                            ),
                       ),
                     ),
                   ),
@@ -93,7 +94,7 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   CustomMenuCard(
                     name: 'Collaborators',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, CollaboratorsAdminScreen());
+                      AppUtil.mainNavigator(context, const CollaboratorsAdminScreen());
                     },
                   ),
                   CustomMenuCard(
@@ -105,19 +106,25 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   CustomMenuCard(
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, MessagesScreenAdmin());
+                      AppUtil.mainNavigator(context, const MessagesScreenAdmin());
+                    },
+                  ),
+                  // CustomMenuCard(
+                  //   name: 'Opportunities',
+                  //   onFunction: () {
+                  //     AppUtil.mainNavigator(context, const OpportunitiesScreenAdmin());
+                  //   },
+                  // ),
+                  CustomMenuCard(
+                    name: 'Requests',
+                    onFunction: () {
+                      Navigator.pushNamed(context, RequestAdmin.routeName);
                     },
                   ),
                   CustomMenuCard(
                     name: 'Opportunities',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, OpportunitiesScreenAdmin());
-                    },
-                  ),
-                  CustomMenuCard(
-                    name: 'Requests',
-                    onFunction: () {
-                      Navigator.pushNamed(context, RequestAdmin.routeName);
+                      AppUtil.mainNavigator(context, const OpportunitiesV2());
                     },
                   ),
                   CustomMenuCard(
@@ -139,11 +146,12 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
       ),
     );
   }
+
   ImageProvider<Object> _getImageProvider(String? pictureLocation) {
     if (pictureLocation != null && pictureLocation.isNotEmpty) {
-      return NetworkImage('http://10.10.99.13:3090$pictureLocation');
+      return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
     } else {
-      return AssetImage('assets/images/Rectangle 5.png');
+      return const AssetImage('assets/images/Rectangle 5.png');
     }
   }
 }

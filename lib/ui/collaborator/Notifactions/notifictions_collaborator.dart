@@ -50,7 +50,12 @@ class _NotificationScreenCollaboratorState extends State<NotificationScreenColla
               );
             }
 
-            final data = loadingNotifier.response ?? [];
+            final data = loadingNotifier.response!.reversed.toList();
+
+            if (data.isEmpty) {
+              return const Center(child: Text("You don't have notifications."));
+            }
+
             return ListView.separated(
               separatorBuilder: (context, index) {
                 return const Divider(
@@ -65,7 +70,6 @@ class _NotificationScreenCollaboratorState extends State<NotificationScreenColla
                 return Card(
                   color: AppColor.backgroundColor,
                   elevation: 0,
-                  // margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: ListTile(
                     onTap: () {
                       readNotification(apiManager, readNotifier, notification);

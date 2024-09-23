@@ -8,12 +8,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
 class Updatecollaborator extends StatefulWidget {
   final Collaborator collaborator;
-   Updatecollaborator({super.key,required this.collaborator});
+  Updatecollaborator({super.key, required this.collaborator});
 
   @override
   State<Updatecollaborator> createState() => _UpdatecollaboratorState();
@@ -43,18 +44,22 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
     contractStartController = TextEditingController(text: formattedDateStart);
     contractEndController = TextEditingController(text: formattedDateEnd);
   }
+
   Future<void> _pickImage() async {
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       selectedImage = pickedImage;
     });
   }
+
   void selectCv() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+    final result =
+        await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
     if (result != null) {
       cv = File(result.files.single.path!);
     }
   }
+
   @override
   void dispose() {
     firstNameController.dispose();
@@ -66,24 +71,23 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
     super.dispose();
   }
 
-  void updateCollaborator(){
+  void updateCollaborator() {
     context.read<CollaboratorCubit>().updateCollaborator({
-      'id':widget.collaborator.id,
+      'id': widget.collaborator.id,
       'firstName': firstNameController.text,
-      'lastName':lastNameController.text,
+      'lastName': lastNameController.text,
       'phone': phoneController.text,
-      'email':emailController.text,
-      'ContractStart':contractStartController.text,
-      'ContractEnd':contractEndController.text,
-    }
-        ,selectedImage, cv);
+      'email': emailController.text,
+      'ContractStart': contractStartController.text,
+      'ContractEnd': contractEndController.text,
+    }, selectedImage, cv);
   }
-  Widget build(BuildContext context) {
 
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
           height: 600.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,15 +100,16 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                     backgroundImage: selectedImage != null
                         ? FileImage(File(selectedImage!.path))
                         : widget.collaborator.pictureLocation != null
-                        ? NetworkImage('http://10.10.99.13:3090${widget.collaborator.pictureLocation}')
-                        : AssetImage('assets/placeholder.png') as ImageProvider,
+                            ? NetworkImage(
+                                'http://${ApiConstants.baseUrl}${widget.collaborator.pictureLocation}')
+                            : const AssetImage('assets/placeholder.png') as ImageProvider,
                     child: selectedImage == null && widget.collaborator.pictureLocation == null
-                        ? Icon(Icons.camera_alt, size: 50)
+                        ? const Icon(Icons.camera_alt, size: 50)
                         : null,
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               CustomText(
                 keyboardType: TextInputType.name,
                 fieldName: 'First Name :',
@@ -116,7 +121,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Last Name :',
                 controller: lastNameController,
@@ -128,7 +133,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Mobile :',
                 controller: phoneController,
@@ -141,7 +146,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Email :',
                 controller: emailController,
@@ -151,27 +156,25 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your email address';
                   }
-                  bool emailValid = RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value);
+                  bool emailValid =
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value);
                   if (!emailValid) {
                     return 'Invalid email';
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               Text(
                 "Contract Info : ",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.basicColor),
+                    fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 32.h,
                     width: 140.w,
                     child: TextFormField(
@@ -185,38 +188,35 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 4.0.h, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.borderColor),
+                            borderSide: const BorderSide(color: AppColor.borderColor),
                             borderRadius: BorderRadius.circular(5.r)),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.r),
                         ),
                         errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.errorColor),
+                            borderSide: const BorderSide(color: AppColor.errorColor),
                             borderRadius: BorderRadius.circular(5.r)),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.r)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedErrorBorder:
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                        disabledBorder:
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                         focusColor: AppColor.basicColor,
                         hoverColor: AppColor.basicColor,
                       ),
                     ),
                   ),
-                  SizedBox(width: 9),
+                  const SizedBox(width: 9),
                   Text(
                     "To",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.basicColor),
+                        fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                   ),
-                  SizedBox(width: 9),
-                  Container(
+                  const SizedBox(width: 9),
+                  SizedBox(
                     height: 32.h,
                     width: 140.w,
                     child: TextFormField(
@@ -230,23 +230,22 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 4.0.h, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.borderColor),
+                            borderSide: const BorderSide(color: AppColor.borderColor),
                             borderRadius: BorderRadius.circular(5.r)),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.r),
                         ),
                         errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.errorColor),
+                            borderSide: const BorderSide(color: AppColor.errorColor),
                             borderRadius: BorderRadius.circular(5.r)),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.r)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.r)),
+                        focusedErrorBorder:
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                        disabledBorder:
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                         focusColor: AppColor.basicColor,
                         hoverColor: AppColor.basicColor,
                       ),
@@ -254,90 +253,80 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Text(
                     "Cv :",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.basicColor),
+                        fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                   ),
                   SizedBox(width: 154.w),
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {
                         selectCv();
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                       child: Center(
                           child: Text('Upload',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                  fontSize: 16,
-                                  color: AppColor.whiteColor))),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.buttonColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5.r)))),
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
                       },
-                      child: Center(
-                          child: Text('Cancel',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                  fontSize: 16,
-                                  color: AppColor.thirdColor,
-                                  fontWeight: FontWeight.w400))),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                      child: Center(
+                          child: Text('Cancel',
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.thirdColor,
+                                  fontWeight: FontWeight.w400))),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {
                         updateCollaborator();
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Collaborator Update Successfully"),
                         ));
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                       child: Center(
                           child: Text('Update',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                  fontSize: 16,
-                                  color: AppColor.whiteColor))),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.buttonColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                     ),
                   ),
                 ],

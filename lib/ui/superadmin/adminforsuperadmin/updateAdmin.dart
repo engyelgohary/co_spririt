@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/model/GetAdmin.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
@@ -65,8 +66,8 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Container(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
         height: 600.h,
         child: Column(
           children: [
@@ -77,14 +78,15 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 backgroundImage: _selectedImage != null
                     ? FileImage(File(_selectedImage!.path))
                     : widget.admin.pictureLocation != null
-                    ? NetworkImage('http://10.10.99.13:3090${widget.admin.pictureLocation}')
-                    : AssetImage('assets/placeholder.png') as ImageProvider,
+                        ? NetworkImage(
+                            'http://${ApiConstants.baseUrl}${widget.admin.pictureLocation}')
+                        : const AssetImage('assets/placeholder.png') as ImageProvider,
                 child: _selectedImage == null && widget.admin.pictureLocation == null
-                    ? Icon(Icons.camera_alt, size: 50)
+                    ? const Icon(Icons.camera_alt, size: 50)
                     : null,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CustomText(
               keyboardType: TextInputType.name,
               fieldName: 'First Name :',
@@ -96,7 +98,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 return null;
               },
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             CustomText(
               fieldName: 'Last Name :',
               controller: lastNameController,
@@ -108,7 +110,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 return null;
               },
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             CustomText(
               fieldName: 'Mobile :',
               controller: phoneController,
@@ -121,7 +123,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 return null;
               },
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             CustomText(
               fieldName: 'Email :',
               controller: emailController,
@@ -131,25 +133,23 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 if (value == null || value.trim().isEmpty) {
                   return 'Please enter your email address';
                 }
-                bool emailValid = RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value);
+                bool emailValid =
+                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value);
                 if (!emailValid) {
                   return 'Invalid email';
                 }
                 return null;
               },
             ),
-            SizedBox(height: 11),
+            const SizedBox(height: 11),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   'Can Post :',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                 ),
                 SizedBox(width: 65.w),
                 Radio<bool>(
@@ -164,10 +164,8 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 ),
                 Text(
                   'NO',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                 ),
                 SizedBox(width: 24.w),
                 Radio<bool>(
@@ -182,62 +180,55 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                 ),
                 Text(
                   'Yes',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
                     },
-                    child: Center(
-                        child: Text('Cancel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                fontSize: 16,
-                                color: AppColor.thirdColor,
-                                fontWeight: FontWeight.w400))),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.greyColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                    child: Center(
+                        child: Text('Cancel',
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                fontSize: 16,
+                                color: AppColor.thirdColor,
+                                fontWeight: FontWeight.w400))),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
                     onPressed: () {
                       updateAdmin();
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Admin Update Successfully"),
                       ));
                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.buttonColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                     child: Center(
                         child: Text('Update',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                fontSize: 16,
-                                color: AppColor.whiteColor))),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.buttonColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                   ),
                 ),
               ],

@@ -1,3 +1,4 @@
+import 'package:co_spririt/test.dart';
 import 'package:co_spririt/ui/auth/login.dart';
 import 'package:co_spririt/ui/superadmin/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.dart';
@@ -11,6 +12,7 @@ import '../../admin/opportunities/opportunities_v2.dart';
 import '../adminforsuperadmin/admin_page.dart';
 import '../clientsForSuperAdmin/client_screen.dart';
 import '../collaboratorforsuperadmin/collaborators_screen.dart';
+import '../opportunity/opportunity_detector_settings.dart';
 
 class MenuScreenSuperAdmin extends StatelessWidget {
   static const String routeName = 'Menu Screen SuperAdmin';
@@ -65,9 +67,21 @@ class MenuScreenSuperAdmin extends StatelessWidget {
             },
           ),
           CustomMenuCard(
+            name: 'Opportunities Settings',
+            onFunction: () {
+              AppUtil.mainNavigator(context, const OpportunityDetectorSettings());
+            },
+          ),
+          CustomMenuCard(
             name: 'Opportunities',
             onFunction: () {
               AppUtil.mainNavigator(context, const OpportunitiesV2());
+            },
+          ),
+          CustomMenuCard(
+            name: 'Test',
+            onFunction: () {
+              AppUtil.mainNavigator(context, TestPage());
             },
           ),
           CustomMenuCard(

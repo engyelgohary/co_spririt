@@ -18,13 +18,13 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
   final TextEditingController risk = TextEditingController();
   final TextEditingController solution = TextEditingController();
   final TextEditingController status = TextEditingController();
-  final TextEditingController score = TextEditingController();
+  final TextEditingController scoreStatus = TextEditingController();
   final TextEditingController reward = TextEditingController();
+  final TextEditingController scoreReward = TextEditingController();
   final ApiManager apiManager = ApiManager.getInstance();
 
   @override
   Widget build(BuildContext context) {
-    // Navigator.of(context).pop();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -81,7 +81,13 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
                 ),
               ],
             ),
-            CustomTextFormField(fieldName: "Status", controller: status),
+            CustomDoubleTextFormField(
+              hintText1: "Score",
+              hintText2: "Status",
+              fieldName: "Status",
+              controller1: scoreStatus,
+              controller2: status,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -96,8 +102,9 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
                   label: "Add",
                   functionality: () async {
                     await addButton(context, () async {
-                      if (status.text.isNotEmpty) {
-                        await apiManager.addOpportunityStatus(status.text);
+                      int? score = int.tryParse(scoreStatus.text);
+                      if (status.text.isNotEmpty && score != null) {
+                        await apiManager.addOpportunityStatus(status.text, score);
                       }
                     });
                   },
@@ -108,7 +115,7 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
               hintText1: "Score",
               hintText2: "Reward",
               fieldName: "Score",
-              controller1: score,
+              controller1: scoreReward,
               controller2: reward,
             ),
             Row(
@@ -123,10 +130,11 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
                 CustomButton(
                   label: "Add",
                   functionality: () async {
-                    if (reward.text.isNotEmpty && score.text.isNotEmpty) {
+                    if (reward.text.isNotEmpty && scoreReward.text.isNotEmpty) {
                       await addButton(context, () async {
                         if (risk.text.isNotEmpty) {
-                          await apiManager.addScore(reward.text, int.tryParse(score.text) ?? 0);
+                          await apiManager.addScore(
+                              reward.text, int.tryParse(scoreReward.text) ?? 0);
                         }
                       });
                     }
@@ -188,7 +196,10 @@ class _OpportunityDetectorSettingsState extends State<OpportunityDetectorSetting
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         data[index]["value"] == null
-                            ? Text("${index + 1} - ${data[index]["name"]}")
+                            ? data[index]["score"] != null
+                                ? Text(
+                                    "${index + 1} - ${data[index]["name"]} - ${data[index]["score"]}")
+                                : Text("${index + 1} - ${data[index]["name"]}")
                             : Text(
                                 "${index + 1} - ${data[index]["name"]} - ${data[index]["value"]}"),
                         IconButton(

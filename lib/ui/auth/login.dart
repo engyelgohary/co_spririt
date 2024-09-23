@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginModelViewCubit modelView = LoginModelViewCubit(authRepository: injectAuthRepository());
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginModelViewCubit,LoginModelViewState>(
+    return BlocListener<LoginModelViewCubit, LoginModelViewState>(
       bloc: modelView,
       listener: (BuildContext context, state) {
         if (state is LoginModelViewLoading) {
@@ -27,7 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
-              return Center(child: CircularProgressIndicator(color: AppColor.secondColor,));
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColor.secondColor,
+              ));
             },
           );
         } else if (state is LoginModelViewError) {
@@ -37,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ));
         } else if (state is LoginModelViewSuccess) {
           Navigator.pop(context); // Dismiss the progress dialog
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Sign IN Success"),
             duration: Duration(seconds: 3),
           ));
@@ -46,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => state.homeScreen),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
         }
       },
@@ -96,11 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         isObscure: modelView.isObscure,
                         suffixIcon: InkWell(
                           child: modelView.isObscure
-                              ? Icon(
+                              ? const Icon(
                                   Icons.visibility_off,
                                   color: AppColor.basicColor,
                                 )
-                              : Icon(
+                              : const Icon(
                                   Icons.visibility,
                                   color: AppColor.basicColor,
                                 ),
@@ -115,8 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: 15.h, right: 100.w, left: 100.w),
+                        padding: EdgeInsets.only(top: 15.h, right: 100.w, left: 100.w),
                         child: ElevatedButton(
                           onPressed: () {
                             modelView.login(context);
@@ -124,19 +126,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.secondColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                           child: Container(
-                            height:35.h,
+                            height: 35.h,
                             width: 135.w,
                             child: Center(
-                              child: Text('Login',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                  color: AppColor.whiteColor,
-                                  fontWeight: FontWeight.bold),
+                              child: Text(
+                                'Login',
+                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: AppColor.whiteColor, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),

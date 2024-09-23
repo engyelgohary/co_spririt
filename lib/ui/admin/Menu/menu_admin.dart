@@ -14,7 +14,6 @@ import '../Message/Message_admin.dart';
 import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../collaboratorsforadmin/collaborators_screen.dart';
-import '../opportunities/opportunities.dart';
 import '../opportunities/opportunities_v2.dart';
 import '../requests/request_admin.dart';
 

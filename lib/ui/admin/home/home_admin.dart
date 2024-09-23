@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
@@ -129,20 +130,6 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   Column(
                     children: [
                       InkWell(
-                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
-                          child: const Icon(Icons.lightbulb_outline)),
-                      const SizedBox(height: 8),
-                      const CustomText(
-                        text: 'Opportunity',
-                        fontSize: 12,
-                        color: AppUI.secondColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      InkWell(
                         onTap: _reloadPosts,
                         child: const ImageIcon(
                           AssetImage("${AppUI.iconPath}Home.png"),
@@ -160,29 +147,20 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       ),
                     ],
                   ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     AppUtil.mainNavigator(context, RequestAdmin());
-                  //   },
-                  //   child: const Column(
-                  //     children: [
-                  //       ImageIcon(
-                  //         AssetImage(
-                  //           "${AppUI.iconPath}request.png",
-                  //         ),
-                  //         size: 24,
-                  //         color: AppUI.borderColor,
-                  //       ),
-                  //       SizedBox(height: 8),
-                  //       CustomText(
-                  //         text: 'Requests',
-                  //         fontSize: 12,
-                  //         color: AppUI.borderColor,
-                  //         fontWeight: FontWeight.w400,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  Column(
+                    children: [
+                      InkWell(
+                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2(userType: 0,)),
+                          child: const Icon(Icons.lightbulb_outline, color: AppColor.borderColor)),
+                      const SizedBox(height: 8),
+                      const CustomText(
+                        text: 'Opportunity',
+                        fontSize: 12,
+                        color: AppUI.borderColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ),
                   InkWell(
                     onTap: () {
                       AppUtil.mainNavigator(context, const MessagesScreenAdmin());

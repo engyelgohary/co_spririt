@@ -5,6 +5,8 @@ import 'package:co_spririt/data/model/ClientReq.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/data/model/Notification.dart';
+import 'package:co_spririt/data/model/OpportunityAnalyzer.dart';
+import 'package:co_spririt/data/model/OpportunityOwner.dart';
 import 'package:co_spririt/data/model/Post.dart';
 import 'package:co_spririt/data/model/RequestsReq.dart';
 import 'package:co_spririt/data/model/RequestsResponse.dart';
@@ -33,6 +35,8 @@ class ApiConstants {
   static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
   static const String opportunitiesDeleteApi = '/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi = '/api/v1/opportunities';
+  static const String opportunityOwnerApi = '/OpportunityOwner/';
+  static const String opportunityAnalyzerApi = '/OpportunityAnalyzer/';
   static const String superAdminTypes = '/api/v1/request-type';
   static const String adminRequests = '/api/v1/requests';
   static const String allPostsApi = '/api/v1/post';
@@ -1258,6 +1262,113 @@ class ApiManager {
     }
   }
 
+  Future<List<Opportunity>> getOpportunityAnalyzerOpportunities() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final id = int.parse(Jwt.parseJwt(token)["nameid"]);
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityAnalyzerApi}/$id");
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => Opportunity.fromJson(e)));
+      }
+      throw Exception('Failed to read user notification code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not read user notification $e");
+      rethrow;
+    }
+  }
+
+  Future<List<Opportunity>> getOpportunityOwnerOpportunities() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final id = int.parse(Jwt.parseJwt(token)["nameid"]);
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityOwnerApi}/$id");
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => Opportunity.fromJson(e)));
+      }
+      throw Exception('Failed to read user notification code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not read user notification $e");
+      rethrow;
+    }
+  }
+
+  Future<List<OpportunityAnalyzer>> getOpportunityAnalyzers() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "api${ApiConstants.opportunityAnalyzerApi}");
+      print(uri.toString());
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => OpportunityAnalyzer.fromJson(e)));
+      }
+      throw Exception('Failed to get opportunity analyzers code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get opportunity analyzers $e");
+      rethrow;
+    }
+  }
+
+  Future<List<OpportunityOwner>> getOpportunityOwners() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "api${ApiConstants.opportunityOwnerApi}");
+      final response = await http.get(
+        uri,
+        headers: {
+          "accept": '*/*',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        return List.from(responseData.map((e) => OpportunityOwner.fromJson(e)));
+      }
+      throw Exception('Failed to get opportunity owners code: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get opportunity owners $e");
+      rethrow;
+    }
+  }
+
   Future<bool> addOpportunity(
     String title,
     String description,
@@ -1347,7 +1458,7 @@ class ApiManager {
     }
   }
 
-  Future<bool> updateOpportunityStatus(int id, String status, int score) async {
+  Future<bool> updateOpportunityStatus(int id, int status) async {
     try {
       final token = await storage.read(key: 'token');
       if (token == null) {
@@ -1356,13 +1467,12 @@ class ApiManager {
 
       final uri =
           Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunitiesAdminApi}/changeStatus");
-      final response = await http.put(uri,
-          body: jsonEncode({"id": id, "status": status, "valueOfScore": score}),
-          headers: {
-            'Content-Type': 'application/json',
-            "accept": '*/*',
-            'Authorization': 'Bearer $token',
-          });
+      final response =
+          await http.put(uri, body: jsonEncode({"id": id, "statusId": status}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
 
       if (response.statusCode == 204) {
         return true;
@@ -1371,6 +1481,56 @@ class ApiManager {
       throw Exception('Failed to update opportunity: ${response.statusCode}');
     } catch (e) {
       print("Could not update opportunity $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> assignOpportunityAnalyzer(int id, int analyzer) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl,
+          "${ApiConstants.opportunitiesAdminApi}/$id/opportunityAnalyzer/$analyzer");
+      final response = await http.put(uri, headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 204) {
+        return true;
+      }
+      print(response.body);
+      throw Exception('Failed to assign opportunity analyzer: ${response.statusCode}');
+    } catch (e) {
+      print("Could not assign opportunity analyzer $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> assignOpportunityOwner(int id, int owner) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl,
+          "${ApiConstants.opportunitiesAdminApi}/$id/opportunityOwner/$owner");
+      final response = await http.put(uri, headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 204) {
+        return true;
+      }
+      print(response.body);
+      throw Exception('Failed to assign opportunity owner: ${response.statusCode}');
+    } catch (e) {
+      print("Could not assign opportunity owner $e");
       rethrow;
     }
   }
@@ -1398,7 +1558,7 @@ class ApiManager {
     }
   }
 
-  Future<bool> addOpportunityStatus(String name) async {
+  Future<bool> addOpportunityStatus(String name, int score) async {
     try {
       final token = await storage.read(key: 'token');
       if (token == null) {
@@ -1406,7 +1566,8 @@ class ApiManager {
       }
 
       final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
-      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "score": score}), headers: {
         'Content-Type': 'application/json',
         "accept": '*/*',
         'Authorization': 'Bearer $token',

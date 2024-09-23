@@ -172,7 +172,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             await apiManager.addOpportunity(
                               title.text,
                               description.text,
-                              clients[client.text].id,
+                              clients[client.text].id.toString(),
                               type.text,
                               feasibility.text,
                               risk.text,
@@ -195,7 +195,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               descriptionFilePath = null;
                             }
                           } catch (e) {
-                            print("problem with add opportunity");
+                            print("problem with add opportunity: $e");
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content: Text('A error occurred'),
                               duration: Duration(seconds: 2),

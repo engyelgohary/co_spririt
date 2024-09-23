@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/api/apimanager.dart';
 import 'package:co_spririt/ui/superadmin/Menu/menu_superadmin.dart';
@@ -11,6 +10,7 @@ import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../data/model/Post.dart';
+import '../../../utils/theme/appColors.dart';
 import '../../admin/opportunities/opportunities_v2.dart';
 import 'creat_post.dart';
 
@@ -92,20 +92,6 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                   Column(
                     children: [
                       InkWell(
-                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
-                          child: const Icon(Icons.lightbulb_outline)),
-                      const SizedBox(height: 8),
-                      const CustomText(
-                        text: 'Opportunity',
-                        fontSize: 12,
-                        color: AppUI.secondColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      InkWell(
                         onTap: _reloadPosts,
                         child: const ImageIcon(
                           AssetImage("${AppUI.iconPath}Home.png"),
@@ -125,31 +111,20 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                       )
                     ],
                   ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     AppUtil.mainNavigator(context, const RequestSuperAdmin());
-                  //   },
-                  //   child: Column(
-                  //     children: [
-                  //       ImageIcon(
-                  //         const AssetImage(
-                  //           "${AppUI.iconPath}request.png",
-                  //         ),
-                  //         size: 24,
-                  //         color: AppUI.borderColor,
-                  //       ),
-                  //       SizedBox(
-                  //         height: 8.h,
-                  //       ),
-                  //       const CustomText(
-                  //         text: 'Requests',
-                  //         fontSize: 12,
-                  //         color: AppUI.borderColor,
-                  //         fontWeight: FontWeight.w400,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
+                  Column(
+                    children: [
+                      InkWell(
+                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
+                          child: const Icon(Icons.lightbulb_outline, color: AppColor.borderColor)),
+                      const SizedBox(height: 8),
+                      const CustomText(
+                        text: 'Opportunity',
+                        fontSize: 12,
+                        color: AppUI.borderColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ),
                   InkWell(
                     onTap: () {
                       AppUtil.mainNavigator(context, const MessagesScreenSuperAdmin());
@@ -469,7 +444,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                                                 'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                             placeholder: (context, url) =>
                                                 const CircularProgressIndicator(),
-                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                            errorWidget: (context, url, error) =>
+                                                const Icon(Icons.error),
                                           ),
                                           SizedBox(
                                               height: MediaQuery.of(context).size.height * 0.01),

@@ -50,87 +50,84 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
             color: AppColor.secondColor,
           ),
           onPressed: () => AppUtil.mainNavigator(context, const AddOpportunitiesV2())),
-      body: ListenableBuilder(
-        listenable: loadingNotifier,
-        builder: (context, child) {
-          if (loadingNotifier.loading) {
-            opportunitiesList(apiManager, loadingNotifier);
-            return const Center(child: CircularProgressIndicator());
-          } else if (loadingNotifier.response == null) {
-            return Center(
-              child: buildErrorIndicator(
-                "Some error occurred, Please try again.",
-                () => loadingNotifier.change(),
-              ),
-            );
-          } else if (loadingNotifier.response!.isEmpty) {
-            return const Center(
-              child: SelectableText("Nothing to show."),
-            );
-          }
-
-          final data = loadingNotifier.response;
-
-          return ListView.separated(
-            separatorBuilder: (context, index) {
-              return const Divider(
-                color: AppColor.whiteColor,
-                thickness: 2,
-              );
-            },
-            itemCount: data!.length,
-            itemBuilder: (context, index) {
-              final opportunity = data[index];
-              return opportunityCard(opportunity, loadingNotifier);
-            },
-          );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          loadingNotifier.change();
         },
+        child: ListenableBuilder(
+          listenable: loadingNotifier,
+          builder: (context, child) {
+            if (loadingNotifier.loading) {
+              opportunitiesList(apiManager, loadingNotifier);
+              return const Center(child: CircularProgressIndicator());
+            } else if (loadingNotifier.response == null) {
+              return Center(
+                child: buildErrorIndicator(
+                  "Some error occurred, Please try again.",
+                  () => loadingNotifier.change(),
+                ),
+              );
+            } else if (loadingNotifier.response!.isEmpty) {
+              return const Center(
+                child: SelectableText("Nothing to show."),
+              );
+            }
+
+            final data = loadingNotifier.response;
+
+            return ListView.builder(
+              itemCount: data!.length,
+              itemBuilder: (context, index) {
+                final opportunity = data[index];
+                return opportunityCard(opportunity, loadingNotifier);
+              },
+            );
+          },
+        ),
       ),
     );
   }
 
   dynamic opportunityCard(Opportunity opportunity, LoadingStateNotifier loadingNotifier) {
-    return SizedBox(
-      height: 180.h,
-      child: GestureDetector(
-        onTap: () {
-          opportunityPopup(context, opportunity);
-        },
-        child: Card(
-          margin: const EdgeInsets.all(8.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("${opportunity.title}", style: const TextStyle(fontSize: 18.0)),
-                    Icon(Icons.circle, color: statusColors[opportunity.status] ?? Colors.teal)
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                Text("Client: ${opportunity.clientId}", style: const TextStyle(fontSize: 16.0)),
-                const SizedBox(height: 8.0),
-                const SizedBox(height: 8.0),
-                const Text('Description:', style: TextStyle(fontSize: 16.0)),
-                Expanded(child: Text("${opportunity.description}")),
-                const Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: AppColor.secondColor,
-                      radius: 20,
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      'OD name',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+    return GestureDetector(
+      onTap: () {
+        opportunityPopup(context, opportunity);
+      },
+      child: Card(
+        margin: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${opportunity.title}", style: const TextStyle(fontSize: 18.0)),
+                  Icon(Icons.circle, color: statusColors[opportunity.status] ?? Colors.teal)
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Text("Client: ${opportunity.clientId}", style: const TextStyle(fontSize: 16.0)),
+              const SizedBox(height: 16.0),
+              const Text('Description:', style: TextStyle(fontSize: 16.0)),
+              Text("${opportunity.description} ", maxLines: 1, overflow: TextOverflow.ellipsis),
+              const SizedBox(height: 8.0),
+              const Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: AppColor.secondColor,
+                    radius: 20,
+                  ),
+                  SizedBox(width: 8.0),
+                  Text(
+                    'OD name',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -149,7 +146,6 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
               children: [
                 const SelectableText(
                   "Title:",
@@ -163,13 +159,13 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                   ),
                 ),
                 const SelectableText(
-                  "Industry:",
+                  "Status:",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: SelectableText(
-                    opportunity.industry ?? "N/A",
+                    opportunity.status ?? "N/A",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),

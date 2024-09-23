@@ -17,6 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/OA.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -38,6 +39,7 @@ class ApiConstants {
   static const String messagingApi = '/api/v1/messages';
   static const String superAdminApi = '/api/v1/SuperAdmin';
   static const String notificationApi = '/api/v1/NotificationMessage';
+  static const String opportunityAnalyzerApi = 'api/OpportunityAnalyzer';
 }
 
 class ApiManager {
@@ -1223,4 +1225,62 @@ class ApiManager {
       rethrow;
     }
   }
+
+  //OA
+  Future<List<OA>> getAllOAs({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityAnalyzerApi, {
+      "page": page.toString(),
+    });
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<OA> allOAs = jsonList.map((json) => OA.fromJson(json)).toList();
+        return allOAs;
+      } else {
+        throw Exception('Failed to load OAs. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching OAs: $error');
+      throw Exception('Error fetching OAs: $error');
+    }
+  }
+
+  Future<OA> addOA(Map<String, dynamic> opportunityAnalyzerData, XFile? image) async {
+    var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityAnalyzerApi);
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['firstName'] = opportunityAnalyzerData['firstName'];
+    request.fields['lastName'] = opportunityAnalyzerData['lastName'];
+    request.fields['phone'] = opportunityAnalyzerData['phone'];
+    request.fields['email'] = opportunityAnalyzerData['email'];
+    request.fields['canPost'] = opportunityAnalyzerData['canPost'];
+    request.fields['password'] = opportunityAnalyzerData['password'];
+
+    if (image != null) {
+      var mimeTypeData = lookupMimeType(image.path)!.split('/');
+      request.files.add(
+        http.MultipartFile(
+          'picture',
+          File(image.path).readAsBytes().asStream(),
+          File(image.path).lengthSync(),
+          filename: basename(image.path),
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ),
+      );
+    }
+
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      var responseData = await http.Response.fromStream(response);
+      return OA.fromJson(jsonDecode(responseData.body));
+    } else {
+      var responseData = await http.Response.fromStream(response);
+      throw Exception('Failed to add admin: ${responseData.body}');
+    }
+  }
+
 }

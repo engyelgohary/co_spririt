@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import '../model/Client.dart';
 import '../model/Collaborator.dart';
 import '../model/GetAdmin.dart';
+import '../model/OA.dart';
 import '../model/RequestsResponse.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
@@ -113,4 +114,12 @@ abstract class RequestsDataSource{
   Future<RequestsResponse> deleteRequests(int id);
   Future<RequestsResponse> fetchRequestDetails(int id);
   Future<void> respondToRequest(int requestId, bool response);
+
+}
+
+//OA
+abstract class OpportunityAnalyzerRepository{
+  Future<List<OA>>getAllOAs({int page = 1});
+  Future<OA> addOA(Map<String, dynamic> opportunityAnalyzerData, XFile? image);
+
 }

@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/model/Notification.dart';
 import 'package:co_spririt/data/model/message.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +109,7 @@ Future<void> collaboratorAdminsList(
   loadingNotifier.change();
 }
 
-class   Signalr {
+class Signalr {
   Signalr.signalr();
   static Signalr? _instance;
 
@@ -166,13 +167,12 @@ class   Signalr {
           );
           incomingMessage.parseTime(message[0]["Message"]["Timestamp"]);
 
-          if (senderId == incomingMessage.senderId ||
-              incomingMessage.senderId == incomingMessage.receiverId) {
+          if (senderId != incomingMessage.senderId && senderId != incomingMessage.receiverId) {
             return;
-          } else if (receiverId != incomingMessage.senderId) {
+          } else if (senderId == incomingMessage.receiverId && listNotifier == null) {
             AwesomeNotifications().createNotification(
               content: NotificationContent(
-                id: 16, // -1 is replaced by a random number
+                id: 16,
                 channelKey: 'basic_channel',
                 title: 'New message from: ${incomingMessage.senderFirstName}',
                 body: incomingMessage.content,
@@ -189,7 +189,7 @@ class   Signalr {
             );
             print(
                 "Message Notification content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
-          } else if (listNotifier != null) {
+          } else if (senderId == incomingMessage.receiverId && listNotifier != null) {
             listNotifier!.addItem(incomingMessage);
             if (scrollController != null) {
               Future.delayed(
@@ -274,8 +274,8 @@ dynamic collaboratorPhoto(String? pictureLocation) {
             width: 42,
             fit: BoxFit.cover,
           )
-        : Image.network(
-            'http://${ApiConstants.baseUrl}/$pictureLocation',
+        : CachedNetworkImage(
+            imageUrl: 'http://${ApiConstants.baseUrl}/$pictureLocation',
             height: 41,
             width: 42,
             fit: BoxFit.cover,
@@ -309,4 +309,83 @@ Future<void> readNotification(
     print("- notificationList error : $e");
     loadingNotifier.response = null;
   }
+}
+
+Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadingNotifier,
+    {int userType = 0}) async {
+  try {
+    if (userType == 0) {
+      // Super admin
+      loadingNotifier.response = await apiManager.getOpportunities();
+    } else if (userType == 2) {
+      // collaborator or od
+      loadingNotifier.response = await apiManager.getOpportunities();
+    } else if (userType == 3) {
+      // Opportunity analyzer
+      loadingNotifier.response = await apiManager.getOpportunityAnalyzerOpportunities();
+    } else if (userType == 4) {
+      // Opportunity owner
+      loadingNotifier.response = await apiManager.getOpportunityOwnerOpportunities();
+    }
+  } catch (e) {
+    print("- CollaboratorsList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> deleteOpportunityButton(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+  int id,
+) async {
+  try {
+    await apiManager.deleteOpportunity(id);
+  } catch (e) {
+    print("- Delete Opportunity Button error : $e");
+  }
+  loadingNotifier.change();
+}
+
+Future<void> addOpportunityBackend(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    final List test = await Future.wait(
+        [apiManager.getRisks(), apiManager.getSolutions(), apiManager.fetchAllClients()]);
+    test[2] =
+        Map.fromIterables(test[2].map((e) => "${e.firstName} ${e.lastName}").toList(), test[2]);
+    loadingNotifier.response = test;
+  } catch (e) {
+    print("- Delete Opportunity Button error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+dynamic loadingIndicatorDialog(BuildContext context, {bool dismissible = false}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return PopScope(
+        canPop: dismissible,
+        child: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 5,
+            backgroundColor: Colors.transparent,
+            color: Colors.green,
+          ),
+        ),
+      );
+    },
+  );
+}
+
+dynamic snackBar(BuildContext context, String message, {int duration = 2}) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    duration: Duration(seconds: duration),
+    content: Text(message),
+  ));
 }

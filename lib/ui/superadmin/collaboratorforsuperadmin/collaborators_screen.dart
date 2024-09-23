@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
@@ -22,12 +23,10 @@ class CollaboratorsScreenForSuper extends StatefulWidget {
   const CollaboratorsScreenForSuper({super.key});
 
   @override
-  State<CollaboratorsScreenForSuper> createState() =>
-      _CollaboratorsScreenForSuperState();
+  State<CollaboratorsScreenForSuper> createState() => _CollaboratorsScreenForSuperState();
 }
 
-class _CollaboratorsScreenForSuperState
-    extends State<CollaboratorsScreenForSuper> {
+class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSuper> {
   late CollaboratorCubit viewModel;
   List<GetAdmin> admins = [];
   bool isLoading = true;
@@ -38,8 +37,7 @@ class _CollaboratorsScreenForSuperState
   @override
   void initState() {
     super.initState();
-    viewModel = CollaboratorCubit(
-        collaboratorRepository: injectCollaboratorRepository());
+    viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
     adminCubit = AdminCubit(adminRepository: injectAdminRepository());
     clientCubit = ClientCubit(clientRepository: injectClientRepository());
   }
@@ -80,14 +78,14 @@ class _CollaboratorsScreenForSuperState
           'Collaborators',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
         actions: [
           IconButton(
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: Icon(Icons.person_add_alt_outlined,
-                  color: AppColor.whiteColor, size: 20),
+              child:
+                  const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
               showAddBottomSheet();
@@ -103,8 +101,7 @@ class _CollaboratorsScreenForSuperState
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<Collaborator>(
                 itemBuilder: (context, item, index) {
-                  final adminImage =
-                      'http://10.10.99.13:3090${item.pictureLocation}';
+                  final adminImage = 'http://${ApiConstants.baseUrl}${item.pictureLocation}';
                   return Slidable(
                     startActionPane: ActionPane(
                       extentRatio: .22,
@@ -113,9 +110,7 @@ class _CollaboratorsScreenForSuperState
                         SlidableAction(
                           borderRadius: BorderRadius.circular(20),
                           onPressed: (context) {
-                            context
-                                .read<CollaboratorCubit>()
-                                .deleteCollaborator(item.id ?? 1);
+                            context.read<CollaboratorCubit>().deleteCollaborator(item.id ?? 1);
                           },
                           backgroundColor: AppColor.errorColor,
                           foregroundColor: AppColor.whiteColor,
@@ -128,12 +123,11 @@ class _CollaboratorsScreenForSuperState
                       leading: CachedNetworkImage(
                         imageUrl: adminImage,
                         placeholder: (context, url) =>
-                            CircularProgressIndicator(
-                                color: AppColor.secondColor),
+                            const CircularProgressIndicator(color: AppColor.secondColor),
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
                           radius: 20.r,
-                          child: Icon(Icons.error_outline,
+                          child: const Icon(Icons.error_outline,
                               color: AppColor.secondColor, size: 20),
                         ),
                         imageBuilder: (context, imageProvider) => CircleAvatar(
@@ -149,8 +143,10 @@ class _CollaboratorsScreenForSuperState
                       ),
                       subtitle: Text(
                         "${item.email}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 12),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -165,7 +161,7 @@ class _CollaboratorsScreenForSuperState
                             icon: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.person_add_outlined,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -178,9 +174,7 @@ class _CollaboratorsScreenForSuperState
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
-                                        .copyWith(
-                                            color: AppColor.borderColor,
-                                            fontSize: 12)),
+                                        .copyWith(color: AppColor.borderColor, fontSize: 12)),
                               ),
                               PopupMenuItem(
                                 value: 2,
@@ -188,9 +182,7 @@ class _CollaboratorsScreenForSuperState
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
-                                        .copyWith(
-                                            color: AppColor.borderColor,
-                                            fontSize: 12)),
+                                        .copyWith(color: AppColor.borderColor, fontSize: 12)),
                               ),
                             ],
                             onSelected: (value) {
@@ -209,7 +201,7 @@ class _CollaboratorsScreenForSuperState
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.update_outlined,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -224,7 +216,7 @@ class _CollaboratorsScreenForSuperState
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(Icons.info_outline,
+                              child: const Icon(Icons.info_outline,
                                   color: AppColor.secondColor, size: 20),
                             ),
                           ),
@@ -235,22 +227,20 @@ class _CollaboratorsScreenForSuperState
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
                 noItemsFoundIndicatorBuilder: (context) =>
-                    Center(child: Text("No Collaborators found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
+                    const Center(child: Text("No Collaborators found")),
+                newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
+                firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
               ),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                   color: AppColor.whiteColor,
                   thickness: 1,
@@ -269,8 +259,8 @@ class _CollaboratorsScreenForSuperState
       context: context,
       builder: (context) {
         return BlocProvider(
-          create: (context) => CollaboratorCubit(
-              collaboratorRepository: injectCollaboratorRepository()),
+          create: (context) =>
+              CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository()),
           child: Addcollaborator(
             onOpportunityAdded: onOpportunityAdded,
           ),
@@ -310,19 +300,16 @@ class _CollaboratorsScreenForSuperState
               return BlocBuilder<AdminCubit, AdminState>(
                 bloc: adminCubit,
                 builder: (context, adminState) {
-                  if (collaboratorState is CollaboratorSuccess &&
-                      adminState is AdminSuccess) {
+                  if (collaboratorState is CollaboratorSuccess && adminState is AdminSuccess) {
                     return InfoCollaborator(
                       collaborator: collaboratorState.collaboratorData,
                       admin: adminState.getAdmin ?? [],
                     );
                   } else if (collaboratorState is CollaboratorError) {
-                    return Center(
-                        child: Text(collaboratorState.errorMessage ?? ""));
+                    return Center(child: Text(collaboratorState.errorMessage ?? ""));
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                          color: AppColor.secondColor),
+                    return const Center(
+                      child: CircularProgressIndicator(color: AppColor.secondColor),
                     );
                   }
                 },
@@ -345,28 +332,22 @@ class _CollaboratorsScreenForSuperState
           child: BlocBuilder<AdminCubit, AdminState>(
             builder: (context, state) {
               if (state is AdminLoading) {
-                return Center(
-                    child:
-                        CircularProgressIndicator(color: AppColor.secondColor));
+                return const Center(child: CircularProgressIndicator(color: AppColor.secondColor));
               } else if (state is AdminSuccess) {
                 final admins = state.getAdmin ?? []; // Get the list of admins
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Admin',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 15)),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
                     content: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(gapPadding: 10),
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                       ),
-                      hint: Text('Select Admin'),
+                      hint: const Text('Select Admin'),
                       value: selectedClientId,
                       items: admins.map((GetAdmin admin) {
                         return DropdownMenuItem<String>(
@@ -384,25 +365,22 @@ class _CollaboratorsScreenForSuperState
                       Row(
                         children: [
                           Flexible(
-                            child: Container(
+                            child: SizedBox(
                               height: 30.h,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(); // Close the dialog
                                 },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.greyColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                                 child: Center(
                                     child: Text('Cancel',
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleSmall!
-                                            .copyWith(
-                                                fontSize: 16,
-                                                color: AppColor.thirdColor))),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.greyColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.r)))),
+                                            .copyWith(fontSize: 16, color: AppColor.thirdColor))),
                               ),
                             ),
                           ),
@@ -410,30 +388,25 @@ class _CollaboratorsScreenForSuperState
                             width: 8.w,
                           ),
                           Flexible(
-                            child: Container(
+                            child: SizedBox(
                               height: 30.h,
                               child: ElevatedButton(
-                                child: Text('Assign',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                            fontSize: 16,
-                                            color: AppColor.whiteColor)),
                                 onPressed: () {
                                   if (selectedClientId != null) {
-                                    context
-                                        .read<CollaboratorCubit>()
-                                        .assignCollaboratorToAdmin(collaboratorId,
-                                            int.parse(selectedClientId!));
+                                    context.read<CollaboratorCubit>().assignCollaboratorToAdmin(
+                                        collaboratorId, int.parse(selectedClientId!));
                                     Navigator.of(context).pop();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.buttonColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                child: Text('Assign',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(fontSize: 16, color: AppColor.whiteColor)),
                               ),
                             ),
                           ),
@@ -446,33 +419,28 @@ class _CollaboratorsScreenForSuperState
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
-                    title: Text('Select Admin'),
-                    content:
-                        Text('Failed to load admins: ${state.errorMessage}'),
+                    title: const Text('Select Admin'),
+                    content: Text('Failed to load admins: ${state.errorMessage}'),
                     actions: [
-                      Container(
+                      SizedBox(
                         height: 30.h,
                         width: 120.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.greyColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                           child: Center(
                               child: Text('Cancel',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
-                                      .copyWith(
-                                          fontSize: 16,
-                                          color: AppColor.thirdColor))),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.greyColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
+                                      .copyWith(fontSize: 16, color: AppColor.thirdColor))),
                         ),
                       ),
                     ],
@@ -499,29 +467,24 @@ class _CollaboratorsScreenForSuperState
           child: BlocBuilder<ClientCubit, ClientState>(
             builder: (context, state) {
               if (state is ClientLoading) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(color: AppColor.secondColor),
                 );
               } else if (state is ClientSuccess) {
-                final clients =
-                    state.getClient ?? []; // Get the list of clients
+                final clients = state.getClient ?? []; // Get the list of clients
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Client',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 15)),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
                     content: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(gapPadding: 10),
                         contentPadding: EdgeInsets.symmetric(horizontal: 5),
                       ),
-                      hint: Text('Select Client'),
+                      hint: const Text('Select Client'),
                       value: selectedClientId,
                       items: clients.map((Client client) {
                         return DropdownMenuItem<String>(
@@ -539,58 +502,49 @@ class _CollaboratorsScreenForSuperState
                       Row(
                         children: [
                           Flexible(
-                            child: Container(
+                            child: SizedBox(
                               height: 30.h,
                               width: 120.w,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(); // Close the dialog
                                 },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.greyColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                                 child: Center(
                                   child: Text('Cancel',
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall!
-                                          .copyWith(
-                                              fontSize: 16,
-                                              color: AppColor.thirdColor)),
+                                          .copyWith(fontSize: 16, color: AppColor.thirdColor)),
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.greyColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.r)))),
                               ),
                             ),
                           ),
                           SizedBox(width: 8.w),
                           Flexible(
-                            child: Container(
+                            child: SizedBox(
                               height: 30.h,
                               width: 120.w,
                               child: ElevatedButton(
-                                child: Text('Assign',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                            fontSize: 16,
-                                            color: AppColor.whiteColor)),
                                 onPressed: () {
                                   if (selectedClientId != null) {
-                                    context
-                                        .read<CollaboratorCubit>()
-                                        .assignCollaboratorToClient(
-                                            collaboratorId,
-                                            int.parse(selectedClientId!));
+                                    context.read<CollaboratorCubit>().assignCollaboratorToClient(
+                                        collaboratorId, int.parse(selectedClientId!));
                                     Navigator.of(context).pop();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.buttonColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                child: Text('Assign',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(fontSize: 16, color: AppColor.whiteColor)),
                               ),
                             ),
                           ),
@@ -603,34 +557,29 @@ class _CollaboratorsScreenForSuperState
                 return Container(
                   height: 155.h,
                   width: 319.w,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
-                    title: Text('Select Client'),
-                    content:
-                        Text('Failed to load clients: ${state.errorMessage}'),
+                    title: const Text('Select Client'),
+                    content: Text('Failed to load clients: ${state.errorMessage}'),
                     actions: [
-                      Container(
+                      SizedBox(
                         height: 30.h,
                         width: 120.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.greyColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                           child: Center(
                             child: Text('Cancel',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleSmall!
-                                    .copyWith(
-                                        fontSize: 16,
-                                        color: AppColor.thirdColor)),
+                                    .copyWith(fontSize: 16, color: AppColor.thirdColor)),
                           ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.greyColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ],

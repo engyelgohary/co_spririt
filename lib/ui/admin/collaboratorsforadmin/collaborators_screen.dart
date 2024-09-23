@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spririt/data/api/apimanager.dart';
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_admin_cubit.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/infoCollaborator.dart';
@@ -63,7 +64,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
               pagingController: collaboratorToAdminCubit.pagingController,
               builderDelegate: PagedChildBuilderDelegate<Collaborator>(
                 itemBuilder: (context, item, index) {
-                  final adminImage = 'http://10.10.99.13:3090${item.pictureLocation}';
+                  final adminImage = 'http://${ApiConstants.baseUrl}${item.pictureLocation}';
                   return ListTile(
                     leading: CachedNetworkImage(
                       imageUrl: adminImage,

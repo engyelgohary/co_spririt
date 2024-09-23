@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../admin/home/home_admin.dart';
+import '../../admin/opportunities/opportunities_v2.dart';
 part 'login_model_view_state.dart';
 
 class LoginModelViewCubit extends Cubit<LoginModelViewState> {
@@ -21,10 +22,11 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
   void login(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       emit(LoginModelViewLoading());
-      String? token = await authRepository.login(email: emailController.text, password: passwordController.text);
+      String? token = await authRepository.login(
+          email: emailController.text, password: passwordController.text);
       if (token != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);  // Save the token
+        await prefs.setString('token', token); // Save the token
         print('Token: $token');
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         print(decodedToken);
@@ -38,9 +40,12 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               int? superAdminId = int.tryParse(decodedToken['nameid']?.toString() ?? '');
               if (superAdminId != null) {
-                await prefs.setInt('superAdminId', superAdminId);}
+                await prefs.setInt('superAdminId', superAdminId);
+              }
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenSuperAdmin(superAdminId: roleId,)));
+                emit(LoginModelViewSuccess(HomeScreenSuperAdmin(
+                  superAdminId: roleId,
+                )));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Admin.');
@@ -62,7 +67,10 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               print('Fetching admin details for ID: $adminId');
               GetAdmin? admin = await authRepository.fetchAdminDetails(adminId);
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenAdmin(adminId: roleId,admin: admin!,)));
+                emit(LoginModelViewSuccess(HomeScreenAdmin(
+                  adminId: roleId,
+                  admin: admin!,
+                )));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Admin.');
@@ -71,11 +79,29 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               break;
             case "2":
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenColla(CollaboratorId:roleId)));
+                emit(LoginModelViewSuccess(HomeScreenColla(CollaboratorId: roleId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Collaborator.');
                 emit(LoginModelViewError('Role ID "nameid" not found for Collaborator.'));
+              }
+              break;
+            case "3":
+              if (roleId != null) {
+                emit(LoginModelViewSuccess(const OpportunitiesV2()));
+                print(decodedToken);
+              } else {
+                print('Role ID "nameid" not found for Opportunity Analyzer.');
+                emit(LoginModelViewError('Role ID "nameid" not found for Opportunity Analyzer.'));
+              }
+              break;
+            case "4":
+              if (roleId != null) {
+                emit(LoginModelViewSuccess(const OpportunitiesV2()));
+                print(decodedToken);
+              } else {
+                print('Role ID "nameid" not found for Opportunity Owner.');
+                emit(LoginModelViewError('Role ID "nameid" not found for Opportunity Owner.'));
               }
               break;
             default:

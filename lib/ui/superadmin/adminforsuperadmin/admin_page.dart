@@ -6,13 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../utils/components/appbar.dart';
 import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
 import '../../../data/model/GetAdmin.dart';
 import 'Cubit/admin_cubit.dart';
 import 'addAdminDialog.dart';
 import 'infoAdmin.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 
 class AdminScreenForSuper extends StatefulWidget {
   @override
@@ -33,6 +33,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+
   void onOpportunityAdded() {
     viewModel.pagingController.refresh();
   }
@@ -63,13 +64,13 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
           'Admins',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
         actions: [
           IconButton(
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+              child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
               showAddBottomSheet();
@@ -86,7 +87,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<GetAdmin>(
                 itemBuilder: (context, item, index) {
-                  final adminImage = 'http://10.10.99.13:3090${item.pictureLocation}';
+                  final adminImage = 'http://${ApiConstants.baseUrl}${item.pictureLocation}';
                   return Slidable(
                     startActionPane: ActionPane(
                       extentRatio: .22,
@@ -95,7 +96,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                         SlidableAction(
                           borderRadius: BorderRadius.circular(20),
                           onPressed: (context) {
-                            context.read<AdminCubit>().deleteAdmin(item.id??1);
+                            context.read<AdminCubit>().deleteAdmin(item.id ?? 1);
                           },
                           backgroundColor: AppColor.errorColor,
                           foregroundColor: AppColor.whiteColor,
@@ -107,11 +108,13 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                     child: ListTile(
                       leading: CachedNetworkImage(
                         imageUrl: adminImage,
-                        placeholder: (context, url) => CircularProgressIndicator(color: AppColor.secondColor,),
+                        placeholder: (context, url) => const CircularProgressIndicator(
+                          color: AppColor.secondColor,
+                        ),
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
                           radius: 20.r,
-                          child: Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                          child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                         ),
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           backgroundImage: imageProvider,
@@ -119,11 +122,17 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                       ),
                       title: Text(
                         '${item.firstName} ${item.lastName}',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w700),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w700),
                       ),
                       subtitle: Text(
-                        item.email ??"",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w400, fontSize: 12),
+                        item.email ?? "",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -135,7 +144,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.update_outlined,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -150,7 +159,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.info_outline,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -163,20 +172,20 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                   );
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
-                noItemsFoundIndicatorBuilder: (context) => Center(child: Text("No Admins found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
+                noItemsFoundIndicatorBuilder: (context) => const Center(child: Text("No Admins found")),
+                newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
+                firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
               ),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                   color: AppColor.whiteColor,
                   thickness: 1,
@@ -196,23 +205,24 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
       builder: (context) {
         return BlocProvider(
           create: (context) => AdminCubit(adminRepository: injectAdminRepository()),
-          child: AddAdmin(onOpportunityAdded: onOpportunityAdded,),
+          child: AddAdmin(
+            onOpportunityAdded: onOpportunityAdded,
+          ),
         );
       },
     );
   }
+
   void showUpdateAdminDialog(GetAdmin admin) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return BlocProvider.value(
-          value: viewModel,
-         child:  UpdateAdminDialog(admin:admin)
-        );
+        return BlocProvider.value(value: viewModel, child: UpdateAdminDialog(admin: admin));
       },
     );
   }
+
   void showAdminDetailsBottomSheet(int id) {
     showModalBottomSheet(
       context: context,
@@ -223,15 +233,17 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
           builder: (context, state) {
             if (state is AdminSuccess) {
               if (state.adminData == null) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(
-                      color: AppColor.secondColor,
-                    )); }
-                return InfoAdmin(state.adminData);
+                  color: AppColor.secondColor,
+                ));
+              }
+              return InfoAdmin(state.adminData);
             } else if (state is AdminError) {
-              return Center(child: Text(state.errorMessage??""));
+              return Center(child: Text(state.errorMessage ?? ""));
             } else {
-              return Center(child: CircularProgressIndicator(
+              return const Center(
+                  child: CircularProgressIndicator(
                 color: AppColor.secondColor,
               ));
             }
@@ -241,7 +253,3 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
     );
   }
 }
-
-
-
-

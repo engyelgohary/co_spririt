@@ -17,22 +17,22 @@ class AddOW extends StatefulWidget {
 }
 
 class _AddOWState extends State<AddOW> {
-  late OpportunityOwnerCubit viewModel; // Change to OpportunityOwnerCubit
+  late OpportunityOwnerCubit viewModel;
 
   @override
   Widget build(BuildContext context) {
-    viewModel = BlocProvider.of<OpportunityOwnerCubit>(context); // Change to OpportunityOwnerCubit
+    viewModel = BlocProvider.of<OpportunityOwnerCubit>(context);
 
-    return BlocConsumer<OpportunityOwnerCubit, OpportunityOwnerState>( // Change to OpportunityOwnerState
+    return BlocConsumer<OpportunityOwnerCubit, OpportunityOwnerState>(
       listener: (context, state) {
-        if (state is OpportunityOwnerLoading) { // Change to OpportunityOwnerLoading
+        if (state is OpportunityOwnerLoading) {
           CircularProgressIndicator();
-        } else if (state is OpportunityOwnerError) { // Change to OpportunityOwnerError
+        } else if (state is OpportunityOwnerError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage ?? ""),
           ));
-        } else if (state is OpportunityOwnerSuccess) { // Change to OpportunityOwnerSuccess
+        } else if (state is OpportunityOwnerSuccess) {
           widget.onOpportunityAdded();
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -55,7 +55,7 @@ class _AddOWState extends State<AddOW> {
                     onTap: viewModel.selectImage,
                     child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
                       builder: (context, state) {
-                        if (state is OpportunityOwnerImageSelected) { // Change to OpportunityOwnerImageSelected
+                        if (state is OpportunityOwnerImageSelected) {
                           return Center(
                             child: CircleAvatar(
                               radius: 60.r,
@@ -211,7 +211,7 @@ class _AddOWState extends State<AddOW> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (viewModel.formKey.currentState!.validate()) {
-                              viewModel.addOW(); // Call the addOW method to submit the form
+                              viewModel.addOW();
                             }
                           },
                           child: Center(

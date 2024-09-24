@@ -172,7 +172,7 @@ class _DashboardState extends State<Dashboard> {
                               height: MediaQuery.of(context).size.height * 0.04),
                           Expanded(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start, // Aligns columns to the start
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Expanded(
                                   child: ListView.builder(
@@ -198,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                                     },
                                   ),
                                 ),
-                                SizedBox(width: 40), // Add space between columns (adjust width as needed)
+                                SizedBox(width: 40),
                                 Expanded(
                                   child: ListView.builder(
                                     itemCount: scores.length ~/ 2,
@@ -212,7 +212,6 @@ class _DashboardState extends State<Dashboard> {
                                               "${scores[index + (scores.length + 1) ~/ 2]['name']}: ",
                                               style: TextStyle(fontSize: 18),
                                             ),
-                                            // Display score with specified color
                                             Text(
                                               "${scores[index + (scores.length + 1) ~/ 2]['score']}",
                                               style: TextStyle(fontSize: 18, color: Color(0xFF4169E1),fontWeight: FontWeight.bold), // Set score color

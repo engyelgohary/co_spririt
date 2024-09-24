@@ -1,29 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/admin/opportunities/opportunities_v2.dart';
-import 'package:co_spririt/ui/collaborator/Menu/menu_collaborator.dart';
-import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
-import 'package:co_spririt/ui/collaborator/opportunities/opportunities_od.dart';
+import 'package:co_spririt/ui/od/Menu/menu_od.dart';
+import 'package:co_spririt/ui/od/Message/oppy_od.dart';
+import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spririt/ui/od/opportunities/opportunities_od.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/Post.dart';
-import '../Message/Message_colla.dart';
-import '../Profile/profile_collabrator.dart';
+import '../Message/Message_od.dart';
+import '../Profile/profile_od.dart';
 
-class HomeScreenColla extends StatefulWidget {
-  HomeScreenColla({Key? key, required this.CollaboratorId}) : super(key: key);
+class HomeScreenOD extends StatefulWidget {
+  HomeScreenOD({Key? key, required this.CollaboratorId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String CollaboratorId;
 
   @override
-  State<HomeScreenColla> createState() => _HomeScreenCollaState();
+  State<HomeScreenOD> createState() => _HomeScreenODState();
 }
 
-class _HomeScreenCollaState extends State<HomeScreenColla> {
+class _HomeScreenODState extends State<HomeScreenOD> {
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;
 
@@ -43,29 +44,32 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
           Stack(
             children: [
-              Image.asset(
-                '${AppUI.imgPath}Rectangle 15.png',
-                height: 191.h,
-                width: 375.w,
-                fit: BoxFit.fill,
+              SizedBox(
+                width: screenWidth,
+                height: screenHeight * 0.25,
+                child: SvgPicture.asset(
+                  '${AppUI.svgPath}rectangle_od.svg',
+                  fit: BoxFit.fill,
+                ),
               ),
               Column(
                 children: [
                   SizedBox(
-                    height: 50.h,
+                    height: 30.h,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(
-                          '${AppUI.imgPath}logo.png',
+                        SvgPicture.asset(
+                          '${AppUI.svgPath}corelia_logo_od.svg',
                           height: 28.h,
                           width: 100.w,
                           // fit: BoxFit.cover,
@@ -74,14 +78,14 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                           onTap: () {
                             AppUtil.mainNavigator(
                               context,
-                              const NotificationScreenCollaborator(),
+                              const NotificationScreenOD(),
                             );
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: 13.w),
                             child: const Icon(
                               Icons.notifications_outlined,
-                              color: AppUI.borderColor,
+                              color: Colors.white,
                               size: 28,
                             ),
                           ),
@@ -90,130 +94,110 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                     ),
                   ),
                   const SizedBox(
-                    height: 12,
+                    height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Column(
-                        children: [
-                          ImageIcon(
-                            AssetImage(
-                              "${AppUI.iconPath}Home.png",
+                      InkWell(
+                        onTap: () {
+                          AppUtil.mainNavigator(
+                              context,
+                              MenuScreenOD(
+                                ODId: widget.CollaboratorId,
+                              ));
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              "${AppUI.svgPath}menu.svg",
+                              width: 35,
                             ),
-                            size: 24,
-                            color: AppUI.secondColor,
-                            semanticLabel: 'Home',
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          CustomText(
-                            text: 'Home',
-                            fontSize: 12,
-                            color: AppUI.secondColor,
-                            fontWeight: FontWeight.w400,
-                          )
-                        ],
+                            const CustomText(
+                              text: 'Menu',
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            )
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          AppUtil.mainNavigator(
+                              context, ProfileScreenOD(collaboratorId: widget.CollaboratorId));
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset("${AppUI.svgPath}profile.svg", width: 35),
+                            const CustomText(
+                              text: 'Profile',
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            )
+                          ],
+                        ),
                       ),
                       Column(
                         children: [
                           InkWell(
                               onTap: () =>
                                   AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
-                              child:
-                                  const Icon(Icons.lightbulb_outline, color: AppColor.borderColor)),
+                              child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
+                                  width: 35)),
                           const SizedBox(height: 8),
                           const CustomText(
-                            text: 'Opportunity',
+                            text: 'Opportunities',
                             fontSize: 12,
-                            color: AppUI.borderColor,
+                            color: Colors.white,
                             fontWeight: FontWeight.w400,
                           ),
                         ],
                       ),
                       InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(context, const MessagesScreenColla());
-                        },
-                        child: const Column(
+                        // onTap: () => snackBar(context, "Not implemented"),
+                        onTap: () => AppUtil.mainNavigator(context, OppyOD()),
+                        child: Column(
                           children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}Caht.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
+                            SvgPicture.asset(
+                              "${AppUI.svgPath}oppy.svg",
+                              width: 35,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            CustomText(
+                            const CustomText(
+                              text: 'Oppy',
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            )
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          AppUtil.mainNavigator(context, const MessagesScreenOD());
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              "${AppUI.svgPath}chat.svg",
+                              width: 35,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const CustomText(
                               text: 'Messages',
                               fontSize: 12,
-                              color: AppUI.borderColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.w400,
                             )
                           ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(
-                              context,
-                              ProfileScreenColla(
-                                collaboratorId: widget.CollaboratorId,
-                              ));
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                              AssetImage(
-                                "${AppUI.iconPath}profile.png",
-                              ),
-                              size: 24,
-                              color: AppUI.borderColor,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Profile',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          AppUtil.mainNavigator(
-                              context,
-                              MenuScreenCollaborators(
-                                CollaboratorId: widget.CollaboratorId,
-                              ));
-                        },
-                        child: const Column(
-                          children: [
-                            ImageIcon(
-                                AssetImage(
-                                  "${AppUI.iconPath}menu.png",
-                                ),
-                                size: 24,
-                                color: AppUI.borderColor),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            CustomText(
-                              text: 'Menu',
-                              fontSize: 12,
-                              color: AppUI.borderColor,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
-                        ),
-                      )
                     ],
                   )
                 ],
@@ -341,6 +325,57 @@ class _HomeScreenCollaState extends State<HomeScreenColla> {
                                             SizedBox(
                                                 height: MediaQuery.of(context).size.height * 0.01),
                                           ],
+                                          const Divider(),
+                                          const Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.remove_red_eye,
+                                                    size: 15,
+                                                    color: ODColorScheme.buttonColor,
+                                                  ),
+                                                  Text(" 15", style: TextStyle(fontSize: 12)),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.thumb_up_sharp,
+                                                        size: 15,
+                                                        color: ODColorScheme.buttonColor,
+                                                      ),
+                                                      Text(" 7    ",
+                                                          style: TextStyle(fontSize: 12)),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.comment,
+                                                        size: 15,
+                                                        color: ODColorScheme.buttonColor,
+                                                      ),
+                                                      Text(" 19  ", style: TextStyle(fontSize: 12)),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.arrow_forward_outlined,
+                                                        size: 15,
+                                                        color: ODColorScheme.buttonColor,
+                                                      ),
+                                                      Text(" 3  ", style: TextStyle(fontSize: 12)),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),

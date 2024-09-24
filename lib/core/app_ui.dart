@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppUI {
-
   static const Color basicColor = Color(0xff553D8E);
   static const Color twoBasicColor = Color(0xff8688A1);
   static const Color secondColor = Color(0xff00A099);
@@ -22,5 +21,6 @@ class AppUI {
   //static Color shimmerColor = Colors.grey[350]!;
 
   static const String imgPath = "assets/images/";
-  static const String iconPath = "assets/icons/";
+  static const String iconPath = "assets/icons/png/";
+  static const String svgPath = "assets/icons/svg/";
 }

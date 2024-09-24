@@ -150,7 +150,11 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   Column(
                     children: [
                       InkWell(
-                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2(userType: 0,)),
+                          onTap: () => AppUtil.mainNavigator(
+                              context,
+                              const OpportunitiesV2(
+                                userType: 0,
+                              )),
                           child: const Icon(Icons.lightbulb_outline, color: AppColor.borderColor)),
                       const SizedBox(height: 8),
                       const CustomText(
@@ -518,7 +522,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                         if (post.pictureLocation != null) ...[
                                           CachedNetworkImage(
                                             imageUrl:
-                                                'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                             placeholder: (context, url) =>
                                                 const CircularProgressIndicator(),
                                             errorWidget: (context, url, error) =>

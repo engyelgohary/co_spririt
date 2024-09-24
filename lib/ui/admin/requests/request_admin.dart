@@ -6,7 +6,7 @@ import '../../../data/dip.dart';
 import '../../../data/model/RequestsResponse.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../collaborator/requests/cubit/requests_cubit.dart';
+import '../../od/requests/cubit/requests_cubit.dart';
 import '../../superadmin/adminforsuperadmin/infoAdmin.dart';
 
 class RequestAdmin extends StatefulWidget {

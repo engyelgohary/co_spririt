@@ -10,10 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../data/model/RequestsResponse.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../collaborator/requests/cubit/requests_cubit.dart';
-import '../adminforsuperadmin/infoAdmin.dart';
+import '../../od/requests/cubit/requests_cubit.dart';
 import 'AddType.dart';
 
 class RequestSuperAdmin extends StatefulWidget {
@@ -67,7 +65,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
           'Requests',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
         actions: [
           InkWell(
           onTap: () => showAddDialog(),
@@ -75,11 +73,11 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
         margin: EdgeInsets.only(right: 10.w),
         height: 60.h,
         width: 32.w,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: AppColor.secondColor,
         ),
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
           size: 20,
@@ -145,7 +143,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                               child: CircleAvatar(
                                                 backgroundColor: AppColor.SkyColor,
                                                 radius: 15.r,
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.update_outlined,
                                                   color: AppColor.secondColor,
                                                   size: 15,
@@ -160,7 +158,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                               child: CircleAvatar(
                                                   backgroundColor: AppColor.SkyColor,
                                                   radius: 15.r,
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     Icons.info_outline,
                                                     color: AppColor.secondColor,
                                                     size: 15,
@@ -175,14 +173,14 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                       },
                       firstPageErrorIndicatorBuilder: buildErrorIndicator,
                       noItemsFoundIndicatorBuilder: (context) =>
-                          Center(child: Text("No Clients found")),
-                      newPageProgressIndicatorBuilder: (_) => Center(
+                          const Center(child: Text("No Clients found")),
+                      newPageProgressIndicatorBuilder: (_) => const Center(
                         child: CircularProgressIndicator(
                           valueColor:
                           AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                         ),
                       ),
-                      firstPageProgressIndicatorBuilder: (_) => Center(
+                      firstPageProgressIndicatorBuilder: (_) => const Center(
                         child: CircularProgressIndicator(
                           valueColor:
                           AlwaysStoppedAnimation<Color>(AppColor.secondColor),
@@ -190,7 +188,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                       ),
                     ),
                     separatorBuilder: (context, index) {
-                      return Divider(
+                      return const Divider(
                         height: 0,
                         color: AppColor.whiteColor,
                         thickness: 1,
@@ -227,7 +225,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
           builder: (context, state) {
             if (state is TypesSuccess) {
               if (state.typeData == null) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(
                       color: AppColor.secondColor,
                     )); }
@@ -235,7 +233,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
             } else if (state is TypesError) {
               return Center(child: Text(state.errorMessage??""));
             } else {
-              return Center(child: CircularProgressIndicator(
+              return const Center(child: CircularProgressIndicator(
                 color: AppColor.secondColor,
               ));
             }

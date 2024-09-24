@@ -1,5 +1,6 @@
 import 'package:co_spririt/data/model/GetAdmin.dart';
-import 'package:co_spririt/ui/collaborator/Message/chat_colla.dart';
+import 'package:co_spririt/ui/od/Message/chat_od.dart';
+import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,13 +10,13 @@ import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class MessagesScreenColla extends StatefulWidget {
-  const MessagesScreenColla({super.key});
+class MessagesScreenOD extends StatefulWidget {
+  const MessagesScreenOD({super.key});
   @override
-  State<MessagesScreenColla> createState() => _MessagesScreenCollaState();
+  State<MessagesScreenOD> createState() => _MessagesScreenODState();
 }
 
-class _MessagesScreenCollaState extends State<MessagesScreenColla> {
+class _MessagesScreenODState extends State<MessagesScreenOD> {
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final signalr = Signalr();
@@ -31,39 +32,19 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
 
   @override
   Widget build(BuildContext context) {
+    double width = AppUtil.responsiveWidth(context);
+
     return Scaffold(
+      appBar: customAppBar(
+        title: "Messages",
+        context: context,
+        textColor: ODColorScheme.mainColor,
+        backArrowColor: ODColorScheme.buttonColor,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: Column(
           children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 42,
-                  width: 42,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                  child: const BackButton(
-                    color: AppUI.whiteColor,
-                  ),
-                ),
-                const SizedBox(
-                  width: 100,
-                ),
-                const Center(
-                  child: CustomText(
-                    text: 'Messages',
-                    fontSize: 20,
-                    color: AppUI.basicColor,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
             ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
@@ -99,7 +80,7 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                 signalr.receiverId = admin.id;
                                 AppUtil.mainNavigator(
                                   context,
-                                  ChatScreenColla(
+                                  ChatScreenOD(
                                     receiverId: admin.id ?? 0,
                                     email: admin.email ?? "",
                                     name: admin.firstName ?? "",
@@ -135,21 +116,6 @@ class _MessagesScreenCollaState extends State<MessagesScreenColla> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 29,
-                                      width: 29,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(30),
-                                          color: AppUI.secondColor),
-                                      child: const ImageIcon(
-                                        AssetImage(
-                                          '${AppUI.iconPath}send.png',
-                                        ),
-                                        color: AppUI.whiteColor,
-                                        size: 19,
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/data/repository/repoContract.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:co_spririt/ui/collaborator/home/home_colla.dart';
+import 'package:co_spririt/ui/od/home/home_od.dart';
 import 'package:co_spririt/ui/superadmin/home/home_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -79,7 +79,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               break;
             case "2":
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenColla(CollaboratorId: roleId)));
+                emit(LoginModelViewSuccess(HomeScreenOD(CollaboratorId: roleId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Collaborator.');

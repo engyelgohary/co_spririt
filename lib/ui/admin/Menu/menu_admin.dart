@@ -129,7 +129,6 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   ),
                   CustomMenuCard(
                     name: 'Log out',
-                    color: AppColor.secondColor,
                     onFunction: () {
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     },

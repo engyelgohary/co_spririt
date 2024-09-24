@@ -9,6 +9,7 @@ import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../admin/opportunities/opportunities_v2.dart';
+import '../OAForSuperAdmin/OA_screen.dart';
 import '../adminforsuperadmin/admin_page.dart';
 import '../clientsForSuperAdmin/client_screen.dart';
 import '../collaboratorforsuperadmin/collaborators_screen.dart';
@@ -40,6 +41,12 @@ class MenuScreenSuperAdmin extends StatelessWidget {
             name: 'Admins',
             onFunction: () {
               AppUtil.mainNavigator(context, AdminScreenForSuper());
+            },
+          ),
+          CustomMenuCard(
+            name: 'Opportunity Analyzers',
+            onFunction: () {
+              AppUtil.mainNavigator(context, OpportunityAnalyzersScreen());
             },
           ),
           CustomMenuCard(

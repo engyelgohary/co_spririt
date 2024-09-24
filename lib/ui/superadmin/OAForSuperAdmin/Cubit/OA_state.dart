@@ -18,3 +18,7 @@ class OpportunityAnalyzerImageSelected extends OpportunityAnalyzerState {
   final XFile image;
   OpportunityAnalyzerImageSelected(this.image);
 }
+final class OpportunityAnalyzerDetailsSuccess extends OpportunityAnalyzerState {
+  final OA opportunityAnalyzerData;
+  OpportunityAnalyzerDetailsSuccess({required this.opportunityAnalyzerData});
+}

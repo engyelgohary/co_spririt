@@ -1,15 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:co_spririt/data/model/OA.dart';
 import '../../../../data/repository/repoContract.dart';
 
 part 'OA_state.dart';
+
 class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
   OpportunityAnalyzerRepository opportunityAnalyzerRepository;
-  final PagingController<int, OA> pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, OA> pagingController = PagingController(
+      firstPageKey: 1);
 
   OpportunityAnalyzerCubit({required this.opportunityAnalyzerRepository})
       : super(OpportunityAnalyzerInitial()) {
@@ -27,16 +28,16 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
   XFile? image;
   XFile? updateImage;
 
-
   void selectImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery);
     if (pickedFile != null) {
       image = pickedFile;
       emit(OpportunityAnalyzerImageSelected(pickedFile));
     }
   }
 
-
+  // Fetch all Opportunity Analyzers
   void getAllOAs(int pageKey) async {
     emit(OpportunityAnalyzerLoading());
     try {
@@ -55,7 +56,20 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
     }
   }
 
-  // Register a new Opportunity Analyzer
+  Future<void> fetchOADetails(String id) async {
+    emit(OpportunityAnalyzerLoading());
+    try {
+      print("Fetching OA details for ID: $id");
+      final oaDetails = await opportunityAnalyzerRepository.fetchOADetails(id);
+      print("Fetched details: ${oaDetails.toString()}");
+      emit(OpportunityAnalyzerDetailsSuccess(opportunityAnalyzerData: oaDetails));
+    } catch (error) {
+      print("Error fetching details: $error");
+      emit(OpportunityAnalyzerError(errorMessage: error.toString()));
+    }
+  }
+
+
   void addOA() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -65,16 +79,18 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
       'phone': phone_controller.text,
       'email': email_controller.text,
       'canPost': canPost.toString(),
-      'password': 'OAPassword'
+      'password': 'AdminAdmin'
     };
 
     emit(OpportunityAnalyzerLoading());
 
     try {
       final response = await opportunityAnalyzerRepository.addOA(opportunityAnalyzerData, image);
+
       emit(OpportunityAnalyzerSuccess(opportunityAnalyzerData: response));
     } catch (e) {
       emit(OpportunityAnalyzerError(errorMessage: e.toString()));
     }
   }
+
 }

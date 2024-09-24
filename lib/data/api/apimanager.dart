@@ -36,8 +36,8 @@ class ApiConstants {
   static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
   static const String opportunitiesDeleteApi = '/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi = '/api/v1/opportunities';
-  static const String opportunityOwnerApi = '/OpportunityOwner/';
-  static const String opportunityAnalyzerApi = '/OpportunityAnalyzer/';
+  static const String opportunityOwnerApi = '/api/OpportunityOwner/';
+  static const String opportunityAnalyzerApi = '/api/OpportunityAnalyzer/';
   static const String superAdminTypes = '/api/v1/request-type';
   static const String adminRequests = '/api/v1/requests';
   static const String allPostsApi = '/api/v1/post';
@@ -1271,29 +1271,47 @@ class ApiManager {
     request.fields['password'] = opportunityAnalyzerData['password'];
 
     if (image != null) {
-      var mimeTypeData = lookupMimeType(image.path)!.split('/');
-      request.files.add(
-        http.MultipartFile(
-          'picture',
-          File(image.path).readAsBytes().asStream(),
-          File(image.path).lengthSync(),
-          filename: basename(image.path),
-          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
-        ),
-      );
+      var mimeTypeData = lookupMimeType(image.path)?.split('/');
+      if (mimeTypeData != null) {
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      } else {
+        throw Exception('Could not determine MIME type for image.');
+      }
     }
 
     var response = await request.send();
+    print("Response Status: ${response.statusCode}");
+
+    var responseData = await http.Response.fromStream(response);
+    print("Response Body: ${responseData.body}");
 
     if (response.statusCode == 201) {
-      var responseData = await http.Response.fromStream(response);
       return OA.fromJson(jsonDecode(responseData.body));
     } else {
-      var responseData = await http.Response.fromStream(response);
-      throw Exception('Failed to add admin: ${responseData.body}');
+      throw Exception('Failed to add admin: ${responseData.statusCode} - ${responseData.body}');
     }
   }
 
+  Future<OA> fetchOADetails(String id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityAnalyzerApi}$id');
+
+    var response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+      return OA.fromJson(responseData);
+    } else {
+      throw Exception('Failed to fetch Opportunity Analyzer details: ${response.body}');
+    }
+  }
 
   Future<List<Opportunity>> getOpportunities() async {
     try {

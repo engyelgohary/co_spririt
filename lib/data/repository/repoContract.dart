@@ -117,9 +117,8 @@ abstract class RequestsDataSource{
 
 }
 
-//OA
-abstract class OpportunityAnalyzerRepository{
-  Future<List<OA>>getAllOAs({int page = 1});
+abstract class OpportunityAnalyzerRepository {
+  Future<List<OA>> getAllOAs({int page = 1});
   Future<OA> addOA(Map<String, dynamic> opportunityAnalyzerData, XFile? image);
-
+  Future<OA> fetchOADetails(String id);
 }

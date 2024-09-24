@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:co_spririt/data/model/Client.dart';
 import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/GetAdmin.dart';
+import 'package:co_spririt/data/model/OA.dart';
 import 'package:co_spririt/data/model/RequestsResponse.dart';
 import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../api/apimanager.dart';
+import '../../model/OW.dart';
 import '../repoContract.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -214,5 +217,46 @@ class RequestRepositoryImpl implements RequestsRepository{
   Future<void> respondToRequest(int requestId, bool response) {
   return requestsDataSource.respondToRequest(requestId, response);
   }
+}
 
+class OpportunityAnalyzerRepositoryImpl implements OpportunityAnalyzerRepository {
+  final ApiManager apiManager;
+
+  OpportunityAnalyzerRepositoryImpl({required this.apiManager});
+
+  @override
+  Future<OA> addOA(Map<String, dynamic> opportunityAnalyzerData, XFile? image) {
+    return apiManager.addOA(opportunityAnalyzerData, image);
+  }
+
+  @override
+  Future<List<OA>> getAllOAs({int page = 1}) {
+    return apiManager.getAllOAs(page: page);
+  }
+
+  @override
+  Future<OA> fetchOADetails(String id) {
+    return apiManager.fetchOADetails(id);
+  }
+}
+
+class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
+  final ApiManager apiManager;
+
+  OpportunityOwnerRepositoryImpl({required this.apiManager});
+
+  @override
+  Future<OW> addOW(Map<String, dynamic> opportunityOwnerData, XFile? image) {
+    return apiManager.addOW(opportunityOwnerData, image);
+  }
+
+  @override
+  Future<List<OW>> getAllOWs({int page = 1}) {
+    return apiManager.getAllOWs(page: page);
+  }
+
+  @override
+  Future<OW> fetchOWDetails(String id) {
+    return apiManager.fetchOWDetails(id);
+  }
 }

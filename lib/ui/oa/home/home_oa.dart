@@ -15,16 +15,16 @@ import '../../../data/model/Post.dart';
 import '../Message/Message_od.dart';
 import '../Profile/profile_od.dart';
 
-class HomeScreenOD extends StatefulWidget {
-  HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
+class HomeScreenOA extends StatefulWidget {
+  HomeScreenOA({Key? key, required this.OAId}) : super(key: key);
   static String routeName = 'home screen admin';
-  final String ODId;
+  final String OAId;
 
   @override
-  State<HomeScreenOD> createState() => _HomeScreenODState();
+  State<HomeScreenOA> createState() => _HomeScreenOAState();
 }
 
-class _HomeScreenODState extends State<HomeScreenOD> {
+class _HomeScreenOAState extends State<HomeScreenOA> {
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;
 
@@ -54,7 +54,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                 width: screenWidth,
                 height: screenHeight * 0.25,
                 child: SvgPicture.asset(
-                  '${AppUI.svgPath}rectangle_od.svg',
+                  '${AppUI.svgPath}rectangle_oa.svg',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -104,7 +104,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                           AppUtil.mainNavigator(
                               context,
                               MenuScreenOD(
-                                ODId: widget.ODId,
+                                ODId: widget.OAId,
                               ));
                         },
                         child: Column(
@@ -125,7 +125,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(
-                              context, ProfileScreenOD(collaboratorId: widget.ODId));
+                              context, ProfileScreenOD(collaboratorId: widget.OAId));
                         },
                         child: Column(
                           children: [

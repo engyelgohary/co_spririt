@@ -7,7 +7,7 @@ import '../../../data/model/RequestsResponse.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../od/requests/cubit/requests_cubit.dart';
-import '../../superadmin/adminforsuperadmin/infoAdmin.dart';
+import '../../om/adminforsuperadmin/infoAdmin.dart';
 
 class RequestAdmin extends StatefulWidget {
   static const String routeName = 'Request Admin';

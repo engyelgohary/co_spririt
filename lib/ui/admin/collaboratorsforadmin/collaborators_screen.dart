@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/api/apimanager.dart';
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_admin_cubit.dart';
-import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/infoCollaborator.dart';
+import 'package:co_spririt/ui/om/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +12,8 @@ import '../../../core/app_util.dart';
 import '../../../data/model/Collaborator.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
-import '../../superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import '../../om/adminforsuperadmin/Cubit/admin_cubit.dart';
+import '../../om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import '../Message/chat_admin.dart';
 
 class CollaboratorsAdminScreen extends StatefulWidget {

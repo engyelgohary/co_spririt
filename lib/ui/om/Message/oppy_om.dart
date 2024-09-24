@@ -11,16 +11,16 @@ import '../../../data/model/message.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
-class OppyOD extends StatefulWidget {
-  const OppyOD({
+class OppyOM extends StatefulWidget {
+  const OppyOM({
     super.key,
   });
 
   @override
-  State<OppyOD> createState() => _OppyOStateD();
+  State<OppyOM> createState() => _OppyOStateD();
 }
 
-class _OppyOStateD extends State<OppyOD> {
+class _OppyOStateD extends State<OppyOM> {
   final Signalr signalr = Signalr();
   final TextEditingController messageController = TextEditingController();
   final ListNotifier<Message> listNotifier = ListNotifier(list: []);

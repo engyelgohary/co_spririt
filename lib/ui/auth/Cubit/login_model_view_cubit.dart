@@ -3,12 +3,13 @@ import 'package:co_spririt/data/model/GetAdmin.dart';
 import 'package:co_spririt/data/repository/repoContract.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:co_spririt/ui/od/home/home_od.dart';
-import 'package:co_spririt/ui/superadmin/home/home_superadmin.dart';
+import 'package:co_spririt/ui/om/home/home_superadmin.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../admin/home/home_admin.dart';
-import '../../admin/opportunities/opportunities_v2.dart';
+import '../../oa/home/home_oa.dart';
+import '../../ow/home/home_ow.dart';
 part 'login_model_view_state.dart';
 
 class LoginModelViewCubit extends Cubit<LoginModelViewState> {
@@ -67,8 +68,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               print('Fetching admin details for ID: $adminId');
               GetAdmin? admin = await authRepository.fetchAdminDetails(adminId);
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenAdmin(
-                  adminId: roleId,
+                emit(LoginModelViewSuccess(HomeScreenOM(
+                  OMId: roleId,
                   admin: admin!,
                 )));
                 print(decodedToken);
@@ -79,7 +80,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               break;
             case "2":
               if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenOD(CollaboratorId: roleId)));
+                emit(LoginModelViewSuccess(HomeScreenOD(ODId: roleId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Collaborator.');
@@ -88,7 +89,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               break;
             case "3":
               if (roleId != null) {
-                emit(LoginModelViewSuccess(const OpportunitiesV2()));
+                emit(LoginModelViewSuccess(HomeScreenOA(OAId: roleId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Opportunity Analyzer.');
@@ -97,7 +98,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               break;
             case "4":
               if (roleId != null) {
-                emit(LoginModelViewSuccess(const OpportunitiesV2()));
+                emit(LoginModelViewSuccess(HomeScreenOW(OWId: roleId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Opportunity Owner.');

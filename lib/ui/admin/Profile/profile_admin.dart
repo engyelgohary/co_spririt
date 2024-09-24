@@ -8,7 +8,7 @@ import '../../../data/dip.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
+import '../../om/adminforsuperadmin/Cubit/admin_cubit.dart';
 
 class ProfileScreenAdmin extends StatefulWidget {
   final String adminId;

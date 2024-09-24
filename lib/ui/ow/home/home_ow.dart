@@ -15,16 +15,16 @@ import '../../../data/model/Post.dart';
 import '../Message/Message_od.dart';
 import '../Profile/profile_od.dart';
 
-class HomeScreenOD extends StatefulWidget {
-  HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
+class HomeScreenOW extends StatefulWidget {
+  HomeScreenOW({Key? key, required this.OWId}) : super(key: key);
   static String routeName = 'home screen admin';
-  final String ODId;
+  final String OWId;
 
   @override
-  State<HomeScreenOD> createState() => _HomeScreenODState();
+  State<HomeScreenOW> createState() => _HomeScreenOWState();
 }
 
-class _HomeScreenODState extends State<HomeScreenOD> {
+class _HomeScreenOWState extends State<HomeScreenOW> {
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;
 
@@ -104,7 +104,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                           AppUtil.mainNavigator(
                               context,
                               MenuScreenOD(
-                                ODId: widget.ODId,
+                                ODId: widget.OWId,
                               ));
                         },
                         child: Column(
@@ -125,7 +125,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(
-                              context, ProfileScreenOD(collaboratorId: widget.ODId));
+                              context, ProfileScreenOD(collaboratorId: widget.OWId));
                         },
                         child: Column(
                           children: [

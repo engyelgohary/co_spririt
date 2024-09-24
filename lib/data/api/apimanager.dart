@@ -20,6 +20,7 @@ import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/OA.dart';
+import '../model/OW.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -1310,6 +1311,84 @@ class ApiManager {
       return OA.fromJson(responseData);
     } else {
       throw Exception('Failed to fetch Opportunity Analyzer details: ${response.body}');
+    }
+  }
+
+  //OW
+  Future<List<OW>> getAllOWs({int page = 1}) async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityOwnerApi, {
+      "page": page.toString(),
+    });
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = jsonDecode(response.body);
+        final List<OW> allOWs = jsonList.map((json) => OW.fromJson(json)).toList();
+        return allOWs;
+      } else {
+        throw Exception('Failed to load OWs. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching OWs: $error');
+      throw Exception('Error fetching OWs: $error');
+    }
+  }
+
+  // Add a new Opportunity Owner
+  Future<OW> addOW(Map<String, dynamic> opportunityOwnerData, XFile? image) async {
+    var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityOwnerApi);
+    var request = http.MultipartRequest('POST', uri);
+
+    request.fields['firstName'] = opportunityOwnerData['firstName'];
+    request.fields['lastName'] = opportunityOwnerData['lastName'];
+    request.fields['phone'] = opportunityOwnerData['phone'];
+    request.fields['email'] = opportunityOwnerData['email'];
+    request.fields['canPost'] = opportunityOwnerData['canPost'];
+    request.fields['password'] = opportunityOwnerData['password'];
+
+    if (image != null) {
+      var mimeTypeData = lookupMimeType(image.path)?.split('/');
+      if (mimeTypeData != null) {
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      } else {
+        throw Exception('Could not determine MIME type for image.');
+      }
+    }
+
+    var response = await request.send();
+    print("Response Status: ${response.statusCode}");
+
+    var responseData = await http.Response.fromStream(response);
+    print("Response Body: ${responseData.body}");
+
+    if (response.statusCode == 201) {
+      return OW.fromJson(jsonDecode(responseData.body));
+    } else {
+      throw Exception('Failed to add Opportunity Owner: ${responseData.statusCode} - ${responseData.body}');
+    }
+  }
+
+  // Fetch details of a specific Opportunity Owner
+  Future<OW> fetchOWDetails(String id) async {
+    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityOwnerApi}$id');
+
+    var response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      var responseData = jsonDecode(response.body);
+      return OW.fromJson(responseData);
+    } else {
+      throw Exception('Failed to fetch Opportunity Owner details: ${response.body}');
     }
   }
 

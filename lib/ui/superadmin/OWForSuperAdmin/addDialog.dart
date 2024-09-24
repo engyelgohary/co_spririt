@@ -5,38 +5,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/dip.dart';
 import '../../../../utils/components/textFormField.dart';
-import 'Cubit/OA_cubit.dart';
+import 'Cubit/OW_cubit.dart'; // Make sure to create the corresponding OW_cubit.dart file
 
-class AddOA extends StatefulWidget {
+class AddOW extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
 
-  AddOA({required this.onOpportunityAdded});
+  AddOW({required this.onOpportunityAdded});
 
   @override
-  _AddOAState createState() => _AddOAState();
+  _AddOWState createState() => _AddOWState();
 }
 
-class _AddOAState extends State<AddOA> {
-  late OpportunityAnalyzerCubit viewModel;
+class _AddOWState extends State<AddOW> {
+  late OpportunityOwnerCubit viewModel; // Change to OpportunityOwnerCubit
 
   @override
   Widget build(BuildContext context) {
-    viewModel = BlocProvider.of<OpportunityAnalyzerCubit>(context);
+    viewModel = BlocProvider.of<OpportunityOwnerCubit>(context); // Change to OpportunityOwnerCubit
 
-    return BlocConsumer<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
+    return BlocConsumer<OpportunityOwnerCubit, OpportunityOwnerState>( // Change to OpportunityOwnerState
       listener: (context, state) {
-        if (state is OpportunityAnalyzerLoading) {
+        if (state is OpportunityOwnerLoading) { // Change to OpportunityOwnerLoading
           CircularProgressIndicator();
-        } else if (state is OpportunityAnalyzerError) {
+        } else if (state is OpportunityOwnerError) { // Change to OpportunityOwnerError
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errorMessage ?? ""),
           ));
-        } else if (state is OpportunityAnalyzerSuccess) {
+        } else if (state is OpportunityOwnerSuccess) { // Change to OpportunityOwnerSuccess
           widget.onOpportunityAdded();
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Admin submitted successfully')),
+            SnackBar(content: Text('Opportunity Owner submitted successfully')),
           );
         }
       },
@@ -53,13 +53,14 @@ class _AddOAState extends State<AddOA> {
                 children: [
                   GestureDetector(
                     onTap: viewModel.selectImage,
-                    child: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
+                    child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
                       builder: (context, state) {
-                        if (state is OpportunityAnalyzerImageSelected) {
+                        if (state is OpportunityOwnerImageSelected) { // Change to OpportunityOwnerImageSelected
                           return Center(
-                              child: CircleAvatar(
-                                radius: 60.r,
-                                backgroundImage: FileImage(File(state.image.path)),),
+                            child: CircleAvatar(
+                              radius: 60.r,
+                              backgroundImage: FileImage(File(state.image.path)),
+                            ),
                           );
                         }
                         return Center(
@@ -76,7 +77,7 @@ class _AddOAState extends State<AddOA> {
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
-                    controller: viewModel.firstName_controller,
+                    controller: viewModel.firstNameController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your first name';
@@ -87,7 +88,7 @@ class _AddOAState extends State<AddOA> {
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Last Name :',
-                    controller: viewModel.lastName_controller,
+                    controller: viewModel.lastNameController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your last name';
@@ -98,7 +99,7 @@ class _AddOAState extends State<AddOA> {
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Mobile :',
-                    controller: viewModel.phone_controller,
+                    controller: viewModel.phoneController,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -110,7 +111,7 @@ class _AddOAState extends State<AddOA> {
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Email :',
-                    controller: viewModel.email_controller,
+                    controller: viewModel.emailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -210,7 +211,7 @@ class _AddOAState extends State<AddOA> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (viewModel.formKey.currentState!.validate()) {
-                              viewModel.addOA(); // Call the addOA method to submit the form
+                              viewModel.addOW(); // Call the addOW method to submit the form
                             }
                           },
                           child: Center(

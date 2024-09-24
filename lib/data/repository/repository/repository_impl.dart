@@ -8,6 +8,7 @@ import 'package:co_spririt/data/model/Type.dart';
 import 'package:co_spririt/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../api/apimanager.dart';
+import '../../model/OW.dart';
 import '../repoContract.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -239,3 +240,23 @@ class OpportunityAnalyzerRepositoryImpl implements OpportunityAnalyzerRepository
   }
 }
 
+class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
+  final ApiManager apiManager;
+
+  OpportunityOwnerRepositoryImpl({required this.apiManager});
+
+  @override
+  Future<OW> addOW(Map<String, dynamic> opportunityOwnerData, XFile? image) {
+    return apiManager.addOW(opportunityOwnerData, image);
+  }
+
+  @override
+  Future<List<OW>> getAllOWs({int page = 1}) {
+    return apiManager.getAllOWs(page: page);
+  }
+
+  @override
+  Future<OW> fetchOWDetails(String id) {
+    return apiManager.fetchOWDetails(id);
+  }
+}

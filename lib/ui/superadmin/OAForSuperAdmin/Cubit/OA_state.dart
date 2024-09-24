@@ -14,6 +14,7 @@ final class OpportunityAnalyzerSuccess extends OpportunityAnalyzerState {
   final List<OA>? getOAs;
   OpportunityAnalyzerSuccess({this.getOAs, this.opportunityAnalyzerData});
 }
+
 class OpportunityAnalyzerImageSelected extends OpportunityAnalyzerState {
   final XFile image;
   OpportunityAnalyzerImageSelected(this.image);

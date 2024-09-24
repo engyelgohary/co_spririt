@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/superadmin/OWForSuperAdmin/Cubit/OW_cubit.dart'; // Adjust the import
-import 'package:co_spririt/ui/superadmin/OWForSuperAdmin/addDialog.dart'; // Adjust the import
+import 'package:co_spririt/ui/superadmin/OWForSuperAdmin/Cubit/OW_cubit.dart';
+import 'package:co_spririt/ui/superadmin/OWForSuperAdmin/addDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +8,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../utils/components/appbar.dart';
 import '../../../../utils/theme/appColors.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../data/model/OW.dart'; // Ensure this path is correct
+import '../../../data/model/OW.dart';
 import '../../../data/repository/repository/repository_impl.dart';
-import 'infoOW.dart'; // Adjust the import for OW info
+import 'infoOW.dart';
 
 class OpportunityOwnersScreen extends StatefulWidget {
   const OpportunityOwnersScreen({super.key});
@@ -189,7 +189,7 @@ class _OpportunityOwnersScreenState extends State<OpportunityOwnersScreen> {
                 ),
               );
             } else if (state is OpportunityOwnerDetailsSuccess) {
-              return InfoOW(state.opportunityOwnerData); // Adjusted to use InfoOW
+              return InfoOW(state.opportunityOwnerData);
             } else if (state is OpportunityOwnerError) {
               return Center(child: Text(state.errorMessage ?? "Error fetching details"));
             } else {

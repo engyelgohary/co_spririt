@@ -1,6 +1,7 @@
 import 'package:co_spririt/data/model/OpportunityOwner.dart';
 import 'package:co_spririt/test.dart';
 import 'package:co_spririt/ui/auth/login.dart';
+import 'package:co_spririt/ui/superadmin/Dashboard.dart';
 import 'package:co_spririt/ui/superadmin/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/Notifactions/notifictions_superadmin.dart';
 import 'package:co_spririt/ui/superadmin/requests/request_Superadmin.dart';
@@ -62,6 +63,12 @@ class MenuScreenSuperAdmin extends StatelessWidget {
               name: 'Clients',
               onFunction: () {
                 AppUtil.mainNavigator(context, const ClientScreenfoSuper());
+              },
+            ),
+            CustomMenuCard(
+              name: 'Dashboard',
+              onFunction: () {
+                AppUtil.mainNavigator(context, Dashboard());
               },
             ),
             CustomMenuCard(

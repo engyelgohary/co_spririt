@@ -203,191 +203,202 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
               ),
             ],
           ),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _reloadPosts,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    FutureBuilder<List<Post>>(
-                      future: adminPosts,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No posts found'));
-                        } else {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              Post post = snapshot.data![index];
-                              return Column(
-                                children: [
-                                  Container(
-                                    width: screenWidth * 0.85,
-                                    decoration: BoxDecoration(
-                                      color: AppUI.whiteColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ClipOval(
-                                                child: post.pictureLocationUser != null
-                                                    ? CachedNetworkImage(
-                                                        imageUrl:
-                                                            'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
-                                                        placeholder: (context, url) =>
-                                                            const CircularProgressIndicator(),
-                                                        errorWidget: (context, url, error) =>
-                                                            const Icon(Icons.error),
-                                                        height: MediaQuery.of(context).size.height *
-                                                            0.05,
-                                                        width: MediaQuery.of(context).size.width *
-                                                            0.08,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Image.asset(
-                                                        '${AppUI.imgPath}photo.png',
-                                                        height: MediaQuery.of(context).size.height *
-                                                            0.05,
-                                                        width: MediaQuery.of(context).size.width *
-                                                            0.08,
-                                                      ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.02,
-                                                height: MediaQuery.of(context).size.height * 0.01,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  CustomText(
-                                                    text:
-                                                        '${post.firstNameUser} ${post.lastNameUser}',
-                                                    fontSize: 12,
-                                                    color: AppUI.basicColor,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      CustomText(
-                                                        text: '${post.lastEdit}',
-                                                        fontSize: 12,
-                                                        color: AppUI.basicColor,
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(context).size.width *
-                                                            0.01,
-                                                      ),
-                                                      Image.asset(
-                                                        '${AppUI.imgPath}Group.png',
-                                                        height: MediaQuery.of(context).size.height *
-                                                            0.015,
-                                                        width: MediaQuery.of(context).size.width *
-                                                            0.015,
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height: MediaQuery.of(context).size.height * 0.01),
-                                          CustomText(
-                                            text: post.content ?? "no content",
-                                            fontSize: 10,
-                                            color: AppUI.basicColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          SizedBox(
-                                              height: MediaQuery.of(context).size.height * 0.01),
-                                          if (post.pictureLocation != null) ...[
-                                            CachedNetworkImage(
-                                              imageUrl:
-                                                  'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
-                                              placeholder: (context, url) =>
-                                                  const CircularProgressIndicator(),
-                                              errorWidget: (context, url, error) =>
-                                                  const Icon(Icons.error),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.03,
+              vertical: 7,
+            ),
+            child: Expanded(
+              child: RefreshIndicator(
+                onRefresh: _reloadPosts,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      FutureBuilder<List<Post>>(
+                        future: adminPosts,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Center(child: Text('No posts found'));
+                          } else {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                Post post = snapshot.data![index];
+                                return Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: AppUI.whiteColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipOval(
+                                                  child: post.pictureLocationUser != null
+                                                      ? CachedNetworkImage(
+                                                          imageUrl:
+                                                              'http://${ApiConstants.baseUrl}${post.pictureLocationUser}',
+                                                          placeholder: (context, url) =>
+                                                              const CircularProgressIndicator(),
+                                                          errorWidget: (context, url, error) =>
+                                                              const Icon(Icons.error),
+                                                          height:
+                                                              MediaQuery.of(context).size.height *
+                                                                  0.05,
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.08,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.asset(
+                                                          '${AppUI.imgPath}photo.png',
+                                                          height:
+                                                              MediaQuery.of(context).size.height *
+                                                                  0.05,
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.08,
+                                                        ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width * 0.02,
+                                                  height: MediaQuery.of(context).size.height * 0.01,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                          '${post.firstNameUser} ${post.lastNameUser}',
+                                                      fontSize: 12,
+                                                      color: AppUI.basicColor,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        CustomText(
+                                                          text: '${post.lastEdit}',
+                                                          fontSize: 12,
+                                                          color: AppUI.basicColor,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.01,
+                                                        ),
+                                                        Image.asset(
+                                                          '${AppUI.imgPath}Group.png',
+                                                          height:
+                                                              MediaQuery.of(context).size.height *
+                                                                  0.015,
+                                                          width: MediaQuery.of(context).size.width *
+                                                              0.015,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                )
+                                              ],
                                             ),
                                             SizedBox(
                                                 height: MediaQuery.of(context).size.height * 0.01),
-                                          ],
-                                          const Divider(),
-                                          const Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.remove_red_eye,
-                                                    size: 15,
-                                                    color: ODColorScheme.buttonColor,
-                                                  ),
-                                                  Text(" 15", style: TextStyle(fontSize: 12)),
-                                                ],
+                                            CustomText(
+                                              text: post.content ?? "no content",
+                                              fontSize: 10,
+                                              color: AppUI.basicColor,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            SizedBox(
+                                                height: MediaQuery.of(context).size.height * 0.01),
+                                            if (post.pictureLocation != null) ...[
+                                              CachedNetworkImage(
+                                                imageUrl:
+                                                    'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                placeholder: (context, url) =>
+                                                    const CircularProgressIndicator(),
+                                                errorWidget: (context, url, error) =>
+                                                    const Icon(Icons.error),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.thumb_up_sharp,
-                                                        size: 15,
-                                                        color: ODColorScheme.buttonColor,
-                                                      ),
-                                                      Text(" 7    ",
-                                                          style: TextStyle(fontSize: 12)),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.comment,
-                                                        size: 15,
-                                                        color: ODColorScheme.buttonColor,
-                                                      ),
-                                                      Text(" 19  ", style: TextStyle(fontSize: 12)),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.arrow_forward_outlined,
-                                                        size: 15,
-                                                        color: ODColorScheme.buttonColor,
-                                                      ),
-                                                      Text(" 3  ", style: TextStyle(fontSize: 12)),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                              SizedBox(
+                                                  height:
+                                                      MediaQuery.of(context).size.height * 0.01),
                                             ],
-                                          )
-                                        ],
+                                            const Divider(),
+                                            const Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.remove_red_eye,
+                                                      size: 15,
+                                                      color: ODColorScheme.buttonColor,
+                                                    ),
+                                                    Text(" 15", style: TextStyle(fontSize: 12)),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.thumb_up_sharp,
+                                                          size: 15,
+                                                          color: ODColorScheme.buttonColor,
+                                                        ),
+                                                        Text(" 7    ",
+                                                            style: TextStyle(fontSize: 12)),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.comment,
+                                                          size: 15,
+                                                          color: ODColorScheme.buttonColor,
+                                                        ),
+                                                        Text(" 19  ",
+                                                            style: TextStyle(fontSize: 12)),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.arrow_forward_outlined,
+                                                          size: 15,
+                                                          color: ODColorScheme.buttonColor,
+                                                        ),
+                                                        Text(" 3  ",
+                                                            style: TextStyle(fontSize: 12)),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -8,24 +8,24 @@ import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/GetAdmin.dart';
 import '../../../data/model/Post.dart';
-import '../../superadmin/home/creat_post.dart';
+import '../../om/home/creat_post.dart';
 import '../Menu/menu_admin.dart';
 import '../Message/Message_admin.dart';
 import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../opportunities/opportunities_v2.dart';
 
-class HomeScreenAdmin extends StatefulWidget {
-  const HomeScreenAdmin({Key? key, required this.admin, required this.adminId}) : super(key: key);
+class HomeScreenOM extends StatefulWidget {
+  const HomeScreenOM({Key? key, required this.admin, required this.OMId}) : super(key: key);
   static String routeName = 'home screen admin';
   final GetAdmin admin;
-  final String adminId;
+  final String OMId;
 
   @override
-  State<HomeScreenAdmin> createState() => _HomeScreenAdminState();
+  State<HomeScreenOM> createState() => _HomeScreenOMState();
 }
 
-class _HomeScreenAdminState extends State<HomeScreenAdmin> {
+class _HomeScreenOMState extends State<HomeScreenOM> {
   late GetAdmin admin;
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;
@@ -150,7 +150,11 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   Column(
                     children: [
                       InkWell(
-                          onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2(userType: 0,)),
+                          onTap: () => AppUtil.mainNavigator(
+                              context,
+                              const OpportunitiesV2(
+                                userType: 0,
+                              )),
                           child: const Icon(Icons.lightbulb_outline, color: AppColor.borderColor)),
                       const SizedBox(height: 8),
                       const CustomText(
@@ -189,7 +193,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       AppUtil.mainNavigator(
                           context,
                           ProfileScreenAdmin(
-                            adminId: widget.adminId,
+                            adminId: widget.OMId,
                           ));
                     },
                     child: const Column(
@@ -216,7 +220,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       AppUtil.mainNavigator(
                           context,
                           MenuScreenAdmin(
-                            adminId: widget.adminId,
+                            adminId: widget.OMId,
                           ));
                     },
                     child: const Column(
@@ -518,7 +522,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                         if (post.pictureLocation != null) ...[
                                           CachedNetworkImage(
                                             imageUrl:
-                                                'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                             placeholder: (context, url) =>
                                                 const CircularProgressIndicator(),
                                             errorWidget: (context, url, error) =>

@@ -9,7 +9,7 @@ import '../../../utils/components/MenuItem.dart';
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
-import '../../superadmin/adminforsuperadmin/Cubit/admin_cubit.dart';
+import '../../om/adminforsuperadmin/Cubit/admin_cubit.dart';
 import '../Message/Message_admin.dart';
 import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
@@ -129,7 +129,6 @@ class _MenuScreenAdminState extends State<MenuScreenAdmin> {
                   ),
                   CustomMenuCard(
                     name: 'Log out',
-                    color: AppColor.secondColor,
                     onFunction: () {
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     },

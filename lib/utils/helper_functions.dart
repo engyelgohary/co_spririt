@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/model/Notification.dart';
 import 'package:co_spririt/data/model/message.dart';
+import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
@@ -283,6 +284,25 @@ dynamic collaboratorPhoto(String? pictureLocation) {
   );
 }
 
+dynamic ODPhoto(String? pictureLocation, double width, double height) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(100),
+    child: pictureLocation == null
+        ? Image.asset(
+            '${AppUI.imgPath}photo.png',
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+          )
+        : CachedNetworkImage(
+            imageUrl: 'http://${ApiConstants.baseUrl}/$pictureLocation',
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+          ),
+  );
+}
+
 Future<void> notificationList(
   ApiManager apiManager,
   LoadingStateNotifier loadingNotifier,
@@ -375,7 +395,7 @@ dynamic loadingIndicatorDialog(BuildContext context, {bool dismissible = false})
           child: CircularProgressIndicator(
             strokeWidth: 5,
             backgroundColor: Colors.transparent,
-            color: Colors.green,
+            color: ODColorScheme.mainColor,
           ),
         ),
       );
@@ -388,4 +408,29 @@ dynamic snackBar(BuildContext context, String message, {int duration = 2}) {
     duration: Duration(seconds: duration),
     content: Text(message),
   ));
+}
+
+AppBar customAppBar({
+  required String title,
+  required BuildContext context,
+  required Color textColor,
+  required Color backArrowColor,
+  List<Widget>? actions,
+}) {
+  double height = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
+
+  return AppBar(
+    leading: IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: Padding(
+        padding: EdgeInsets.only(left: width / 25),
+        child: const Icon(Icons.arrow_back_ios),
+      ),
+    ),
+    actions: actions,
+    title: Text(title, style: TextStyle(fontSize: 22, color: textColor)),
+    toolbarHeight: height / 8,
+    iconTheme: IconThemeData(color: backArrowColor),
+  );
 }

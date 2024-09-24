@@ -1,5 +1,5 @@
 import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/collaborator/requests/cubit/requests_cubit.dart';
+import 'package:co_spririt/ui/od/requests/cubit/requests_cubit.dart';
 import 'package:co_spririt/ui/superadmin/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

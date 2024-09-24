@@ -16,13 +16,13 @@ class CustomText extends StatelessWidget {
 
   const CustomText(
       {Key? key,
-        required this.text,
-        this.fontSize = 14,
-        this.textAlign,
-        this.textDirection,
-        this.fontWeight = FontWeight.w400,
-        this.color,
-        this.textDecoration})
+      required this.text,
+      this.fontSize = 14,
+      this.textAlign,
+      this.textDirection,
+      this.fontWeight = FontWeight.w400,
+      this.color,
+      this.textDecoration})
       : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class CustomText extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: fontWeight,
           decoration: textDecoration),
-      textDirection: textDirection ,
+      textDirection: textDirection,
     );
   }
 }
@@ -74,8 +74,7 @@ class CustomButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(double.parse("$radius")),
             color: color,
-            border:
-            borderColor == null ? null : Border.all(color: borderColor!),
+            border: borderColor == null ? null : Border.all(color: borderColor!),
             // gradient: color==null?const LinearGradient(
             //     colors: [
             //       Color(0xff006168),
@@ -117,33 +116,32 @@ class CustomInput extends StatelessWidget {
 
   const CustomInput(
       {Key? key,
-        required this.controller,
-        this.hint,
-        this.prefixWidth = 50,
-        this.suffixWidth = 50,
-        this.inputFormatters,
-        this.hintStyle,
-        this.textDirection,
-        this.lable,
-        required this.textInputType,
-        this.obscureText = false,
-        this.prefixIcon,
-        this.suffixIcon,
-        this.onTap,
-        this.onChange,
-        this.maxLines,
-        // this.textAlign,
-        this.readOnly = false,
-        this.autofocus = false,
-        this.radius = 8.0,
-        this.maxLength,
-        this.focusNode,
-        this.validation = true,
-        this.borderColor,
-        this.fillColor,
-        this.counterColor,
-        this.onSubmitted,
-        this.contentPaddingVertical})
+      required this.controller,
+      this.hint,
+      this.prefixWidth = 50,
+      this.suffixWidth = 50,
+      this.inputFormatters,
+      this.hintStyle,
+      this.textDirection,
+      this.lable,
+      required this.textInputType,
+      this.obscureText = false,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.onTap,
+      this.onChange,
+      this.maxLines,
+      this.readOnly = false,
+      this.autofocus = false,
+      this.radius = 8.0,
+      this.maxLength,
+      this.focusNode,
+      this.validation = true,
+      this.borderColor,
+      this.fillColor,
+      this.counterColor,
+      this.onSubmitted,
+      this.contentPaddingVertical})
       : super(key: key);
 
   @override
@@ -151,8 +149,8 @@ class CustomInput extends StatelessWidget {
     return SizedBox(
       height: maxLines == null
           ? maxLength == null
-          ? 60
-          : 80
+              ? 60
+              : 80
           : null,
       child: TextFormField(
         focusNode: focusNode,
@@ -160,23 +158,20 @@ class CustomInput extends StatelessWidget {
         obscureText: obscureText,
         onTap: onTap,
         readOnly: readOnly,
-        // maxLength: maxLength,
         keyboardType: textInputType,
-        // textAlign: textAlign!,
         textDirection: textDirection,
         onChanged: onChange,
         onFieldSubmitted: onSubmitted ??
-                (v) {
+            (v) {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-        // cursorHeight: 27,
         validator: validation
             ? (v) {
-          if (v!.isEmpty) {
-            return "fieldRequired";
-          }
-          return null;
-        }
+                if (v!.isEmpty) {
+                  return "fieldRequired";
+                }
+                return null;
+              }
             : null,
         autofocus: autofocus,
         maxLines: maxLines ?? 1,
@@ -184,47 +179,30 @@ class CustomInput extends StatelessWidget {
         inputFormatters: inputFormatters,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: hintStyle ??
-              const TextStyle(color: AppUI.buttonColor, fontSize: 12),
+          hintStyle: hintStyle ?? const TextStyle(color: AppUI.buttonColor, fontSize: 12),
           suffixIcon: suffixIcon,
           labelText: lable,
           counterStyle: TextStyle(color: counterColor ?? AppUI.whiteColor),
-          // labelStyle: TextStyle(color: AppUI.secondColor),
           filled: true,
           fillColor: fillColor ?? AppUI.whiteColor,
           suffixIconConstraints: BoxConstraints(minWidth: suffixWidth),
-          prefixIconConstraints:
-          BoxConstraints(minWidth: prefixWidth, maxHeight: 35),
+          prefixIconConstraints: BoxConstraints(minWidth: prefixWidth, maxHeight: 35),
           prefixIcon: prefixIcon,
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: 12, vertical: contentPaddingVertical ?? 0),
-          border: OutlineInputBorder(
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 12, vertical: contentPaddingVertical ?? 0),
+          enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(radius),
                   bottomLeft: Radius.circular(radius),
                   bottomRight: Radius.circular(radius),
                   topRight: Radius.circular(radius)),
-              borderSide: const BorderSide(color: AppUI.borderColor)),
-          // disabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(radius),
-          //         bottomLeft: Radius.circular(radius),
-          //         bottomRight: Radius.circular(radius),
-          //         topRight: Radius.circular(radius)),
-          //     borderSide: const BorderSide(color: AppUI.secondColor)),
-          // enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(radius),
-          //         bottomLeft: Radius.circular(radius),
-          //         bottomRight: Radius.circular(radius),
-          //         topRight: Radius.circular(radius)),
-          //     borderSide: BorderSide(color: borderColor ?? AppUI.borderColor)),
-          // focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(radius),
-          //         bottomLeft: Radius.circular(radius),
-          //         bottomRight: Radius.circular(radius)),
-          //     borderSide: BorderSide(color: borderColor ?? AppUI.secondColor)),
+              borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(radius),
+                  bottomLeft: Radius.circular(radius),
+                  bottomRight: Radius.circular(radius)),
+              borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
         ),
       ),
     );
@@ -254,15 +232,15 @@ class CustomCard extends StatelessWidget {
 
   const CustomCard(
       {Key? key,
-        required this.child,
-        this.height,
-        this.width,
-        this.color,
-        this.elevation,
-        this.border,
-        this.onTap,
-        this.radius,
-        this.padding})
+      required this.child,
+      this.height,
+      this.width,
+      this.color,
+      this.elevation,
+      this.border,
+      this.onTap,
+      this.radius,
+      this.padding})
       : super(key: key);
 
   @override
@@ -270,8 +248,7 @@ class CustomCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius ?? 15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 15)),
         elevation: elevation ?? 1,
         child: Container(
           padding: EdgeInsets.all(padding ?? 0),
@@ -280,8 +257,7 @@ class CustomCard extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius ?? 15),
-            border:
-            border != null ? Border.all(color: border!, width: 0.7) : null,
+            border: border != null ? Border.all(color: border!, width: 0.7) : null,
             color: color ?? AppUI.whiteColor,
           ),
           child: child,

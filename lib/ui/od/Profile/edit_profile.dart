@@ -6,19 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../utils/components/appbar.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class ProfileScreenColla extends StatefulWidget {
+class EditProfileOD extends StatefulWidget {
   final String collaboratorId;
-  const ProfileScreenColla({super.key, required this.collaboratorId});
+  const EditProfileOD({super.key, required this.collaboratorId});
 
   @override
-  State<ProfileScreenColla> createState() => _ProfileScreenCollaState();
+  State<EditProfileOD> createState() => _EditProfileODState();
 }
 
-class _ProfileScreenCollaState extends State<ProfileScreenColla> {
+class _EditProfileODState extends State<EditProfileOD> {
   late CollaboratorCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -57,14 +56,10 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
-      ),
+      backgroundColor: Colors.white,
       body: BlocProvider(
         create: (context) => viewModel,
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
@@ -89,8 +84,8 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
-                                      'http://${ApiConstants.baseUrl}${collaborator.pictureLocation}')
-                                  as ImageProvider,
+                                  'http://${ApiConstants.baseUrl}${collaborator.pictureLocation}',
+                                ) as ImageProvider,
                           child: _selectedImage == null && collaborator.pictureLocation == null
                               ? const Icon(Icons.camera_alt, size: 50)
                               : null,
@@ -98,31 +93,32 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                       ),
                     ),
                     SizedBox(
-                      height: 5.h,
+                      height: 16.h,
                     ),
                     Center(
-                      child: Text(
-                        "${firstNameController.text} ${lastNameController.text}",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
-                      ),
+                      child: Text("${firstNameController.text} ${lastNameController.text}",
+                          style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
                     ),
-                    Center(
-                      child: Text(
-                        'Collaborator',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15),
-                      ),
+                    SizedBox(
+                      height: 16.h,
                     ),
                     CustomTextFormField(
                       fieldName: 'First Name',
                       controller: firstNameController,
+                      borderColor: const Color.fromARGB(150, 0, 0, 0),
+                      textColor: ODColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
+                      borderColor: const Color.fromARGB(150, 0, 0, 0),
+                      textColor: ODColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
+                      borderColor: const Color.fromARGB(150, 0, 0, 0),
+                      textColor: ODColorScheme.mainColor,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'please enter your email address';
@@ -139,37 +135,76 @@ class _ProfileScreenCollaState extends State<ProfileScreenColla> {
                     CustomTextFormField(
                       fieldName: 'Phone',
                       controller: phoneController,
+                      borderColor: const Color.fromARGB(150, 0, 0, 0),
+                      textColor: ODColorScheme.mainColor,
                     ),
-                    Center(
-                      child: Container(
-                        height: 35.h,
-                        width: 135.w,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.read<CollaboratorCubit>().updateCollaborator({
-                              'id': widget.collaboratorId,
-                              'firstName': firstNameController.text,
-                              'lastName': lastNameController.text,
-                              'phone': phoneController.text,
-                              'email': emailController.text,
-                              "ContractStart": state.collaboratorData!.contractStart,
-                              "ContractEnd": state.collaboratorData!.contractEnd,
-                            }, _selectedImage, cv);
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text("Profile Update Successfully"),
-                            ));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.buttonColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
-                          child: Center(
-                              child: Text('Update',
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                backgroundColor: ODColorScheme.disabledColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.r),
+                                  ),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Cancel',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
-                                      .copyWith(fontSize: 16, color: AppColor.whiteColor))),
-                        ),
+                                      .copyWith(fontSize: 16, color: AppColor.whiteColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          Expanded(
+                            flex: 3,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                context.read<CollaboratorCubit>().updateCollaborator({
+                                  'id': widget.collaboratorId,
+                                  'firstName': firstNameController.text,
+                                  'lastName': lastNameController.text,
+                                  'phone': phoneController.text,
+                                  'email': emailController.text,
+                                  "ContractStart": state.collaboratorData!.contractStart,
+                                  "ContractEnd": state.collaboratorData!.contractEnd,
+                                }, _selectedImage, cv);
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content: Text("Profile Update Successfully"),
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                backgroundColor: ODColorScheme.buttonColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30.r),
+                                  ),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Update',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(fontSize: 16, color: AppColor.whiteColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

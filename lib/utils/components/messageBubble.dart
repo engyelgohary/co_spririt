@@ -25,7 +25,9 @@ class CustomChatBubble extends StatelessWidget {
         padding: const EdgeInsets.only(top: 8.0),
         child: SelectableText(
           message.content ?? "",
-          style: const TextStyle(fontSize: 16),
+          style: TextStyle(
+              fontSize: 16,
+              color: message.isSender ?? false ? Colors.white : ODColorScheme.textColor),
         ),
       )
     ];
@@ -88,8 +90,9 @@ class CustomChatBubble extends StatelessWidget {
         padding: const EdgeInsets.only(top: 8),
         child: Text(
           message.time ?? "",
-          style: const TextStyle(color: Color.fromARGB(255, 80, 78, 78)),
-          textAlign: TextAlign.start,
+          style: TextStyle(
+            color: message.isSender ?? false ? Colors.white : ODColorScheme.textColor,
+          ),
         ),
       ),
     );
@@ -99,7 +102,7 @@ class CustomChatBubble extends StatelessWidget {
       clipper: ChatBubbleClipper5(
         type: message.isSender ?? false ? BubbleType.sendBubble : BubbleType.receiverBubble,
       ),
-      backGroundColor: message.isSender ?? false ? AppColor.secondColor : AppColor.greyColor,
+      backGroundColor: message.isSender ?? false ? ODColorScheme.mainColor : Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,13 +1,13 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/ui/collaborator/opportunities/add_opportunities.dart';
+import 'package:co_spririt/ui/od/opportunities/add_opportunity.dart';
+import 'package:co_spririt/ui/od/opportunities/opportunity_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../utils/components/appbar.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
@@ -36,20 +36,43 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
   @override
   Widget build(BuildContext context) {
+    final height = AppUtil.responsiveHeight(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: SelectableText(
-          "Opportunities",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(
-            Icons.add,
-            color: AppColor.secondColor,
-          ),
-          onPressed: () => AppUtil.mainNavigator(context, const AddOpportunitiesV2())),
+      appBar: customAppBar(
+          title: "Opportunities",
+          context: context,
+          backArrowColor: ODColorScheme.buttonColor,
+          textColor: ODColorScheme.mainColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: () => showModalBottomSheet(
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  constraints: BoxConstraints(maxHeight: height * 0.9),
+                  context: context,
+                  builder: (context) => const Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Icon(Icons.horizontal_rule_rounded),
+                      ),
+                      Flexible(child: AddOpportunitiesV2()),
+                    ],
+                  ),
+                ),
+                icon: const Icon(Icons.add_circle_outline),
+              ),
+            ),
+          ]),
       body: RefreshIndicator(
         onRefresh: () async {
           loadingNotifier.change();
@@ -75,60 +98,74 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
             final data = loadingNotifier.response;
 
-            return ListView.builder(
+            return ListView.separated(
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  color: AppColor.whiteColor,
+                  thickness: 2,
+                );
+              },
               itemCount: data!.length,
               itemBuilder: (context, index) {
                 final opportunity = data[index];
-                return opportunityCard(opportunity, loadingNotifier);
+                return ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: ODColorScheme.mainColor,
+                    radius: 25,
+                    child: Center(
+                      child: Icon(
+                        Icons.circle,
+                        color: Colors.white,
+                        // size: 30,
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    opportunity.title ?? "N/A",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: ODColorScheme.textColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        opportunity.industry ?? "N/A",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: ODColorScheme.textColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        opportunity.status ?? "N/A",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: ODColorScheme.buttonColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: GestureDetector(
+                    onTap: () =>
+                        AppUtil.mainNavigator(context, OpportunityViewOD(opportunity: opportunity)),
+                    child: const CircleAvatar(
+                      backgroundColor: AppColor.SkyColor,
+                      radius: 18,
+                      child: Icon(
+                        Icons.info_outline,
+                        color: ODColorScheme.buttonColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                );
               },
             );
           },
-        ),
-      ),
-    );
-  }
-
-  dynamic opportunityCard(Opportunity opportunity, LoadingStateNotifier loadingNotifier) {
-    return GestureDetector(
-      onTap: () {
-        opportunityPopup(context, opportunity);
-      },
-      child: Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("${opportunity.title}", style: const TextStyle(fontSize: 18.0)),
-                  Icon(Icons.circle, color: statusColors[opportunity.status] ?? Colors.teal)
-                ],
-              ),
-              const SizedBox(height: 8.0),
-              Text("Client: ${opportunity.clientId}", style: const TextStyle(fontSize: 16.0)),
-              const SizedBox(height: 16.0),
-              const Text('Description:', style: TextStyle(fontSize: 16.0)),
-              Text("${opportunity.description} ", maxLines: 1, overflow: TextOverflow.ellipsis),
-              const SizedBox(height: 8.0),
-              const Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: AppColor.secondColor,
-                    radius: 20,
-                  ),
-                  SizedBox(width: 8.0),
-                  Text(
-                    'OD name',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ),
       ),
     );

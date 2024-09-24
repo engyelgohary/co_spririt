@@ -7,7 +7,6 @@ import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
-import '../../../utils/theme/appColors.dart';
 import '../../admin/opportunities/opportunities_v2.dart';
 import '../adminforsuperadmin/admin_page.dart';
 import '../clientsForSuperAdmin/client_screen.dart';
@@ -86,7 +85,6 @@ class MenuScreenSuperAdmin extends StatelessWidget {
           ),
           CustomMenuCard(
             name: 'Log out',
-            color: AppColor.secondColor,
             onFunction: () {
               Navigator.pushNamed(context, LoginScreen.routeName);
             },

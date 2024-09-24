@@ -1,51 +1,49 @@
 import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/auth/login.dart';
-import 'package:co_spririt/ui/collaborator/Message/Message_colla.dart';
-import 'package:co_spririt/ui/collaborator/Notifactions/notifictions_collaborator.dart';
-import 'package:co_spririt/ui/collaborator/Profile/profile_collabrator.dart';
-import 'package:co_spririt/ui/collaborator/requests/request_collaborator.dart';
+import 'package:co_spririt/ui/od/Message/Message_od.dart';
+import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spririt/ui/od/Profile/profile_od.dart';
+import 'package:co_spririt/ui/od/requests/request_collaborator.dart';
 import 'package:co_spririt/ui/superadmin/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
+import 'package:co_spririt/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 import '../opportunities/opportunities_od.dart';
 
-class MenuScreenCollaborators extends StatefulWidget {
+class MenuScreenOD extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';
-  final String CollaboratorId;
+  final String ODId;
 
-  MenuScreenCollaborators({required this.CollaboratorId});
+  MenuScreenOD({required this.ODId});
 
   @override
-  State<MenuScreenCollaborators> createState() => _MenuScreenCollaboratorsState();
+  State<MenuScreenOD> createState() => _MenuScreenODState();
 }
 
-class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
+class _MenuScreenODState extends State<MenuScreenOD> {
   late CollaboratorCubit adminCubit;
 
   @override
   void initState() {
     super.initState();
     adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.CollaboratorId));
+    adminCubit.fetchCollaboratorDetails(int.parse(widget.ODId));
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return BlocProvider(
       create: (_) => adminCubit,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Menu',
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-          ),
-          leading: const AppBarCustom(),
+        appBar: customAppBar(
+          title: "Menu",
+          context: context,
+          backArrowColor: ODColorScheme.buttonColor,
+          textColor: ODColorScheme.mainColor,
         ),
         body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
@@ -55,74 +53,78 @@ class _MenuScreenCollaboratorsState extends State<MenuScreenCollaborators> {
               final collaborator = state.collaboratorData;
               return Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 20.h),
-                    child: ListTile(
-                      leading: Container(
-                        width: 70.0,
-                        height: 70.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: _getImageProvider(collaborator!.pictureLocation),
-                            fit: BoxFit.fitWidth,
-                          ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: width / 20,
+                          right: 20,
                         ),
+                        child: ODPhoto(collaborator!.pictureLocation, 75, 75),
                       ),
-                      title: Text(
-                        collaborator.firstName ?? "N/A",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 17),
-                      ),
-                      subtitle: Text(
-                        "Collaborator",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: AppColor.borderColor,
-                            ),
-                      ),
-                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            collaborator.firstName ?? "N/A",
+                            style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18),
+                          ),
+                          Text(
+                            "Opportunity Detector",
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: AppColor.borderColor,
+                                ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
+                  const SizedBox(height: 8),
                   CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
                     name: 'Profile',
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        ProfileScreenColla(
-                          collaboratorId: widget.CollaboratorId,
+                        ProfileScreenOD(
+                          collaboratorId: widget.ODId,
                         ),
                       );
                     },
                   ),
                   CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
                     name: 'Notifications',
                     onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenCollaborator.routName);
+                      Navigator.pushNamed(context, NotificationScreenOD.routName);
                     },
                   ),
                   CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenColla());
+                      AppUtil.mainNavigator(context, const MessagesScreenOD());
                     },
                   ),
                   CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
                     name: 'Requests',
                     onFunction: () {
                       Navigator.pushNamed(context, RequestCollaborator.routeName);
                     },
                   ),
                   CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
                     name: 'Opportunities',
                     onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
                   ),
-                  CustomMenuCard(
-                    name: 'Log out',
-                    color: AppColor.secondColor,
-                    onFunction: () {
-                      Navigator.pushNamed(context, LoginScreen.routeName);
-                    },
-                  )
                 ],
               );
             } else if (state is CollaboratorError) {

@@ -1,18 +1,15 @@
-import 'package:co_spririt/test.dart';
-import 'package:co_spririt/ui/auth/login.dart';
-import 'package:co_spririt/ui/om/AllUsers.dart';
-import 'package:co_spririt/ui/om/Dashboard.dart';
-import 'package:co_spririt/ui/om/Message/Message_superadmin.dart';
-import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
-import 'package:co_spririt/ui/om/opportunity/AllOpportunities.dart';
-import 'package:co_spririt/ui/om/requests/request_Superadmin.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
+import 'package:co_spirit/ui/auth/login.dart';
+import 'package:co_spirit/ui/om/AllUsers.dart';
+import 'package:co_spirit/ui/om/Message/message_om.dart';
+import 'package:co_spirit/ui/om/dashboard.dart';
+import 'package:co_spirit/ui/om/opportunity/AllOpportunities.dart';
+import 'package:co_spirit/ui/om/requests/request_Superadmin.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../admin/opportunities/opportunities_v2.dart';
+import '../Notifications/notifications_om.dart';
 import '../OAForSuperAdmin/oa_screen.dart';
 import '../OWForSuperAdmin/ow_page.dart';
 import '../adminforsuperadmin/admin_page.dart';
@@ -109,7 +106,7 @@ class MenuScreenOM extends StatelessWidget {
               textColor: OMColorScheme.textColor,
               name: 'Message',
               onFunction: () {
-                AppUtil.mainNavigator(context, const MessagesScreenSuperAdmin());
+                AppUtil.mainNavigator(context, const MessagesScreenOM());
               },
             ),
             CustomMenuCard(

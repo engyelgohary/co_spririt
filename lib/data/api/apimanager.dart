@@ -2250,11 +2250,11 @@ class ApiManager {
           throw Exception('Unexpected data format: $data');
         }
       } else {
-        debugPrint('Failed to load leaderboard data: ${response.body}');
+        print('Failed to load leaderboard data: ${response.body}');
         throw Exception('Failed to load leaderboard data');
       }
     } catch (e) {
-      debugPrint('Error fetching leaderboard: $e');
+      print('Error fetching leaderboard: $e');
       return 0;
     }
   }
@@ -2270,23 +2270,23 @@ class ApiManager {
         List<OdAverageScore> odScores = data.map((od) => OdAverageScore.fromJson(od)).toList();
         return odScores;
       } else {
-        debugPrint('Failed to load OD average scores: ${response.body}');
+        print('Failed to load OD average scores: ${response.body}');
         throw Exception('Failed to load OD average scores');
       }
     } catch (e) {
-      debugPrint('Error fetching OD average scores: $e');
+      print('Error fetching OD average scores: $e');
       return [];
     }
   }
 
   Future<String> getRiskAverage() async {
     final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.riskAverageApi);
-    debugPrint('Fetching Risk Average from: $uri');
+    print('Fetching Risk Average from: $uri');
 
     try {
       final response = await http.get(uri);
-      //debugPrint('Response Status Code: ${response.statusCode}');
-      //  debugPrint('Response Body: ${response.body}');
+      //print('Response Status Code: ${response.statusCode}');
+      //  print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -2298,19 +2298,19 @@ class ApiManager {
         throw Exception('Failed to load risk average:');
       }
     } catch (e) {
-      debugPrint('Error fetching risk average:');
+      print('Error fetching risk average:');
       throw e;
     }
   }
 
   Future<String> getFeasibilityAverage() async {
     final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityAverageApi);
-    debugPrint('Fetching Feasibility Average from: $uri');
+    print('Fetching Feasibility Average from: $uri');
 
     try {
       final response = await http.get(uri);
-      // debugPrint('Response Status Code: ${response.statusCode}');
-      //   debugPrint('Response Body: ${response.body}');
+      // print('Response Status Code: ${response.statusCode}');
+      //   print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -2322,7 +2322,7 @@ class ApiManager {
         throw Exception('Failed to load feasibility average:');
       }
     } catch (e) {
-      debugPrint('Error fetching feasibility average');
+      print('Error fetching feasibility average');
       throw e;
     }
   }
@@ -2332,8 +2332,8 @@ class ApiManager {
 
     try {
       final response = await http.get(uri);
-      debugPrint('Response Top5OD Status Code: ${response.statusCode}');
-      debugPrint('Response Body: ${response.body}');
+      print('Response Top5OD Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -2342,14 +2342,14 @@ class ApiManager {
         throw Exception('Failed to load Top 5 ODs: ${response.body}');
       }
     } catch (e) {
-      debugPrint('Error fetching Top 5 ODs: $e');
+      print('Error fetching Top 5 ODs: $e');
       return [];
     }
   }
 
   Future<List<AllUsers>> getAllUsers() async {
     final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/SuperAdmin/GetALlUser');
-    debugPrint('Fetching users from: $uri');
+    print('Fetching users from: $uri');
 
     try {
       final token = await storage.read(key: 'token');
@@ -2363,8 +2363,8 @@ class ApiManager {
           'Authorization': 'Bearer $token',
         },
       );
-      debugPrint('Response Status Code: ${response.statusCode}');
-      debugPrint('Response Body: ${response.body}');
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -2373,7 +2373,7 @@ class ApiManager {
         throw Exception('Failed to load users: ${response.body}');
       }
     } catch (e) {
-      debugPrint('Error fetching users: $e');
+      print('Error fetching users: $e');
       return [];
     }
   }

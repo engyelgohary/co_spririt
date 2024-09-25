@@ -169,7 +169,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                   ),
                   InkWell(
                     onTap: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenSuperAdmin());
+                      AppUtil.mainNavigator(context, const MessagesScreenOM());
                     },
                     child: Column(
                       children: [

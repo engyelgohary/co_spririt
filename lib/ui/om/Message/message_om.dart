@@ -9,14 +9,14 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class MessagesScreenSuperAdmin extends StatefulWidget {
-  const MessagesScreenSuperAdmin({super.key});
+class MessagesScreenOM extends StatefulWidget {
+  const MessagesScreenOM({super.key});
 
   @override
-  State<MessagesScreenSuperAdmin> createState() => _MessagesScreenSuperAdminState();
+  State<MessagesScreenOM> createState() => _MessagesScreenOMState();
 }
 
-class _MessagesScreenSuperAdminState extends State<MessagesScreenSuperAdmin> {
+class _MessagesScreenOMState extends State<MessagesScreenOM> {
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final Signalr signalr = Signalr();

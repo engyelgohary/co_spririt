@@ -65,7 +65,9 @@ class _EditProfileODState extends State<EditProfileOD> {
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(color: ODColorScheme.buttonColor),
+              );
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               firstNameController.text = "${collaborator!.firstName}";
@@ -181,7 +183,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                                   "ContractEnd": state.collaboratorData!.contractEnd,
                                 }, _selectedImage, cv);
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text("Profile Update Successfully"),
+                                  content: Text("Profile Updated Successfully"),
                                 ));
                               },
                               style: ElevatedButton.styleFrom(

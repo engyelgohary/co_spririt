@@ -90,9 +90,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30.h,
-              ),
+              SizedBox(height: screenHeight * 0.25 * 0.10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

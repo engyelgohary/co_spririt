@@ -93,9 +93,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: screenHeight * 0.25 * 0.10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

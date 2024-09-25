@@ -110,13 +110,13 @@ class _ChatScreenOAState extends State<ChatScreenOA> {
                             CustomText(
                               text: widget.name,
                               fontSize: 16,
-                              color: AppUI.basicColor,
+                              color: OAColorScheme.buttonColor,
                               fontWeight: FontWeight.w700,
                             ),
                             CustomText(
                               text: widget.email,
                               fontSize: 12,
-                              color: AppUI.basicColor,
+                              color: OAColorScheme.buttonColor,
                               fontWeight: FontWeight.w400,
                             ),
                           ],

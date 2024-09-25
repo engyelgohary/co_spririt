@@ -58,11 +58,9 @@ class _ChatScreenOMState extends State<ChatScreenOM> {
 
   @override
   Widget build(BuildContext context) {
-    double height = AppUtil.responsiveHeight(context);
-
     return Scaffold(
       appBar: customAppBar(
-        title: "messages",
+        title: "Messages",
         context: context,
         textColor: OMColorScheme.textColor,
         backArrowColor: OMColorScheme.mainColor,
@@ -104,13 +102,13 @@ class _ChatScreenOMState extends State<ChatScreenOM> {
                                 CustomText(
                                   text: widget.name,
                                   fontSize: 16,
-                                  color: AppUI.basicColor,
+                                  color: OMColorScheme.textColor,
                                   fontWeight: FontWeight.w700,
                                 ),
                                 CustomText(
                                   text: widget.email,
                                   fontSize: 12,
-                                  color: AppUI.basicColor,
+                                  color: OMColorScheme.textColor,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ],

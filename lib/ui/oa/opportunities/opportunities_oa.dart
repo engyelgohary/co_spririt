@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
-import 'package:co_spirit/ui/od/opportunities/opportunity_view.dart';
+import 'package:co_spirit/ui/oa/opportunities/opportunity_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -113,7 +113,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                   ),
                   trailing: GestureDetector(
                     onTap: () =>
-                        AppUtil.mainNavigator(context, OpportunityViewOD(opportunity: opportunity)),
+                        AppUtil.mainNavigator(context, OpportunityViewOA(opportunity: opportunity)),
                     child: const CircleAvatar(
                       backgroundColor: AppColor.SkyColor,
                       radius: 18,

@@ -275,6 +275,67 @@ Future<void> sendMessage(
   }
 }
 
+Future<void> oppyChatHistory(
+  int id,
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    final respone = await apiManager.getOppyChatHistory(id);
+    final template = {
+      "NewMessage": respone["newMessage"],
+      "GeneratedResult": respone["generatedResult"],
+      "ChatHistory": []
+    };
+    final messages = [];
+
+    for (var element in respone["chatHistory"]) {
+      final message = element["message"];
+      final response = element["response"];
+      if (message != null) {
+        messages.add([message, true]);
+      }
+
+      if (response != null) {
+        messages.add([response, false]);
+      }
+
+      if (message != null && respone != null) {
+        template["ChatHistory"].add({"Message": message, "Response": response});
+      }
+    }
+    loadingNotifier.response = [template, messages];
+  } catch (e) {
+    print("- oppyChatHistory error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> sendOppyMessage(
+  int id,
+  Map template,
+  String message,
+  ApiManager apiManager,
+  ListNotifier listNotifier,
+  ScrollController controller,
+) async {
+  try {
+    listNotifier.addItem([message, true]);
+    controller.animateTo(controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    template["NewMessage"] = message;
+    final result = await apiManager.sendOppyMessage(template);
+    template["ChatHistory"].add(result);
+    listNotifier.addItem([result["Response"], false]);
+    controller.animateTo(controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+  } catch (e) {
+    print("- sendMessage error : $e");
+  }
+}
+
 Widget buildErrorIndicator(String error, VoidCallback tryAgain) {
   return Center(
     child: Column(

@@ -43,7 +43,7 @@ class Opportunity {
   String? industry;
   String? feasibility;
   String? risks;
-  double? score;
+  int? score;
   String? solution;
   String? status;
   String? result;

@@ -48,6 +48,7 @@ class ApiConstants {
   static const String allPostsApi = '/api/v1/post';
   static const String fetchPostsByAdminApi = '/api/v1/post/GetPostsAdmin';
   static const String messagingApi = '/api/v1/messages';
+  static const String oppyApi = '/api/ChatBot/';
   static const String superAdminApi = '/api/v1/SuperAdmin';
   static const String notificationApi = '/api/v1/NotificationMessage';
   static const String opportunityStatusApi = '/api/Status';
@@ -2374,6 +2375,94 @@ class ApiManager {
     } catch (e) {
       print('Error fetching users: $e');
       return [];
+    }
+  }
+
+  Future<dynamic> getOppyChatHistory(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.oppyApi}History/ByOpportunity/$id');
+      final response = await http.get(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception("Failed to get oppy chat history code: ${response.statusCode}");
+    } catch (e) {
+      print("Could not get oppy chat history error: $e");
+      rethrow;
+    }
+  }
+
+  Future<Map> sendOppyMessage(Map template) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      print("Template: $template");
+      final uri = Uri.parse("http://10.100.102.6:1044/api/v0/opp_detection/chatbot");
+      final request = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        encoding: Encoding.getByName("utf-8"),
+        body: jsonEncode(template),
+      );
+
+      if (request.statusCode == 200) {
+        return jsonDecode(request.body);
+      } else {
+        print(jsonDecode(request.body));
+        throw Exception('Failed to send oppy message: ${request.statusCode}');
+      }
+    } catch (e) {
+      print("Could not send oppy message $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> storeOppyMessage(int id, String message, String response) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, '/api/ChatBot');
+      final request = await http.post(
+        uri,
+        encoding: Encoding.getByName("utf-8"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({"message": message, "response": response, "opportunityId": id}),
+      );
+
+      if (request.statusCode == 200) {
+        return true;
+      } else {
+        print(jsonDecode(request.body));
+        throw Exception('Failed to store oppy message: ${request.statusCode}');
+      }
+    } catch (e) {
+      print("Could not store oppy message $e");
+      rethrow;
     }
   }
 }

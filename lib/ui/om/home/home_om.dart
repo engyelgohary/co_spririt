@@ -132,7 +132,6 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                   Column(
                     children: [
                       InkWell(
-                        // onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
                         onTap: () => AppUtil.mainNavigator(context, const OpportunitiesPageOM()),
                         child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg", width: 35),
                       ),
@@ -146,7 +145,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                     ],
                   ),
                   InkWell(
-                    onTap: () => AppUtil.mainNavigator(context, const OppyOM()),
+                    onTap: () => AppUtil.mainNavigator(context, OppyOM()),
                     child: Column(
                       children: [
                         SvgPicture.asset(

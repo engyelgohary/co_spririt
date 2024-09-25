@@ -66,6 +66,7 @@ dependencies:
   flutter_file_downloader: ^2.0.0
   syncfusion_flutter_charts: ^27.1.48
   flutter_svg: ^2.0.10+1
+  flutter_markdown: ^0.7.3+1
 
 dev_dependencies:
   flutter_test:

@@ -15,17 +15,17 @@ import '../Notifactions/notifictionadmin.dart';
 import '../Profile/profile_admin.dart';
 import '../opportunities/opportunities_v2.dart';
 
-class HomeScreenOM extends StatefulWidget {
-  const HomeScreenOM({Key? key, required this.admin, required this.OMId}) : super(key: key);
+class HomeScreenAdmin extends StatefulWidget {
+  const HomeScreenAdmin({Key? key, required this.admin, required this.OMId}) : super(key: key);
   static String routeName = 'home screen admin';
   final GetAdmin admin;
   final String OMId;
 
   @override
-  State<HomeScreenOM> createState() => _HomeScreenOMState();
+  State<HomeScreenAdmin> createState() => _HomeScreenAdminState();
 }
 
-class _HomeScreenOMState extends State<HomeScreenOM> {
+class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   late GetAdmin admin;
   late ApiManager apiManager;
   late Future<List<Post>> adminPosts;

@@ -1,3 +1,5 @@
+import 'package:co_spririt/utils/helper_functions.dart';
+import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/components/appbar.dart';
@@ -32,13 +34,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Dashboard',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
-      ),
+      appBar: customAppBar(
+          title: "Dashboard",
+          context: context,
+          textColor: OMColorScheme.buttonColor,
+          backArrowColor: OMColorScheme.mainColor),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -66,12 +66,11 @@ class _DashboardState extends State<Dashboard> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(fontSize: 15, color: Colors.black),
+                                  .copyWith(fontSize: 15, color: OMColorScheme.textColor),
                             ),
                           ],
                         ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -80,21 +79,17 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Text(
                                   "0",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFF4169E1),
+                                        color: OMColorScheme.mainColor,
                                       ),
                                 ),
                                 Text("Submitted",
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
-                                        .copyWith(
-                                            fontSize: 15, color: Colors.black))
+                                        .copyWith(fontSize: 15, color: OMColorScheme.textColor))
                               ],
                             ),
                             Column(
@@ -102,21 +97,17 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Text(
                                   "0",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFF4169E1),
+                                        color: OMColorScheme.mainColor,
                                       ),
                                 ),
                                 Text("In Progress",
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
-                                        .copyWith(
-                                            fontSize: 15, color: Colors.black))
+                                        .copyWith(fontSize: 15, color: OMColorScheme.textColor))
                               ],
                             ),
                             Column(
@@ -124,21 +115,17 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 Text(
                                   "0",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFF4169E1),
+                                        color: OMColorScheme.mainColor,
                                       ),
                                 ),
                                 Text("Closed",
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
-                                        .copyWith(
-                                            fontSize: 15, color: Colors.black))
+                                        .copyWith(fontSize: 15, color: OMColorScheme.textColor))
                               ],
                             ),
                           ],
@@ -166,10 +153,9 @@ class _DashboardState extends State<Dashboard> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(fontSize: 15, color: Colors.black),
+                                .copyWith(fontSize: 15, color: OMColorScheme.textColor),
                           ),
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.04),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -190,7 +176,10 @@ class _DashboardState extends State<Dashboard> {
                                             // Display score with specified color
                                             Text(
                                               "${scores[index]['score']}",
-                                              style: TextStyle(fontSize: 16, color: Color(0xFF4169E1) ,fontWeight: FontWeight.bold), // Set score color
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: OMColorScheme.mainColor,
+                                                  fontWeight: FontWeight.bold), // Set score color
                                             ),
                                           ],
                                         ),
@@ -214,7 +203,10 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                             Text(
                                               "${scores[index + (scores.length + 1) ~/ 2]['score']}",
-                                              style: TextStyle(fontSize: 18, color: Color(0xFF4169E1),fontWeight: FontWeight.bold), // Set score color
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: OMColorScheme.mainColor,
+                                                  fontWeight: FontWeight.bold), // Set score color
                                             ),
                                           ],
                                         ),
@@ -225,7 +217,6 @@ class _DashboardState extends State<Dashboard> {
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -235,7 +226,8 @@ class _DashboardState extends State<Dashboard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(width: MediaQuery.of(context).size.width*0.43,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.43,
                       height: MediaQuery.of(context).size.height * 0.15,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -248,45 +240,40 @@ class _DashboardState extends State<Dashboard> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                  fontSize: 15, color: Colors.black)),
+                                  .copyWith(fontSize: 15, color: OMColorScheme.textColor)),
                           Text(
                             "Medium",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF4169E1),
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: OMColorScheme.mainColor,
+                                ),
                           ),
                         ],
-                      ),),
-                    Container(width: MediaQuery.of(context).size.width*0.43,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.43,
                       height: MediaQuery.of(context).size.height * 0.15,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                      ),child: Column(
+                      ),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text("Feasibility Average",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                  fontSize: 15, color: Colors.black)),
+                                  .copyWith(fontSize: 15, color: OMColorScheme.textColor)),
                           Text(
                             "High",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF4169E1),
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: OMColorScheme.mainColor,
+                                ),
                           ),
                         ],
                       ),
@@ -314,7 +301,7 @@ class _DashboardState extends State<Dashboard> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(fontSize: 15, color: Colors.black),
+                                  .copyWith(fontSize: 15, color: OMColorScheme.textColor),
                             ),
                           ],
                         ),
@@ -333,7 +320,7 @@ class _DashboardState extends State<Dashboard> {
                                         text: "${od['name']}: ",
                                         style: TextStyle(
                                           fontSize: 13,
-                                          color: Color(0xFF4169E1),
+                                          color: OMColorScheme.mainColor,
                                         ),
                                       ),
                                       TextSpan(
@@ -341,21 +328,21 @@ class _DashboardState extends State<Dashboard> {
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF4169E1),
+                                          color: OMColorScheme.mainColor,
                                         ),
                                       ),
                                       TextSpan(
                                         text: " closed opportunities, ",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.black,
+                                          color: OMColorScheme.textColor,
                                         ),
                                       ),
                                       TextSpan(
                                         text: "average score ",
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.black,
+                                          color: OMColorScheme.textColor,
                                         ),
                                       ),
                                       TextSpan(
@@ -363,8 +350,7 @@ class _DashboardState extends State<Dashboard> {
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
-
-                                          color: Color(0xFF4169E1),
+                                          color: OMColorScheme.mainColor,
                                         ),
                                       ),
                                     ],
@@ -374,13 +360,10 @@ class _DashboardState extends State<Dashboard> {
                             },
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
                 ),
-
               ],
             ),
           ),

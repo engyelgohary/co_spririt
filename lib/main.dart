@@ -8,8 +8,8 @@ import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spririt/ui/od/opportunities/cubit/opportunities_cubit.dart';
 import 'package:co_spririt/ui/od/requests/request_collaborator.dart';
 import 'package:co_spririt/ui/splash/splashscreen.dart';
-import 'package:co_spririt/ui/om/Menu/menu_superadmin.dart';
-import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
+import 'package:co_spririt/ui/om/Menu/menu_om.dart';
+import 'package:co_spririt/ui/om/Notifications/notifications_om.dart';
 import 'package:co_spririt/ui/om/adminforsuperadmin/Cubit/admin_cubit.dart';
 import 'package:co_spririt/ui/om/clientsForSuperAdmin/Cubit/client_cubit.dart';
 import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
@@ -63,8 +63,8 @@ class MyApp extends StatelessWidget {
             Splash.routeName: (context) => Splash(),
             LoginScreen.routeName: (context) => LoginScreen(),
             // Super Admin
-            NotificationScreenSuperAdmin.routName: (context) => NotificationScreenSuperAdmin(),
-            MenuScreenSuperAdmin.routeName: (context) => MenuScreenSuperAdmin(),
+            NotificationScreenOM.routName: (context) => NotificationScreenOM(),
+            MenuScreenOM.routeName: (context) => MenuScreenOM(),
             RequestSuperAdmin.routeName: (context) => RequestSuperAdmin(),
             //   Admin
             NotificationScreenAdmin.routName: (context) => NotificationScreenAdmin(),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/om/OAForSuperAdmin/Cubit/OA_cubit.dart';
-import 'package:co_spririt/ui/om/OAForSuperAdmin/addDialog.dart';
+import 'package:co_spririt/ui/om/OWForSuperAdmin/Cubit/OW_cubit.dart';
+import 'package:co_spririt/ui/om/OWForSuperAdmin/addDialog.dart';
+import 'package:co_spririt/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,25 +9,25 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../utils/components/appbar.dart';
 import '../../../../utils/theme/appColors.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../data/model/OA.dart';
+import '../../../data/model/OW.dart';
 import '../../../data/repository/repository/repository_impl.dart';
-import 'infoOA.dart';
+import 'info_ow.dart';
 
-class OpportunityAnalyzersScreen extends StatefulWidget {
-  const OpportunityAnalyzersScreen({super.key});
+class OpportunityOwnersScreen extends StatefulWidget {
+  const OpportunityOwnersScreen({super.key});
 
   @override
-  State<OpportunityAnalyzersScreen> createState() => _OpportunityAnalyzersScreenState();
+  State<OpportunityOwnersScreen> createState() => _OpportunityOwnersScreenState();
 }
 
-class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen> {
-  late OpportunityAnalyzerCubit viewModel;
+class _OpportunityOwnersScreenState extends State<OpportunityOwnersScreen> {
+  late OpportunityOwnerCubit viewModel;
 
   @override
   void initState() {
     super.initState();
-    viewModel = OpportunityAnalyzerCubit(
-      opportunityAnalyzerRepository: OpportunityAnalyzerRepositoryImpl(
+    viewModel = OpportunityOwnerCubit(
+      opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
         apiManager: ApiManager.getInstance(),
       ),
     );
@@ -63,45 +64,63 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Opportunity Analyzers ',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
+      appBar: customAppBar(
+        title: "Opportunity Owners",
+        context: context,
+        textColor: OMColorScheme.buttonColor,
+        backArrowColor: OMColorScheme.mainColor,
         actions: [
-          IconButton(
-            icon: CircleAvatar(
-              radius: 25.r,
-              backgroundColor: AppColor.secondColor,
-              child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: const Icon(Icons.person_add_alt_outlined, color: OMColorScheme.buttonColor),
+              onPressed: () {
+                showAddBottomSheet();
+              },
             ),
-            onPressed: () {
-              showAddBottomSheet();
-            },
           ),
         ],
       ),
+      // AppBar(
+      //   title: Text(
+      //     'Opportunity Owners',
+      //     style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
+      //   ),
+      //   leading: const AppBarCustom(),
+      //   actions: [
+      //     IconButton(
+      //       icon: CircleAvatar(
+      //         radius: 25.r,
+      //         backgroundColor: AppColor.secondColor,
+      //         child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+      //       ),
+      //       onPressed: () {
+      //         showAddBottomSheet();
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
+        child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           bloc: viewModel,
           builder: (context, state) {
-            return PagedListView<int, OA>.separated(
+            return PagedListView<int, OW>.separated(
               pagingController: viewModel.pagingController,
-              builderDelegate: PagedChildBuilderDelegate<OA>(
+              builderDelegate: PagedChildBuilderDelegate<OW>(
                 itemBuilder: (context, item, index) {
-                  final oaImage = 'http://${ApiConstants.baseUrl}${item.pictureLocation}';
+                  final owImage = 'http://${ApiConstants.baseUrl}${item.pictureLocation}';
                   return ListTile(
                     leading: CachedNetworkImage(
-                      imageUrl: oaImage,
+                      imageUrl: owImage,
                       placeholder: (context, url) => const CircularProgressIndicator(
                         color: AppColor.secondColor,
                       ),
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
                         radius: 20.r,
-                        child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                        child:
+                            const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
                       imageBuilder: (context, imageProvider) => CircleAvatar(
                         backgroundImage: imageProvider,
@@ -123,7 +142,7 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
                     ),
                     trailing: InkWell(
                       onTap: () {
-                        showOADetailsBottomSheet(item.id.toString());
+                        showOWDetailsBottomSheet(item.id.toString());
                       },
                       child: CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
@@ -138,7 +157,8 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
                   );
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
-                noItemsFoundIndicatorBuilder: (context) => const Center(child: Text("No Analyzers found")),
+                noItemsFoundIndicatorBuilder: (context) =>
+                    const Center(child: Text("No Owners found")),
                 newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
@@ -171,7 +191,7 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
       builder: (context) {
         return BlocProvider.value(
           value: viewModel,
-          child: AddOA(
+          child: AddOW(
             onOpportunityAdded: onOpportunityAdded,
           ),
         );
@@ -179,25 +199,24 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
     );
   }
 
-
-  void showOADetailsBottomSheet(String id) {
+  void showOWDetailsBottomSheet(String id) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        viewModel.fetchOADetails(id);
+        viewModel.fetchOWDetails(id);
 
-        return BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
+        return BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           bloc: viewModel,
           builder: (context, state) {
-            if (state is OpportunityAnalyzerLoading) {
+            if (state is OpportunityOwnerLoading) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: AppColor.secondColor,
                 ),
               );
-            } else if (state is OpportunityAnalyzerDetailsSuccess) {
-              return InfoOA(state.opportunityAnalyzerData);
-            } else if (state is OpportunityAnalyzerError) {
+            } else if (state is OpportunityOwnerDetailsSuccess) {
+              return InfoOW(state.opportunityOwnerData);
+            } else if (state is OpportunityOwnerError) {
               return Center(child: Text(state.errorMessage ?? "Error fetching details"));
             } else {
               return const Center(
@@ -211,6 +230,4 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
       },
     );
   }
-
-
 }

@@ -4,17 +4,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
+import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
+import '../../../utils/theme/appColors.dart';
 
-class ChatScreenSuperAdmin extends StatefulWidget {
+class ChatScreenOM extends StatefulWidget {
   final int receiverId;
   final String name;
   final String email;
   final String? pictureLocation;
 
-  const ChatScreenSuperAdmin({
+  const ChatScreenOM({
     super.key,
     required this.receiverId,
     required this.name,
@@ -23,10 +25,10 @@ class ChatScreenSuperAdmin extends StatefulWidget {
   });
 
   @override
-  State<ChatScreenSuperAdmin> createState() => _ChatScreenSuperAdminState();
+  State<ChatScreenOM> createState() => _ChatScreenOMState();
 }
 
-class _ChatScreenSuperAdminState extends State<ChatScreenSuperAdmin> {
+class _ChatScreenOMState extends State<ChatScreenOM> {
   final TextEditingController messageController = TextEditingController();
   final ListNotifier<Message> listNotifier = ListNotifier(list: []);
   final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
@@ -56,59 +58,37 @@ class _ChatScreenSuperAdminState extends State<ChatScreenSuperAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    double height = AppUtil.responsiveHeight(context);
+
     return Scaffold(
+      appBar: customAppBar(
+        title: "messages",
+        context: context,
+        textColor: OMColorScheme.textColor,
+        backArrowColor: OMColorScheme.mainColor,
+        backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              onPressed: () => snackBar(context, "Not implemented"),
+              icon: const Icon(Icons.more_horiz),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
-          const SizedBox(
-            // App bar
-            height: 30,
-          ),
           Container(
-            height: 145,
-            decoration:
-                BoxDecoration(color: AppUI.whiteColor, borderRadius: BorderRadius.circular(12)),
+            decoration: const BoxDecoration(
+              color: AppUI.whiteColor,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(bottom: 16.0, left: 16.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 42,
-                        width: 42,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                        child: const BackButton(
-                          color: AppUI.whiteColor,
-                        ),
-                      ),
-                      const Center(
-                        child: CustomText(
-                          text: 'Messages',
-                          fontSize: 20,
-                          color: AppUI.basicColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Container(
-                        height: 42,
-                        width: 42,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30), color: AppUI.secondColor),
-                        child: const ImageIcon(
-                          AssetImage(
-                            '${AppUI.iconPath}chatmenu.png',
-                          ),
-                          color: AppUI.whiteColor,
-                          size: 42,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Column(
                     children: [
                       Row(
@@ -202,85 +182,87 @@ class _ChatScreenSuperAdminState extends State<ChatScreenSuperAdmin> {
               children: [
                 Expanded(
                   child: CustomInput(
-                    borderColor: const Color.fromRGBO(241, 241, 241, 1),
                     fillColor: const Color.fromRGBO(241, 241, 241, 1),
-                    //counterColor: AppUI.borderColor,
-                    //radius: 24,
+                    radius: 30,
                     controller: messageController,
                     hint: "Type a message ...",
                     textInputType: TextInputType.text,
-                    suffixIcon: SizedBox(
-                      width: 55,
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              final res = await FilePicker.platform.pickFiles(allowMultiple: true);
-                              if (res != null) {
-                                for (var file in res.files) {
-                                  selectedAttachments.add(file.path!);
-                                }
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            final res = await FilePicker.platform.pickFiles(allowMultiple: true);
+                            if (res != null) {
+                              for (var file in res.files) {
+                                selectedAttachments.add(file.path!);
                               }
-                            },
-                            child: const ImageIcon(
-                              AssetImage(
-                                '${AppUI.iconPath}file.png',
-                              ),
-                              color: AppUI.twoBasicColor,
-                              size: 20,
+                            }
+                          },
+                          child: const ImageIcon(
+                            AssetImage(
+                              '${AppUI.iconPath}file.png',
                             ),
+                            color: AppUI.twoBasicColor,
+                            size: 20,
                           ),
-                          // SizedBox(
-                          //   width: 8,
-                          // ),
-                          // InkWell(
-                          //   onTap: () {},
-                          //   child: ImageIcon(
-                          //     AssetImage(
-                          //       '${AppUI.iconPath}chatcamera.png',
-                          //     ),
-                          //     color: AppUI.twoBasicColor,
-                          //     size: 20,
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            if (messageController.text.trim().isNotEmpty &&
+                                !loadingNotifier.loading) {
+                              sendMessage(widget.receiverId, messageController.text.trim(),
+                                  apiManager, listNotifier, selectedAttachments.toList());
+                              messageController.clear();
+                              selectedAttachments.clear();
+                            }
+                            Future.delayed(
+                              const Duration(milliseconds: 300),
+                              () => scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeOut),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.send,
+                            color: OMColorScheme.mainColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-                InkWell(
-                  onTap: () async {
-                    if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
-                      sendMessage(widget.receiverId, messageController.text.trim(), apiManager,
-                          listNotifier, selectedAttachments.toList());
-                      selectedAttachments.clear();
-                      messageController.clear();
-                    }
-                    Future.delayed(
-                      const Duration(milliseconds: 300),
-                      () => scrollController.animateTo(scrollController.position.maxScrollExtent,
-                          duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
-                    );
-                  },
-                  child: Container(
-                    height: 44,
-                    width: 42,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: AppUI.secondColor,
-                    ),
-                    child: const ImageIcon(
-                      AssetImage(
-                        '${AppUI.iconPath}send.png',
-                      ),
-                      color: AppUI.whiteColor,
-                      size: 44,
-                    ),
-                  ),
-                )
+                // InkWell(
+                //   onTap: () async {
+                //     if (messageController.text.trim().isNotEmpty && !loadingNotifier.loading) {
+                //       sendMessage(widget.receiverId, messageController.text.trim(), apiManager,
+                //           listNotifier, selectedAttachments.toList());
+                //       selectedAttachments.clear();
+                //       messageController.clear();
+                //     }
+                //     Future.delayed(
+                //       const Duration(milliseconds: 300),
+                //       () => scrollController.animateTo(scrollController.position.maxScrollExtent,
+                //           duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
+                //     );
+                //   },
+                //   child: Container(
+                //     height: 44,
+                //     width: 42,
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(30),
+                //       color: AppUI.secondColor,
+                //     ),
+                //     child: const ImageIcon(
+                //       AssetImage(
+                //         '${AppUI.iconPath}send.png',
+                //       ),
+                //       color: AppUI.whiteColor,
+                //       size: 44,
+                //     ),
+                //   ),
+                // )
               ],
             ),
           )

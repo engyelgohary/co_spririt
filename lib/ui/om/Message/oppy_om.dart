@@ -87,13 +87,13 @@ class _OppyOStateD extends State<OppyOM> {
                 CustomText(
                   text: "Ask Oppy",
                   fontSize: 16,
-                  color: ODColorScheme.mainColor,
+                  color: OMColorScheme.mainColor,
                   fontWeight: FontWeight.w700,
                 ),
                 CustomText(
                   text: "● Online ",
                   fontSize: 12,
-                  color: ODColorScheme.buttonColor,
+                  color: OMColorScheme.buttonColor,
                   fontWeight: FontWeight.w400,
                 ),
               ],
@@ -101,7 +101,7 @@ class _OppyOStateD extends State<OppyOM> {
           ],
         ),
         toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: ODColorScheme.buttonColor),
+        iconTheme: const IconThemeData(color: OMColorScheme.buttonColor),
       ),
       body: Column(
         children: [
@@ -223,7 +223,7 @@ class _OppyOStateD extends State<OppyOM> {
                           },
                           icon: const Icon(
                             Icons.send,
-                            color: ODColorScheme.buttonColor,
+                            color: OMColorScheme.buttonColor,
                           ),
                         ),
                       ],

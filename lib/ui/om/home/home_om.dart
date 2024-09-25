@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/ui/om/Menu/menu_superadmin.dart';
-import 'package:co_spririt/ui/om/Message/Message_superadmin.dart';
-import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
+import 'package:co_spririt/ui/om/Menu/menu_om.dart';
+import 'package:co_spririt/ui/om/Message/message_om.dart';
+import 'package:co_spririt/ui/om/Notifications/notifications_om.dart';
+import 'package:co_spririt/ui/om/opportunity/opportunities_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,19 +15,19 @@ import '../../../data/model/Post.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../admin/opportunities/opportunities_v2.dart';
-import '../../od/Message/oppy_od.dart';
+import '../../om/Message/oppy_om.dart';
 import 'creat_post.dart';
 
-class HomeScreenSuperAdmin extends StatefulWidget {
-  const HomeScreenSuperAdmin({Key? key, required this.superAdminId}) : super(key: key);
-  static String routeName = 'home screen super admin';
+class HomeScreenOM extends StatefulWidget {
+  const HomeScreenOM({Key? key, required this.superAdminId}) : super(key: key);
+  static String routeName = 'home screen ';
   final String superAdminId;
 
   @override
-  State<HomeScreenSuperAdmin> createState() => _HomeScreenSuperAdminState();
+  State<HomeScreenOM> createState() => _HomeScreenOMState();
 }
 
-class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
+class _HomeScreenOMState extends State<HomeScreenOM> {
   late ApiManager apiManager;
   late Future<List<Post>> futurePosts;
 
@@ -76,7 +77,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                     ),
                     InkWell(
                       onTap: () {
-                        AppUtil.mainNavigator(context, const NotificationScreenSuperAdmin());
+                        AppUtil.mainNavigator(context, const NotificationScreenOM());
                       },
                       child: Padding(
                         padding: EdgeInsets.only(right: 13.w),
@@ -99,7 +100,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                   Column(
                     children: [
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const MenuScreenSuperAdmin()),
+                        onTap: () => AppUtil.mainNavigator(context, const MenuScreenOM()),
                         child: SvgPicture.asset(
                           "${AppUI.svgPath}menu.svg",
                           width: 35,
@@ -134,7 +135,8 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                   Column(
                     children: [
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
+                        // onTap: () => AppUtil.mainNavigator(context, const OpportunitiesV2()),
+                        onTap: () => AppUtil.mainNavigator(context, const OpportunitiesPageOM()),
                         child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg", width: 35),
                       ),
                       const SizedBox(height: 8),
@@ -147,7 +149,7 @@ class _HomeScreenSuperAdminState extends State<HomeScreenSuperAdmin> {
                     ],
                   ),
                   InkWell(
-                    onTap: () => AppUtil.mainNavigator(context, OppyOD()),
+                    onTap: () => AppUtil.mainNavigator(context, OppyOM()),
                     child: Column(
                       children: [
                         SvgPicture.asset(

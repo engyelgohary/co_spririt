@@ -5,6 +5,7 @@ import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../utils/theme/appColors.dart';
 
@@ -120,11 +121,12 @@ class OpportunityViewOD extends StatelessWidget {
                 "Description:",
                 style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: SelectableText(
-                  opportunity.result ?? "N/A",
-                  style: const TextStyle(fontSize: 16),
+              Markdown(
+                shrinkWrap: true,
+                selectable: true,
+                data: opportunity.result ?? "N/A",
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(fontSize: 16),
                 ),
               ),
             ],

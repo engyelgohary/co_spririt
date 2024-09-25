@@ -149,7 +149,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOW()),
+                        onTap: () => AppUtil.mainNavigator(context, OppyOW()),
                         child: Column(
                           children: [
                             SvgPicture.asset(

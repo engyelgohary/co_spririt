@@ -154,7 +154,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOD()),
+                        onTap: () => AppUtil.mainNavigator(context, OppyOD()),
                         child: Column(
                           children: [
                             SvgPicture.asset(

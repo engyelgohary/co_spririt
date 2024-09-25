@@ -120,7 +120,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     textColor: OAColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const OppyOA());
+                      AppUtil.mainNavigator(context, OppyOA());
                     },
                   ),
                   CustomMenuCard(

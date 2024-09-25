@@ -5,12 +5,13 @@ import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../utils/theme/appColors.dart';
 
-class OpportunityViewOW extends StatelessWidget {
+class OpportunityViewOM extends StatelessWidget {
   final Opportunity opportunity;
-  const OpportunityViewOW({super.key, required this.opportunity});
+  const OpportunityViewOM({super.key, required this.opportunity});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class OpportunityViewOW extends StatelessWidget {
       appBar: customAppBar(
         title: "Opportunities",
         context: context,
-        backArrowColor: OWColorScheme.buttonColor,
-        textColor: OWColorScheme.mainColor,
+        backArrowColor: OMColorScheme.mainColor,
+        textColor: OMColorScheme.textColor,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -30,7 +31,7 @@ class OpportunityViewOW extends StatelessWidget {
             children: [
               const SelectableText(
                 "Opportunity Title:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               SelectableText(
                 opportunity.title ?? "N/A",
@@ -38,7 +39,7 @@ class OpportunityViewOW extends StatelessWidget {
               ),
               const SelectableText(
                 "Status:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -49,7 +50,7 @@ class OpportunityViewOW extends StatelessWidget {
               ),
               const SelectableText(
                 "Feasibility:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -60,7 +61,7 @@ class OpportunityViewOW extends StatelessWidget {
               ),
               const SelectableText(
                 "Risks:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -71,7 +72,7 @@ class OpportunityViewOW extends StatelessWidget {
               ),
               const SelectableText(
                 "Type:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -83,7 +84,7 @@ class OpportunityViewOW extends StatelessWidget {
               if (opportunity.descriptionLocation != null)
                 const SelectableText(
                   "Description File:",
-                  style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                 ),
               if (opportunity.descriptionLocation != null)
                 IconButton(
@@ -118,13 +119,14 @@ class OpportunityViewOW extends StatelessWidget {
                 ),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: SelectableText(
-                  opportunity.result ?? "N/A",
-                  style: const TextStyle(fontSize: 16),
+              Markdown(
+                shrinkWrap: true,
+                selectable: true,
+                data: opportunity.result ?? "N/A",
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(fontSize: 16),
                 ),
               ),
             ],

@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:co_spirit/ui/om/Message/oppy_om.dart';
-import 'package:co_spirit/ui/om/opportunity/opportunity_view.dart';
+import 'package:co_spirit/ui/om/opportunity/opportunity_view_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -28,8 +28,6 @@ class _OpportunitiesPageOMState extends State<OpportunitiesPageOM> {
 
   @override
   Widget build(BuildContext context) {
-    final height = AppUtil.responsiveHeight(context);
-
     return Scaffold(
       appBar: customAppBar(
         title: "Opportunities",

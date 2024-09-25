@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
-import 'package:co_spirit/ui/oa/opportunities/opportunity_view.dart';
+import 'package:co_spirit/ui/oa/opportunities/opportunity_view_oa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -8,6 +8,7 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
+import '../Message/oppy_oa.dart';
 
 class OpportunitiesPageOA extends StatefulWidget {
   const OpportunitiesPageOA({super.key});
@@ -44,7 +45,8 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
             if (loadingNotifier.loading) {
               opportunitiesList(apiManager, loadingNotifier);
               return const Center(
-                  child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
+                child: CircularProgressIndicator(color: OAColorScheme.buttonColor),
+              );
             } else if (loadingNotifier.response == null) {
               return Center(
                 child: buildErrorIndicator(
@@ -112,8 +114,14 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                     ],
                   ),
                   trailing: GestureDetector(
-                    onTap: () =>
-                        AppUtil.mainNavigator(context, OpportunityViewOA(opportunity: opportunity)),
+                    onTap: () => AppUtil.mainNavigator(
+                      context,
+                      OpportunityViewOA(opportunity: opportunity),
+                    ),
+                    onLongPress: () => AppUtil.mainNavigator(
+                      context,
+                      OppyOA(opportunityId: opportunity.id),
+                    ),
                     child: const CircleAvatar(
                       backgroundColor: AppColor.SkyColor,
                       radius: 18,

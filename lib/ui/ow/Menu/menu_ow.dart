@@ -1,9 +1,11 @@
-import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/od/Message/Message_od.dart';
+import 'package:co_spirit/data/repository/repository/repository_impl.dart';
 import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
 import 'package:co_spirit/ui/od/requests/request_collaborator.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/ui/ow/Message/Message_ow.dart';
+import 'package:co_spirit/ui/ow/Notifactions/notifictions_ow.dart';
+import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
+import 'package:co_spirit/ui/ow/Profile/profile_ow.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,20 +26,23 @@ class MenuScreenOW extends StatefulWidget {
 }
 
 class _MenuScreenOWState extends State<MenuScreenOW> {
-  late CollaboratorCubit adminCubit;
+  late OpportunityOwnerCubit OWCubit;
 
   @override
   void initState() {
     super.initState();
-    adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.OWId));
+    OWCubit = OpportunityOwnerCubit(
+        opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
+      apiManager: ApiManager.getInstance(),
+    ));
+    OWCubit.fetchOWDetails(widget.OWId);
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (_) => adminCubit,
+      create: (_) => OWCubit,
       child: Scaffold(
         appBar: customAppBar(
           title: "Menu",
@@ -45,12 +50,12 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
           backArrowColor: OWColorScheme.buttonColor,
           textColor: OWColorScheme.mainColor,
         ),
-        body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        body: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
+            if (state is OpportunityOwnerLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
+            } else if (state is OpportunityOwnerDetailsSuccess) {
+              final collaborator = state.opportunityOwnerData;
               return Column(
                 children: [
                   Row(
@@ -60,7 +65,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                           left: width / 20,
                           right: 20,
                         ),
-                        child: ODPhoto(collaborator!.pictureLocation, 75, 75),
+                        child: ODPhoto(collaborator.pictureLocation, 75, 75),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +75,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                             style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18),
                           ),
                           Text(
-                            "Opportunity Detector",
+                            "Opportunity Owner",
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -89,8 +94,8 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        ProfileScreenOD(
-                          collaboratorId: widget.OWId,
+                        ProfileScreenOW(
+                          OWId: widget.OWId,
                         ),
                       );
                     },
@@ -100,7 +105,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     textColor: OWColorScheme.mainColor,
                     name: 'Notifications',
                     onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenOD.routName);
+                      Navigator.pushNamed(context, NotificationScreenOW.routName);
                     },
                   ),
                   CustomMenuCard(
@@ -108,7 +113,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     textColor: OWColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenOD());
+                      AppUtil.mainNavigator(context, const MessagesScreenOW());
                     },
                   ),
                   CustomMenuCard(
@@ -128,7 +133,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                   ),
                 ],
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityOwnerError) {
               return Center(child: Text(state.errorMessage ?? ''));
             } else {
               return Container();

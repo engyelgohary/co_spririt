@@ -1,16 +1,18 @@
-import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/oa/Message/Message_oa.dart';
+import 'package:co_spirit/ui/oa/Notifactions/notifictions_oa.dart';
+import 'package:co_spirit/ui/oa/Profile/profile_oa.dart';
 import 'package:co_spirit/ui/od/Message/Message_od.dart';
 import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spirit/ui/od/Profile/profile_od.dart';
-import 'package:co_spirit/ui/od/requests/request_collaborator.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/ui/om/OAForSuperAdmin/Cubit/OA_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
+import '../../../data/repository/repository/repository_impl.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
+import '../../od/requests/request_collaborator.dart';
 import '../opportunities/opportunities_oa.dart';
 
 class MenuScreenOA extends StatefulWidget {
@@ -24,20 +26,23 @@ class MenuScreenOA extends StatefulWidget {
 }
 
 class _MenuScreenOAState extends State<MenuScreenOA> {
-  late CollaboratorCubit adminCubit;
+  late OpportunityAnalyzerCubit OACubit;
 
   @override
   void initState() {
     super.initState();
-    adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.OAId));
+    OACubit = OpportunityAnalyzerCubit(
+        opportunityAnalyzerRepository: OpportunityAnalyzerRepositoryImpl(
+      apiManager: ApiManager.getInstance(),
+    ));
+    OACubit.fetchOADetails(widget.OAId);
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (_) => adminCubit,
+      create: (_) => OACubit,
       child: Scaffold(
         appBar: customAppBar(
           title: "Menu",
@@ -45,12 +50,12 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
           backArrowColor: OAColorScheme.buttonColor,
           textColor: OAColorScheme.mainColor,
         ),
-        body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        body: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
+            if (state is OpportunityAnalyzerLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
+            } else if (state is OpportunityAnalyzerDetailsSuccess) {
+              final OA = state.opportunityAnalyzerData;
               return Column(
                 children: [
                   Row(
@@ -60,17 +65,17 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                           left: width / 20,
                           right: 20,
                         ),
-                        child: ODPhoto(collaborator!.pictureLocation, 75, 75),
+                        child: ODPhoto(OA!.pictureLocation, 75, 75),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            collaborator.firstName ?? "N/A",
+                            OA.firstName ?? "N/A",
                             style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18),
                           ),
                           Text(
-                            "Opportunity Detector",
+                            "Opportunity Analyzer",
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -81,7 +86,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
@@ -89,8 +94,8 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        ProfileScreenOD(
-                          collaboratorId: widget.OAId,
+                        ProfileScreenOA(
+                          OAId: widget.OAId,
                         ),
                       );
                     },
@@ -100,7 +105,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     textColor: OAColorScheme.mainColor,
                     name: 'Notifications',
                     onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenOD.routName);
+                      Navigator.pushNamed(context, NotificationScreenOA.routName);
                     },
                   ),
                   CustomMenuCard(
@@ -108,7 +113,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     textColor: OAColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenOD());
+                      AppUtil.mainNavigator(context, const MessagesScreenOA());
                     },
                   ),
                   CustomMenuCard(
@@ -128,7 +133,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                   ),
                 ],
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityAnalyzerError) {
               return Center(child: Text(state.errorMessage ?? ''));
             } else {
               return Container();

@@ -242,6 +242,11 @@ class OpportunityAnalyzerRepositoryImpl implements OpportunityAnalyzerRepository
   Future<OA> fetchOADetails(String id) {
     return apiManager.fetchOADetails(id);
   }
+
+  @override
+  Future<OA> updateOA(Map<String, dynamic> adminData, XFile? image) {
+    return apiManager.updateOA(adminData, image);
+  }
 }
 
 class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
@@ -262,5 +267,10 @@ class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
   @override
   Future<OW> fetchOWDetails(String id) {
     return apiManager.fetchOWDetails(id);
+  }
+
+  @override
+  Future<OW> updateOW(Map<String, dynamic> OWData, XFile? image) {
+    return apiManager.updateOW(OWData, image);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/od/Profile/edit_profile.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/data/repository/repository/repository_impl.dart';
+import 'package:co_spirit/ui/od/Profile/edit_profile_od.dart';
+import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,7 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
+import 'edit_profile_ow.dart';
 
 class ProfileScreenOW extends StatefulWidget {
   final String OWId;
@@ -21,7 +22,7 @@ class ProfileScreenOW extends StatefulWidget {
 }
 
 class _ProfileScreenOWState extends State<ProfileScreenOW> {
-  late CollaboratorCubit viewModel;
+  late OpportunityOwnerCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController phoneController;
@@ -35,10 +36,11 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-    viewModel = CollaboratorCubit(
-      collaboratorRepository: injectCollaboratorRepository(),
-    );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.OWId));
+    viewModel = OpportunityOwnerCubit(
+        opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
+      apiManager: ApiManager.getInstance(),
+    ));
+    viewModel.fetchOWDetails(widget.OWId);
   }
 
   Future<void> _pickImage() async {
@@ -90,8 +92,8 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         child: Icon(Icons.horizontal_rule_rounded),
                       ),
                       Flexible(
-                          child: EditProfileOD(
-                        collaboratorId: widget.OWId,
+                          child: EditProfileOW(
+                        OWId: widget.OWId,
                       )),
                     ],
                   ),
@@ -102,16 +104,18 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
           ]),
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
-              firstNameController.text = "${collaborator!.firstName}";
-              lastNameController.text = collaborator.lastName ?? "";
-              phoneController.text = collaborator.phone ?? "";
-              emailController.text = collaborator.email ?? "";
+            if (state is OpportunityOwnerLoading) {
+              return const Center(
+                child: CircularProgressIndicator(color: OWColorScheme.buttonColor),
+              );
+            } else if (state is OpportunityOwnerDetailsSuccess) {
+              final OW = state.opportunityOwnerData;
+              firstNameController.text = "${OW.firstName}";
+              lastNameController.text = OW.lastName ?? "";
+              phoneController.text = OW.phone ?? "";
+              emailController.text = OW.email ?? "";
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,9 +126,9 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         backgroundImage: _selectedImage != null
                             ? FileImage(File(_selectedImage!.path))
                             : NetworkImage(
-                                'http://${ApiConstants.baseUrl}${collaborator.pictureLocation}',
+                                'http://${ApiConstants.baseUrl}${OW.pictureLocation}',
                               ) as ImageProvider,
-                        child: _selectedImage == null && collaborator.pictureLocation == null
+                        child: _selectedImage == null && OW.pictureLocation == null
                             ? const Icon(Icons.camera_alt, size: 50)
                             : null,
                       ),
@@ -235,7 +239,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                   ],
                 ),
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityOwnerError) {
               return Center(child: Text(state.errorMessage ?? ""));
             } else {
               return Container();

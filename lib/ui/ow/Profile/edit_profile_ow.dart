@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/data/repository/repository/repository_impl.dart';
+import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,22 +9,21 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditProfileOA extends StatefulWidget {
-  final String OAId;
-  const EditProfileOA({super.key, required this.OAId});
+class EditProfileOW extends StatefulWidget {
+  final String OWId;
+  const EditProfileOW({super.key, required this.OWId});
 
   @override
-  State<EditProfileOA> createState() => _EditProfileOAState();
+  State<EditProfileOW> createState() => _EditProfileOWState();
 }
 
-class _EditProfileOAState extends State<EditProfileOA> {
-  late CollaboratorCubit viewModel;
+class _EditProfileOWState extends State<EditProfileOW> {
+  late OpportunityOwnerCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController phoneController;
   late TextEditingController emailController;
   XFile? _selectedImage;
-  File? cv;
   @override
   void initState() {
     super.initState();
@@ -32,10 +31,11 @@ class _EditProfileOAState extends State<EditProfileOA> {
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-    viewModel = CollaboratorCubit(
-      collaboratorRepository: injectCollaboratorRepository(),
-    );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.OAId));
+    viewModel = OpportunityOwnerCubit(
+        opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
+      apiManager: ApiManager.getInstance(),
+    ));
+    viewModel.fetchOWDetails(widget.OWId);
   }
 
   Future<void> _pickImage() async {
@@ -55,6 +55,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
@@ -62,16 +63,18 @@ class _EditProfileOAState extends State<EditProfileOA> {
       backgroundColor: Colors.white,
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
-              firstNameController.text = "${collaborator!.firstName}";
-              lastNameController.text = collaborator.lastName ?? "";
-              phoneController.text = collaborator.phone ?? "";
-              emailController.text = collaborator.email ?? "";
+            if (state is OpportunityOwnerLoading) {
+              return const Center(
+                child: CircularProgressIndicator(color: OWColorScheme.buttonColor),
+              );
+            } else if (state is OpportunityOwnerDetailsSuccess) {
+              final OA = state.opportunityOwnerData;
+              firstNameController.text = "${OA.firstName}";
+              lastNameController.text = OA.lastName ?? "";
+              phoneController.text = OA.phone ?? "";
+              emailController.text = OA.email ?? "";
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,9 +87,9 @@ class _EditProfileOAState extends State<EditProfileOA> {
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
-                                  'http://${ApiConstants.baseUrl}${collaborator.pictureLocation}',
+                                  'http://${ApiConstants.baseUrl}${OA.pictureLocation}',
                                 ) as ImageProvider,
-                          child: _selectedImage == null && collaborator.pictureLocation == null
+                          child: _selectedImage == null && OA.pictureLocation == null
                               ? const Icon(Icons.camera_alt, size: 50)
                               : null,
                         ),
@@ -97,7 +100,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16.h,
@@ -106,19 +109,19 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: OAColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: OAColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: OAColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'please enter your email address';
@@ -136,7 +139,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       fieldName: 'Phone',
                       controller: phoneController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: OAColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -148,7 +151,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: OAColorScheme.disabledColor,
+                                backgroundColor: OWColorScheme.disabledColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),
@@ -171,22 +174,22 @@ class _EditProfileOAState extends State<EditProfileOA> {
                             flex: 3,
                             child: ElevatedButton(
                               onPressed: () async {
-                                context.read<CollaboratorCubit>().updateCollaborator({
-                                  'id': widget.OAId,
+                                context.read<OpportunityOwnerCubit>().updateOW({
+                                  'id': widget.OWId,
                                   'firstName': firstNameController.text,
                                   'lastName': lastNameController.text,
                                   'phone': phoneController.text,
                                   'email': emailController.text,
-                                  "ContractStart": state.collaboratorData!.contractStart,
-                                  "ContractEnd": state.collaboratorData!.contractEnd,
-                                }, _selectedImage, cv);
+                                  'password': "AdminAdmin",
+                                  'canPost': state.opportunityOwnerData.canPost.toString(),
+                                }, _selectedImage);
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text("Profile Update Successfully"),
+                                  content: Text("Profile Updated Successfully"),
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: OAColorScheme.buttonColor,
+                                backgroundColor: OWColorScheme.buttonColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),
@@ -210,7 +213,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                   ],
                 ),
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityOwnerError) {
               return Center(child: Text(state.errorMessage ?? ""));
             } else {
               return Container();

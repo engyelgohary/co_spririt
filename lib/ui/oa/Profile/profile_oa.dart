@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/data/repository/repository/repository_impl.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +9,8 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
-import 'edit_profile.dart';
+import 'Cubit/oa_cubit.dart';
+import 'edit_profile_oa.dart';
 
 class ProfileScreenOA extends StatefulWidget {
   final String OAId;
@@ -21,7 +21,7 @@ class ProfileScreenOA extends StatefulWidget {
 }
 
 class _ProfileScreenOAState extends State<ProfileScreenOA> {
-  late CollaboratorCubit viewModel;
+  late OpportunityAnalyzerCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController phoneController;
@@ -35,10 +35,12 @@ class _ProfileScreenOAState extends State<ProfileScreenOA> {
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-    viewModel = CollaboratorCubit(
-      collaboratorRepository: injectCollaboratorRepository(),
+    viewModel = OpportunityAnalyzerCubit(
+      opportunityAnalyzerRepository: OpportunityAnalyzerRepositoryImpl(
+        apiManager: ApiManager.getInstance(),
+      ),
     );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.OAId));
+    viewModel.fetchOADetails(widget.OAId);
   }
 
   Future<void> _pickImage() async {
@@ -102,16 +104,18 @@ class _ProfileScreenOAState extends State<ProfileScreenOA> {
           ]),
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        child: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
-              firstNameController.text = "${collaborator!.firstName}";
-              lastNameController.text = collaborator.lastName ?? "";
-              phoneController.text = collaborator.phone ?? "";
-              emailController.text = collaborator.email ?? "";
+            if (state is OpportunityAnalyzerLoading) {
+              return const Center(
+                child: CircularProgressIndicator(color: OAColorScheme.buttonColor),
+              );
+            } else if (state is OpportunityAnalyzerDetailsSuccess) {
+              final OA = state.opportunityAnalyzerData;
+              firstNameController.text = "${OA.firstName}";
+              lastNameController.text = OA.lastName ?? "";
+              phoneController.text = OA.phone ?? "";
+              emailController.text = OA.email ?? "";
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,9 +126,9 @@ class _ProfileScreenOAState extends State<ProfileScreenOA> {
                         backgroundImage: _selectedImage != null
                             ? FileImage(File(_selectedImage!.path))
                             : NetworkImage(
-                                'http://${ApiConstants.baseUrl}${collaborator.pictureLocation}',
+                                'http://${ApiConstants.baseUrl}${OA.pictureLocation}',
                               ) as ImageProvider,
-                        child: _selectedImage == null && collaborator.pictureLocation == null
+                        child: _selectedImage == null && OA.pictureLocation == null
                             ? const Icon(Icons.camera_alt, size: 50)
                             : null,
                       ),
@@ -235,7 +239,7 @@ class _ProfileScreenOAState extends State<ProfileScreenOA> {
                   ],
                 ),
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityAnalyzerError) {
               return Center(child: Text(state.errorMessage ?? ""));
             } else {
               return Container();

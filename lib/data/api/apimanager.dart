@@ -1347,6 +1347,53 @@ class ApiManager {
     }
   }
 
+  Future<OA> updateOA(Map<String, dynamic> OADAta, XFile? image) async {
+    try {
+      var uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityAnalyzerApi}${OADAta['id']}');
+      print(uri.toString());
+      var request = http.MultipartRequest('PUT', uri);
+
+      // Adding fields to the request
+      request.fields['id'] = OADAta['id'];
+      request.fields['FirstName'] = OADAta['firstName'];
+      request.fields['LastName'] = OADAta['lastName'];
+      request.fields['Phone'] = OADAta['phone'];
+      request.fields['Email'] = OADAta['email'];
+      request.fields['CanPost'] = OADAta['canPost'];
+      request.fields['Password'] = OADAta['password'];
+
+      // Adding image if present
+      if (image != null) {
+        var mimeTypeData = lookupMimeType(image.path)!.split('/');
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      }
+
+      var response = await request.send().timeout(const Duration(seconds: 30));
+      print("update oa response code: ${response.statusCode}");
+      if (response.statusCode == 204) {
+        // No Content
+        return OA(); // Assuming an empty OA object
+      } else if (response.statusCode == 200) {
+        var responseData = await http.Response.fromStream(response);
+        return OA.fromJson(jsonDecode(responseData.body));
+      } else {
+        var responseData = await http.Response.fromStream(response);
+        throw Exception('Failed to update opportunity Analyzer: ${responseData.body}');
+      }
+    } on SocketException {
+      throw Exception('No Internet connection');
+    }
+  }
+
   // Add a new Opportunity Owner
   Future<OW> addOW(Map<String, dynamic> opportunityOwnerData, XFile? image) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityOwnerApi);
@@ -1401,6 +1448,52 @@ class ApiManager {
       return OW.fromJson(responseData);
     } else {
       throw Exception('Failed to fetch Opportunity Owner details: ${response.body}');
+    }
+  }
+
+  Future<OW> updateOW(Map<String, dynamic> OWDAta, XFile? image) async {
+    try {
+      var uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityOwnerApi}/${OWDAta['id']}');
+      var request = http.MultipartRequest('PUT', uri);
+
+      // Adding fields to the request
+      request.fields['id'] = OWDAta['id'];
+      request.fields['FirstName'] = OWDAta['firstName'];
+      request.fields['LastName'] = OWDAta['lastName'];
+      request.fields['Phone'] = OWDAta['phone'];
+      request.fields['Email'] = OWDAta['email'];
+      request.fields['CanPost'] = OWDAta['canPost'];
+      request.fields['Password'] = OWDAta['password'];
+
+      // Adding image if present
+      if (image != null) {
+        var mimeTypeData = lookupMimeType(image.path)!.split('/');
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      }
+
+      var response = await request.send().timeout(const Duration(seconds: 30));
+
+      if (response.statusCode == 204) {
+        // No Content
+        return OW(); // Assuming an empty OW object
+      } else if (response.statusCode == 200) {
+        var responseData = await http.Response.fromStream(response);
+        return OW.fromJson(jsonDecode(responseData.body));
+      } else {
+        var responseData = await http.Response.fromStream(response);
+        throw Exception('Failed to update opportunity owner: ${responseData.body}');
+      }
+    } on SocketException {
+      throw Exception('No Internet connection');
     }
   }
 

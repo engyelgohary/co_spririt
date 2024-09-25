@@ -415,17 +415,21 @@ AppBar customAppBar({
   required BuildContext context,
   required Color textColor,
   required Color backArrowColor,
+  Color? backgroundColor,
   List<Widget>? actions,
 }) {
   double height = MediaQuery.of(context).size.height;
   double width = MediaQuery.of(context).size.width;
 
   return AppBar(
-    leading: IconButton(
-      onPressed: () => Navigator.of(context).pop(),
-      icon: Padding(
-        padding: EdgeInsets.only(left: width / 25),
-        child: const Icon(Icons.arrow_back_ios),
+    backgroundColor: backgroundColor,
+    leading: Padding(
+      padding: EdgeInsets.only(left: width / 25),
+      child: Center(
+        child: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
     ),
     actions: actions,

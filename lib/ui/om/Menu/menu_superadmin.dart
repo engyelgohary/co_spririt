@@ -4,6 +4,7 @@ import 'package:co_spririt/ui/om/AllUsers.dart';
 import 'package:co_spririt/ui/om/Dashboard.dart';
 import 'package:co_spririt/ui/om/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
+import 'package:co_spririt/ui/om/opportunity/AllOpportunities.dart';
 import 'package:co_spririt/ui/om/requests/request_Superadmin.dart';
 import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
             CustomMenuCard(
               name: 'Opportunities',
               onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunitiesV2());
+                AppUtil.mainNavigator(context, const AllOpportunities());
               },
             ),
 

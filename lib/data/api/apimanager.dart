@@ -1635,11 +1635,9 @@ class ApiManager {
     String description,
     String clientId,
     String opportunityType,
-    String feasibility,
-    String risks,
-    String score,
-    String solution,
-    String status,
+    String feasibilityId,
+    String riskId,
+    String solutionId,
     String? descriptionFile,
   ) async {
     try {
@@ -1657,12 +1655,11 @@ class ApiManager {
         "ClientId": clientId,
         "Opportunity_Title": title,
         "Opportunity_Type": opportunityType,
-        "Industry": "None ",
-        "Feasibility": feasibility,
-        "Risks": risks,
-        "Score": score,
-        "Solution": solution,
-        "Status": status,
+        "Industry": "N/A",
+        "FeasibilityId": feasibilityId,
+        "RiskId": riskId,
+        "SolutionId": solutionId,
+        "StatusId": 3.toString(),
       };
 
       if (descriptionFile != null) {

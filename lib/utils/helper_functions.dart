@@ -389,10 +389,27 @@ Future<void> addOpportunityBackend(
   LoadingStateNotifier loadingNotifier,
 ) async {
   try {
-    final List test = await Future.wait(
-        [apiManager.getRisks(), apiManager.getSolutions(), apiManager.fetchAllClients()]);
-    test[2] =
-        Map.fromIterables(test[2].map((e) => "${e.firstName} ${e.lastName}").toList(), test[2]);
+    final List test = await Future.wait([
+      apiManager.getRisks(),
+      apiManager.getSolutions(),
+      apiManager.fetchAllClients(),
+      apiManager.getFeasibility(),
+    ]);
+    test[0] = Map.fromIterables(
+        test[0].map((e) => e["name"]).toList(), test[0].map((e) => e["id"]).toList());
+    test[1] = Map.fromIterables(
+        test[1].map((e) => e["name"]).toList(), test[1].map((e) => e["id"]).toList());
+    test[3] = Map.fromIterables(
+        test[3].map((e) => e["name"]).toList(), test[3].map((e) => e["id"]).toList());
+    test[2] = Map.fromIterables(
+      test[2].map((e) => "${e.firstName} ${e.lastName}").toList(),
+      test[2].map((e) => e.id).toList(),
+    );
+    print(test[0]);
+    print(test[1]);
+    print(test[2]);
+    print(test[3]);
+
     loadingNotifier.response = test;
   } catch (e) {
     print("- Delete Opportunity Button error : $e");

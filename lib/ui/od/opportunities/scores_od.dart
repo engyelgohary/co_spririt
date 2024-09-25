@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spririt/data/model/Collaborator.dart';
 import 'package:co_spririt/data/model/opportunity.dart';
 import 'package:co_spririt/ui/od/opportunities/add_opportunity.dart';
 import 'package:co_spririt/ui/od/opportunities/opportunity_view.dart';
@@ -11,15 +12,15 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class OpportunitiesPageOD extends StatefulWidget {
-  const OpportunitiesPageOD({super.key});
+class ScoresPageOD extends StatefulWidget {
+  const ScoresPageOD({super.key});
 
   @override
-  State<OpportunitiesPageOD> createState() => _OpportunitiesPageODState();
+  State<ScoresPageOD> createState() => _ScoresPageODState();
 }
 
-class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
-  final LoadingStateNotifier<Opportunity> loadingNotifier = LoadingStateNotifier();
+class _ScoresPageODState extends State<ScoresPageOD> {
+  final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   @override
   void dispose() {
@@ -29,140 +30,134 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
   @override
   Widget build(BuildContext context) {
-    final height = AppUtil.responsiveHeight(context);
     double width = AppUtil.responsiveWidth(context);
-
     return Scaffold(
       appBar: customAppBar(
-          title: "Opportunities",
-          context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                onPressed: () => showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
-                    ),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  constraints: BoxConstraints(maxHeight: height * 0.9),
-                  context: context,
-                  builder: (context) => const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Icon(Icons.horizontal_rule_rounded),
-                      ),
-                      Flexible(child: AddOpportunitiesV2()),
-                    ],
-                  ),
-                ),
-                icon: const Icon(Icons.add_circle_outline),
-              ),
-            ),
-          ]),
+        title: "Scores",
+        context: context,
+        backArrowColor: ODColorScheme.buttonColor,
+        textColor: ODColorScheme.mainColor,
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           loadingNotifier.change();
         },
-        child: ListenableBuilder(
-          listenable: loadingNotifier,
-          builder: (context, child) {
-            if (loadingNotifier.loading) {
-              opportunitiesList(apiManager, loadingNotifier);
-              return const Center(child: CircularProgressIndicator());
-            } else if (loadingNotifier.response == null) {
-              return Center(
-                child: buildErrorIndicator(
-                  "Some error occurred, Please try again.",
-                  () => loadingNotifier.change(),
-                ),
-              );
-            } else if (loadingNotifier.response!.isEmpty) {
-              return const Center(
-                child: SelectableText("Nothing to show."),
-              );
-            }
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 25),
+          child: ListenableBuilder(
+            listenable: loadingNotifier,
+            builder: (context, child) {
+              if (loadingNotifier.loading) {
+                scoreList(apiManager, loadingNotifier);
+                return const Center(child: CircularProgressIndicator());
+              } else if (loadingNotifier.response == null) {
+                return Center(
+                  child: buildErrorIndicator(
+                    "Some error occurred, Please try again.",
+                    () => loadingNotifier.change(),
+                  ),
+                );
+              } else if (loadingNotifier.response!.isEmpty) {
+                return const Center(
+                  child: SelectableText("Nothing to show."),
+                );
+              }
 
-            final data = loadingNotifier.response;
+              final Collaborator odData = loadingNotifier.response![0];
+              final List<Opportunity> data = loadingNotifier.response![1];
 
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: width / 25),
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    color: AppColor.whiteColor,
-                    thickness: 2,
-                  );
-                },
-                itemCount: data!.length,
-                itemBuilder: (context, index) {
-                  final opportunity = data[index];
-                  return ListTile(
-                    leading: const CircleAvatar(
-                      backgroundColor: ODColorScheme.mainColor,
-                      radius: 25,
-                      child: Center(
-                        child: Icon(
-                          Icons.circle,
-                          color: Colors.white,
-                          // size: 30,
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      opportunity.title ?? "N/A",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: ODColorScheme.textColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          opportunity.industry ?? "N/A",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: ODColorScheme.textColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          opportunity.status ?? "N/A",
-                          style: const TextStyle(
-                            fontSize: 14,
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text("Total Score:  ${odData.score ?? 0}",
+                        style: TextStyle(
                             color: ODColorScheme.buttonColor,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  const SizedBox(height: 16),
+                  Flexible(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: AppColor.whiteColor,
+                          thickness: 2,
+                        );
+                      },
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final opportunity = data[index];
+                        return ListTile(
+                          leading: const CircleAvatar(
+                            backgroundColor: ODColorScheme.mainColor,
+                            radius: 25,
+                            child: Center(
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.white,
+                                // size: 30,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          title: Text(
+                            opportunity.title ?? "N/A",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: ODColorScheme.textColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                opportunity.description ?? "N/A",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: ODColorScheme.textColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                "score: ${opportunity.score?.round() ?? 0}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: ODColorScheme.buttonColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () => AppUtil.mainNavigator(
+                                context, OpportunityViewOD(opportunity: opportunity)),
+                            child: const CircleAvatar(
+                              backgroundColor: AppColor.SkyColor,
+                              radius: 18,
+                              child: Icon(
+                                Icons.info_outline,
+                                color: ODColorScheme.buttonColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    trailing: GestureDetector(
-                      onTap: () => AppUtil.mainNavigator(
-                          context, OpportunityViewOD(opportunity: opportunity)),
-                      child: const CircleAvatar(
-                        backgroundColor: AppColor.SkyColor,
-                        radius: 18,
-                        child: Icon(
-                          Icons.info_outline,
-                          color: ODColorScheme.buttonColor,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          },
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

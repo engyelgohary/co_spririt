@@ -1,7 +1,10 @@
 import 'package:co_spririt/data/dip.dart';
 import 'package:co_spririt/ui/od/Message/Message_od.dart';
+import 'package:co_spririt/ui/od/Message/oppy_od.dart';
 import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spririt/ui/od/Profile/profile_od.dart';
+import 'package:co_spririt/ui/od/home/home_od.dart';
+import 'package:co_spririt/ui/od/opportunities/scores_od.dart';
 import 'package:co_spririt/ui/od/requests/request_collaborator.dart';
 import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spririt/utils/helper_functions.dart';
@@ -81,19 +84,24 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
-                    name: 'Profile',
-                    onFunction: () {
-                      AppUtil.mainNavigator(
-                        context,
-                        ProfileScreenOD(
-                          collaboratorId: widget.ODId,
-                        ),
-                      );
-                    },
+                    name: 'Home',
+                    onFunction: () => Navigator.of(context).pop(),
+                  ),
+                  CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
+                    name: 'Opportunities',
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                  ),
+                  CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
+                    name: 'Scores',
+                    onFunction: () => AppUtil.mainNavigator(context, const ScoresPageOD()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
@@ -114,16 +122,23 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
-                    name: 'Requests',
+                    name: 'Ask Oppy',
                     onFunction: () {
-                      Navigator.pushNamed(context, RequestCollaborator.routeName);
+                      AppUtil.mainNavigator(context, const OppyOD());
                     },
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
-                    name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                    name: 'Profile & Settings',
+                    onFunction: () {
+                      AppUtil.mainNavigator(
+                        context,
+                        ProfileScreenOD(
+                          collaboratorId: widget.ODId,
+                        ),
+                      );
+                    },
                   ),
                 ],
               );

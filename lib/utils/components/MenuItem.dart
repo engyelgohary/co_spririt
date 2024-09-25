@@ -19,7 +19,7 @@ class CustomMenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
     return Padding(
-      padding: EdgeInsets.only(top: 10.h, left: width / 25, right: width / 25),
+      padding: EdgeInsets.symmetric(horizontal: width / 25),
       child: Column(
         children: [
           InkWell(
@@ -32,12 +32,15 @@ class CustomMenuCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontSize: 16, color: textColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontSize: 16, color: textColor),
+                    ),
                   ),
                   Icon(
                     Icons.arrow_forward_ios,

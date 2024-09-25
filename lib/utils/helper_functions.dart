@@ -331,8 +331,11 @@ Future<void> readNotification(
   }
 }
 
-Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadingNotifier,
-    {int userType = 0}) async {
+Future<void> opportunitiesList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier, {
+  int userType = 0,
+}) async {
   try {
     if (userType == 0) {
       // Super admin
@@ -349,6 +352,20 @@ Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadi
     }
   } catch (e) {
     print("- CollaboratorsList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> scoreList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await Future.wait(
+        [apiManager.fetchCollaboratorDetails(null), apiManager.getOpportunities()]);
+  } catch (e) {
+    print("- scoreList error : $e");
     loadingNotifier.response = null;
   }
   loadingNotifier.change();

@@ -447,13 +447,24 @@ class ApiManager {
     }
   }
 
-  Future<Collaborator> fetchCollaboratorDetails(int id) async {
-    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      return Collaborator.fromJson(jsonDecode(response.body));
-    } else {
+  Future<Collaborator> fetchCollaboratorDetails(int? id) async {
+    try {
+      if (id == null) {
+        final token = await storage.read(key: 'token');
+        if (token == null) {
+          throw Exception('No token found. Please log in.');
+        }
+        Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+        id = int.parse(decodedToken['nameid'].toString());
+      }
+      var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        return Collaborator.fromJson(jsonDecode(response.body));
+      }
       throw Exception('Failed to load collaborator details');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -1374,7 +1385,8 @@ class ApiManager {
     if (response.statusCode == 201) {
       return OW.fromJson(jsonDecode(responseData.body));
     } else {
-      throw Exception('Failed to add Opportunity Owner: ${responseData.statusCode} - ${responseData.body}');
+      throw Exception(
+          'Failed to add Opportunity Owner: ${responseData.statusCode} - ${responseData.body}');
     }
   }
 

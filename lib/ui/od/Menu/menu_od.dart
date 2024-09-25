@@ -106,9 +106,7 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Notifications',
-                    onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenOD.routName);
-                    },
+                    onFunction: () => AppUtil.mainNavigator(context, const NotificationScreenOD()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,

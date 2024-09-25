@@ -1,9 +1,7 @@
 import 'package:co_spirit/ui/oa/Message/Message_oa.dart';
+import 'package:co_spirit/ui/oa/Message/oppy_oa.dart';
 import 'package:co_spirit/ui/oa/Notifactions/notifictions_oa.dart';
 import 'package:co_spirit/ui/oa/Profile/profile_oa.dart';
-import 'package:co_spirit/ui/od/Message/Message_od.dart';
-import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spirit/ui/om/OAForSuperAdmin/Cubit/OA_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +11,7 @@ import '../../../data/repository/repository/repository_impl.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../od/requests/request_collaborator.dart';
+import '../Profile/Cubit/oa_cubit.dart';
 import '../opportunities/opportunities_oa.dart';
 
 class MenuScreenOA extends StatefulWidget {
@@ -91,22 +90,21 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
-                    name: 'Profile',
-                    onFunction: () {
-                      AppUtil.mainNavigator(
-                        context,
-                        ProfileScreenOA(
-                          OAId: widget.OAId,
-                        ),
-                      );
-                    },
+                    name: 'Home',
+                    onFunction: () => Navigator.of(context).pop(),
+                  ),
+                  CustomMenuCard(
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
+                    name: 'Opportunities',
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
                   ),
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
                     name: 'Notifications',
                     onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenOA.routName);
+                      AppUtil.mainNavigator(context, const NotificationScreenOA());
                     },
                   ),
                   CustomMenuCard(
@@ -120,17 +118,24 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
-                    name: 'Requests',
+                    name: 'Ask Oppy',
                     onFunction: () {
-                      Navigator.pushNamed(context, RequestCollaborator.routeName);
+                      AppUtil.mainNavigator(context, const OppyOA());
                     },
                   ),
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
-                    name: 'Opportunities',
+                    name: 'Profile & Settings',
                     enableDivider: false,
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
+                    onFunction: () {
+                      AppUtil.mainNavigator(
+                        context,
+                        ProfileScreenOA(
+                          OAId: widget.OAId,
+                        ),
+                      );
+                    },
                   ),
                 ],
               );

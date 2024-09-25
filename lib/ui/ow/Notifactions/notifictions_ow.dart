@@ -8,7 +8,7 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
 class NotificationScreenOW extends StatefulWidget {
-  static const String routName = 'Notification Collaborator';
+  static const String routName = 'Notification Opportunity Owner';
   const NotificationScreenOW({super.key});
 
   @override
@@ -35,13 +35,6 @@ class _NotificationScreenOWState extends State<NotificationScreenOW> {
           context: context,
           textColor: OWColorScheme.mainColor,
           backArrowColor: OWColorScheme.buttonColor),
-      // AppBar(
-      //   title: Text(
-      //     'Notifications',
-      //     style: Theme.of(context).textTheme.titleSmall,
-      //   ),
-      //   leading: const AppBarCustom(),
-      // ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(

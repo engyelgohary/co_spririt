@@ -3,6 +3,7 @@ import 'package:co_spirit/data/dip.dart';
 import 'package:co_spirit/ui/od/Profile/edit_profile_od.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -210,7 +211,10 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: width / 13),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, LoginScreen.routeName);
+                            Navigator.of(context).pushAndRemoveUntil(
+                              CupertinoPageRoute(builder: (context) => LoginScreen()),
+                              (route) => false,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.h),

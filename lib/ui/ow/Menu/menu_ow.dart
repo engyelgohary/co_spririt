@@ -1,8 +1,6 @@
 import 'package:co_spirit/data/repository/repository/repository_impl.dart';
-import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spirit/ui/od/Profile/profile_od.dart';
-import 'package:co_spirit/ui/od/requests/request_collaborator.dart';
 import 'package:co_spirit/ui/ow/Message/Message_ow.dart';
+import 'package:co_spirit/ui/ow/Message/oppy_ow.dart';
 import 'package:co_spirit/ui/ow/Notifactions/notifictions_ow.dart';
 import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
 import 'package:co_spirit/ui/ow/Profile/profile_ow.dart';
@@ -87,50 +85,46 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
-                    name: 'Profile',
-                    onFunction: () {
-                      AppUtil.mainNavigator(
-                        context,
-                        ProfileScreenOW(
-                          OWId: widget.OWId,
-                        ),
-                      );
-                    },
+                    name: 'Home',
+                    onFunction: () => Navigator.of(context).pop(),
+                  ),
+                  CustomMenuCard(
+                    iconColor: OWColorScheme.buttonColor,
+                    textColor: OWColorScheme.mainColor,
+                    name: 'Opportunities',
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOW()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Notifications',
-                    onFunction: () {
-                      Navigator.pushNamed(context, NotificationScreenOW.routName);
-                    },
+                    onFunction: () => AppUtil.mainNavigator(context, const NotificationScreenOW()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Message',
-                    onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenOW());
-                    },
+                    onFunction: () => AppUtil.mainNavigator(context, const MessagesScreenOW()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
-                    name: 'Requests',
-                    onFunction: () {
-                      Navigator.pushNamed(context, RequestCollaborator.routeName);
-                    },
+                    name: 'Ask Oppy',
+                    onFunction: () => AppUtil.mainNavigator(context, const OppyOW()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
+                    name: 'Profile & Settings',
                     enableDivider: false,
-                    name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOW()),
+                    onFunction: () => AppUtil.mainNavigator(
+                      context,
+                      ProfileScreenOW(OWId: widget.OWId),
+                    ),
                   ),
                 ],
               );

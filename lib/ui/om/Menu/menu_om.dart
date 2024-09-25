@@ -1,21 +1,16 @@
 import 'package:co_spirit/ui/auth/login.dart';
 import 'package:co_spirit/ui/om/AllUsers.dart';
 import 'package:co_spirit/ui/om/Message/message_om.dart';
+import 'package:co_spirit/ui/om/Message/oppy_om.dart';
 import 'package:co_spirit/ui/om/dashboard.dart';
 import 'package:co_spirit/ui/om/opportunity/AllOpportunities.dart';
-import 'package:co_spirit/ui/om/requests/request_Superadmin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import '../Notifications/notifications_om.dart';
-import '../OAForSuperAdmin/oa_screen.dart';
-import '../OWForSuperAdmin/ow_page.dart';
-import '../adminforsuperadmin/admin_page.dart';
-import '../clientsForSuperAdmin/client_screen.dart';
-import '../collaboratorforsuperadmin/collaborators_screen.dart';
-import '../opportunity/opportunity_detector_settings.dart';
 
 class MenuScreenOM extends StatelessWidget {
   static const String routeName = 'Menu Screen Opportunity Manager';
@@ -34,56 +29,10 @@ class MenuScreenOM extends StatelessWidget {
         child: Column(
           children: [
             CustomMenuCard(
-              name: 'All Users',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const AllUsersScreen());
-              },
-            ),
-            CustomMenuCard(
-              name: 'All Users',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const AllUsersScreen());
-              },
-            ),
-            CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-              name: 'Collaborators',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
-              },
-            ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Admins',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const AdminScreenForSuper());
-              },
-            ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunity Analyzers',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
-              },
-            ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunity Owners',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
-              },
-            ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Clients',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const ClientScreenfoSuper());
-              },
+              name: 'Home',
+              onFunction: () => Navigator.of(context).pop(),
             ),
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
@@ -96,9 +45,25 @@ class MenuScreenOM extends StatelessWidget {
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
+              name: 'Opportunities',
+              onFunction: () {
+                AppUtil.mainNavigator(context, const AllOpportunities());
+              },
+            ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunities Settings',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const OpportunityDetectorSettings());
+            //   },
+            // ),
+            CustomMenuCard(
+              iconColor: OMColorScheme.mainColor,
+              textColor: OMColorScheme.textColor,
               name: 'Notifications',
               onFunction: () {
-                Navigator.pushNamed(context, NotificationScreenOM.routName);
+                AppUtil.mainNavigator(context, const NotificationScreenOM());
               },
             ),
             CustomMenuCard(
@@ -112,34 +77,74 @@ class MenuScreenOM extends StatelessWidget {
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-              name: 'Requests',
+              name: 'Ask Oppy',
               onFunction: () {
-                Navigator.pushNamed(context, RequestSuperAdmin.routeName);
+                AppUtil.mainNavigator(context, const OppyOM());
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunities Settings',
+              name: 'All Users',
               onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunityDetectorSettings());
+                AppUtil.mainNavigator(context, const AllUsersScreen());
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunities',
+              name: 'All Users',
               onFunction: () {
-                AppUtil.mainNavigator(context, const AllOpportunities());
+                AppUtil.mainNavigator(context, const AllUsersScreen());
               },
             ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Collaborators',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
+            //   },
+            // ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Admins',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const AdminScreenForSuper());
+            //   },
+            // ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunity Analyzers',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
+            //   },
+            // ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunity Owners',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
+            //   },
+            // ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Clients',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const ClientScreenfoSuper());
+            //   },
+            // ),
+
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-              name: 'Log out',
+              name: 'Profile & Settings',
               enableDivider: false,
               onFunction: () {
-                Navigator.pushNamed(context, LoginScreen.routeName);
+                Navigator.of(context).pushAndRemoveUntil(
+                  CupertinoPageRoute(builder: (context) => LoginScreen()),
+                  (route) => false,
+                );
               },
             ),
           ],

@@ -11,13 +11,6 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-final statusColors = {
-  "Submitted": Colors.black,
-  "Review": Colors.amber,
-  "Rejected": Colors.red,
-  "Accepted": Colors.green
-};
-
 class OpportunitiesPageOD extends StatefulWidget {
   const OpportunitiesPageOD({super.key});
 

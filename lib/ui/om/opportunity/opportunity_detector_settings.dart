@@ -1,6 +1,6 @@
-import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/utils/components/textFormField.dart';
-import 'package:co_spririt/utils/helper_functions.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/utils/components/textFormField.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

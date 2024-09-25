@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/data/model/Type.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,9 +33,9 @@ class _UpdateTypeState extends State<UpdateType> {
 
   void updateType() {
     context.read<TypesCubit>().updateType(
-      widget.type.id ?? 1,
-      typeController.text,
-    );
+          widget.type.id ?? 1,
+          typeController.text,
+        );
   }
 
   @override
@@ -71,18 +71,14 @@ class _UpdateTypeState extends State<UpdateType> {
                     },
                     child: Center(
                         child: Text('Cancel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 fontSize: 16,
                                 color: AppColor.thirdColor,
                                 fontWeight: FontWeight.w400))),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.greyColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                   ),
                 ),
                 SizedBox(
@@ -101,13 +97,11 @@ class _UpdateTypeState extends State<UpdateType> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                fontSize: 16, color: AppColor.whiteColor))),
+                                .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.buttonColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                   ),
                 ),
               ],

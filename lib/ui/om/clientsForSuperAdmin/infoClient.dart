@@ -1,4 +1,4 @@
-import 'package:co_spririt/data/model/Collaborator.dart';
+import 'package:co_spirit/data/model/Collaborator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,14 +8,21 @@ import '../adminforsuperadmin/infoAdmin.dart';
 class InfoClient extends StatelessWidget {
   final Client? client;
   final List<Collaborator> collaborator;
-  const InfoClient({super.key, required this.client,required this.collaborator});
+  const InfoClient({super.key, required this.client, required this.collaborator});
   @override
   String getCollaboratorName(int collaboratorId) {
-    final collaborators = collaborator.firstWhere((collaborator) => collaborator.id == collaboratorId, orElse: () => Collaborator());
-    return collaborators.id != null ? '${collaborators.firstName} ${collaborators.lastName}' : 'No Collaborator Assigned';
+    final collaborators = collaborator.firstWhere(
+        (collaborator) => collaborator.id == collaboratorId,
+        orElse: () => Collaborator());
+    return collaborators.id != null
+        ? '${collaborators.firstName} ${collaborators.lastName}'
+        : 'No Collaborator Assigned';
   }
+
   Widget build(BuildContext context) {
-    final collaboratorName = client!.collaboratorId != null ? getCollaboratorName(client!.collaboratorId) : 'No Collaborator Assigned';
+    final collaboratorName = client!.collaboratorId != null
+        ? getCollaboratorName(client!.collaboratorId)
+        : 'No Collaborator Assigned';
     if (client == null) {
       return const CircularProgressIndicator();
     }
@@ -27,18 +34,15 @@ class InfoClient extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 20.h),
-          CustomTextInfo(
-              fieldName: 'First Name :', data: "${client!.firstName}"),
+          CustomTextInfo(fieldName: 'First Name :', data: "${client!.firstName}"),
           SizedBox(
             height: 16.h,
           ),
-          CustomTextInfo(
-              fieldName: 'Last Name : ', data: "${client!.lastName}"),
+          CustomTextInfo(fieldName: 'Last Name : ', data: "${client!.lastName}"),
           SizedBox(
             height: 16.h,
           ),
-          CustomTextInfo(
-              fieldName: 'Mobile : ', data: "${client!.contactNumber}"),
+          CustomTextInfo(fieldName: 'Mobile : ', data: "${client!.contactNumber}"),
           SizedBox(
             height: 16.h,
           ),
@@ -46,9 +50,7 @@ class InfoClient extends StatelessWidget {
           SizedBox(
             height: 16.h,
           ),
-          CustomTextInfo(
-              fieldName: 'Collaborator Name:',
-              data: collaboratorName ),
+          CustomTextInfo(fieldName: 'Collaborator Name:', data: collaboratorName),
         ],
       ),
     );

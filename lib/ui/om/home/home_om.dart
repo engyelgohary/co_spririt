@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/ui/om/Menu/menu_om.dart';
-import 'package:co_spririt/ui/om/Message/message_om.dart';
-import 'package:co_spririt/ui/om/Notifications/notifications_om.dart';
-import 'package:co_spririt/ui/om/opportunity/opportunities_om.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/ui/om/Menu/menu_om.dart';
+import 'package:co_spirit/ui/om/Message/message_om.dart';
+import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
+import 'package:co_spirit/ui/om/opportunity/opportunities_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

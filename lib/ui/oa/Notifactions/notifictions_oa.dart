@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/data/model/Notification.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

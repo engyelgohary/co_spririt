@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/od/Menu/menu_od.dart';
-import 'package:co_spririt/ui/od/Message/oppy_od.dart';
-import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spririt/ui/od/opportunities/opportunities_od.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/ui/od/Menu/menu_od.dart';
+import 'package:co_spirit/ui/od/Message/oppy_od.dart';
+import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/opportunities/opportunities_od.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

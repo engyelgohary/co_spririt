@@ -1,4 +1,4 @@
-import 'package:co_spririt/data/model/Client.dart';
+import 'package:co_spirit/data/model/Client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -106,9 +106,9 @@ class _UpdateClientState extends State<UpdateClient> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your email address';
                   }
-                  bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value);
+                  bool emailValid =
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value);
                   if (!emailValid) {
                     return 'Invalid email';
                   }
@@ -128,18 +128,14 @@ class _UpdateClientState extends State<UpdateClient> {
                       },
                       child: Center(
                           child: Text('Cancel',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 16,
-                                      color: AppColor.thirdColor,
-                                      fontWeight: FontWeight.w400))),
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.thirdColor,
+                                  fontWeight: FontWeight.w400))),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                     ),
                   ),
                   SizedBox(
@@ -158,13 +154,11 @@ class _UpdateClientState extends State<UpdateClient> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                      fontSize: 16, color: AppColor.whiteColor))),
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                     ),
                   ),
                 ],

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:co_spririt/data/model/OW.dart'; // Assuming you have an OW model
+import 'package:co_spirit/data/model/OW.dart'; // Assuming you have an OW model
 import '../../../../data/repository/repoContract.dart';
 part 'OW_state.dart';
 

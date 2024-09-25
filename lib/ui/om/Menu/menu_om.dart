@@ -1,8 +1,8 @@
-import 'package:co_spririt/ui/auth/login.dart';
-import 'package:co_spririt/ui/om/dashboard.dart';
-import 'package:co_spririt/ui/om/Message/message_om.dart';
-import 'package:co_spririt/ui/om/Notifications/notifications_om.dart';
-import 'package:co_spririt/ui/om/requests/request_Superadmin.dart';
+import 'package:co_spirit/ui/auth/login.dart';
+import 'package:co_spirit/ui/om/dashboard.dart';
+import 'package:co_spirit/ui/om/Message/message_om.dart';
+import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
+import 'package:co_spirit/ui/om/requests/request_Superadmin.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';

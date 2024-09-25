@@ -1,4 +1,4 @@
-import 'package:co_spririt/ui/om/Message/chat_om.dart';
+import 'package:co_spirit/ui/om/Message/chat_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

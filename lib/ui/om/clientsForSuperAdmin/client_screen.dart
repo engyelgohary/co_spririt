@@ -1,8 +1,8 @@
-import 'package:co_spririt/data/model/Client.dart';
-import 'package:co_spririt/ui/om/clientsForSuperAdmin/Cubit/client_cubit.dart';
-import 'package:co_spririt/ui/om/clientsForSuperAdmin/add_client.dart';
-import 'package:co_spririt/ui/om/clientsForSuperAdmin/infoClient.dart';
-import 'package:co_spririt/ui/om/clientsForSuperAdmin/updateClient.dart';
+import 'package:co_spirit/data/model/Client.dart';
+import 'package:co_spirit/ui/om/clientsForSuperAdmin/Cubit/client_cubit.dart';
+import 'package:co_spirit/ui/om/clientsForSuperAdmin/add_client.dart';
+import 'package:co_spirit/ui/om/clientsForSuperAdmin/infoClient.dart';
+import 'package:co_spirit/ui/om/clientsForSuperAdmin/updateClient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,13 +24,11 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
   late ClientCubit viewModel;
   late CollaboratorCubit collaboratorCubit;
 
-
   @override
   void initState() {
     super.initState();
     viewModel = ClientCubit(clientRepository: injectClientRepository());
-    collaboratorCubit = CollaboratorCubit(
-        collaboratorRepository: injectCollaboratorRepository());
+    collaboratorCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
   }
 
   @override
@@ -38,6 +36,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+
   void onOpportunityAdded() {
     viewModel.pagingController.refresh();
   }
@@ -74,8 +73,8 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: const Icon(Icons.person_add_alt_outlined,
-                  color: AppColor.whiteColor, size: 20),
+              child:
+                  const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
               showAddBottomSheet();
@@ -119,8 +118,10 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                       ),
                       subtitle: Text(
                         item.email ?? "",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 12),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 12),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -164,14 +165,12 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                     const Center(child: Text("No Clients found")),
                 newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
                 firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
               ),
@@ -196,35 +195,32 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
       context: context,
       builder: (context) {
         return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: viewModel),
-              BlocProvider.value(value: collaboratorCubit),
-            ],
-        child: BlocBuilder<ClientCubit, ClientState>(
-          bloc: viewModel,
-          builder: (context, clientstate) {
-            return BlocBuilder(
-              bloc: collaboratorCubit,
+          providers: [
+            BlocProvider.value(value: viewModel),
+            BlocProvider.value(value: collaboratorCubit),
+          ],
+          child: BlocBuilder<ClientCubit, ClientState>(
+            bloc: viewModel,
+            builder: (context, clientstate) {
+              return BlocBuilder(
+                bloc: collaboratorCubit,
                 builder: (context, collaboratorState) {
-                  if (collaboratorState is CollaboratorSuccess &&
-                      clientstate is ClientSuccess) {
+                  if (collaboratorState is CollaboratorSuccess && clientstate is ClientSuccess) {
                     return InfoClient(
-                     client: clientstate.clientData,
+                      client: clientstate.clientData,
                       collaborator: collaboratorState.getCollaborator ?? [],
                     );
                   } else if (clientstate is ClientError) {
-                    return Center(
-                        child: Text(clientstate.errorMessage ?? ""));
+                    return Center(child: Text(clientstate.errorMessage ?? ""));
                   } else {
                     return const Center(
-                      child: CircularProgressIndicator(
-                          color: AppColor.secondColor),
+                      child: CircularProgressIndicator(color: AppColor.secondColor),
                     );
                   }
                 },
-            );
-          },
-        ),
+              );
+            },
+          ),
         );
       },
     );
@@ -235,8 +231,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return BlocProvider.value(
-            value: viewModel, child: UpdateClient(client: client));
+        return BlocProvider.value(value: viewModel, child: UpdateClient(client: client));
       },
     );
   }
@@ -247,8 +242,10 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
       context: context,
       builder: (context) {
         return BlocProvider(
-       create: (context) => ClientCubit(clientRepository: injectClientRepository()),
-          child: AddClientScreen(onOpportunityAdded: onOpportunityAdded,),
+          create: (context) => ClientCubit(clientRepository: injectClientRepository()),
+          child: AddClientScreen(
+            onOpportunityAdded: onOpportunityAdded,
+          ),
         );
       },
     );

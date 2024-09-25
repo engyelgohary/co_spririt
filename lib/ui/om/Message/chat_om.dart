@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/data/model/message.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/data/model/message.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 

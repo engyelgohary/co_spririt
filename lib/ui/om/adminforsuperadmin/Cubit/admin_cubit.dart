@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:co_spririt/data/repository/repoContract.dart';
+import 'package:co_spirit/data/repository/repoContract.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -30,6 +30,7 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminImageSelected(pickedFile));
     }
   }
+
   void updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     emit(AdminLoading());
     try {
@@ -61,6 +62,7 @@ class AdminCubit extends Cubit<AdminState> {
       pagingController.error = error;
     }
   }
+
   Future<void> fetchAdminDetails(int id) async {
     try {
       final adminDetails = await adminRepository.fetchAdminDetails(id);
@@ -69,6 +71,7 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminError(errorMessage: e.toString()));
     }
   }
+
   void register() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -90,6 +93,7 @@ class AdminCubit extends Cubit<AdminState> {
       emit(AdminError(errorMessage: e.toString()));
     }
   }
+
   Future<void> deleteAdmin(int id) async {
     try {
       emit(AdminLoading());
@@ -102,5 +106,3 @@ class AdminCubit extends Cubit<AdminState> {
     }
   }
 }
-
-

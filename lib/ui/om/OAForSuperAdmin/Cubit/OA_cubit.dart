@@ -2,15 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:co_spririt/data/model/OA.dart';
+import 'package:co_spirit/data/model/OA.dart';
 import '../../../../data/repository/repoContract.dart';
 
 part 'OA_state.dart';
 
 class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
   OpportunityAnalyzerRepository opportunityAnalyzerRepository;
-  final PagingController<int, OA> pagingController = PagingController(
-      firstPageKey: 1);
+  final PagingController<int, OA> pagingController = PagingController(firstPageKey: 1);
 
   OpportunityAnalyzerCubit({required this.opportunityAnalyzerRepository})
       : super(OpportunityAnalyzerInitial()) {
@@ -29,8 +28,7 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
   XFile? updateImage;
 
   void selectImage() async {
-    final pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image = pickedFile;
       emit(OpportunityAnalyzerImageSelected(pickedFile));
@@ -69,7 +67,6 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
     }
   }
 
-
   void addOA() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -92,5 +89,4 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
       emit(OpportunityAnalyzerError(errorMessage: e.toString()));
     }
   }
-
 }

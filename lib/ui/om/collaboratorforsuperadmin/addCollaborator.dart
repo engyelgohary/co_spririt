@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,7 @@ import '../../../utils/theme/appColors.dart';
 class Addcollaborator extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
 
-   const Addcollaborator({super.key,required this.onOpportunityAdded});
+  const Addcollaborator({super.key, required this.onOpportunityAdded});
 
   @override
   State<Addcollaborator> createState() => _AddcollaboratorState();
@@ -21,8 +21,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
   @override
   void initState() {
     super.initState();
-    viewModel = CollaboratorCubit(
-        collaboratorRepository: injectCollaboratorRepository());
+    viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
   }
 
   Widget build(BuildContext context) {
@@ -127,7 +126,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                         return 'Please enter your email address';
                       }
                       bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
                         return 'Invalid email';
@@ -139,9 +138,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                   Text(
                     "Contract Info : ",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.basicColor),
+                        fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                   ),
                   const SizedBox(height: 11),
                   Row(
@@ -160,8 +157,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 4.0.h, horizontal: 10.0.w),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
@@ -173,10 +170,10 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                             errorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.errorColor),
                                 borderRadius: BorderRadius.circular(5.r)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r)),
-                            disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r)),
+                            focusedErrorBorder:
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                            disabledBorder:
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                             focusColor: AppColor.basicColor,
                             hoverColor: AppColor.basicColor,
                           ),
@@ -186,9 +183,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       Text(
                         "To",
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: AppColor.basicColor),
+                            fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                       ),
                       const SizedBox(width: 9),
                       SizedBox(
@@ -205,8 +200,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 4.0.h, horizontal: 10.0.w),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
@@ -218,10 +213,10 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                             errorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.errorColor),
                                 borderRadius: BorderRadius.circular(5.r)),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r)),
-                            disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.r)),
+                            focusedErrorBorder:
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                            disabledBorder:
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
                             focusColor: AppColor.basicColor,
                             hoverColor: AppColor.basicColor,
                           ),
@@ -235,9 +230,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       Text(
                         "Cv :",
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: AppColor.basicColor),
+                            fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                       ),
                       SizedBox(width: 150.w),
                       SizedBox(
@@ -252,14 +245,11 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
-                                      .copyWith(
-                                      fontSize: 16,
-                                      color: AppColor.whiteColor))),
+                                      .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ],
@@ -277,18 +267,14 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           child: Center(
                               child: Text('Cancel',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                       fontSize: 16,
                                       color: AppColor.thirdColor,
                                       fontWeight: FontWeight.w400))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                       SizedBox(
@@ -303,14 +289,11 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
-                                      .copyWith(
-                                      fontSize: 16,
-                                      color: AppColor.whiteColor))),
+                                      .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
                     ],

@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/om/adminforsuperadmin/updateAdmin.dart';
+import 'package:co_spirit/ui/om/adminforsuperadmin/updateAdmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,7 +72,8 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+              child:
+                  const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
               showAddBottomSheet();
@@ -116,7 +117,8 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
                           radius: 20.r,
-                          child: const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
+                          child: const Icon(Icons.error_outline,
+                              color: AppColor.secondColor, size: 20),
                         ),
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           backgroundImage: imageProvider,
@@ -174,7 +176,8 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                   );
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
-                noItemsFoundIndicatorBuilder: (context) => const Center(child: Text("No Admins found")),
+                noItemsFoundIndicatorBuilder: (context) =>
+                    const Center(child: Text("No Admins found")),
                 newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),

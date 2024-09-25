@@ -1,7 +1,6 @@
-import 'package:co_spririt/utils/helper_functions.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
-
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);

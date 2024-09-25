@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:co_spririt/data/model/GetAdmin.dart';
-import 'package:co_spririt/data/repository/repoContract.dart';
+import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/data/repository/repoContract.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:co_spririt/ui/od/home/home_od.dart';
-import 'package:co_spririt/ui/om/home/home_om.dart';
+import 'package:co_spirit/ui/od/home/home_od.dart';
+import 'package:co_spirit/ui/om/home/home_om.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../admin/home/home_admin.dart';

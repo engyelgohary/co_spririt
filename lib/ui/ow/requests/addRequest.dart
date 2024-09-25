@@ -1,6 +1,6 @@
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/od/requests/cubit/requests_cubit.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/od/requests/cubit/requests_cubit.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,13 +10,12 @@ import '../../../utils/theme/appColors.dart';
 
 class RequestDetailDialog extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-const RequestDetailDialog({super.key, required this.onOpportunityAdded});
+  const RequestDetailDialog({super.key, required this.onOpportunityAdded});
   @override
   _RequestDetailDialogState createState() => _RequestDetailDialogState();
 }
 
 class _RequestDetailDialogState extends State<RequestDetailDialog> {
-
   String? selectedType;
   TextEditingController titleController = TextEditingController();
   late RequestsCubit viewModel;
@@ -25,14 +24,19 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
   @override
   void initState() {
     super.initState();
-    viewModel = RequestsCubit(requestsRepository: injectRequestsRepository(),typesRepository: injectTypesRepository(),adminRepository: injectAdminRepository(),collaboratorRepository: injectCollaboratorRepository());
-  typesCubit = TypesCubit(typesRepository: injectTypesRepository());
-  typesCubit.fetchTypes(1).then((_){
-    setState(() {
-      isTypeLoading = false;
+    viewModel = RequestsCubit(
+        requestsRepository: injectRequestsRepository(),
+        typesRepository: injectTypesRepository(),
+        adminRepository: injectAdminRepository(),
+        collaboratorRepository: injectCollaboratorRepository());
+    typesCubit = TypesCubit(typesRepository: injectTypesRepository());
+    typesCubit.fetchTypes(1).then((_) {
+      setState(() {
+        isTypeLoading = false;
+      });
     });
-  });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -52,12 +56,13 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
       ),
     );
   }
+
   @override
   Widget buildDialog(List<Types> types) {
     return BlocConsumer<RequestsCubit, RequestsState>(
       bloc: viewModel,
       listener: (context, state) {
-        if (state is  RequestsLoading) {
+        if (state is RequestsLoading) {
           const CircularProgressIndicator();
         } else if (state is RequestsError) {
           Navigator.pop(context);
@@ -93,7 +98,10 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                           controller: viewModel.title_controller,
                           decoration: InputDecoration(
                             hintText: 'Title',
-                            hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.grey),
                             border: InputBorder.none,
                             isDense: true,
                             contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -124,12 +132,16 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                     value: selectedType,
                     hint: Text(
                       "Select Type",
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 12, color: AppColor.blackColor),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontSize: 12, color: AppColor.blackColor),
                     ),
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedType = newValue;
-                        viewModel.selectedTypeId = types.firstWhere((type) => type.type == newValue).id;
+                        viewModel.selectedTypeId =
+                            types.firstWhere((type) => type.type == newValue).id;
                       });
                     },
                     items: types.map((Types type) {
@@ -137,7 +149,10 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                         value: type.type,
                         child: Text(
                           type.type ?? "",
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 12, color: AppColor.blackColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 12, color: AppColor.blackColor),
                         ),
                       );
                     }).toList(),
@@ -158,11 +173,16 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                           Navigator.of(context).pop(); // Close the dialog
                         },
                         child: Center(
-                          child: Text('Cancel', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor)),
+                          child: Text('Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(fontSize: 16, color: AppColor.thirdColor)),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r))),
                         ),
                       ),
                     ),
@@ -177,11 +197,16 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                           viewModel.addRequest();
                         },
                         child: Center(
-                          child: Text('Submit', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor)),
+                          child: Text('Submit',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor)),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r))),
                         ),
                       ),
                     ),
@@ -192,7 +217,6 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
           ),
         );
       },
-
     );
   }
 }

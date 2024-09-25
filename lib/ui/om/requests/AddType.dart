@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +86,10 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                       child: Center(
                         child: Text(
                           'Cancel',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 16, color: AppColor.thirdColor),
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -108,7 +111,10 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                       child: Center(
                         child: Text(
                           'Add',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 16, color: AppColor.whiteColor),
                         ),
                       ),
                       style: ElevatedButton.styleFrom(

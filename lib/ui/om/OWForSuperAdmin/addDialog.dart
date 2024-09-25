@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,7 +66,8 @@ class _AddOWState extends State<AddOW> {
                           child: CircleAvatar(
                             radius: 60.r,
                             backgroundColor: AppColor.disableColor,
-                            child: const Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                            child: const Icon(Icons.cameraswitch_outlined,
+                                size: 40, color: AppColor.blackColor),
                           ),
                         );
                       },
@@ -117,7 +118,8 @@ class _AddOWState extends State<AddOW> {
                         return 'Please enter your email address';
                       }
                       bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value);
                       if (!emailValid) {
                         return 'Invalid email';
                       }
@@ -131,10 +133,10 @@ class _AddOWState extends State<AddOW> {
                       Text(
                         'Can Post :',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.basicColor,
-                        ),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.basicColor,
+                            ),
                       ),
                       SizedBox(width: 65.w),
                       Radio<bool>(
@@ -150,10 +152,10 @@ class _AddOWState extends State<AddOW> {
                       Text(
                         'NO',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.basicColor,
-                        ),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.basicColor,
+                            ),
                       ),
                       SizedBox(width: 24.w),
                       Radio<bool>(
@@ -169,10 +171,10 @@ class _AddOWState extends State<AddOW> {
                       Text(
                         'Yes',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.basicColor,
-                        ),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.basicColor,
+                            ),
                       ),
                     ],
                   ),
@@ -188,12 +190,13 @@ class _AddOWState extends State<AddOW> {
                             Navigator.of(context).pop(); // Close the dialog
                           },
                           child: Center(
-                            child: Text('Cancel',
+                            child: Text(
+                              'Cancel',
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                fontSize: 16,
-                                color: AppColor.thirdColor,
-                                fontWeight: FontWeight.w400,
-                              ),
+                                    fontSize: 16,
+                                    color: AppColor.thirdColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -214,11 +217,12 @@ class _AddOWState extends State<AddOW> {
                             }
                           },
                           child: Center(
-                            child: Text('Add',
+                            child: Text(
+                              'Add',
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                fontSize: 16,
-                                color: AppColor.whiteColor,
-                              ),
+                                    fontSize: 16,
+                                    color: AppColor.whiteColor,
+                                  ),
                             ),
                           ),
                           style: ElevatedButton.styleFrom(

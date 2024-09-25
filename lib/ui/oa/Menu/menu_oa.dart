@@ -1,10 +1,10 @@
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/od/Message/Message_od.dart';
-import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spririt/ui/od/Profile/profile_od.dart';
-import 'package:co_spririt/ui/od/requests/request_collaborator.dart';
-import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:co_spririt/utils/helper_functions.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/od/Message/Message_od.dart';
+import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/Profile/profile_od.dart';
+import 'package:co_spirit/ui/od/requests/request_collaborator.dart';
+import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';

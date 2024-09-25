@@ -1,4 +1,4 @@
-# co_spririt
+# co_spirit
 
 A new Flutter project.
 

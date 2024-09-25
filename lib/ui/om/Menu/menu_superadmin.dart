@@ -1,5 +1,6 @@
 import 'package:co_spririt/test.dart';
 import 'package:co_spririt/ui/auth/login.dart';
+import 'package:co_spririt/ui/om/AllUsers.dart';
 import 'package:co_spririt/ui/om/Dashboard.dart';
 import 'package:co_spririt/ui/om/Message/Message_superadmin.dart';
 import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
@@ -33,6 +34,12 @@ class MenuScreenSuperAdmin extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            CustomMenuCard(
+              name: 'All Users',
+              onFunction: () {
+                AppUtil.mainNavigator(context, const AllUsersScreen());
+              },
+            ),
             CustomMenuCard(
               name: 'Collaborators',
               onFunction: () {
@@ -99,12 +106,7 @@ class MenuScreenSuperAdmin extends StatelessWidget {
                 AppUtil.mainNavigator(context, const OpportunitiesV2());
               },
             ),
-            CustomMenuCard(
-              name: 'Test',
-              onFunction: () {
-                AppUtil.mainNavigator(context, TestPage());
-              },
-            ),
+
             CustomMenuCard(
               name: 'Log out',
               onFunction: () {

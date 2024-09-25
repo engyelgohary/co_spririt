@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/AllUsers.dart';
 import '../model/OA.dart';
 import '../model/ODAverageScore.dart';
 import '../model/OW.dart';
@@ -2213,6 +2214,37 @@ class ApiManager {
       return [];
     }
   }
+  Future<List<AllUsers>> getAllUsers() async {
+    final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/SuperAdmin/GetALlUser');
+    debugPrint('Fetching users from: $uri');
+
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      debugPrint('Response Status Code: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((user) => AllUsers.fromJson(user)).toList();
+      } else {
+        throw Exception('Failed to load users: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching users: $e');
+      return [];
+    }
+  }
 
 
-}
+  }
+

@@ -110,6 +110,32 @@ Future<void> collaboratorAdminsList(
   loadingNotifier.change();
 }
 
+Future<void> OWMessagesContactList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await apiManager.getSuperAdminData();
+  } catch (e) {
+    print("- OWMessagesContactList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> OAMessagesContactList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await apiManager.getSuperAdminData();
+  } catch (e) {
+    print("- OAMessagesContactList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
 class Signalr {
   Signalr.signalr();
   static Signalr? _instance;

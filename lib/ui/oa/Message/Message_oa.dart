@@ -49,7 +49,7 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                  collaboratorAdminsList(apiManager, loadingNotifier);
+                  OAMessagesContactList(apiManager, loadingNotifier);
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(

@@ -1,5 +1,5 @@
 import 'package:co_spirit/data/model/GetAdmin.dart';
-import 'package:co_spirit/ui/od/Message/chat_od.dart';
+import 'package:co_spirit/ui/ow/Message/chat_ow.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,8 +49,12 @@ class _MessagesScreenOWState extends State<MessagesScreenOW> {
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                  collaboratorAdminsList(apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  OWMessagesContactList(apiManager, loadingNotifier);
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(color: OWColorScheme.buttonColor),
+                    ),
+                  );
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -80,7 +84,7 @@ class _MessagesScreenOWState extends State<MessagesScreenOW> {
                                 signalr.receiverId = admin.id;
                                 AppUtil.mainNavigator(
                                   context,
-                                  ChatScreenOD(
+                                  ChatScreenOW(
                                     receiverId: admin.id ?? 0,
                                     email: admin.email ?? "",
                                     name: admin.firstName ?? "",

@@ -75,12 +75,11 @@ class _OppyOStateD extends State<OppyOA> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              '${AppUI.svgPath}oppy_mascot.svg',
-              // width: 10,
+              "${AppUI.svgPath}oppy.svg",
+              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+              height: 30,
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 8),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -93,7 +92,7 @@ class _OppyOStateD extends State<OppyOA> {
                 CustomText(
                   text: "● Online ",
                   fontSize: 12,
-                  color: OAColorScheme.buttonColor,
+                  color: Colors.green,
                   fontWeight: FontWeight.w400,
                 ),
               ],

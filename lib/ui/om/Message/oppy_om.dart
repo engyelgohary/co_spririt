@@ -73,27 +73,27 @@ class _OppyOStateD extends State<OppyOM> {
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              '${AppUI.svgPath}oppy_mascot.svg',
-              // width: 10,
+              "${AppUI.svgPath}oppy.svg",
+              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+              height: 30,
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 8),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: "Ask Oppy",
                   fontSize: 16,
-                  color: OMColorScheme.mainColor,
+                  color: OMColorScheme.textColor,
                   fontWeight: FontWeight.w700,
                 ),
                 CustomText(
                   text: "● Online ",
                   fontSize: 12,
-                  color: OMColorScheme.buttonColor,
+                  color: Colors.green,
                   fontWeight: FontWeight.w400,
                 ),
               ],

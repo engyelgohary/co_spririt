@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +9,7 @@ import 'Cubit/admin_cubit.dart';
 
 class AddAdmin extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-AddAdmin({required this.onOpportunityAdded});
+  const AddAdmin({super.key, required this.onOpportunityAdded});
   @override
   _AddAdminState createState() => _AddAdminState();
 }
@@ -29,24 +29,25 @@ class _AddAdminState extends State<AddAdmin> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is AdminLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is AdminError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.errorMessage??""),
+            content: Text(state.errorMessage ?? ""),
           ));
-        }  else if (state is AdminSuccess) {
+        } else if (state is AdminSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Admin submitted successfully')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Admin submitted successfully')));
         }
       },
       builder: (context, state) {
-        return  SingleChildScrollView(
+        return SingleChildScrollView(
           child: Container(
             height: 600.h,
             width: 369.w,
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
               child: Column(
@@ -69,7 +70,8 @@ class _AddAdminState extends State<AddAdmin> {
                           child: CircleAvatar(
                             radius: 60.r,
                             backgroundColor: AppColor.disableColor,
-                            child: Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                            child: const Icon(Icons.cameraswitch_outlined,
+                                size: 40, color: AppColor.blackColor),
                           ),
                         );
                       },
@@ -123,7 +125,7 @@ class _AddAdminState extends State<AddAdmin> {
                         return 'Please enter your email address';
                       }
                       bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
                         return 'Invalid email';
@@ -137,10 +139,8 @@ class _AddAdminState extends State<AddAdmin> {
                     children: [
                       Text(
                         'Can Post :',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                       ),
                       SizedBox(width: 65.w),
                       Radio<bool>(
@@ -155,10 +155,8 @@ class _AddAdminState extends State<AddAdmin> {
                       ),
                       Text(
                         'NO',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                       ),
                       SizedBox(width: 24.w),
                       Radio<bool>(
@@ -173,18 +171,16 @@ class _AddAdminState extends State<AddAdmin> {
                       ),
                       Text(
                         'Yes',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
@@ -193,42 +189,35 @@ class _AddAdminState extends State<AddAdmin> {
                           },
                           child: Center(
                               child: Text('Cancel',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                       fontSize: 16,
                                       color: AppColor.thirdColor,
                                       fontWeight: FontWeight.w400))),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
-                     Container(
-                          height: 35.h,
-                          width: 135.w,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              viewModel.register();
-                            },
-                            child: Center(
-                                child: Text('Add',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                        fontSize: 16,
-                                        color: AppColor.whiteColor))),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.buttonColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.r)))),
-                          ),
+                      SizedBox(
+                        height: 35.h,
+                        width: 135.w,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            viewModel.register();
+                          },
+                          child: Center(
+                              child: Text('Add',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(fontSize: 16, color: AppColor.whiteColor))),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                         ),
+                      ),
                     ],
                   ),
                 ],

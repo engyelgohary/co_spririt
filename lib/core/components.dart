@@ -191,36 +191,16 @@ class CustomInput extends StatelessWidget {
           contentPadding:
               EdgeInsets.symmetric(horizontal: 12, vertical: contentPaddingVertical ?? 0),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radius),
-                  topRight: Radius.circular(radius)),
+              borderRadius: BorderRadius.all(Radius.circular(radius)),
               borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(radius),
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radius)),
+              borderRadius: BorderRadius.all(Radius.circular(radius)),
               borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
         ),
       ),
     );
   }
 }
-
-// class FullScreenLoading extends StatelessWidget {
-//   const FullScreenLoading({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: double.infinity,width: double.infinity,alignment: Alignment.center,color: AppUI.shimmerColor.withOpacity(0.5),
-//       child: const CircularProgressIndicator(),
-//     );
-//   }
-//
-// }
 
 class CustomCard extends StatelessWidget {
   final Widget child;

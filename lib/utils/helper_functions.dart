@@ -1,8 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/data/model/message.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/data/model/Notification.dart';
+import 'package:co_spirit/data/model/message.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
@@ -110,6 +110,32 @@ Future<void> collaboratorAdminsList(
   loadingNotifier.change();
 }
 
+Future<void> OWMessagesContactList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await apiManager.getSuperAdminData();
+  } catch (e) {
+    print("- OWMessagesContactList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> OAMessagesContactList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await apiManager.getSuperAdminData();
+  } catch (e) {
+    print("- OAMessagesContactList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
 class Signalr {
   Signalr.signalr();
   static Signalr? _instance;
@@ -205,7 +231,7 @@ class Signalr {
         }
       });
     } catch (e) {
-      print("- signalr error: ${e}");
+      print("- signalr error: $e");
     }
   }
 }
@@ -331,8 +357,11 @@ Future<void> readNotification(
   }
 }
 
-Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadingNotifier,
-    {int userType = 0}) async {
+Future<void> opportunitiesList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier, {
+  int userType = 0,
+}) async {
   try {
     if (userType == 0) {
       // Super admin
@@ -349,6 +378,20 @@ Future<void> opportunitiesList(ApiManager apiManager, LoadingStateNotifier loadi
     }
   } catch (e) {
     print("- CollaboratorsList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> scoreList(
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    loadingNotifier.response = await Future.wait(
+        [apiManager.fetchCollaboratorDetails(null), apiManager.getOpportunities()]);
+  } catch (e) {
+    print("- scoreList error : $e");
     loadingNotifier.response = null;
   }
   loadingNotifier.change();
@@ -372,10 +415,27 @@ Future<void> addOpportunityBackend(
   LoadingStateNotifier loadingNotifier,
 ) async {
   try {
-    final List test = await Future.wait(
-        [apiManager.getRisks(), apiManager.getSolutions(), apiManager.fetchAllClients()]);
-    test[2] =
-        Map.fromIterables(test[2].map((e) => "${e.firstName} ${e.lastName}").toList(), test[2]);
+    final List test = await Future.wait([
+      apiManager.getRisks(),
+      apiManager.getSolutions(),
+      apiManager.fetchAllClients(),
+      apiManager.getFeasibility(),
+    ]);
+    test[0] = Map.fromIterables(
+        test[0].map((e) => e["name"]).toList(), test[0].map((e) => e["id"]).toList());
+    test[1] = Map.fromIterables(
+        test[1].map((e) => e["name"]).toList(), test[1].map((e) => e["id"]).toList());
+    test[3] = Map.fromIterables(
+        test[3].map((e) => e["name"]).toList(), test[3].map((e) => e["id"]).toList());
+    test[2] = Map.fromIterables(
+      test[2].map((e) => "${e.firstName} ${e.lastName}").toList(),
+      test[2].map((e) => e.id).toList(),
+    );
+    print(test[0]);
+    print(test[1]);
+    print(test[2]);
+    print(test[3]);
+
     loadingNotifier.response = test;
   } catch (e) {
     print("- Delete Opportunity Button error : $e");
@@ -415,17 +475,21 @@ AppBar customAppBar({
   required BuildContext context,
   required Color textColor,
   required Color backArrowColor,
+  Color? backgroundColor,
   List<Widget>? actions,
 }) {
   double height = MediaQuery.of(context).size.height;
   double width = MediaQuery.of(context).size.width;
 
   return AppBar(
-    leading: IconButton(
-      onPressed: () => Navigator.of(context).pop(),
-      icon: Padding(
-        padding: EdgeInsets.only(left: width / 25),
-        child: const Icon(Icons.arrow_back_ios),
+    backgroundColor: backgroundColor,
+    leading: Padding(
+      padding: EdgeInsets.only(left: width / 25),
+      child: Center(
+        child: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
     ),
     actions: actions,

@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/od/Profile/edit_profile.dart';
-import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:co_spririt/utils/helper_functions.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/od/Profile/edit_profile_od.dart';
+import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -105,7 +106,8 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               firstNameController.text = "${collaborator!.firstName}";
@@ -209,7 +211,10 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: width / 13),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, LoginScreen.routeName);
+                            Navigator.of(context).pushAndRemoveUntil(
+                              CupertinoPageRoute(builder: (context) => LoginScreen()),
+                              (route) => false,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.h),

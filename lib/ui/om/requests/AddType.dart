@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +8,7 @@ import '../../../utils/theme/appColors.dart';
 
 class AddStatusDialog extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-  AddStatusDialog({required this.onOpportunityAdded});
+  const AddStatusDialog({super.key, required this.onOpportunityAdded});
   @override
   _AddStatusDialogState createState() => _AddStatusDialogState();
 }
@@ -26,7 +26,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is TypesLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is TypesError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -35,7 +35,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
         } else if (state is TypesSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Type Added Successfully"),
           ));
         }
@@ -65,7 +65,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                         hintStyle: Theme.of(context).textTheme.titleMedium,
                         border: InputBorder.none,
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                       ),
                     ),
                   ),
@@ -76,7 +76,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 30.h,
                     width: 120.w,
                     child: ElevatedButton(
@@ -86,7 +86,10 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                       child: Center(
                         child: Text(
                           'Cancel',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.thirdColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 16, color: AppColor.thirdColor),
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -98,7 +101,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                     ),
                   ),
                   SizedBox(width: 5.w),
-                  Container(
+                  SizedBox(
                     height: 30.h,
                     width: 115.w,
                     child: ElevatedButton(
@@ -108,7 +111,10 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                       child: Center(
                         child: Text(
                           'Add',
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 16, color: AppColor.whiteColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontSize: 16, color: AppColor.whiteColor),
                         ),
                       ),
                       style: ElevatedButton.styleFrom(

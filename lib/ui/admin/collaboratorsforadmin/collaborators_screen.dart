@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_admin_cubit.dart';
-import 'package:co_spririt/ui/om/collaboratorforsuperadmin/infoCollaborator.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_admin_cubit.dart';
+import 'package:co_spirit/ui/om/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -150,7 +150,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                         SizedBox(width: 15.w),
                         CircleAvatar(
                           radius: 10,
-                          backgroundColor: _getStatusColor(item.status), // Dynamic color based on status
+                          backgroundColor:
+                              _getStatusColor(item.status), // Dynamic color based on status
                         ),
                       ],
                     ),
@@ -229,14 +230,14 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 1,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.red),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.red),
+                    const SizedBox(width: 8),
                     Text(
                       'Red',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 18,
-                        color: AppColor.basicColor,
-                      ),
+                            fontSize: 18,
+                            color: AppColor.basicColor,
+                          ),
                     ),
                   ],
                 ),
@@ -245,14 +246,14 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 2,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.green),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.green),
+                    const SizedBox(width: 8),
                     Text(
                       'Green',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 18,
-                        color: AppColor.basicColor,
-                      ),
+                            fontSize: 18,
+                            color: AppColor.basicColor,
+                          ),
                     ),
                   ],
                 ),
@@ -261,14 +262,14 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 3,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.orange),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.orange),
+                    const SizedBox(width: 8),
                     Text(
                       'Orange',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 18,
-                        color: AppColor.basicColor,
-                      ),
+                            fontSize: 18,
+                            color: AppColor.basicColor,
+                          ),
                     ),
                   ],
                 ),
@@ -287,10 +288,10 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                   child: Text(
                     'Cancel',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontSize: 16,
-                      color: AppColor.thirdColor,
-                      fontWeight: FontWeight.w400,
-                    ),
+                          fontSize: 16,
+                          color: AppColor.thirdColor,
+                          fontWeight: FontWeight.w400,
+                        ),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -316,9 +317,9 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                   child: Text(
                     'Set Status',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontSize: 16,
-                      color: AppColor.whiteColor,
-                    ),
+                          fontSize: 16,
+                          color: AppColor.whiteColor,
+                        ),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -334,6 +335,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
       },
     );
   }
+
   Color _getStatusColor(int? status) {
     switch (status) {
       case 1:
@@ -346,5 +348,4 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
         return Colors.grey; // Default color (Unknown status)
     }
   }
-
 }

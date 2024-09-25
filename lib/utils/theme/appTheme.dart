@@ -5,7 +5,7 @@ import 'appColors.dart';
 class AppTheme {
   static ThemeData mainTheme = ThemeData(
     scaffoldBackgroundColor: AppColor.backgroundColor,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       centerTitle: true,
       backgroundColor: AppColor.backgroundColor,
       elevation: 0,

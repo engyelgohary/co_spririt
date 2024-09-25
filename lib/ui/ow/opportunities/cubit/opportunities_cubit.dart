@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:co_spririt/data/repository/repoContract.dart';
+import 'package:co_spirit/data/repository/repoContract.dart';
 import '../../../../data/model/Client.dart';
 import '../../../../data/model/opportunities.dart';
 
@@ -28,11 +27,10 @@ class OpportunitiesCubit extends Cubit<OpportunitiesState> {
         description: descriptionController.text,
         clientId: selectedClientId,
       );
-      await opportunitiesRepository.submitOpportunity(opportunity,descriptionFile);
+      await opportunitiesRepository.submitOpportunity(opportunity, descriptionFile);
       emit(OpportunitySuccess());
       fetchOpportunityData();
       print('Fetched opportunities: $opportunity'); // Debug statement
-
     } catch (e) {
       emit(OpportunityFailure(e.toString()));
     }
@@ -52,6 +50,7 @@ class OpportunitiesCubit extends Cubit<OpportunitiesState> {
   void setSelectedClientId(int? clientId) {
     selectedClientId = clientId;
   }
+
   Future<void> fetchOpportunityData() async {
     try {
       emit(OpportunityLoading());
@@ -61,18 +60,18 @@ class OpportunitiesCubit extends Cubit<OpportunitiesState> {
 
       final opportunitiesWithClients = opportunities.map((opportunity) {
         final client = clients.firstWhere(
-              (client) => client.id == opportunity.clientId,
+          (client) => client.id == opportunity.clientId,
           orElse: () => Client(id: 0, firstName: 'Unknown', lastName: ''),
         );
         return Opportunities(
-          id: opportunity.id,
-          title: opportunity.title,
-          description: opportunity.description,
-          clientId: opportunity.clientId,
-          clientFirstName: client.firstName,
-          clientLastName: client.lastName,
-          descriptionLocation:opportunity.descriptionLocation// Ensure this is correctly mapped
-        );
+            id: opportunity.id,
+            title: opportunity.title,
+            description: opportunity.description,
+            clientId: opportunity.clientId,
+            clientFirstName: client.firstName,
+            clientLastName: client.lastName,
+            descriptionLocation: opportunity.descriptionLocation // Ensure this is correctly mapped
+            );
       }).toList();
 
       print('Opportunities from database: $opportunitiesWithClients'); // Debug statement
@@ -82,6 +81,7 @@ class OpportunitiesCubit extends Cubit<OpportunitiesState> {
       print(e.toString());
     }
   }
+
   Future<void> deleteOpportunity(int id) async {
     try {
       emit(OpportunityLoading());

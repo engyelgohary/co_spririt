@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/app_util.dart';
 import '../theme/appColors.dart';
 
@@ -8,18 +7,21 @@ class CustomMenuCard extends StatelessWidget {
   Function onFunction;
   Color iconColor;
   Color textColor;
-  CustomMenuCard(
-      {super.key,
-      required this.name,
-      required this.onFunction,
-      this.iconColor = AppColor.basicColor,
-      this.textColor = AppColor.basicColor});
+  bool enableDivider;
+  CustomMenuCard({
+    super.key,
+    required this.name,
+    required this.onFunction,
+    this.iconColor = AppColor.basicColor,
+    this.textColor = AppColor.basicColor,
+    this.enableDivider = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
     return Padding(
-      padding: EdgeInsets.only(top: 10.h, left: width / 25, right: width / 25),
+      padding: EdgeInsets.symmetric(horizontal: width / 25),
       child: Column(
         children: [
           InkWell(
@@ -32,12 +34,15 @@ class CustomMenuCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontSize: 16, color: textColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontSize: 16, color: textColor),
+                    ),
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
@@ -48,10 +53,11 @@ class CustomMenuCard extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(
-            color: AppColor.whiteColor,
-            thickness: 2,
-          ),
+          if (enableDivider)
+            const Divider(
+              color: AppColor.whiteColor,
+              thickness: 2,
+            ),
         ],
       ),
     );

@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:co_spririt/data/model/Client.dart';
-import 'package:co_spririt/data/model/Collaborator.dart';
-import 'package:co_spririt/data/model/GetAdmin.dart';
-import 'package:co_spririt/data/model/OA.dart';
-import 'package:co_spririt/data/model/RequestsResponse.dart';
-import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/data/model/opportunities.dart';
+import 'package:co_spirit/data/model/Client.dart';
+import 'package:co_spirit/data/model/Collaborator.dart';
+import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/data/model/OA.dart';
+import 'package:co_spirit/data/model/RequestsResponse.dart';
+import 'package:co_spirit/data/model/Type.dart';
+import 'package:co_spirit/data/model/opportunities.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../api/apimanager.dart';
 import '../../model/OW.dart';
@@ -19,29 +19,29 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> login({required String email, required String password}) {
     return authRemoteDataSource.login(email: email, password: password);
   }
+
   @override
   Future<GetAdmin?> fetchAdminDetails(int token) {
     return authRemoteDataSource.fetchAdminDetails(token);
   }
 }
 
-class AdminRepositoryImpl implements AdminRepository{
+class AdminRepositoryImpl implements AdminRepository {
   AdminRemoteDataSource adminRemoteDataSource;
   AdminRepositoryImpl({required this.adminRemoteDataSource});
   @override
-  Future< GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image) {
-    return adminRemoteDataSource.registerAdmin(adminData,image);
+  Future<GetAdmin> registerAdmin(Map<String, dynamic> adminData, XFile? image) {
+    return adminRemoteDataSource.registerAdmin(adminData, image);
   }
 
   @override
   Future<List<GetAdmin>> getAllAdmins({int page = 1}) {
- return adminRemoteDataSource.getAllAdmins(page: page);
+    return adminRemoteDataSource.getAllAdmins(page: page);
   }
 
   @override
   Future<GetAdmin> fetchAdminDetails(int id) {
     return adminRemoteDataSource.fetchAdminDetails(id);
-
   }
 
   @override
@@ -51,20 +51,21 @@ class AdminRepositoryImpl implements AdminRepository{
 
   @override
   Future<GetAdmin> deleteAdmin(int id) {
-   return adminRemoteDataSource.deleteAdmin(id);
+    return adminRemoteDataSource.deleteAdmin(id);
   }
 
   @override
   Future<List<Collaborator>> getCollaboratorsToAdmin({int page = 1}) {
-   return adminRemoteDataSource.getCollaboratorsToAdmin(page: page);
+    return adminRemoteDataSource.getCollaboratorsToAdmin(page: page);
   }
 
   @override
-  Future<void> setStatusToCollaborator(int collaboratorId,int selectStatus) {
-   return adminRemoteDataSource.setStatusToCollaborator(collaboratorId,selectStatus);
+  Future<void> setStatusToCollaborator(int collaboratorId, int selectStatus) {
+    return adminRemoteDataSource.setStatusToCollaborator(collaboratorId, selectStatus);
   }
 }
-class ClientRepositoryImpl implements ClientRepository{
+
+class ClientRepositoryImpl implements ClientRepository {
   ClientRemoteDataSource clientRemoteDataSource;
   ClientRepositoryImpl({required this.clientRemoteDataSource});
   @override
@@ -73,28 +74,28 @@ class ClientRepositoryImpl implements ClientRepository{
   }
 
   @override
-  Future<Client> addClient(String first,
-      String email, String last, String phone) {
-return clientRemoteDataSource.addClient(first,email,last,phone);
+  Future<Client> addClient(String first, String email, String last, String phone) {
+    return clientRemoteDataSource.addClient(first, email, last, phone);
   }
 
   @override
   Future<Client> deleteClient(int id) {
-   return clientRemoteDataSource.deleteClient(id);
+    return clientRemoteDataSource.deleteClient(id);
   }
 
   @override
   Future<Client> fetchClientDetails(int id) {
-   return clientRemoteDataSource.fetchClientDetails(id);
+    return clientRemoteDataSource.fetchClientDetails(id);
   }
 
   @override
-  Future<void> updateClient(int id, String firstName, String lastName, String email, String contactNumber) {
- return clientRemoteDataSource.updateClient(id, firstName, lastName, email, contactNumber);
+  Future<void> updateClient(
+      int id, String firstName, String lastName, String email, String contactNumber) {
+    return clientRemoteDataSource.updateClient(id, firstName, lastName, email, contactNumber);
   }
-
 }
-class CollaboratorRepositoryImpl implements CollaboratorRepository{
+
+class CollaboratorRepositoryImpl implements CollaboratorRepository {
   CollaboratorRemoteDataSource collaboratorRemoteDataSource;
   CollaboratorRepositoryImpl({required this.collaboratorRemoteDataSource});
   @override
@@ -104,51 +105,53 @@ class CollaboratorRepositoryImpl implements CollaboratorRepository{
 
   @override
   Future<Collaborator> deleteCollaborator(int id) {
-   return collaboratorRemoteDataSource.deleteCollaborator(id);
+    return collaboratorRemoteDataSource.deleteCollaborator(id);
   }
 
   @override
-  Future<Collaborator> addCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
+  Future<Collaborator> addCollaborator(
+      Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
     return collaboratorRemoteDataSource.addCollaborator(collaboratorData, image, cv);
   }
 
   @override
   Future<Collaborator> fetchCollaboratorDetails(int id) {
-   return collaboratorRemoteDataSource.fetchCollaboratorDetails(id);
+    return collaboratorRemoteDataSource.fetchCollaboratorDetails(id);
   }
 
   @override
-  Future<Collaborator> updateCollaborator(Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
-   return collaboratorRemoteDataSource.updateCollaborator(collaboratorData, image, cv);
+  Future<Collaborator> updateCollaborator(
+      Map<String, dynamic> collaboratorData, XFile? image, File? cv) {
+    return collaboratorRemoteDataSource.updateCollaborator(collaboratorData, image, cv);
   }
 
   @override
   Future<Collaborator> assignCollaboratorToAdmin(int collaboratorId, int adminId) {
- return collaboratorRemoteDataSource.assignCollaboratorToAdmin(collaboratorId, adminId);
+    return collaboratorRemoteDataSource.assignCollaboratorToAdmin(collaboratorId, adminId);
   }
 
   @override
   Future<Collaborator> assignCollaboratorToClient(int collaboratorId, int clientId) {
-   return collaboratorRemoteDataSource.assignCollaboratorToClient(collaboratorId, clientId);
+    return collaboratorRemoteDataSource.assignCollaboratorToClient(collaboratorId, clientId);
   }
 }
 
-class OpportunitiesRepositoryImpl implements OpportunitiesRepository{
+class OpportunitiesRepositoryImpl implements OpportunitiesRepository {
   OpportunitiesDataSource opportunitiesDataSource;
   OpportunitiesRepositoryImpl({required this.opportunitiesDataSource});
   @override
   Future<void> submitOpportunity(Opportunities opportunity, File? descriptionFile) {
-   return opportunitiesDataSource.submitOpportunity(opportunity, descriptionFile);
+    return opportunitiesDataSource.submitOpportunity(opportunity, descriptionFile);
   }
 
   @override
   Future<List<Client>> fetchClientsByCollaborator() {
-  return opportunitiesDataSource.fetchClientsByCollaborator();
+    return opportunitiesDataSource.fetchClientsByCollaborator();
   }
 
   @override
   Future<List<Opportunities>> getOpportunityData() {
-   return opportunitiesDataSource.getOpportunityData();
+    return opportunitiesDataSource.getOpportunityData();
   }
 
   @override
@@ -158,20 +161,21 @@ class OpportunitiesRepositoryImpl implements OpportunitiesRepository{
 
   @override
   Future<List<Opportunities>> getOpportunityDataAdmin() {
- return opportunitiesDataSource.getOpportunityDataAdmin();
+    return opportunitiesDataSource.getOpportunityDataAdmin();
   }
 }
-class TypesRepositoryImpl implements TypesRepository{
+
+class TypesRepositoryImpl implements TypesRepository {
   TypesDataSource typesDataSource;
   TypesRepositoryImpl({required this.typesDataSource});
   @override
   Future<Types> addType(String type) {
-        return typesDataSource.addType(type);
+    return typesDataSource.addType(type);
   }
 
   @override
   Future<List<Types>> fetchAllTypes({int page = 1}) {
-   return typesDataSource.fetchAllTypes(page: page);
+    return typesDataSource.fetchAllTypes(page: page);
   }
 
   @override
@@ -181,41 +185,41 @@ class TypesRepositoryImpl implements TypesRepository{
 
   @override
   Future<Types> fetchTypeDetails(int id) {
-  return typesDataSource.fetchTypeDetails(id);
+    return typesDataSource.fetchTypeDetails(id);
   }
 
   @override
   Future<void> updateTypes(int id, String type) {
- return typesDataSource.updateTypes(id, type);
+    return typesDataSource.updateTypes(id, type);
   }
-
 }
-class RequestRepositoryImpl implements RequestsRepository{
+
+class RequestRepositoryImpl implements RequestsRepository {
   RequestsDataSource requestsDataSource;
   RequestRepositoryImpl({required this.requestsDataSource});
   @override
   Future<RequestsResponse> addRequest(String title, int typeId) {
-   return requestsDataSource.addRequest(title, typeId);
+    return requestsDataSource.addRequest(title, typeId);
   }
 
   @override
   Future<RequestsResponse> deleteRequests(int id) {
-   return requestsDataSource.deleteRequests(id);
+    return requestsDataSource.deleteRequests(id);
   }
 
   @override
   Future<List<RequestsResponse>> fetchAllRequests({int page = 1}) {
-  return requestsDataSource.fetchAllRequests(page: page);
+    return requestsDataSource.fetchAllRequests(page: page);
   }
 
   @override
   Future<RequestsResponse> fetchRequestDetails(int id) {
-   return requestsDataSource.fetchRequestDetails(id);
+    return requestsDataSource.fetchRequestDetails(id);
   }
 
   @override
   Future<void> respondToRequest(int requestId, bool response) {
-  return requestsDataSource.respondToRequest(requestId, response);
+    return requestsDataSource.respondToRequest(requestId, response);
   }
 }
 
@@ -238,6 +242,11 @@ class OpportunityAnalyzerRepositoryImpl implements OpportunityAnalyzerRepository
   Future<OA> fetchOADetails(String id) {
     return apiManager.fetchOADetails(id);
   }
+
+  @override
+  Future<OA> updateOA(Map<String, dynamic> adminData, XFile? image) {
+    return apiManager.updateOA(adminData, image);
+  }
 }
 
 class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
@@ -258,5 +267,10 @@ class OpportunityOwnerRepositoryImpl implements OpportunityOwnerRepository {
   @override
   Future<OW> fetchOWDetails(String id) {
     return apiManager.fetchOWDetails(id);
+  }
+
+  @override
+  Future<OW> updateOW(Map<String, dynamic> OWData, XFile? image) {
+    return apiManager.updateOW(OWData, image);
   }
 }

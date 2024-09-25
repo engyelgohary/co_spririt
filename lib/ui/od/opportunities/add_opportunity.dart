@@ -1,5 +1,5 @@
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/data/api/apimanager.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,16 +20,16 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
   final description = TextEditingController();
   final risk = TextEditingController();
   final client = TextEditingController();
-  final type = TextEditingController();
+  final solution = TextEditingController();
   final industry = TextEditingController();
   final feasibility = TextEditingController();
   String? descriptionFilePath;
   final apiManager = ApiManager.getInstance();
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
-  List risks = [];
-  List solutions = [];
+  Map<dynamic, dynamic> risks = {};
+  Map<dynamic, dynamic> solutions = {};
+  Map<dynamic, dynamic> feasibilityOptions = {};
   Map<dynamic, dynamic> clients = {};
-  final feasibilityOptions = ["Low", "Medium", "High", "I don't know"];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
         builder: (context, child) {
           if (loadingNotifier.loading) {
             addOpportunityBackend(apiManager, loadingNotifier);
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
           } else if (loadingNotifier.response == null) {
             return Center(
               child: buildErrorIndicator(
@@ -52,10 +52,10 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
             );
           }
 
-          risks = loadingNotifier.response![0].map((e) => e["name"]).toList();
-          solutions = loadingNotifier.response![1].map((e) => e["name"]).toList();
+          risks = loadingNotifier.response![0];
+          solutions = loadingNotifier.response![1];
           clients = loadingNotifier.response![2];
-
+          feasibilityOptions = loadingNotifier.response![3];
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -79,21 +79,21 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                 ),
                 OpportunityDropDownMenu(
                   fieldName: "Corelia's Solution",
-                  dropDownOptions: solutions,
-                  selection: type,
+                  dropDownOptions: solutions.keys.toList(),
+                  selection: solution,
                   hintText: "Cyber security",
                   textColor: ODColorScheme.mainColor,
                 ),
                 OpportunityDropDownMenu(
                   fieldName: 'Feasibility',
                   selection: feasibility,
-                  dropDownOptions: feasibilityOptions,
+                  dropDownOptions: feasibilityOptions.keys.toList(),
                   hintText: "Low, Medium, High",
                   textColor: ODColorScheme.mainColor,
                 ),
                 OpportunityDropDownMenu(
                   fieldName: 'Risk Factors',
-                  dropDownOptions: risks,
+                  dropDownOptions: risks.keys.toList(),
                   selection: risk,
                   hintText: "No budget, Delay, Competitors",
                   textColor: ODColorScheme.mainColor,
@@ -102,7 +102,6 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                   padding: EdgeInsets.symmetric(horizontal: width / 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.,
                     children: [
                       const Text(
                         "Attachmentss",
@@ -188,7 +187,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               return;
                             }
                             final case1 = description.text.isNotEmpty &&
-                                type.text.isNotEmpty &&
+                                solution.text.isNotEmpty &&
                                 feasibility.text.isNotEmpty &&
                                 risk.text.isNotEmpty;
                             if (descriptionFilePath == null && case1) {
@@ -210,13 +209,11 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                               await apiManager.addOpportunity(
                                 title.text,
                                 description.text,
-                                clients[client.text].id.toString(),
-                                type.text,
-                                feasibility.text,
-                                risk.text,
-                                "10", //TODO it is hardcoded for now :(
-                                type.text,
-                                "Submitted", //TODO it is hardcoded for now :(
+                                clients[client.text].toString(),
+                                "Type",
+                                feasibilityOptions[feasibility.text].toString(),
+                                risks[risk.text].toString(),
+                                solutions[solution.text].toString(),
                                 descriptionFilePath,
                               );
                               if (context.mounted) {
@@ -226,7 +223,7 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                                 ));
                                 title.clear();
                                 description.clear();
-                                type.clear();
+                                solution.clear();
                                 client.clear();
                                 feasibility.clear();
                                 risk.clear();

@@ -1,5 +1,5 @@
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,27 +73,27 @@ class _OppyOStateD extends State<OppyOM> {
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              '${AppUI.svgPath}oppy_mascot.svg',
-              // width: 10,
+              "${AppUI.svgPath}oppy.svg",
+              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+              height: 30,
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 8),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: "Ask Oppy",
                   fontSize: 16,
-                  color: ODColorScheme.mainColor,
+                  color: OMColorScheme.textColor,
                   fontWeight: FontWeight.w700,
                 ),
                 CustomText(
                   text: "● Online ",
                   fontSize: 12,
-                  color: ODColorScheme.buttonColor,
+                  color: Colors.green,
                   fontWeight: FontWeight.w400,
                 ),
               ],
@@ -101,7 +101,7 @@ class _OppyOStateD extends State<OppyOM> {
           ],
         ),
         toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: ODColorScheme.buttonColor),
+        iconTheme: const IconThemeData(color: OMColorScheme.buttonColor),
       ),
       body: Column(
         children: [
@@ -118,7 +118,9 @@ class _OppyOStateD extends State<OppyOM> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   // collaboratorsMessages("widget.receiverId", apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -223,7 +225,7 @@ class _OppyOStateD extends State<OppyOM> {
                           },
                           icon: const Icon(
                             Icons.send,
-                            color: ODColorScheme.buttonColor,
+                            color: OMColorScheme.buttonColor,
                           ),
                         ),
                       ],

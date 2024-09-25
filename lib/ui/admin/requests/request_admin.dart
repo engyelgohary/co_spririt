@@ -12,7 +12,7 @@ import '../../om/adminforsuperadmin/infoAdmin.dart';
 class RequestAdmin extends StatefulWidget {
   static const String routeName = 'Request Admin';
 
-   RequestAdmin({super.key});
+   const RequestAdmin({super.key});
 
   @override
   State<RequestAdmin> createState() => _RequestAdminState();
@@ -62,7 +62,7 @@ class _RequestAdminState extends State<RequestAdmin> {
           'Requests',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
       ),
       body: BlocProvider(
         create: (context) => viewModel,
@@ -108,10 +108,10 @@ class _RequestAdminState extends State<RequestAdmin> {
                                         .textTheme
                                         .titleSmall!
                                         .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-                                    content: Text("Would you like to accept or reject this request?"),
+                                    content: const Text("Would you like to accept or reject this request?"),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text("Reject"),
+                                        child: const Text("Reject"),
                                         onPressed: () async {
                                           Navigator.of(context).pop(); // Close the dialog
                                           await viewModel.respondToRequest(item.id ?? 0, false); // Send rejection
@@ -119,7 +119,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                                         },
                                       ),
                                       TextButton(
-                                        child: Text("Accept"),
+                                        child: const Text("Accept"),
                                         onPressed: () async {
                                           Navigator.of(context).pop(); // Close the dialog
                                           await viewModel.respondToRequest(item.id ?? 0, true); // Send acceptance
@@ -134,7 +134,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.add_task,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -153,14 +153,14 @@ class _RequestAdminState extends State<RequestAdmin> {
                                     builder: (context, state) {
                                       if (state is RequestsSuccess) {
                                         if (state.requestData == null) {
-                                          return Center(
+                                          return const Center(
                                               child: CircularProgressIndicator(
                                                 color: AppColor.secondColor,
                                               )); }
                                         return Container(
                                           height: 200.h,
                                           width: 369.w,
-                                          padding: EdgeInsets.all(20),
+                                          padding: const EdgeInsets.all(20),
                                           child: Column(
                                             children: [
                                               CustomTextInfo(fieldName:'Title :' ,data:"${item.description}"),
@@ -176,7 +176,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                                       } else if (state is RequestsError) {
                                         return Center(child: Text(state.errorMessage??""));
                                       } else {
-                                        return Center(child: CircularProgressIndicator(
+                                        return const Center(child: CircularProgressIndicator(
                                           color: AppColor.secondColor,
                                         ));
                                       }
@@ -187,7 +187,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.info_outline,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -200,14 +200,14 @@ class _RequestAdminState extends State<RequestAdmin> {
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
                 noItemsFoundIndicatorBuilder: (context) =>
-                    Center(child: Text("No Requests found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
+                    const Center(child: Text("No Requests found")),
+                newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                     AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
+                firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                     AlwaysStoppedAnimation<Color>(AppColor.secondColor),
@@ -215,7 +215,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                 ),
               ),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                   color: AppColor.whiteColor,
                   thickness: 1,

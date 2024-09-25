@@ -1,5 +1,5 @@
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -203,6 +203,7 @@ class AuthTextFormField extends StatelessWidget {
                   borderSide: const BorderSide(color: AppColor.whiteColor),
                   borderRadius: BorderRadius.circular(borderRadius)),
               focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromARGB(150, 0, 0, 0)),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
@@ -258,7 +259,7 @@ class _CustomTextState extends State<CustomText> {
         SizedBox(
           width: widget.width!.w,
         ),
-        Container(
+        SizedBox(
           height: 32.h,
           width: 230.w,
           child: TextFormField(

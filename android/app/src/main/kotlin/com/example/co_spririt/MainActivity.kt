@@ -1,4 +1,4 @@
-package com.example.co_spririt
+package com.example.co_spirit
 
 import io.flutter.embedding.android.FlutterActivity
 

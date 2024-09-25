@@ -1,9 +1,9 @@
-import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
-import 'package:co_spririt/ui/om/requests/infoType.dart';
-import 'package:co_spririt/ui/om/requests/updateType.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
+import 'package:co_spirit/data/dip.dart';
+import 'package:co_spirit/data/model/Type.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/ui/om/requests/infoType.dart';
+import 'package:co_spirit/ui/om/requests/updateType.dart';
+import 'package:co_spirit/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,16 +29,23 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
   void initState() {
     super.initState();
     viewModel = TypesCubit(typesRepository: injectTypesRepository());
-    requestsCubit = RequestsCubit(requestsRepository: injectRequestsRepository(), typesRepository: injectTypesRepository(), adminRepository: injectAdminRepository(), collaboratorRepository: injectCollaboratorRepository());
+    requestsCubit = RequestsCubit(
+        requestsRepository: injectRequestsRepository(),
+        typesRepository: injectTypesRepository(),
+        adminRepository: injectAdminRepository(),
+        collaboratorRepository: injectCollaboratorRepository());
   }
+
   @override
   void dispose() {
     viewModel.pagingController.dispose();
     super.dispose();
   }
+
   void onOpportunityAdded() {
     viewModel.pagingController.refresh();
   }
+
   Widget buildErrorIndicator(BuildContext context) {
     return Center(
       child: Column(
@@ -56,8 +63,8 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
       ),
     );
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,34 +75,34 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
         leading: const AppBarCustom(),
         actions: [
           InkWell(
-          onTap: () => showAddDialog(),
-      child: Container(
-        margin: EdgeInsets.only(right: 10.w),
-        height: 60.h,
-        width: 32.w,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColor.secondColor,
-        ),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
-    )
+            onTap: () => showAddDialog(),
+            child: Container(
+              margin: EdgeInsets.only(right: 10.w),
+              height: 60.h,
+              width: 32.w,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColor.secondColor,
+              ),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+          )
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
             child: Text("Types",
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
-                    .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
           ),
           Expanded(
             child: BlocProvider(
@@ -124,66 +131,63 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                               ),
                             ],
                           ),
-                          child:  ListTile(
-                                        title: Padding(
-                                          padding:  EdgeInsets.symmetric(vertical: 4.h),
-                                          child: Text(item.type ?? "",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall!
-                                                  .copyWith(fontSize: 18,fontWeight: FontWeight.w700)),
-                                        ),
-                                        trailing:Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                showUpdateDialog(item);
-                                              },
-                                              child: CircleAvatar(
-                                                backgroundColor: AppColor.SkyColor,
-                                                radius: 15.r,
-                                                child: const Icon(
-                                                  Icons.update_outlined,
-                                                  color: AppColor.secondColor,
-                                                  size: 15,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 16.w),
-                                            InkWell(
-                                              onTap: () {
-                                                showTypeDetailsBottomSheet(item.id ?? 0);
-                                              },
-                                              child: CircleAvatar(
-                                                  backgroundColor: AppColor.SkyColor,
-                                                  radius: 15.r,
-                                                  child: const Icon(
-                                                    Icons.info_outline,
-                                                    color: AppColor.secondColor,
-                                                    size: 15,
-                                                  ),
-                                                ),
-                                            ),
-                                          ],
-                                        ),
-
-                                      ),
-                                    );
+                          child: ListTile(
+                            title: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4.h),
+                              child: Text(item.type ?? "",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    showUpdateDialog(item);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColor.SkyColor,
+                                    radius: 15.r,
+                                    child: const Icon(
+                                      Icons.update_outlined,
+                                      color: AppColor.secondColor,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 16.w),
+                                InkWell(
+                                  onTap: () {
+                                    showTypeDetailsBottomSheet(item.id ?? 0);
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColor.SkyColor,
+                                    radius: 15.r,
+                                    child: const Icon(
+                                      Icons.info_outline,
+                                      color: AppColor.secondColor,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       },
                       firstPageErrorIndicatorBuilder: buildErrorIndicator,
                       noItemsFoundIndicatorBuilder: (context) =>
                           const Center(child: Text("No Clients found")),
                       newPageProgressIndicatorBuilder: (_) => const Center(
                         child: CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                         ),
                       ),
                       firstPageProgressIndicatorBuilder: (_) => const Center(
                         child: CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColor.secondColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                         ),
                       ),
                     ),
@@ -210,11 +214,14 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
       builder: (BuildContext context) {
         return BlocProvider(
           create: (context) => TypesCubit(typesRepository: injectTypesRepository()),
-          child: AddStatusDialog(onOpportunityAdded: onOpportunityAdded,),
+          child: AddStatusDialog(
+            onOpportunityAdded: onOpportunityAdded,
+          ),
         );
-        },
+      },
     );
   }
+
   void showTypeDetailsBottomSheet(int id) {
     showModalBottomSheet(
       context: context,
@@ -227,13 +234,15 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
               if (state.typeData == null) {
                 return const Center(
                     child: CircularProgressIndicator(
-                      color: AppColor.secondColor,
-                    )); }
+                  color: AppColor.secondColor,
+                ));
+              }
               return InfoType(state.typeData);
             } else if (state is TypesError) {
-              return Center(child: Text(state.errorMessage??""));
+              return Center(child: Text(state.errorMessage ?? ""));
             } else {
-              return const Center(child: CircularProgressIndicator(
+              return const Center(
+                  child: CircularProgressIndicator(
                 color: AppColor.secondColor,
               ));
             }
@@ -242,12 +251,16 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
       },
     );
   }
+
   void showUpdateDialog(Types type) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return BlocProvider.value(
-         value: viewModel, child: UpdateType(type: type,),
+          value: viewModel,
+          child: UpdateType(
+            type: type,
+          ),
         );
       },
     );

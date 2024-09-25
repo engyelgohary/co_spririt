@@ -21,7 +21,7 @@ class MenuScreenAdmin extends StatefulWidget {
   static const String routeName = 'Menu Screen Admin';
   final String adminId;
 
-  MenuScreenAdmin({required this.adminId});
+  const MenuScreenAdmin({super.key, required this.adminId});
 
   @override
   State<MenuScreenAdmin> createState() => _MenuScreenAdminState();

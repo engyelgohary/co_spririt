@@ -1,5 +1,5 @@
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,13 +74,12 @@ class _OppyOStateD extends State<OppyOD> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              '${AppUI.svgPath}oppy_mascot.svg',
-              // width: 10,
+              SvgPicture.asset(
+              "${AppUI.svgPath}oppy.svg",
+              colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+              height: 30,
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 8),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -93,7 +92,7 @@ class _OppyOStateD extends State<OppyOD> {
                 CustomText(
                   text: "● Online ",
                   fontSize: 12,
-                  color: ODColorScheme.buttonColor,
+                  color: Colors.green,
                   fontWeight: FontWeight.w400,
                 ),
               ],
@@ -118,7 +117,9 @@ class _OppyOStateD extends State<OppyOD> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   // collaboratorsMessages("widget.receiverId", apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(

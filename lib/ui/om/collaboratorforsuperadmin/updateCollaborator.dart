@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:co_spririt/data/model/Collaborator.dart';
-import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/data/model/Collaborator.dart';
+import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,7 @@ import '../../../utils/theme/appColors.dart';
 
 class Updatecollaborator extends StatefulWidget {
   final Collaborator collaborator;
-  Updatecollaborator({super.key, required this.collaborator});
+  const Updatecollaborator({super.key, required this.collaborator});
 
   @override
   State<Updatecollaborator> createState() => _UpdatecollaboratorState();

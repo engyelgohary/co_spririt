@@ -1,9 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/data/model/message.dart';
+import 'package:co_spirit/data/model/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../data/api/apimanager.dart';
@@ -45,10 +45,10 @@ class CustomChatBubble extends StatelessWidget {
         );
       } else {
         images.add(Padding(
-          padding: EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 8),
           child: ElevatedButton(
             child: Text(
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
               attachment.fileName ?? "",
             ),
             onPressed: () async {
@@ -60,7 +60,7 @@ class CustomChatBubble extends StatelessWidget {
                       id: 16,
                       channelKey: 'basic_channel',
                       title: "Download is complete",
-                      body: "download location: ${path}",
+                      body: "download location: $path",
                       notificationLayout: NotificationLayout.BigText,
                     ),
                   );
@@ -71,7 +71,7 @@ class CustomChatBubble extends StatelessWidget {
                       id: 16,
                       channelKey: 'basic_channel',
                       title: "Download faild",
-                      body: "download error message:  ${errorMessage}",
+                      body: "download error message:  $errorMessage",
                       notificationLayout: NotificationLayout.BigText,
                     ),
                   );

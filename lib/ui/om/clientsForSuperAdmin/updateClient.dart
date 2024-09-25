@@ -1,4 +1,4 @@
-import 'package:co_spririt/data/model/Client.dart';
+import 'package:co_spirit/data/model/Client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,7 @@ import 'Cubit/client_cubit.dart';
 class UpdateClient extends StatefulWidget {
   Client client;
 
-  UpdateClient({required this.client});
+  UpdateClient({super.key, required this.client});
 
   @override
   State<UpdateClient> createState() => _UpdateClientState();
@@ -53,13 +53,13 @@ class _UpdateClientState extends State<UpdateClient> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: 450.h,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               CustomText(
                 keyboardType: TextInputType.name,
                 fieldName: 'First Name :',
@@ -71,7 +71,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Last Name :',
                 controller: lastNameController,
@@ -83,7 +83,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Mobile :',
                 controller: phoneController,
@@ -96,7 +96,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Email :',
                 controller: emailController,
@@ -106,20 +106,20 @@ class _UpdateClientState extends State<UpdateClient> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your email address';
                   }
-                  bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value);
+                  bool emailValid =
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value);
                   if (!emailValid) {
                     return 'Invalid email';
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
@@ -128,28 +128,24 @@ class _UpdateClientState extends State<UpdateClient> {
                       },
                       child: Center(
                           child: Text('Cancel',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                      fontSize: 16,
-                                      color: AppColor.thirdColor,
-                                      fontWeight: FontWeight.w400))),
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                  fontSize: 16,
+                                  color: AppColor.thirdColor,
+                                  fontWeight: FontWeight.w400))),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {
                         updateClient();
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Client Update Successfully"),
                         ));
                       },
@@ -158,13 +154,11 @@ class _UpdateClientState extends State<UpdateClient> {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
-                                  .copyWith(
-                                      fontSize: 16, color: AppColor.whiteColor))),
+                                  .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                     ),
                   ),
                 ],

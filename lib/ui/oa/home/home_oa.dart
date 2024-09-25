@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/od/Menu/menu_od.dart';
-import 'package:co_spririt/ui/od/Message/oppy_od.dart';
-import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spririt/ui/od/opportunities/opportunities_od.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/ui/oa/Message/oppy_oa.dart';
+import 'package:co_spirit/ui/oa/Notifactions/notifictions_oa.dart';
+import 'package:co_spirit/ui/oa/opportunities/opportunities_oa.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,11 +11,12 @@ import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/Post.dart';
-import '../Message/Message_od.dart';
-import '../Profile/profile_od.dart';
+import '../Menu/menu_oa.dart';
+import '../Message/Message_oa.dart';
+import '../Profile/profile_oa.dart';
 
 class HomeScreenOA extends StatefulWidget {
-  HomeScreenOA({Key? key, required this.OAId}) : super(key: key);
+  const HomeScreenOA({Key? key, required this.OAId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String OAId;
 
@@ -32,12 +32,12 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
   void initState() {
     super.initState();
     apiManager = ApiManager.getInstance();
-    adminPosts = apiManager.fetchAdminPosts();
+    adminPosts = apiManager.fetchPosts();
   }
 
   Future<void> _reloadPosts() async {
     setState(() {
-      adminPosts = apiManager.fetchAdminPosts();
+      adminPosts = apiManager.fetchPosts();
     });
   }
 
@@ -78,7 +78,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                           onTap: () {
                             AppUtil.mainNavigator(
                               context,
-                              const NotificationScreenOD(),
+                              const NotificationScreenOA(),
                             );
                           },
                           child: Padding(
@@ -103,8 +103,8 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                         onTap: () {
                           AppUtil.mainNavigator(
                               context,
-                              MenuScreenOD(
-                                ODId: widget.OAId,
+                              MenuScreenOA(
+                                OAId: widget.OAId,
                               ));
                         },
                         child: Column(
@@ -124,8 +124,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(
-                              context, ProfileScreenOD(collaboratorId: widget.OAId));
+                          AppUtil.mainNavigator(context, ProfileScreenOA(OAId: widget.OAId));
                         },
                         child: Column(
                           children: [
@@ -143,7 +142,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                         children: [
                           InkWell(
                               onTap: () =>
-                                  AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                                  AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
                               child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
                                   width: 35)),
                           const SizedBox(height: 8),
@@ -156,7 +155,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOD()),
+                        onTap: () => AppUtil.mainNavigator(context, const OppyOA()),
                         child: Column(
                           children: [
                             SvgPicture.asset(
@@ -177,7 +176,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, const MessagesScreenOD());
+                          AppUtil.mainNavigator(context, const MessagesScreenOA());
                         },
                         child: Column(
                           children: [
@@ -203,7 +202,11 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
               ),
             ],
           ),
-          Expanded(
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.03,
+              vertical: 7,
+            ),
             child: RefreshIndicator(
               onRefresh: _reloadPosts,
               child: SingleChildScrollView(
@@ -213,7 +216,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       future: adminPosts,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -229,7 +232,6 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                               return Column(
                                 children: [
                                   Container(
-                                    width: screenWidth * 0.85,
                                     decoration: BoxDecoration(
                                       color: AppUI.whiteColor,
                                       borderRadius: BorderRadius.circular(10),
@@ -315,7 +317,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                                           if (post.pictureLocation != null) ...[
                                             CachedNetworkImage(
                                               imageUrl:
-                                                  'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                  'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                               placeholder: (context, url) =>
                                                   const CircularProgressIndicator(),
                                               errorWidget: (context, url, error) =>

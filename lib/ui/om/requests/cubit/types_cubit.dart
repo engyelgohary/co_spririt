@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
-import 'package:co_spririt/data/model/Type.dart';
+import 'package:co_spirit/data/model/Type.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:meta/meta.dart';
 import '../../../../data/repository/repoContract.dart';
 part 'types_state.dart';
 
 class TypesCubit extends Cubit<TypesState> {
   TypesRepository typesRepository;
-  final PagingController<int, Types> pagingController =
-  PagingController(firstPageKey: 1);
-  TypesCubit({required this.typesRepository}) : super(TypesInitial()){
+  final PagingController<int, Types> pagingController = PagingController(firstPageKey: 1);
+  TypesCubit({required this.typesRepository}) : super(TypesInitial()) {
     pagingController.addPageRequestListener((pageKey) {
       fetchTypes(pageKey);
     });
@@ -33,6 +31,7 @@ class TypesCubit extends Cubit<TypesState> {
       pagingController.error = error;
     }
   }
+
   Future<void> addType() async {
     if (!formKey.currentState!.validate()) return;
     emit(TypesLoading());
@@ -66,6 +65,7 @@ class TypesCubit extends Cubit<TypesState> {
       emit(TypesError(errorMessage: e.toString()));
     }
   }
+
   Future<void> fetchTypeDetails(int id) async {
     try {
       final typeDetails = await typesRepository.fetchTypeDetails(id);
@@ -74,11 +74,11 @@ class TypesCubit extends Cubit<TypesState> {
       emit(TypesError(errorMessage: e.toString()));
     }
   }
+
   Future<void> updateType(int id, String type) async {
     try {
       emit(TypesLoading());
-      await typesRepository.updateTypes(
-          id, type);
+      await typesRepository.updateTypes(id, type);
       emit(TypesSuccess());
       pagingController.refresh();
     } catch (e) {

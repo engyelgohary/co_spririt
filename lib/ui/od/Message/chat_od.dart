@@ -1,5 +1,5 @@
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +87,7 @@ class _ChatScreenODState extends State<ChatScreenOD> {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: AppUI.whiteColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
@@ -110,13 +110,13 @@ class _ChatScreenODState extends State<ChatScreenOD> {
                             CustomText(
                               text: widget.name,
                               fontSize: 16,
-                              color: AppUI.basicColor,
+                              color: ODColorScheme.textColor,
                               fontWeight: FontWeight.w700,
                             ),
                             CustomText(
                               text: widget.email,
                               fontSize: 12,
-                              color: AppUI.basicColor,
+                              color: ODColorScheme.textColor,
                               fontWeight: FontWeight.w400,
                             ),
                           ],
@@ -133,7 +133,9 @@ class _ChatScreenODState extends State<ChatScreenOD> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   collaboratorsMessages(widget.receiverId, apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(

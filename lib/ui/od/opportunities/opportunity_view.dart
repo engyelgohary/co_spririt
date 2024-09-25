@@ -1,8 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:co_spririt/core/app_util.dart';
-import 'package:co_spririt/data/api/apimanager.dart';
-import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/utils/helper_functions.dart';
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/data/model/opportunity.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -97,7 +97,7 @@ class OpportunityViewOD extends StatelessWidget {
                             id: 16,
                             channelKey: 'basic_channel',
                             title: "Download is complete",
-                            body: "download location: ${path}",
+                            body: "download location: $path",
                             notificationLayout: NotificationLayout.BigText,
                           ),
                         );
@@ -108,7 +108,7 @@ class OpportunityViewOD extends StatelessWidget {
                             id: 16,
                             channelKey: 'basic_channel',
                             title: "Download faild",
-                            body: "download error message:  ${errorMessage}",
+                            body: "download error message:  $errorMessage",
                             notificationLayout: NotificationLayout.BigText,
                           ),
                         );

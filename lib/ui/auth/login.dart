@@ -1,6 +1,6 @@
-import 'package:co_spririt/ui/auth/Cubit/login_model_view_cubit.dart';
-import 'package:co_spririt/utils/components/textFormField.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/ui/auth/Cubit/login_model_view_cubit.dart';
+import 'package:co_spirit/utils/components/textFormField.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

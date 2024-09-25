@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/data/model/Collaborator.dart';
+import 'package:co_spirit/data/model/Collaborator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +16,7 @@ class InfoCollaborator extends StatelessWidget {
   final Collaborator? collaborator;
   final List<GetAdmin> admin;
 
-  InfoCollaborator({required this.collaborator, required this.admin});
+  const InfoCollaborator({super.key, required this.collaborator, required this.admin});
 
   Future<void> _requestPermissions() async {
     if (await Permission.storage.request().isGranted) {

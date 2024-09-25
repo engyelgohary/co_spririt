@@ -1,6 +1,6 @@
-import 'package:co_spririt/data/model/GetAdmin.dart';
-import 'package:co_spririt/ui/od/Message/chat_od.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/ui/od/Message/chat_od.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,7 +50,9 @@ class _MessagesScreenODState extends State<MessagesScreenOD> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   collaboratorAdminsList(apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -104,13 +106,13 @@ class _MessagesScreenODState extends State<MessagesScreenOD> {
                                         CustomText(
                                           text: admin.firstName ?? "Unknown",
                                           fontSize: 15,
-                                          color: AppUI.basicColor,
+                                          color: ODColorScheme.textColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                         CustomText(
                                           text: admin.email ?? "Unknown",
                                           fontSize: 12,
-                                          color: AppUI.basicColor,
+                                          color: ODColorScheme.textColor,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],

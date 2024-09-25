@@ -11,7 +11,7 @@ import 'Cubit/admin_cubit.dart';
 
 class UpdateAdminDialog extends StatefulWidget {
   final GetAdmin admin;
-  UpdateAdminDialog({required this.admin});
+  const UpdateAdminDialog({super.key, required this.admin});
 
   @override
   _UpdateAdminDialogState createState() => _UpdateAdminDialogState();

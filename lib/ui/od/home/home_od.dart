@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/od/Menu/menu_od.dart';
-import 'package:co_spririt/ui/od/Message/oppy_od.dart';
-import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spririt/ui/od/opportunities/opportunities_od.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/ui/od/Menu/menu_od.dart';
+import 'package:co_spirit/ui/od/Message/oppy_od.dart';
+import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/opportunities/opportunities_od.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +16,7 @@ import '../Message/Message_od.dart';
 import '../Profile/profile_od.dart';
 
 class HomeScreenOD extends StatefulWidget {
-  HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
+  const HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String ODId;
 
@@ -203,7 +203,11 @@ class _HomeScreenODState extends State<HomeScreenOD> {
               ),
             ],
           ),
-          Expanded(
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.03,
+              vertical: 7,
+            ),
             child: RefreshIndicator(
               onRefresh: _reloadPosts,
               child: SingleChildScrollView(
@@ -213,7 +217,8 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                       future: adminPosts,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -229,7 +234,6 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                               return Column(
                                 children: [
                                   Container(
-                                    width: screenWidth * 0.85,
                                     decoration: BoxDecoration(
                                       color: AppUI.whiteColor,
                                       borderRadius: BorderRadius.circular(10),
@@ -315,7 +319,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                           if (post.pictureLocation != null) ...[
                                             CachedNetworkImage(
                                               imageUrl:
-                                                  'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                  'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                               placeholder: (context, url) =>
                                                   const CircularProgressIndicator(),
                                               errorWidget: (context, url, error) =>

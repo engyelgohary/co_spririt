@@ -1,5 +1,5 @@
-import 'package:co_spririt/data/model/Type.dart';
-import 'package:co_spririt/ui/om/requests/cubit/types_cubit.dart';
+import 'package:co_spirit/data/model/Type.dart';
+import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,7 @@ import '../../../utils/theme/appColors.dart';
 class UpdateType extends StatefulWidget {
   Types type;
 
-  UpdateType({required this.type});
+  UpdateType({super.key, required this.type});
 
   @override
   State<UpdateType> createState() => _UpdateTypeState();
@@ -33,20 +33,20 @@ class _UpdateTypeState extends State<UpdateType> {
 
   void updateType() {
     context.read<TypesCubit>().updateType(
-      widget.type.id ?? 1,
-      typeController.text,
-    );
+          widget.type.id ?? 1,
+          typeController.text,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Container(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
         height: 500.h,
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CustomText(
               keyboardType: TextInputType.name,
               fieldName: 'Type :',
@@ -58,11 +58,11 @@ class _UpdateTypeState extends State<UpdateType> {
                 return null;
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
@@ -71,28 +71,24 @@ class _UpdateTypeState extends State<UpdateType> {
                     },
                     child: Center(
                         child: Text('Cancel',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 fontSize: 16,
                                 color: AppColor.thirdColor,
                                 fontWeight: FontWeight.w400))),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.greyColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
                     onPressed: () {
                       updateType();
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Type Update Successfully"),
                       ));
                     },
@@ -101,13 +97,11 @@ class _UpdateTypeState extends State<UpdateType> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                fontSize: 16, color: AppColor.whiteColor))),
+                                .copyWith(fontSize: 16, color: AppColor.whiteColor))),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.buttonColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
                   ),
                 ),
               ],

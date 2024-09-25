@@ -1,8 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/ui/od/opportunities/add_opportunity.dart';
-import 'package:co_spririt/ui/od/opportunities/opportunity_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:co_spirit/data/model/opportunity.dart';
+import 'package:co_spirit/ui/od/opportunities/add_opportunity.dart';
+import 'package:co_spirit/ui/od/opportunities/opportunity_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -10,13 +9,6 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
-
-final statusColors = {
-  "Submitted": Colors.black,
-  "Review": Colors.amber,
-  "Rejected": Colors.red,
-  "Accepted": Colors.green
-};
 
 class OpportunitiesPageOD extends StatefulWidget {
   const OpportunitiesPageOD({super.key});
@@ -37,6 +29,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
   @override
   Widget build(BuildContext context) {
     final height = AppUtil.responsiveHeight(context);
+    double width = AppUtil.responsiveWidth(context);
 
     return Scaffold(
       appBar: customAppBar(
@@ -82,7 +75,8 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
           builder: (context, child) {
             if (loadingNotifier.loading) {
               opportunitiesList(apiManager, loadingNotifier);
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
             } else if (loadingNotifier.response == null) {
               return Center(
                 child: buildErrorIndicator(
@@ -98,72 +92,75 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
             final data = loadingNotifier.response;
 
-            return ListView.separated(
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  color: AppColor.whiteColor,
-                  thickness: 2,
-                );
-              },
-              itemCount: data!.length,
-              itemBuilder: (context, index) {
-                final opportunity = data[index];
-                return ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: ODColorScheme.mainColor,
-                    radius: 25,
-                    child: Center(
-                      child: Icon(
-                        Icons.circle,
-                        color: Colors.white,
-                        // size: 30,
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    opportunity.title ?? "N/A",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: ODColorScheme.textColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        opportunity.industry ?? "N/A",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: ODColorScheme.textColor,
-                          fontWeight: FontWeight.w400,
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: width / 25),
+              child: ListView.separated(
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    color: AppColor.whiteColor,
+                    thickness: 2,
+                  );
+                },
+                itemCount: data!.length,
+                itemBuilder: (context, index) {
+                  final opportunity = data[index];
+                  return ListTile(
+                    leading: const CircleAvatar(
+                      backgroundColor: ODColorScheme.mainColor,
+                      radius: 25,
+                      child: Center(
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.white,
+                          // size: 30,
                         ),
                       ),
-                      Text(
-                        opportunity.status ?? "N/A",
-                        style: const TextStyle(
-                          fontSize: 14,
+                    ),
+                    title: Text(
+                      opportunity.title ?? "N/A",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: ODColorScheme.textColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          opportunity.industry ?? "N/A",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: ODColorScheme.textColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          opportunity.status ?? "N/A",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: ODColorScheme.buttonColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: GestureDetector(
+                      onTap: () => AppUtil.mainNavigator(
+                          context, OpportunityViewOD(opportunity: opportunity)),
+                      child: const CircleAvatar(
+                        backgroundColor: AppColor.SkyColor,
+                        radius: 18,
+                        child: Icon(
+                          Icons.info_outline,
                           color: ODColorScheme.buttonColor,
-                          fontWeight: FontWeight.w400,
+                          size: 20,
                         ),
                       ),
-                    ],
-                  ),
-                  trailing: GestureDetector(
-                    onTap: () =>
-                        AppUtil.mainNavigator(context, OpportunityViewOD(opportunity: opportunity)),
-                    child: const CircleAvatar(
-                      backgroundColor: AppColor.SkyColor,
-                      radius: 18,
-                      child: Icon(
-                        Icons.info_outline,
-                        color: ODColorScheme.buttonColor,
-                        size: 20,
-                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             );
           },
         ),
@@ -256,7 +253,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download is complete",
-                              body: "download location: ${path}",
+                              body: "download location: $path",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );
@@ -267,7 +264,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download faild",
-                              body: "download error message:  ${errorMessage}",
+                              body: "download error message:  $errorMessage",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );

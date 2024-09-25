@@ -12,7 +12,7 @@ import '../../om/adminforsuperadmin/Cubit/admin_cubit.dart';
 
 class ProfileScreenAdmin extends StatefulWidget {
   final String adminId;
-  ProfileScreenAdmin({super.key, required this.adminId});
+  const ProfileScreenAdmin({super.key, required this.adminId});
 
   @override
   State<ProfileScreenAdmin> createState() => _ProfileScreenAdminState();
@@ -136,7 +136,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                       controller: phoneController,
                     ),
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(

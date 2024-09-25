@@ -1,6 +1,5 @@
-import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
-import 'package:co_spririt/utils/theme/appColors.dart';
+import 'package:co_spirit/data/model/Notification.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,13 +35,6 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
           context: context,
           textColor: ODColorScheme.mainColor,
           backArrowColor: ODColorScheme.buttonColor),
-      // AppBar(
-      //   title: Text(
-      //     'Notifications',
-      //     style: Theme.of(context).textTheme.titleSmall,
-      //   ),
-      //   leading: const AppBarCustom(),
-      // ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(
@@ -50,7 +42,8 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 notificationList(apiManager, loadingNotifier);
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
               } else if (loadingNotifier.response == null) {
                 return Center(
                   child: buildErrorIndicator(

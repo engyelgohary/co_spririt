@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:co_spririt/data/model/Client.dart';
-import 'package:co_spririt/data/model/ClientReq.dart';
-import 'package:co_spririt/data/model/Collaborator.dart';
-import 'package:co_spririt/data/model/GetAdmin.dart';
-import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/data/model/OpportunityAnalyzer.dart';
-import 'package:co_spririt/data/model/OpportunityOwner.dart';
-import 'package:co_spririt/data/model/Post.dart';
-import 'package:co_spririt/data/model/RequestsReq.dart';
-import 'package:co_spririt/data/model/RequestsResponse.dart';
-import 'package:co_spririt/data/model/message.dart';
-import 'package:co_spririt/data/model/typeReq.dart';
+import 'package:co_spirit/data/model/Client.dart';
+import 'package:co_spirit/data/model/ClientReq.dart';
+import 'package:co_spirit/data/model/Collaborator.dart';
+import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/data/model/Notification.dart';
+import 'package:co_spirit/data/model/OpportunityAnalyzer.dart';
+import 'package:co_spirit/data/model/OpportunityOwner.dart';
+import 'package:co_spirit/data/model/Post.dart';
+import 'package:co_spirit/data/model/RequestsReq.dart';
+import 'package:co_spirit/data/model/RequestsResponse.dart';
+import 'package:co_spirit/data/model/message.dart';
+import 'package:co_spirit/data/model/typeReq.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
@@ -19,8 +19,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/AllUsers.dart';
 import '../model/OA.dart';
+import '../model/ODAverageScore.dart';
 import '../model/OW.dart';
+import '../model/TopODs.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -32,6 +35,7 @@ class ApiConstants {
   static const String loginApi = '/api/auth/signin';
   static const String adminApi = '/api/v1/admin';
   static const String clientApi = '/api/v1/client';
+  static const String teamApi = '/api/team';
   static const String collaboratorApi = '/api/v1/collaborator';
   static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
   static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
@@ -49,22 +53,29 @@ class ApiConstants {
   static const String opportunityStatusApi = '/api/Status';
   static const String solutionApi = '/api/Solution';
   static const String scoreApi = '/api/Score';
+  static const String feasibilityApi = '/api/Feasibility';
   static const String riskApi = '/api/Risk';
+  static const String opportunityCountByStatusApi = '/api/LeaderBoard/OpportunityCountByStatus';
+  static const String odAverageScoreApi = '/api/LeaderBoard/OdAverageScore';
+  static const String riskAverageApi = '/api/LeaderBoard/RiskAverage';
+  static const String feasibilityAverageApi = ' /api/LeaderBoard/FeasibilityAverage';
 }
 
 class ApiManager {
   ApiManager._();
+
   static ApiManager? _instance;
+
   static ApiManager getInstance() {
     _instance ??= ApiManager._();
     return _instance!;
   }
 
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 //Auth
   Future<String?> login({required String email, required String password}) async {
     try {
-      final storage = FlutterSecureStorage();
+      final storage = const FlutterSecureStorage();
       Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.loginApi);
       final response = await http.post(
         url,
@@ -447,13 +458,24 @@ class ApiManager {
     }
   }
 
-  Future<Collaborator> fetchCollaboratorDetails(int id) async {
-    var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      return Collaborator.fromJson(jsonDecode(response.body));
-    } else {
+  Future<Collaborator> fetchCollaboratorDetails(int? id) async {
+    try {
+      if (id == null) {
+        final token = await storage.read(key: 'token');
+        if (token == null) {
+          throw Exception('No token found. Please log in.');
+        }
+        Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+        id = int.parse(decodedToken['nameid'].toString());
+      }
+      var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.collaboratorApi}/$id');
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        return Collaborator.fromJson(jsonDecode(response.body));
+      }
       throw Exception('Failed to load collaborator details');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -845,7 +867,7 @@ class ApiManager {
         throw Exception('Failed to delete Request. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      throw (e);
+      rethrow;
     }
   }
 
@@ -884,6 +906,7 @@ class ApiManager {
       print('Error: $e');
     }
   }
+
   //Posts
 
   Future<List<Post>> fetchPosts({int page = 1}) async {
@@ -1109,7 +1132,7 @@ class ApiManager {
       }
       throw Exception("Failed to get user messages code: ${response.statusCode}");
     } catch (e) {
-      print("Could not get the message error: ${e}");
+      print("Could not get the message error: $e");
       rethrow;
     }
   }
@@ -1336,6 +1359,53 @@ class ApiManager {
     }
   }
 
+  Future<OA> updateOA(Map<String, dynamic> OADAta, XFile? image) async {
+    try {
+      var uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityAnalyzerApi}${OADAta['id']}');
+      print(uri.toString());
+      var request = http.MultipartRequest('PUT', uri);
+
+      // Adding fields to the request
+      request.fields['id'] = OADAta['id'];
+      request.fields['FirstName'] = OADAta['firstName'];
+      request.fields['LastName'] = OADAta['lastName'];
+      request.fields['Phone'] = OADAta['phone'];
+      request.fields['Email'] = OADAta['email'];
+      request.fields['CanPost'] = OADAta['canPost'];
+      request.fields['Password'] = OADAta['password'];
+
+      // Adding image if present
+      if (image != null) {
+        var mimeTypeData = lookupMimeType(image.path)!.split('/');
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      }
+
+      var response = await request.send().timeout(const Duration(seconds: 30));
+      print("update oa response code: ${response.statusCode}");
+      if (response.statusCode == 204) {
+        // No Content
+        return OA(); // Assuming an empty OA object
+      } else if (response.statusCode == 200) {
+        var responseData = await http.Response.fromStream(response);
+        return OA.fromJson(jsonDecode(responseData.body));
+      } else {
+        var responseData = await http.Response.fromStream(response);
+        throw Exception('Failed to update opportunity Analyzer: ${responseData.body}');
+      }
+    } on SocketException {
+      throw Exception('No Internet connection');
+    }
+  }
+
   // Add a new Opportunity Owner
   Future<OW> addOW(Map<String, dynamic> opportunityOwnerData, XFile? image) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityOwnerApi);
@@ -1374,7 +1444,8 @@ class ApiManager {
     if (response.statusCode == 201) {
       return OW.fromJson(jsonDecode(responseData.body));
     } else {
-      throw Exception('Failed to add Opportunity Owner: ${responseData.statusCode} - ${responseData.body}');
+      throw Exception(
+          'Failed to add Opportunity Owner: ${responseData.statusCode} - ${responseData.body}');
     }
   }
 
@@ -1389,6 +1460,52 @@ class ApiManager {
       return OW.fromJson(responseData);
     } else {
       throw Exception('Failed to fetch Opportunity Owner details: ${response.body}');
+    }
+  }
+
+  Future<OW> updateOW(Map<String, dynamic> OWDAta, XFile? image) async {
+    try {
+      var uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.opportunityOwnerApi}/${OWDAta['id']}');
+      var request = http.MultipartRequest('PUT', uri);
+
+      // Adding fields to the request
+      request.fields['id'] = OWDAta['id'];
+      request.fields['FirstName'] = OWDAta['firstName'];
+      request.fields['LastName'] = OWDAta['lastName'];
+      request.fields['Phone'] = OWDAta['phone'];
+      request.fields['Email'] = OWDAta['email'];
+      request.fields['CanPost'] = OWDAta['canPost'];
+      request.fields['Password'] = OWDAta['password'];
+
+      // Adding image if present
+      if (image != null) {
+        var mimeTypeData = lookupMimeType(image.path)!.split('/');
+        request.files.add(
+          http.MultipartFile(
+            'picture',
+            File(image.path).readAsBytes().asStream(),
+            File(image.path).lengthSync(),
+            filename: basename(image.path),
+            contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+          ),
+        );
+      }
+
+      var response = await request.send().timeout(const Duration(seconds: 30));
+
+      if (response.statusCode == 204) {
+        // No Content
+        return OW(); // Assuming an empty OW object
+      } else if (response.statusCode == 200) {
+        var responseData = await http.Response.fromStream(response);
+        return OW.fromJson(jsonDecode(responseData.body));
+      } else {
+        var responseData = await http.Response.fromStream(response);
+        throw Exception('Failed to update opportunity owner: ${responseData.body}');
+      }
+    } on SocketException {
+      throw Exception('No Internet connection');
     }
   }
 
@@ -1530,11 +1647,9 @@ class ApiManager {
     String description,
     String clientId,
     String opportunityType,
-    String feasibility,
-    String risks,
-    String score,
-    String solution,
-    String status,
+    String feasibilityId,
+    String riskId,
+    String solutionId,
     String? descriptionFile,
   ) async {
     try {
@@ -1552,12 +1667,11 @@ class ApiManager {
         "ClientId": clientId,
         "Opportunity_Title": title,
         "Opportunity_Type": opportunityType,
-        "Industry": "None ",
-        "Feasibility": feasibility,
-        "Risks": risks,
-        "Score": score,
-        "Solution": solution,
-        "Status": status,
+        "Industry": "N/A",
+        "FeasibilityId": feasibilityId,
+        "RiskId": riskId,
+        "SolutionId": solutionId,
+        "StatusId": 3.toString(),
       };
 
       if (descriptionFile != null) {
@@ -1970,6 +2084,296 @@ class ApiManager {
     } catch (e) {
       print("Could not delete score $e");
       rethrow;
+    }
+  }
+
+  Future<List> getFeasibility() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addFeasibility(String name, int value) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityApi);
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "value": value}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteFeasibility(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.feasibilityApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<List> fetchAllTeams() async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body).map((json) => Client.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load teams. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching teams: $error');
+      throw Exception('Error fetching teams: $error');
+    }
+  }
+
+  Future<bool> addTeam(String name, int value) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "value": value}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add team: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add team $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteTeam(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.teamApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete team: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete team $e");
+      rethrow;
+    }
+  }
+
+  Future<List<dynamic>> fetchAllStatus() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      List<dynamic> statuses = json.decode(response.body);
+      return statuses;
+    } else {
+      throw Exception('Failed to load statuses');
+    }
+  }
+
+  Future<int> fetchLeaderBoardByStatus(String statusId) async {
+    final uri =
+        Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityCountByStatusApi}/$statusId");
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data is int) {
+          return data;
+        } else {
+          throw Exception('Unexpected data format: $data');
+        }
+      } else {
+        print('Failed to load leaderboard data: ${response.body}');
+        throw Exception('Failed to load leaderboard data');
+      }
+    } catch (e) {
+      print('Error fetching leaderboard: $e');
+      return 0;
+    }
+  }
+
+  Future<List<OdAverageScore>> fetchLeaderBoardByAverageScore() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.odAverageScoreApi);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        List<OdAverageScore> odScores = data.map((od) => OdAverageScore.fromJson(od)).toList();
+        return odScores;
+      } else {
+        print('Failed to load OD average scores: ${response.body}');
+        throw Exception('Failed to load OD average scores');
+      }
+    } catch (e) {
+      print('Error fetching OD average scores: $e');
+      return [];
+    }
+  }
+
+  Future<String> getRiskAverage() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.riskAverageApi);
+    print('Fetching Risk Average from: $uri');
+
+    try {
+      final response = await http.get(uri);
+      //print('Response Status Code: ${response.statusCode}');
+      //  print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          return response.body;
+        } else {
+          throw Exception('Empty response from risk average API');
+        }
+      } else {
+        throw Exception('Failed to load risk average:');
+      }
+    } catch (e) {
+      print('Error fetching risk average:');
+      rethrow;
+    }
+  }
+
+  Future<String> getFeasibilityAverage() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityAverageApi);
+    print('Fetching Feasibility Average from: $uri');
+
+    try {
+      final response = await http.get(uri);
+      // print('Response Status Code: ${response.statusCode}');
+      //   print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          return response.body;
+        } else {
+          throw Exception('Empty response from feasibility average API');
+        }
+      } else {
+        throw Exception('Failed to load feasibility average:');
+      }
+    } catch (e) {
+      print('Error fetching feasibility average');
+      rethrow;
+    }
+  }
+
+  Future<List<Top5ODs>> getTop5Od(int statusId) async {
+    final uri = Uri.http(ApiConstants.baseUrl, '/api/LeaderBoard/Top5Od/$statusId');
+
+    try {
+      final response = await http.get(uri);
+      print('Response Top5OD Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((od) => Top5ODs.fromJson(od)).toList();
+      } else {
+        throw Exception('Failed to load Top 5 ODs: ${response.body}');
+      }
+    } catch (e) {
+      print('Error fetching Top 5 ODs: $e');
+      return [];
+    }
+  }
+
+  Future<List<AllUsers>> getAllUsers() async {
+    final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/SuperAdmin/GetALlUser');
+    print('Fetching users from: $uri');
+
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((user) => AllUsers.fromJson(user)).toList();
+      } else {
+        throw Exception('Failed to load users: ${response.body}');
+      }
+    } catch (e) {
+      print('Error fetching users: $e');
+      return [];
     }
   }
 }

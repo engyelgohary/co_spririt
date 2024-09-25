@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:co_spririt/data/model/RequestsResponse.dart';
-import 'package:co_spririt/data/model/Type.dart';
+import 'package:co_spirit/data/model/RequestsResponse.dart';
+import 'package:co_spirit/data/model/Type.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:meta/meta.dart';
 import '../../../../data/repository/repoContract.dart';
 part 'requests_state.dart';
 
@@ -13,8 +12,13 @@ class RequestsCubit extends Cubit<RequestsState> {
   AdminRepository adminRepository;
   CollaboratorRepository collaboratorRepository;
   final PagingController<int, RequestsResponse> pagingController =
-  PagingController(firstPageKey: 1);
-  RequestsCubit({required this.requestsRepository,required this.typesRepository,required this.adminRepository,required this.collaboratorRepository}) : super(RequestsInitial()){
+      PagingController(firstPageKey: 1);
+  RequestsCubit(
+      {required this.requestsRepository,
+      required this.typesRepository,
+      required this.adminRepository,
+      required this.collaboratorRepository})
+      : super(RequestsInitial()) {
     pagingController.addPageRequestListener((pageKey) {
       fetchRequests(pageKey);
     });
@@ -29,16 +33,13 @@ class RequestsCubit extends Cubit<RequestsState> {
       final types = await typesRepository.fetchAllTypes(page: 1);
       final admins = await adminRepository.getAllAdmins(page: 1);
       final collaborators = await collaboratorRepository.fetchAllCollaborators(page: 1);
-      final requestWithTypes = requests.map((request){
-        final admin = admins.firstWhere(
-            (admin) => admin.id == request.toId
-        );
-        final collaborator = collaborators.firstWhere(
-            (collaborator) => collaborator.id == request.fromId
-        );
+      final requestWithTypes = requests.map((request) {
+        final admin = admins.firstWhere((admin) => admin.id == request.toId);
+        final collaborator =
+            collaborators.firstWhere((collaborator) => collaborator.id == request.fromId);
         final type = types.firstWhere(
-            (type) => type.id == request.requestTypeId,
-          orElse: () => Types(id: 0,type: ""),
+          (type) => type.id == request.requestTypeId,
+          orElse: () => Types(id: 0, type: ""),
         );
         return RequestsResponse(
           id: request.id,
@@ -61,6 +62,7 @@ class RequestsCubit extends Cubit<RequestsState> {
       pagingController.error = error;
     }
   }
+
   Future<void> deleteRequest(int id) async {
     try {
       emit(RequestsLoading());
@@ -72,15 +74,15 @@ class RequestsCubit extends Cubit<RequestsState> {
       print(e.toString());
     }
   }
+
   Future<void> addRequest() async {
     // Validate form fields
     if (!formKey.currentState!.validate()) return;
 
     // Check if the title is empty
-    if (title_controller.text.isEmpty ||selectedTypeId == null ) {
+    if (title_controller.text.isEmpty || selectedTypeId == null) {
       emit(RequestsError(
         errorMessage: "Please enter all request details.",
-
       ));
       return;
     }
@@ -93,9 +95,7 @@ class RequestsCubit extends Cubit<RequestsState> {
       );
       emit(RequestsSuccess(requestData: response));
     } catch (e) {
-      emit(RequestsError(
-        errorMessage: "You are not assigned to an admin yet."
-      ));
+      emit(RequestsError(errorMessage: "You are not assigned to an admin yet."));
       print(e.toString());
     }
   }
@@ -108,11 +108,12 @@ class RequestsCubit extends Cubit<RequestsState> {
       emit(RequestsError(errorMessage: e.toString()));
     }
   }
-  Future<void> respondToRequest(int requestId, bool response) async{
-    try{
+
+  Future<void> respondToRequest(int requestId, bool response) async {
+    try {
       await requestsRepository.respondToRequest(requestId, response);
       emit(RequestsSuccess());
-    }catch(e){
+    } catch (e) {
       emit(RequestsError(errorMessage: e.toString()));
     }
   }

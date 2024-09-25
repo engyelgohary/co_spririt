@@ -12,15 +12,15 @@ import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
 
-class ProfileScreenOD extends StatefulWidget {
-  final String collaboratorId;
-  const ProfileScreenOD({super.key, required this.collaboratorId});
+class ProfileScreenOW extends StatefulWidget {
+  final String OWId;
+  const ProfileScreenOW({super.key, required this.OWId});
 
   @override
-  State<ProfileScreenOD> createState() => _ProfileScreenODState();
+  State<ProfileScreenOW> createState() => _ProfileScreenOWState();
 }
 
-class _ProfileScreenODState extends State<ProfileScreenOD> {
+class _ProfileScreenOWState extends State<ProfileScreenOW> {
   late CollaboratorCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -38,7 +38,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
     viewModel = CollaboratorCubit(
       collaboratorRepository: injectCollaboratorRepository(),
     );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.collaboratorId));
+    viewModel.fetchCollaboratorDetails(int.parse(widget.OWId));
   }
 
   Future<void> _pickImage() async {
@@ -66,8 +66,8 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
       appBar: customAppBar(
           title: "Profile",
           context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
+          backArrowColor: OWColorScheme.buttonColor,
+          textColor: OWColorScheme.mainColor,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
@@ -91,7 +91,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                       ),
                       Flexible(
                           child: EditProfileOD(
-                        collaboratorId: widget.collaboratorId,
+                        collaboratorId: widget.OWId,
                       )),
                     ],
                   ),
@@ -134,7 +134,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16.h,
@@ -143,25 +143,25 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Phone',
                       controller: phoneController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8, horizontal: width / 13),
@@ -170,12 +170,12 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         children: [
                           const Text(
                             "Notification",
-                            style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                           ),
                           Switch(
                             value: true,
                             onChanged: (value) {},
-                            activeColor: ODColorScheme.buttonColor,
+                            activeColor: OWColorScheme.buttonColor,
                           )
                         ],
                       ),
@@ -187,7 +187,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         children: [
                           const Text(
                             "Password",
-                            style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                           ),
                           TextButton(
                             onPressed: () {},
@@ -195,9 +195,9 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                               "Change",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: ODColorScheme.buttonColor,
+                                color: OWColorScheme.buttonColor,
                                 decoration: TextDecoration.underline,
-                                decorationColor: ODColorScheme.buttonColor,
+                                decorationColor: OWColorScheme.buttonColor,
                               ),
                             ),
                           )
@@ -213,7 +213,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.h),
-                            backgroundColor: ODColorScheme.buttonColor,
+                            backgroundColor: OWColorScheme.buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30.r),

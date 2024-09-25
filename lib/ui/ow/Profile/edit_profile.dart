@@ -9,15 +9,15 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditProfileOD extends StatefulWidget {
+class EditProfileOW extends StatefulWidget {
   final String collaboratorId;
-  const EditProfileOD({super.key, required this.collaboratorId});
+  const EditProfileOW({super.key, required this.collaboratorId});
 
   @override
-  State<EditProfileOD> createState() => _EditProfileODState();
+  State<EditProfileOW> createState() => _EditProfileOWState();
 }
 
-class _EditProfileODState extends State<EditProfileOD> {
+class _EditProfileOWState extends State<EditProfileOW> {
   late CollaboratorCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -97,7 +97,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16.h,
@@ -106,19 +106,19 @@ class _EditProfileODState extends State<EditProfileOD> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'please enter your email address';
@@ -136,7 +136,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                       fieldName: 'Phone',
                       controller: phoneController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OWColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -148,7 +148,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: ODColorScheme.disabledColor,
+                                backgroundColor: OWColorScheme.disabledColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),
@@ -186,7 +186,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: ODColorScheme.buttonColor,
+                                backgroundColor: OWColorScheme.buttonColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spririt/ui/od/Menu/menu_od.dart';
-import 'package:co_spririt/ui/od/Message/oppy_od.dart';
-import 'package:co_spririt/ui/od/Notifactions/notifictions_od.dart';
-import 'package:co_spririt/ui/od/opportunities/opportunities_od.dart';
+import 'package:co_spririt/ui/ow/Menu/menu_ow.dart';
+import 'package:co_spririt/ui/ow/Message/oppy_ow.dart';
+import 'package:co_spririt/ui/ow/Notifactions/notifictions_ow.dart';
+import 'package:co_spririt/ui/ow/opportunities/opportunities_ow.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +12,8 @@ import '../../../core/app_util.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/Post.dart';
-import '../Message/Message_od.dart';
-import '../Profile/profile_od.dart';
+import '../Message/Message_ow.dart';
+import '../Profile/profile_ow.dart';
 
 class HomeScreenOW extends StatefulWidget {
   HomeScreenOW({Key? key, required this.OWId}) : super(key: key);
@@ -54,7 +54,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                 width: screenWidth,
                 height: screenHeight * 0.25,
                 child: SvgPicture.asset(
-                  '${AppUI.svgPath}rectangle_od.svg',
+                  '${AppUI.svgPath}rectangle_ow.svg',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -78,7 +78,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                           onTap: () {
                             AppUtil.mainNavigator(
                               context,
-                              const NotificationScreenOD(),
+                              const NotificationScreenOW(),
                             );
                           },
                           child: Padding(
@@ -101,11 +101,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                     children: [
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(
-                              context,
-                              MenuScreenOD(
-                                ODId: widget.OWId,
-                              ));
+                          AppUtil.mainNavigator(context, MenuScreenOW(OWId: widget.OWId));
                         },
                         child: Column(
                           children: [
@@ -124,8 +120,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(
-                              context, ProfileScreenOD(collaboratorId: widget.OWId));
+                          AppUtil.mainNavigator(context, ProfileScreenOW(OWId: widget.OWId));
                         },
                         child: Column(
                           children: [
@@ -143,7 +138,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                         children: [
                           InkWell(
                               onTap: () =>
-                                  AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                                  AppUtil.mainNavigator(context, const OpportunitiesPageOW()),
                               child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
                                   width: 35)),
                           const SizedBox(height: 8),
@@ -156,7 +151,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOD()),
+                        onTap: () => AppUtil.mainNavigator(context, const OppyOW()),
                         child: Column(
                           children: [
                             SvgPicture.asset(
@@ -177,7 +172,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                       ),
                       InkWell(
                         onTap: () {
-                          AppUtil.mainNavigator(context, const MessagesScreenOD());
+                          AppUtil.mainNavigator(context, const MessagesScreenOW());
                         },
                         child: Column(
                           children: [

@@ -8,15 +8,15 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class NotificationScreenOD extends StatefulWidget {
+class NotificationScreenOW extends StatefulWidget {
   static const String routName = 'Notification Collaborator';
-  const NotificationScreenOD({super.key});
+  const NotificationScreenOW({super.key});
 
   @override
-  State<NotificationScreenOD> createState() => _NotificationScreenODState();
+  State<NotificationScreenOW> createState() => _NotificationScreenOWState();
 }
 
-class _NotificationScreenODState extends State<NotificationScreenOD> {
+class _NotificationScreenOWState extends State<NotificationScreenOW> {
   final LoadingStateNotifier<UserNotification> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
 
@@ -34,8 +34,8 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
       appBar: customAppBar(
           title: "Notifications",
           context: context,
-          textColor: ODColorScheme.mainColor,
-          backArrowColor: ODColorScheme.buttonColor),
+          textColor: OWColorScheme.mainColor,
+          backArrowColor: OWColorScheme.buttonColor),
       // AppBar(
       //   title: Text(
       //     'Notifications',

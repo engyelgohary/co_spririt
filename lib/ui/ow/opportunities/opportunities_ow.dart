@@ -11,14 +11,14 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class OpportunitiesPageOD extends StatefulWidget {
-  const OpportunitiesPageOD({super.key});
+class OpportunitiesPageOW extends StatefulWidget {
+  const OpportunitiesPageOW({super.key});
 
   @override
-  State<OpportunitiesPageOD> createState() => _OpportunitiesPageODState();
+  State<OpportunitiesPageOW> createState() => _OpportunitiesPageOWState();
 }
 
-class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
+class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
   final LoadingStateNotifier<Opportunity> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   @override
@@ -33,39 +33,11 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
     return Scaffold(
       appBar: customAppBar(
-          title: "Opportunities",
-          context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                onPressed: () => showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
-                    ),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  constraints: BoxConstraints(maxHeight: height * 0.9),
-                  context: context,
-                  builder: (context) => const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Icon(Icons.horizontal_rule_rounded),
-                      ),
-                      Flexible(child: AddOpportunitiesV2()),
-                    ],
-                  ),
-                ),
-                icon: const Icon(Icons.add_circle_outline),
-              ),
-            ),
-          ]),
+        title: "Opportunities",
+        context: context,
+        backArrowColor: OWColorScheme.buttonColor,
+        textColor: OWColorScheme.mainColor,
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           loadingNotifier.change();
@@ -103,7 +75,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                 final opportunity = data[index];
                 return ListTile(
                   leading: const CircleAvatar(
-                    backgroundColor: ODColorScheme.mainColor,
+                    backgroundColor: OWColorScheme.mainColor,
                     radius: 25,
                     child: Center(
                       child: Icon(
@@ -117,7 +89,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                     opportunity.title ?? "N/A",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: ODColorScheme.textColor,
+                      color: OWColorScheme.textColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -128,7 +100,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                         opportunity.industry ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: ODColorScheme.textColor,
+                          color: OWColorScheme.textColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -136,7 +108,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                         opportunity.status ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: ODColorScheme.buttonColor,
+                          color: OWColorScheme.buttonColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -150,7 +122,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                       radius: 18,
                       child: Icon(
                         Icons.info_outline,
-                        color: ODColorScheme.buttonColor,
+                        color: OWColorScheme.buttonColor,
                         size: 20,
                       ),
                     ),

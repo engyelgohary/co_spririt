@@ -124,6 +124,7 @@ class MenuScreenOM extends StatelessWidget {
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
               name: 'Log out',
+              enableDivider: false,
               onFunction: () {
                 Navigator.pushNamed(context, LoginScreen.routeName);
               },

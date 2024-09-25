@@ -7,12 +7,15 @@ class CustomMenuCard extends StatelessWidget {
   Function onFunction;
   Color iconColor;
   Color textColor;
-  CustomMenuCard(
-      {super.key,
-      required this.name,
-      required this.onFunction,
-      this.iconColor = AppColor.basicColor,
-      this.textColor = AppColor.basicColor});
+  bool enableDivider;
+  CustomMenuCard({
+    super.key,
+    required this.name,
+    required this.onFunction,
+    this.iconColor = AppColor.basicColor,
+    this.textColor = AppColor.basicColor,
+    this.enableDivider = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +53,11 @@ class CustomMenuCard extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(
-            color: AppColor.whiteColor,
-            thickness: 2,
-          ),
+          if (enableDivider)
+            const Divider(
+              color: AppColor.whiteColor,
+              thickness: 2,
+            ),
         ],
       ),
     );

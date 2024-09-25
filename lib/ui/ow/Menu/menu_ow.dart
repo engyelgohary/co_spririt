@@ -122,6 +122,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
+                    enableDivider: false,
                     name: 'Opportunities',
                     onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOW()),
                   ),

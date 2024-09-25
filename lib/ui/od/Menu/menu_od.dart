@@ -128,6 +128,7 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
+                    enableDivider: false,
                     name: 'Profile & Settings',
                     onFunction: () {
                       AppUtil.mainNavigator(

@@ -123,6 +123,7 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
                     name: 'Opportunities',
+                    enableDivider: false,
                     onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
                   ),
                 ],

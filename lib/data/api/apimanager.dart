@@ -2164,7 +2164,6 @@ class ApiManager {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         return jsonDecode(response.body).map((json) => Client.fromJson(json)).toList();
-        ;
       } else {
         throw Exception('Failed to load teams. Status code: ${response.statusCode}');
       }
@@ -2299,7 +2298,7 @@ class ApiManager {
       }
     } catch (e) {
       print('Error fetching risk average:');
-      throw e;
+      rethrow;
     }
   }
 
@@ -2323,7 +2322,7 @@ class ApiManager {
       }
     } catch (e) {
       print('Error fetching feasibility average');
-      throw e;
+      rethrow;
     }
   }
 

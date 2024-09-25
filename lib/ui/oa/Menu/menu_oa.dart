@@ -11,26 +11,26 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
-import '../opportunities/opportunities_od.dart';
+import '../opportunities/opportunities_oa.dart';
 
-class MenuScreenOD extends StatefulWidget {
-  static const String routeName = 'Menu Screen Collaborator';
-  final String ODId;
+class MenuScreenOA extends StatefulWidget {
+  static const String routeName = 'Menu Screen Opportunity Analyzer';
+  final String OAId;
 
-  MenuScreenOD({required this.ODId});
+  MenuScreenOA({required this.OAId});
 
   @override
-  State<MenuScreenOD> createState() => _MenuScreenODState();
+  State<MenuScreenOA> createState() => _MenuScreenOAState();
 }
 
-class _MenuScreenODState extends State<MenuScreenOD> {
+class _MenuScreenOAState extends State<MenuScreenOA> {
   late CollaboratorCubit adminCubit;
 
   @override
   void initState() {
     super.initState();
     adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.ODId));
+    adminCubit.fetchCollaboratorDetails(int.parse(widget.OAId));
   }
 
   @override
@@ -42,8 +42,8 @@ class _MenuScreenODState extends State<MenuScreenOD> {
         appBar: customAppBar(
           title: "Menu",
           context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
+          backArrowColor: OAColorScheme.buttonColor,
+          textColor: OAColorScheme.mainColor,
         ),
         body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
@@ -67,7 +67,7 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                         children: [
                           Text(
                             collaborator.firstName ?? "N/A",
-                            style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18),
+                            style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18),
                           ),
                           Text(
                             "Opportunity Detector",
@@ -83,47 +83,47 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                   ),
                   const SizedBox(height: 8),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Profile',
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
                         ProfileScreenOD(
-                          collaboratorId: widget.ODId,
+                          collaboratorId: widget.OAId,
                         ),
                       );
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Notifications',
                     onFunction: () {
                       Navigator.pushNamed(context, NotificationScreenOD.routName);
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
                       AppUtil.mainNavigator(context, const MessagesScreenOD());
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Requests',
                     onFunction: () {
                       Navigator.pushNamed(context, RequestCollaborator.routeName);
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
                   ),
                 ],
               );

@@ -10,13 +10,13 @@ import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class MessagesScreenOD extends StatefulWidget {
-  const MessagesScreenOD({super.key});
+class MessagesScreenOA extends StatefulWidget {
+  const MessagesScreenOA({super.key});
   @override
-  State<MessagesScreenOD> createState() => _MessagesScreenODState();
+  State<MessagesScreenOA> createState() => _MessagesScreenOAState();
 }
 
-class _MessagesScreenODState extends State<MessagesScreenOD> {
+class _MessagesScreenOAState extends State<MessagesScreenOA> {
   final LoadingStateNotifier<dynamic> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final signalr = Signalr();
@@ -38,8 +38,8 @@ class _MessagesScreenODState extends State<MessagesScreenOD> {
       appBar: customAppBar(
         title: "Messages",
         context: context,
-        textColor: ODColorScheme.mainColor,
-        backArrowColor: ODColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
+        backArrowColor: OAColorScheme.buttonColor,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),

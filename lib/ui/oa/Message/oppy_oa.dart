@@ -2,6 +2,7 @@ import 'package:co_spririt/core/app_util.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
@@ -10,29 +11,20 @@ import '../../../data/model/message.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
-class ChatScreenOD extends StatefulWidget {
-  final int receiverId;
-  final String name;
-  final String email;
-  final String? pictureLocation;
-
-  const ChatScreenOD({
+class OppyOA extends StatefulWidget {
+  const OppyOA({
     super.key,
-    required this.receiverId,
-    required this.name,
-    required this.email,
-    this.pictureLocation,
   });
 
   @override
-  State<ChatScreenOD> createState() => _ChatScreenODState();
+  State<OppyOA> createState() => _OppyOStateD();
 }
 
-class _ChatScreenODState extends State<ChatScreenOD> {
+class _OppyOStateD extends State<OppyOA> {
   final Signalr signalr = Signalr();
   final TextEditingController messageController = TextEditingController();
   final ListNotifier<Message> listNotifier = ListNotifier(list: []);
-  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier();
+  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier(loading: false);
   final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
   Set<String> selectedAttachments = {};
@@ -79,60 +71,53 @@ class _ChatScreenODState extends State<ChatScreenOD> {
             ),
           ),
         ],
-        title:
-            const Text("Messages", style: TextStyle(fontSize: 22, color: ODColorScheme.mainColor)),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              '${AppUI.svgPath}oppy_mascot.svg',
+              // width: 10,
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  text: "Ask Oppy",
+                  fontSize: 16,
+                  color: OAColorScheme.mainColor,
+                  fontWeight: FontWeight.w700,
+                ),
+                CustomText(
+                  text: "● Online ",
+                  fontSize: 12,
+                  color: OAColorScheme.buttonColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ],
+            ),
+          ],
+        ),
         toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: ODColorScheme.buttonColor),
+        iconTheme: const IconThemeData(color: OAColorScheme.buttonColor),
       ),
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            height: 15,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
                 color: AppUI.whiteColor,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                )),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16.0, left: 16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      collaboratorPhoto(widget.pictureLocation),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                              text: widget.name,
-                              fontSize: 16,
-                              color: AppUI.basicColor,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            CustomText(
-                              text: widget.email,
-                              fontSize: 12,
-                              color: AppUI.basicColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                    bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12))),
           ),
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
                 if (loadingNotifier.loading) {
-                  collaboratorsMessages(widget.receiverId, apiManager, loadingNotifier);
+                  // collaboratorsMessages("widget.receiverId", apiManager, loadingNotifier);
                   return const Expanded(child: Center(child: CircularProgressIndicator()));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
@@ -193,6 +178,7 @@ class _ChatScreenODState extends State<ChatScreenOD> {
               children: [
                 Expanded(
                   child: CustomInput(
+                    borderColor: const Color.fromRGBO(241, 241, 241, 1),
                     fillColor: const Color.fromRGBO(241, 241, 241, 1),
                     radius: 30,
                     controller: messageController,
@@ -222,8 +208,8 @@ class _ChatScreenODState extends State<ChatScreenOD> {
                           onPressed: () async {
                             if (messageController.text.trim().isNotEmpty &&
                                 !loadingNotifier.loading) {
-                              sendMessage(widget.receiverId, messageController.text.trim(),
-                                  apiManager, listNotifier, selectedAttachments.toList());
+                              // sendMessage(widget.receiverId, messageController.text.trim(),
+                              //     apiManager, listNotifier, selectedAttachments.toList());
                               messageController.clear();
                               selectedAttachments.clear();
                             }
@@ -237,7 +223,7 @@ class _ChatScreenODState extends State<ChatScreenOD> {
                           },
                           icon: const Icon(
                             Icons.send,
-                            color: ODColorScheme.buttonColor,
+                            color: OAColorScheme.buttonColor,
                           ),
                         ),
                       ],

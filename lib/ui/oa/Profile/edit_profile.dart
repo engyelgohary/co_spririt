@@ -9,15 +9,15 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditProfileOD extends StatefulWidget {
-  final String collaboratorId;
-  const EditProfileOD({super.key, required this.collaboratorId});
+class EditProfileOA extends StatefulWidget {
+  final String OAId;
+  const EditProfileOA({super.key, required this.OAId});
 
   @override
-  State<EditProfileOD> createState() => _EditProfileODState();
+  State<EditProfileOA> createState() => _EditProfileOAState();
 }
 
-class _EditProfileODState extends State<EditProfileOD> {
+class _EditProfileOAState extends State<EditProfileOA> {
   late CollaboratorCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -35,7 +35,7 @@ class _EditProfileODState extends State<EditProfileOD> {
     viewModel = CollaboratorCubit(
       collaboratorRepository: injectCollaboratorRepository(),
     );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.collaboratorId));
+    viewModel.fetchCollaboratorDetails(int.parse(widget.OAId));
   }
 
   Future<void> _pickImage() async {
@@ -172,7 +172,7 @@ class _EditProfileODState extends State<EditProfileOD> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 context.read<CollaboratorCubit>().updateCollaborator({
-                                  'id': widget.collaboratorId,
+                                  'id': widget.OAId,
                                   'firstName': firstNameController.text,
                                   'lastName': lastNameController.text,
                                   'phone': phoneController.text,

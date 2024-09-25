@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:co_spririt/data/dip.dart';
-import 'package:co_spririt/ui/od/Profile/edit_profile.dart';
 import 'package:co_spririt/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spririt/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +10,17 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
+import 'edit_profile.dart';
 
-class ProfileScreenOD extends StatefulWidget {
-  final String collaboratorId;
-  const ProfileScreenOD({super.key, required this.collaboratorId});
+class ProfileScreenOA extends StatefulWidget {
+  final String OAId;
+  const ProfileScreenOA({super.key, required this.OAId});
 
   @override
-  State<ProfileScreenOD> createState() => _ProfileScreenODState();
+  State<ProfileScreenOA> createState() => _ProfileScreenOAState();
 }
 
-class _ProfileScreenODState extends State<ProfileScreenOD> {
+class _ProfileScreenOAState extends State<ProfileScreenOA> {
   late CollaboratorCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -38,7 +38,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
     viewModel = CollaboratorCubit(
       collaboratorRepository: injectCollaboratorRepository(),
     );
-    viewModel.fetchCollaboratorDetails(int.parse(widget.collaboratorId));
+    viewModel.fetchCollaboratorDetails(int.parse(widget.OAId));
   }
 
   Future<void> _pickImage() async {
@@ -66,8 +66,8 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
       appBar: customAppBar(
           title: "Profile",
           context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
+          backArrowColor: OAColorScheme.buttonColor,
+          textColor: OAColorScheme.mainColor,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
@@ -90,8 +90,8 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         child: Icon(Icons.horizontal_rule_rounded),
                       ),
                       Flexible(
-                          child: EditProfileOD(
-                        collaboratorId: widget.collaboratorId,
+                          child: EditProfileOA(
+                        OAId: widget.OAId,
                       )),
                     ],
                   ),
@@ -134,7 +134,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16.h,
@@ -143,25 +143,25 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Phone',
                       controller: phoneController,
                       enabled: false,
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8, horizontal: width / 13),
@@ -170,12 +170,12 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         children: [
                           const Text(
                             "Notification",
-                            style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                           ),
                           Switch(
                             value: true,
                             onChanged: (value) {},
-                            activeColor: ODColorScheme.buttonColor,
+                            activeColor: OAColorScheme.buttonColor,
                           )
                         ],
                       ),
@@ -187,7 +187,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                         children: [
                           const Text(
                             "Password",
-                            style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                           ),
                           TextButton(
                             onPressed: () {},
@@ -195,9 +195,9 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                               "Change",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: ODColorScheme.buttonColor,
+                                color: OAColorScheme.buttonColor,
                                 decoration: TextDecoration.underline,
-                                decorationColor: ODColorScheme.buttonColor,
+                                decorationColor: OAColorScheme.buttonColor,
                               ),
                             ),
                           )
@@ -213,7 +213,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.h),
-                            backgroundColor: ODColorScheme.buttonColor,
+                            backgroundColor: OAColorScheme.buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30.r),

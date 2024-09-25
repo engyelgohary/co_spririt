@@ -1,5 +1,4 @@
 import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,15 +7,15 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 
-class NotificationScreenOD extends StatefulWidget {
-  static const String routName = 'Notification Collaborator';
-  const NotificationScreenOD({super.key});
+class NotificationScreenOA extends StatefulWidget {
+  static const String routName = 'Notification Opportunity Analyzer';
+  const NotificationScreenOA({super.key});
 
   @override
-  State<NotificationScreenOD> createState() => _NotificationScreenODState();
+  State<NotificationScreenOA> createState() => _NotificationScreenOAState();
 }
 
-class _NotificationScreenODState extends State<NotificationScreenOD> {
+class _NotificationScreenOAState extends State<NotificationScreenOA> {
   final LoadingStateNotifier<UserNotification> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
 
@@ -34,15 +33,8 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
       appBar: customAppBar(
           title: "Notifications",
           context: context,
-          textColor: ODColorScheme.mainColor,
-          backArrowColor: ODColorScheme.buttonColor),
-      // AppBar(
-      //   title: Text(
-      //     'Notifications',
-      //     style: Theme.of(context).textTheme.titleSmall,
-      //   ),
-      //   leading: const AppBarCustom(),
-      // ),
+          textColor: OAColorScheme.mainColor,
+          backArrowColor: OAColorScheme.buttonColor),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(

@@ -1,8 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/ui/od/opportunities/add_opportunity.dart';
 import 'package:co_spririt/ui/od/opportunities/opportunity_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -11,21 +9,14 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-final statusColors = {
-  "Submitted": Colors.black,
-  "Review": Colors.amber,
-  "Rejected": Colors.red,
-  "Accepted": Colors.green
-};
-
-class OpportunitiesPageOD extends StatefulWidget {
-  const OpportunitiesPageOD({super.key});
+class OpportunitiesPageOA extends StatefulWidget {
+  const OpportunitiesPageOA({super.key});
 
   @override
-  State<OpportunitiesPageOD> createState() => _OpportunitiesPageODState();
+  State<OpportunitiesPageOA> createState() => _OpportunitiesPageOAState();
 }
 
-class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
+class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
   final LoadingStateNotifier<Opportunity> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   @override
@@ -36,43 +27,13 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
 
   @override
   Widget build(BuildContext context) {
-    final height = AppUtil.responsiveHeight(context);
-
     return Scaffold(
       appBar: customAppBar(
-          title: "Opportunities",
-          context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                onPressed: () => showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
-                    ),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  constraints: BoxConstraints(maxHeight: height * 0.9),
-                  context: context,
-                  builder: (context) => const Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Icon(Icons.horizontal_rule_rounded),
-                      ),
-                      Flexible(child: AddOpportunitiesV2()),
-                    ],
-                  ),
-                ),
-                icon: const Icon(Icons.add_circle_outline),
-              ),
-            ),
-          ]),
+        title: "Opportunities",
+        context: context,
+        backArrowColor: OAColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           loadingNotifier.change();
@@ -110,7 +71,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                 final opportunity = data[index];
                 return ListTile(
                   leading: const CircleAvatar(
-                    backgroundColor: ODColorScheme.mainColor,
+                    backgroundColor: OAColorScheme.mainColor,
                     radius: 25,
                     child: Center(
                       child: Icon(
@@ -124,7 +85,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                     opportunity.title ?? "N/A",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: ODColorScheme.textColor,
+                      color: OAColorScheme.textColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -135,7 +96,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                         opportunity.industry ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: ODColorScheme.textColor,
+                          color: OAColorScheme.textColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -143,7 +104,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                         opportunity.status ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: ODColorScheme.buttonColor,
+                          color: OAColorScheme.buttonColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -157,7 +118,7 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
                       radius: 18,
                       child: Icon(
                         Icons.info_outline,
-                        color: ODColorScheme.buttonColor,
+                        color: OAColorScheme.buttonColor,
                         size: 20,
                       ),
                     ),

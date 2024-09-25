@@ -8,9 +8,9 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../../utils/theme/appColors.dart';
 
-class OpportunityViewOD extends StatelessWidget {
+class OpportunityViewOA extends StatelessWidget {
   final Opportunity opportunity;
-  const OpportunityViewOD({super.key, required this.opportunity});
+  const OpportunityViewOA({super.key, required this.opportunity});
 
   @override
   Widget build(BuildContext context) {

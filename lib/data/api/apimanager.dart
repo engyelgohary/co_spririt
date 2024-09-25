@@ -32,6 +32,7 @@ class ApiConstants {
   static const String loginApi = '/api/auth/signin';
   static const String adminApi = '/api/v1/admin';
   static const String clientApi = '/api/v1/client';
+  static const String teamApi = '/api/team';
   static const String collaboratorApi = '/api/v1/collaborator';
   static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
   static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
@@ -49,6 +50,7 @@ class ApiConstants {
   static const String opportunityStatusApi = '/api/Status';
   static const String solutionApi = '/api/Solution';
   static const String scoreApi = '/api/Score';
+  static const String feasibilityApi = '/api/Feasibility';
   static const String riskApi = '/api/Risk';
 }
 
@@ -2071,6 +2073,141 @@ class ApiManager {
       throw Exception('Failed to delete score: ${response.statusCode}');
     } catch (e) {
       print("Could not delete score $e");
+      rethrow;
+    }
+  }
+
+  Future<List> getFeasibility() async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityApi);
+      final response = await http.get(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception('Failed to get feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not get feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addFeasibility(String name, int value) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityApi);
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "value": value}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteFeasibility(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.feasibilityApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete feasibility: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete feasibility $e");
+      rethrow;
+    }
+  }
+
+  Future<List> fetchAllTeams() async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body).map((json) => Client.fromJson(json)).toList();
+        ;
+      } else {
+        throw Exception('Failed to load teams. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching teams: $error');
+      throw Exception('Error fetching teams: $error');
+    }
+  }
+
+  Future<bool> addTeam(String name, int value) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
+      final response =
+          await http.post(uri, body: jsonEncode({"name": name, "value": value}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add team: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add team $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteTeam(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.teamApi}/$id");
+      final response = await http.delete(uri, headers: {
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to delete team: ${response.statusCode}');
+    } catch (e) {
+      print("Could not delete team $e");
       rethrow;
     }
   }

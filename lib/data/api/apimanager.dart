@@ -19,8 +19,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/AllUsers.dart';
 import '../model/OA.dart';
+import '../model/ODAverageScore.dart';
 import '../model/OW.dart';
+import '../model/TopODs.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -52,11 +55,17 @@ class ApiConstants {
   static const String scoreApi = '/api/Score';
   static const String feasibilityApi = '/api/Feasibility';
   static const String riskApi = '/api/Risk';
+  static const String opportunityCountByStatusApi = '/api/LeaderBoard/OpportunityCountByStatus';
+  static const String odAverageScoreApi = '/api/LeaderBoard/OdAverageScore';
+  static const String riskAverageApi = '/api/LeaderBoard/RiskAverage';
+  static const String feasibilityAverageApi = ' /api/LeaderBoard/FeasibilityAverage';
 }
 
 class ApiManager {
   ApiManager._();
+
   static ApiManager? _instance;
+
   static ApiManager getInstance() {
     _instance ??= ApiManager._();
     return _instance!;
@@ -897,6 +906,7 @@ class ApiManager {
       print('Error: $e');
     }
   }
+
   //Posts
 
   Future<List<Post>> fetchPosts({int page = 1}) async {
@@ -2209,6 +2219,162 @@ class ApiManager {
     } catch (e) {
       print("Could not delete team $e");
       rethrow;
+    }
+  }
+
+  Future<List<dynamic>> fetchAllStatus() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      List<dynamic> statuses = json.decode(response.body);
+      return statuses;
+    } else {
+      throw Exception('Failed to load statuses');
+    }
+  }
+
+  Future<int> fetchLeaderBoardByStatus(String statusId) async {
+    final uri =
+        Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityCountByStatusApi}/$statusId");
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data is int) {
+          return data;
+        } else {
+          throw Exception('Unexpected data format: $data');
+        }
+      } else {
+        debugPrint('Failed to load leaderboard data: ${response.body}');
+        throw Exception('Failed to load leaderboard data');
+      }
+    } catch (e) {
+      debugPrint('Error fetching leaderboard: $e');
+      return 0;
+    }
+  }
+
+  Future<List<OdAverageScore>> fetchLeaderBoardByAverageScore() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.odAverageScoreApi);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        List<OdAverageScore> odScores = data.map((od) => OdAverageScore.fromJson(od)).toList();
+        return odScores;
+      } else {
+        debugPrint('Failed to load OD average scores: ${response.body}');
+        throw Exception('Failed to load OD average scores');
+      }
+    } catch (e) {
+      debugPrint('Error fetching OD average scores: $e');
+      return [];
+    }
+  }
+
+  Future<String> getRiskAverage() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.riskAverageApi);
+    debugPrint('Fetching Risk Average from: $uri');
+
+    try {
+      final response = await http.get(uri);
+      //debugPrint('Response Status Code: ${response.statusCode}');
+      //  debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          return response.body;
+        } else {
+          throw Exception('Empty response from risk average API');
+        }
+      } else {
+        throw Exception('Failed to load risk average:');
+      }
+    } catch (e) {
+      debugPrint('Error fetching risk average:');
+      throw e;
+    }
+  }
+
+  Future<String> getFeasibilityAverage() async {
+    final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.feasibilityAverageApi);
+    debugPrint('Fetching Feasibility Average from: $uri');
+
+    try {
+      final response = await http.get(uri);
+      // debugPrint('Response Status Code: ${response.statusCode}');
+      //   debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          return response.body;
+        } else {
+          throw Exception('Empty response from feasibility average API');
+        }
+      } else {
+        throw Exception('Failed to load feasibility average:');
+      }
+    } catch (e) {
+      debugPrint('Error fetching feasibility average');
+      throw e;
+    }
+  }
+
+  Future<List<Top5ODs>> getTop5Od(int statusId) async {
+    final uri = Uri.http(ApiConstants.baseUrl, '/api/LeaderBoard/Top5Od/$statusId');
+
+    try {
+      final response = await http.get(uri);
+      debugPrint('Response Top5OD Status Code: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((od) => Top5ODs.fromJson(od)).toList();
+      } else {
+        throw Exception('Failed to load Top 5 ODs: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching Top 5 ODs: $e');
+      return [];
+    }
+  }
+
+  Future<List<AllUsers>> getAllUsers() async {
+    final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/SuperAdmin/GetALlUser');
+    debugPrint('Fetching users from: $uri');
+
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final response = await http.get(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      debugPrint('Response Status Code: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((user) => AllUsers.fromJson(user)).toList();
+      } else {
+        throw Exception('Failed to load users: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching users: $e');
+      return [];
     }
   }
 }

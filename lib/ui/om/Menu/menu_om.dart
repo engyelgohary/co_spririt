@@ -1,8 +1,12 @@
-import 'package:co_spirit/ui/auth/login.dart';
-import 'package:co_spirit/ui/om/dashboard.dart';
-import 'package:co_spirit/ui/om/Message/message_om.dart';
-import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
-import 'package:co_spirit/ui/om/requests/request_Superadmin.dart';
+import 'package:co_spririt/test.dart';
+import 'package:co_spririt/ui/auth/login.dart';
+import 'package:co_spririt/ui/om/AllUsers.dart';
+import 'package:co_spririt/ui/om/Dashboard.dart';
+import 'package:co_spririt/ui/om/Message/Message_superadmin.dart';
+import 'package:co_spririt/ui/om/Notifactions/notifictions_superadmin.dart';
+import 'package:co_spririt/ui/om/opportunity/AllOpportunities.dart';
+import 'package:co_spririt/ui/om/requests/request_Superadmin.dart';
+import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../utils/components/MenuItem.dart';
@@ -32,6 +36,18 @@ class MenuScreenOM extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            CustomMenuCard(
+              name: 'All Users',
+              onFunction: () {
+                AppUtil.mainNavigator(context, const AllUsersScreen());
+              },
+            ),
+            CustomMenuCard(
+              name: 'All Users',
+              onFunction: () {
+                AppUtil.mainNavigator(context, const AllUsersScreen());
+              },
+            ),
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
@@ -117,7 +133,7 @@ class MenuScreenOM extends StatelessWidget {
               textColor: OMColorScheme.textColor,
               name: 'Opportunities',
               onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunitiesV2());
+                AppUtil.mainNavigator(context, const AllOpportunities());
               },
             ),
             CustomMenuCard(

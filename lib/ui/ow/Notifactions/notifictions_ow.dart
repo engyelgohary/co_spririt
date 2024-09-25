@@ -49,7 +49,8 @@ class _NotificationScreenOWState extends State<NotificationScreenOW> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 notificationList(apiManager, loadingNotifier);
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(color: OWColorScheme.buttonColor));
               } else if (loadingNotifier.response == null) {
                 return Center(
                   child: buildErrorIndicator(

@@ -42,7 +42,8 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 notificationList(apiManager, loadingNotifier);
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
               } else if (loadingNotifier.response == null) {
                 return Center(
                   child: buildErrorIndicator(

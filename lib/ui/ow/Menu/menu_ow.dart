@@ -53,7 +53,8 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
         body: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
           builder: (context, state) {
             if (state is OpportunityOwnerLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: OWColorScheme.buttonColor));
             } else if (state is OpportunityOwnerDetailsSuccess) {
               final collaborator = state.opportunityOwnerData;
               return Column(

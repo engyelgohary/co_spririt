@@ -53,7 +53,8 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
         body: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
           builder: (context, state) {
             if (state is OpportunityAnalyzerLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
             } else if (state is OpportunityAnalyzerDetailsSuccess) {
               final OA = state.opportunityAnalyzerData;
               return Column(

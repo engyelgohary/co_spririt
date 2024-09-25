@@ -217,7 +217,8 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                       future: adminPosts,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -252,18 +253,16 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                                             const CircularProgressIndicator(),
                                                         errorWidget: (context, url, error) =>
                                                             const Icon(Icons.error),
-                                                        height:
-                                                            MediaQuery.of(context).size.height *
-                                                                0.05,
+                                                        height: MediaQuery.of(context).size.height *
+                                                            0.05,
                                                         width: MediaQuery.of(context).size.width *
                                                             0.08,
                                                         fit: BoxFit.cover,
                                                       )
                                                     : Image.asset(
                                                         '${AppUI.imgPath}photo.png',
-                                                        height:
-                                                            MediaQuery.of(context).size.height *
-                                                                0.05,
+                                                        height: MediaQuery.of(context).size.height *
+                                                            0.05,
                                                         width: MediaQuery.of(context).size.width *
                                                             0.08,
                                                       ),
@@ -296,9 +295,8 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                                       ),
                                                       Image.asset(
                                                         '${AppUI.imgPath}Group.png',
-                                                        height:
-                                                            MediaQuery.of(context).size.height *
-                                                                0.015,
+                                                        height: MediaQuery.of(context).size.height *
+                                                            0.015,
                                                         width: MediaQuery.of(context).size.width *
                                                             0.015,
                                                       ),
@@ -328,8 +326,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                                   const Icon(Icons.error),
                                             ),
                                             SizedBox(
-                                                height:
-                                                    MediaQuery.of(context).size.height * 0.01),
+                                                height: MediaQuery.of(context).size.height * 0.01),
                                           ],
                                           const Divider(),
                                           const Row(
@@ -365,8 +362,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                                         size: 15,
                                                         color: ODColorScheme.buttonColor,
                                                       ),
-                                                      Text(" 19  ",
-                                                          style: TextStyle(fontSize: 12)),
+                                                      Text(" 19  ", style: TextStyle(fontSize: 12)),
                                                     ],
                                                   ),
                                                   Row(
@@ -376,8 +372,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                                         size: 15,
                                                         color: ODColorScheme.buttonColor,
                                                       ),
-                                                      Text(" 3  ",
-                                                          style: TextStyle(fontSize: 12)),
+                                                      Text(" 3  ", style: TextStyle(fontSize: 12)),
                                                     ],
                                                   ),
                                                 ],

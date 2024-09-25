@@ -133,7 +133,9 @@ class _ChatScreenODState extends State<ChatScreenOD> {
               builder: (context, child) {
                 if (loadingNotifier.loading) {
                   collaboratorsMessages(widget.receiverId, apiManager, loadingNotifier);
-                  return const Expanded(child: Center(child: CircularProgressIndicator()));
+                  return const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(

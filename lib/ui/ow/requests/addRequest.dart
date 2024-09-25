@@ -45,7 +45,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
         bloc: typesCubit,
         builder: (context, state) {
           if (state is TypesLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: OWColorScheme.buttonColor));
           } else if (state is TypesSuccess) {
             return buildDialog(state.getType ?? []);
           } else if (state is TypesError) {

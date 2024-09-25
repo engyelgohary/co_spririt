@@ -47,7 +47,8 @@ class _ScoresPageODState extends State<ScoresPageOD> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 scoreList(apiManager, loadingNotifier);
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
               } else if (loadingNotifier.response == null) {
                 return Center(
                   child: buildErrorIndicator(

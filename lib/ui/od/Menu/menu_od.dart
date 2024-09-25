@@ -49,7 +49,8 @@ class _MenuScreenODState extends State<MenuScreenOD> {
         body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               return Column(

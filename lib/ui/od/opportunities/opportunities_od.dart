@@ -75,7 +75,8 @@ class _OpportunitiesPageODState extends State<OpportunitiesPageOD> {
           builder: (context, child) {
             if (loadingNotifier.loading) {
               opportunitiesList(apiManager, loadingNotifier);
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
             } else if (loadingNotifier.response == null) {
               return Center(
                 child: buildErrorIndicator(

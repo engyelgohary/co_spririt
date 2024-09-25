@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/od/Profile/edit_profile.dart';
+import 'package:co_spirit/ui/od/Profile/edit_profile_od.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +105,8 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               firstNameController.text = "${collaborator!.firstName}";

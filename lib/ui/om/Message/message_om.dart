@@ -49,7 +49,9 @@ class _MessagesScreenSuperAdminState extends State<MessagesScreenSuperAdmin> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 superAdminList(apiManager, loadingNotifier);
-                return const Expanded(child: Center(child: CircularProgressIndicator()));
+                return const Expanded(
+                    child:
+                        Center(child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
               } else if (loadingNotifier.response == null) {
                 return Expanded(
                   child: Center(

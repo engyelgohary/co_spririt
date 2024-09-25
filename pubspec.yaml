@@ -63,6 +63,7 @@ dependencies:
   awesome_notifications: ^0.9.3+1
   signalr_core: ^1.1.2
   path_provider: ^2.1.4
+  pdf: ^3.6.0
   flutter_file_downloader: ^2.0.0
   syncfusion_flutter_charts: ^27.1.48
   flutter_svg: ^2.0.10+1
@@ -93,22 +94,9 @@ flutter:
     - assets/images/
     - assets/icons/png/
     - assets/icons/svg/
+    - assets/Roboto-Medium.ttf
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

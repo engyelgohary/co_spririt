@@ -12,6 +12,7 @@ import 'package:co_spirit/data/model/RequestsReq.dart';
 import 'package:co_spirit/data/model/RequestsResponse.dart';
 import 'package:co_spirit/data/model/message.dart';
 import 'package:co_spirit/data/model/typeReq.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
@@ -1526,7 +1527,9 @@ class ApiManager {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
+        debugPrint('${response.statusCode} , $responseData' );
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
+
       }
       throw Exception('Failed to read user notification code: ${response.statusCode}');
     } catch (e) {

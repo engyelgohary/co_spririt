@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/opportunity.dart';
 import '../../../utils/components/appbar.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'opportunity_view.dart';
 
 class AllOpportunities extends StatefulWidget {
   const AllOpportunities({Key? key}) : super(key: key);
@@ -18,9 +23,9 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
   String? selectedTeam;
   String? selectedStatus;
 
-  List<String?> uniqueRisks = ['Low', 'Medium', 'High'];
-  List<String?> uniqueTeams = []; // Empty for now
-  List<String?> uniqueStatuses = ['Open', 'Closed', 'Pending'];
+  List<String?> uniqueRisks = [];
+  List<String?> uniqueTeams = [];
+  List<String?> uniqueStatuses = [];
 
   @override
   void initState() {
@@ -31,8 +36,72 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
 
   Future<void> fetchOpportunities() async {
     opportunities = await apiManager.getOpportunities();
+    extractUniqueValues();
     setState(() {});
   }
+
+  void extractUniqueValues() {
+    uniqueRisks = opportunities.map((op) => op.risks).toSet().toList().cast<String?>();
+    uniqueStatuses = opportunities.map((op) => op.status).toSet().toList().cast<String?>();
+    uniqueTeams = opportunities.map((op) => op.teamName).toSet().toList().cast<String?>();
+
+    uniqueRisks.insert(0, 'All');
+    uniqueTeams.insert(0, 'All');
+    uniqueStatuses.insert(0, 'All');
+  }
+
+  Future<void> _downloadPdf() async {
+    try {
+      final pdf = pw.Document();
+
+      final ttf = await rootBundle.load('assets/Roboto-Medium.ttf');
+      final customFont = pw.Font.ttf(ttf);
+
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Column(
+              children: [
+                pw.Text('Opportunities List', style: pw.TextStyle(fontSize: 24, font: customFont)),
+                ...opportunities.map((op) {
+                  return pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text('${op.clientId ?? 'No Name'}', style: pw.TextStyle(font: customFont)),
+                      pw.Text(op.title ?? 'No title', style: pw.TextStyle(font: customFont)),
+                      pw.Text(op.score?.toString() ?? 'No Score', style: pw.TextStyle(font: customFont)),
+                      pw.Text(op.risks ?? 'No Risk', style: pw.TextStyle(font: customFont)),
+                    ],
+                  );
+                }).toList(),
+              ],
+            );
+          },
+        ),
+      );
+
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/opportunities_list.pdf');
+
+      // Save the PDF
+      await file.writeAsBytes(await pdf.save());
+
+      print('PDF saved successfully at ${file.path}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('PDF downloaded successfully!')),
+      );
+
+    } catch (e) {
+      print('Error generating PDF: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error generating PDF: $e')),
+      );
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +112,12 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: const AppBarCustom(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.download),
+            onPressed: _downloadPdf,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(22.0),
@@ -107,7 +182,7 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                       ),
                     ),
                     Text(
-                      "Description",
+                      "Title",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontSize: 14,
                         color: const Color(0xFF4169E1),
@@ -132,57 +207,71 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: ListView.builder(
                     itemCount: opportunities.length,
                     itemBuilder: (context, index) {
                       final opportunity = opportunities[index];
-                      if ((selectedRisk == null || opportunity.risks?.toString() == selectedRisk)) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                '$opportunity.clientId' ?? 'No Name',
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                      // Filter by selected risk and status
+                      if ((selectedRisk == null || opportunity.risks == selectedRisk) &&
+                          (selectedStatus == null || opportunity.status == selectedStatus)) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OpportunityViewOM(
+                                  opportunity: opportunity,
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                opportunity.description ?? 'No Description',
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  opportunity.clientName ?? 'No Name',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                opportunity.score?.toString() ?? 'No Score',
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  opportunity.title ?? 'No title',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                opportunity.risks?.toString() ?? 'No Risk',
-                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  (opportunity.score is int ? (opportunity.score as int).toDouble() : opportunity.score)?.toString() ?? 'No Score',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  opportunity.risks ?? 'No Risk',
+                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       }
                       return Container();
@@ -205,15 +294,15 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
-        width: 120,
+        width: 100,
         child: DropdownButton<String?>(
           isExpanded: true,
-          hint: Text(title, textAlign: TextAlign.center),
+          hint: Text(title,style: TextStyle(fontSize: 13)),
           value: selectedValue,
           items: options.map((String? value) {
             return DropdownMenuItem<String?>(
               value: value,
-              child: Text(value ?? 'No Data'),
+              child: Text(value ??  title,style: TextStyle(fontSize: 13)),
             );
           }).toList(),
           onChanged: onChanged,

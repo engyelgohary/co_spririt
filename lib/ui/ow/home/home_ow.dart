@@ -32,12 +32,12 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
   void initState() {
     super.initState();
     apiManager = ApiManager.getInstance();
-    adminPosts = apiManager.fetchAdminPosts();
+    adminPosts = apiManager.fetchPosts();
   }
 
   Future<void> _reloadPosts() async {
     setState(() {
-      adminPosts = apiManager.fetchAdminPosts();
+      adminPosts = apiManager.fetchPosts();
     });
   }
 

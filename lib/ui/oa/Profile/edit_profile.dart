@@ -97,7 +97,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16.h,
@@ -106,19 +106,19 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'please enter your email address';
@@ -136,7 +136,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       fieldName: 'Phone',
                       controller: phoneController,
                       borderColor: const Color.fromARGB(150, 0, 0, 0),
-                      textColor: ODColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -148,7 +148,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: ODColorScheme.disabledColor,
+                                backgroundColor: OAColorScheme.disabledColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),
@@ -186,7 +186,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                backgroundColor: ODColorScheme.buttonColor,
+                                backgroundColor: OAColorScheme.buttonColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30.r),

@@ -36,13 +36,6 @@ class _NotificationScreenODState extends State<NotificationScreenOD> {
           context: context,
           textColor: ODColorScheme.mainColor,
           backArrowColor: ODColorScheme.buttonColor),
-      // AppBar(
-      //   title: Text(
-      //     'Notifications',
-      //     style: Theme.of(context).textTheme.titleSmall,
-      //   ),
-      //   leading: const AppBarCustom(),
-      // ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(

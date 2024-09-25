@@ -104,13 +104,13 @@ class _MessagesScreenODState extends State<MessagesScreenOD> {
                                         CustomText(
                                           text: admin.firstName ?? "Unknown",
                                           fontSize: 15,
-                                          color: AppUI.basicColor,
+                                          color: ODColorScheme.textColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                         CustomText(
                                           text: admin.email ?? "Unknown",
                                           fontSize: 12,
-                                          color: AppUI.basicColor,
+                                          color: ODColorScheme.textColor,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],

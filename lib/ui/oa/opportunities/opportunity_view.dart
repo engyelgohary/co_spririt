@@ -19,8 +19,8 @@ class OpportunityViewOA extends StatelessWidget {
       appBar: customAppBar(
         title: "Opportunities",
         context: context,
-        backArrowColor: ODColorScheme.buttonColor,
-        textColor: ODColorScheme.mainColor,
+        backArrowColor: OAColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -30,7 +30,7 @@ class OpportunityViewOA extends StatelessWidget {
             children: [
               const SelectableText(
                 "Opportunity Title:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               SelectableText(
                 opportunity.title ?? "N/A",
@@ -38,7 +38,7 @@ class OpportunityViewOA extends StatelessWidget {
               ),
               const SelectableText(
                 "Status:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -49,7 +49,7 @@ class OpportunityViewOA extends StatelessWidget {
               ),
               const SelectableText(
                 "Feasibility:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -60,7 +60,7 @@ class OpportunityViewOA extends StatelessWidget {
               ),
               const SelectableText(
                 "Risks:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -71,7 +71,7 @@ class OpportunityViewOA extends StatelessWidget {
               ),
               const SelectableText(
                 "Type:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -83,7 +83,7 @@ class OpportunityViewOA extends StatelessWidget {
               if (opportunity.descriptionLocation != null)
                 const SelectableText(
                   "Description File:",
-                  style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                 ),
               if (opportunity.descriptionLocation != null)
                 IconButton(
@@ -118,7 +118,7 @@ class OpportunityViewOA extends StatelessWidget {
                 ),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),

@@ -2,7 +2,6 @@ import 'package:co_spririt/utils/helper_functions.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/components/appbar.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -168,15 +167,15 @@ class _DashboardState extends State<Dashboard> {
                                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                                         child: Row(
                                           children: [
-                                            Text("• ", style: TextStyle(fontSize: 25)),
+                                            const Text("• ", style: TextStyle(fontSize: 25)),
                                             Text(
                                               "${scores[index]['name']}: ",
-                                              style: TextStyle(fontSize: 16),
+                                              style: const TextStyle(fontSize: 16),
                                             ),
                                             // Display score with specified color
                                             Text(
                                               "${scores[index]['score']}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 16,
                                                   color: OMColorScheme.mainColor,
                                                   fontWeight: FontWeight.bold), // Set score color
@@ -187,7 +186,7 @@ class _DashboardState extends State<Dashboard> {
                                     },
                                   ),
                                 ),
-                                SizedBox(width: 40),
+                                const SizedBox(width: 40),
                                 Expanded(
                                   child: ListView.builder(
                                     itemCount: scores.length ~/ 2,
@@ -196,14 +195,14 @@ class _DashboardState extends State<Dashboard> {
                                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                                         child: Row(
                                           children: [
-                                            Text("• ", style: TextStyle(fontSize: 25)),
+                                            const Text("• ", style: TextStyle(fontSize: 25)),
                                             Text(
                                               "${scores[index + (scores.length + 1) ~/ 2]['name']}: ",
-                                              style: TextStyle(fontSize: 18),
+                                              style: const TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               "${scores[index + (scores.length + 1) ~/ 2]['score']}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: OMColorScheme.mainColor,
                                                   fontWeight: FontWeight.bold), // Set score color
@@ -318,27 +317,27 @@ class _DashboardState extends State<Dashboard> {
                                     children: [
                                       TextSpan(
                                         text: "${od['name']}: ",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 13,
                                           color: OMColorScheme.mainColor,
                                         ),
                                       ),
                                       TextSpan(
                                         text: "${od['closedOpportunities']}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           color: OMColorScheme.mainColor,
                                         ),
                                       ),
-                                      TextSpan(
+                                      const TextSpan(
                                         text: " closed opportunities, ",
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: OMColorScheme.textColor,
                                         ),
                                       ),
-                                      TextSpan(
+                                      const TextSpan(
                                         text: "average score ",
                                         style: TextStyle(
                                           fontSize: 12,
@@ -347,7 +346,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       TextSpan(
                                         text: "${od['averageScore']}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           color: OMColorScheme.mainColor,

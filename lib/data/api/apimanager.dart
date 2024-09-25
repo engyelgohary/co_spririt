@@ -60,11 +60,11 @@ class ApiManager {
     return _instance!;
   }
 
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 //Auth
   Future<String?> login({required String email, required String password}) async {
     try {
-      final storage = FlutterSecureStorage();
+      final storage = const FlutterSecureStorage();
       Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.loginApi);
       final response = await http.post(
         url,
@@ -856,7 +856,7 @@ class ApiManager {
         throw Exception('Failed to delete Request. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      throw (e);
+      rethrow;
     }
   }
 
@@ -1120,7 +1120,7 @@ class ApiManager {
       }
       throw Exception("Failed to get user messages code: ${response.statusCode}");
     } catch (e) {
-      print("Could not get the message error: ${e}");
+      print("Could not get the message error: $e");
       rethrow;
     }
   }

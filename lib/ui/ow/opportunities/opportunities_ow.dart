@@ -1,8 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/data/model/opportunity.dart';
-import 'package:co_spririt/ui/od/opportunities/add_opportunity.dart';
 import 'package:co_spririt/ui/od/opportunities/opportunity_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -221,7 +219,7 @@ class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download is complete",
-                              body: "download location: ${path}",
+                              body: "download location: $path",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );
@@ -232,7 +230,7 @@ class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download faild",
-                              body: "download error message:  ${errorMessage}",
+                              body: "download error message:  $errorMessage",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );

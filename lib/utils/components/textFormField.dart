@@ -258,7 +258,7 @@ class _CustomTextState extends State<CustomText> {
         SizedBox(
           width: widget.width!.w,
         ),
-        Container(
+        SizedBox(
           height: 32.h,
           width: 230.w,
           child: TextFormField(

@@ -16,7 +16,7 @@ class InfoCollaborator extends StatelessWidget {
   final Collaborator? collaborator;
   final List<GetAdmin> admin;
 
-  InfoCollaborator({required this.collaborator, required this.admin});
+  const InfoCollaborator({super.key, required this.collaborator, required this.admin});
 
   Future<void> _requestPermissions() async {
     if (await Permission.storage.request().isGranted) {

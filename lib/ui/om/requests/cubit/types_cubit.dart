@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:co_spririt/data/model/Type.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:meta/meta.dart';
 import '../../../../data/repository/repoContract.dart';
 part 'types_state.dart';
 

@@ -205,7 +205,7 @@ class Signalr {
         }
       });
     } catch (e) {
-      print("- signalr error: ${e}");
+      print("- signalr error: $e");
     }
   }
 }

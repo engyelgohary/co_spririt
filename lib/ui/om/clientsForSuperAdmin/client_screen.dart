@@ -68,13 +68,13 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
           'Clients',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
-        leading: AppBarCustom(),
+        leading: const AppBarCustom(),
         actions: [
           IconButton(
             icon: CircleAvatar(
               radius: 25.r,
               backgroundColor: AppColor.secondColor,
-              child: Icon(Icons.person_add_alt_outlined,
+              child: const Icon(Icons.person_add_alt_outlined,
                   color: AppColor.whiteColor, size: 20),
             ),
             onPressed: () {
@@ -132,7 +132,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.update_outlined,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -147,7 +147,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
                               radius: 18.r,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.info_outline,
                                 color: AppColor.secondColor,
                                 size: 20,
@@ -161,14 +161,14 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
                 noItemsFoundIndicatorBuilder: (context) =>
-                    Center(child: Text("No Clients found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
+                    const Center(child: Text("No Clients found")),
+                newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                         AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
+                firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                         AlwaysStoppedAnimation<Color>(AppColor.secondColor),
@@ -176,7 +176,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                 ),
               ),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                   color: AppColor.whiteColor,
                   thickness: 1,
@@ -216,7 +216,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                     return Center(
                         child: Text(clientstate.errorMessage ?? ""));
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
                           color: AppColor.secondColor),
                     );

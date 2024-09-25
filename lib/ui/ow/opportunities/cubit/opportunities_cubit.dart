@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:co_spririt/data/repository/repoContract.dart';
 import '../../../../data/model/Client.dart';
 import '../../../../data/model/opportunities.dart';

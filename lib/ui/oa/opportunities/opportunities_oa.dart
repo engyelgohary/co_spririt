@@ -217,7 +217,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download is complete",
-                              body: "download location: ${path}",
+                              body: "download location: $path",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );
@@ -228,7 +228,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                               id: 16,
                               channelKey: 'basic_channel',
                               title: "Download faild",
-                              body: "download error message:  ${errorMessage}",
+                              body: "download error message:  $errorMessage",
                               notificationLayout: NotificationLayout.BigText,
                             ),
                           );

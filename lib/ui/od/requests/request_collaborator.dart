@@ -13,7 +13,7 @@ import 'addRequest.dart';
 
 class RequestCollaborator extends StatefulWidget {
   static const String routeName = 'Request Collaborator';
-  RequestCollaborator({super.key});
+  const RequestCollaborator({super.key});
 
   @override
   State<RequestCollaborator> createState() => _RequestCollaboratorState();
@@ -58,10 +58,10 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
             'Requests',
             style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
           ),
-          leading: AppBarCustom(),
+          leading: const AppBarCustom(),
           actions: [
             Padding(
-              padding:  EdgeInsets.all(10.0),
+              padding:  const EdgeInsets.all(10.0),
               child: InkWell(
                 onTap: () {
                   showDialog(
@@ -74,7 +74,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                 child: CircleAvatar(
                   radius: 16.r, // Adjust the radius as needed
                   backgroundColor: AppColor.secondColor,
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.white,
                     size: 20,
@@ -143,14 +143,14 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                                 builder: (context, state) {
                                   if (state is RequestsSuccess) {
                                     if (state.requestData == null) {
-                                      return Center(
+                                      return const Center(
                                           child: CircularProgressIndicator(
                                             color: AppColor.secondColor,
                                           )); }
                                     return Container(
                                       height: 200.h,
                                       width: 369.w,
-                                      padding: EdgeInsets.all(20),
+                                      padding: const EdgeInsets.all(20),
                                       child: Column(
                                         children: [
                                           CustomTextInfo(fieldName:'Title :' ,data:"${item.description}"),
@@ -167,7 +167,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                                   } else if (state is RequestsError) {
                                     return Center(child: Text(state.errorMessage??""));
                                   } else {
-                                    return Center(child: CircularProgressIndicator(
+                                    return const Center(child: CircularProgressIndicator(
                                       color: AppColor.secondColor,
                                     ));
                                   }
@@ -178,7 +178,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                         child: CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
                           radius: 18.r,
-                          child: Icon(
+                          child: const Icon(
                             Icons.info_outline,
                             color: AppColor.secondColor,
                             size: 20,
@@ -191,14 +191,14 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                 },
                 firstPageErrorIndicatorBuilder: buildErrorIndicator,
                 noItemsFoundIndicatorBuilder: (context) =>
-                    Center(child: Text("No Requests found")),
-                newPageProgressIndicatorBuilder: (_) => Center(
+                    const Center(child: Text("No Requests found")),
+                newPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                     AlwaysStoppedAnimation<Color>(AppColor.secondColor),
                   ),
                 ),
-                firstPageProgressIndicatorBuilder: (_) => Center(
+                firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: CircularProgressIndicator(
                     valueColor:
                     AlwaysStoppedAnimation<Color>(AppColor.secondColor),
@@ -206,7 +206,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                 ),
               ),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                   color: AppColor.whiteColor,
                   thickness: 1,

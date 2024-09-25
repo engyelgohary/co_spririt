@@ -8,7 +8,7 @@ import '../../../utils/theme/appColors.dart';
 
 class AddStatusDialog extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-  AddStatusDialog({required this.onOpportunityAdded});
+  const AddStatusDialog({super.key, required this.onOpportunityAdded});
   @override
   _AddStatusDialogState createState() => _AddStatusDialogState();
 }
@@ -26,7 +26,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is TypesLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is TypesError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -35,7 +35,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
         } else if (state is TypesSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Type Added Successfully"),
           ));
         }
@@ -65,7 +65,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                         hintStyle: Theme.of(context).textTheme.titleMedium,
                         border: InputBorder.none,
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                       ),
                     ),
                   ),
@@ -76,7 +76,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 30.h,
                     width: 120.w,
                     child: ElevatedButton(
@@ -98,7 +98,7 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                     ),
                   ),
                   SizedBox(width: 5.w),
-                  Container(
+                  SizedBox(
                     height: 30.h,
                     width: 115.w,
                     child: ElevatedButton(

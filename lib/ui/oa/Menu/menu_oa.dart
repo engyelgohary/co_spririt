@@ -17,7 +17,7 @@ class MenuScreenOA extends StatefulWidget {
   static const String routeName = 'Menu Screen Opportunity Analyzer';
   final String OAId;
 
-  MenuScreenOA({required this.OAId});
+  const MenuScreenOA({super.key, required this.OAId});
 
   @override
   State<MenuScreenOA> createState() => _MenuScreenOAState();

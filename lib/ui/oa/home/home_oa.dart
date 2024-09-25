@@ -16,7 +16,7 @@ import '../Message/Message_oa.dart';
 import '../Profile/profile_oa.dart';
 
 class HomeScreenOA extends StatefulWidget {
-  HomeScreenOA({Key? key, required this.OAId}) : super(key: key);
+  const HomeScreenOA({Key? key, required this.OAId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String OAId;
 
@@ -321,7 +321,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                                             if (post.pictureLocation != null) ...[
                                               CachedNetworkImage(
                                                 imageUrl:
-                                                    'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                    'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                                 placeholder: (context, url) =>
                                                     const CircularProgressIndicator(),
                                                 errorWidget: (context, url, error) =>

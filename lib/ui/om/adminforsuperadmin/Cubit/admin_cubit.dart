@@ -3,7 +3,6 @@ import 'package:co_spririt/data/repository/repoContract.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:meta/meta.dart';
 import '../../../../data/model/GetAdmin.dart';
 part 'admin_state.dart';
 

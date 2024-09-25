@@ -45,7 +45,7 @@ class MenuScreenOM extends StatelessWidget {
               textColor: OMColorScheme.textColor,
               name: 'Admins',
               onFunction: () {
-                AppUtil.mainNavigator(context, AdminScreenForSuper());
+                AppUtil.mainNavigator(context, const AdminScreenForSuper());
               },
             ),
             CustomMenuCard(

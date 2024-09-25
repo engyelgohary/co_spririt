@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spririt/ui/admin/Notifactions/notifictionadmin.dart';
-import 'package:bloc/bloc.dart';
 import 'package:co_spririt/ui/admin/requests/request_admin.dart';
 import 'package:co_spririt/ui/auth/Cubit/login_model_view_cubit.dart';
 import 'package:co_spririt/ui/auth/login.dart';
@@ -43,7 +42,7 @@ void main() {
       create: (context) =>
           OpportunitiesCubit(opportunitiesRepository: injectOpportunitiesRepository()),
     )
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -60,18 +59,18 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: Splash.routeName,
           routes: {
-            Splash.routeName: (context) => Splash(),
-            LoginScreen.routeName: (context) => LoginScreen(),
+            Splash.routeName: (context) => const Splash(),
+            LoginScreen.routeName: (context) => const LoginScreen(),
             // Super Admin
-            NotificationScreenOM.routName: (context) => NotificationScreenOM(),
-            MenuScreenOM.routeName: (context) => MenuScreenOM(),
-            RequestSuperAdmin.routeName: (context) => RequestSuperAdmin(),
+            NotificationScreenOM.routName: (context) => const NotificationScreenOM(),
+            MenuScreenOM.routeName: (context) => const MenuScreenOM(),
+            RequestSuperAdmin.routeName: (context) => const RequestSuperAdmin(),
             //   Admin
-            NotificationScreenAdmin.routName: (context) => NotificationScreenAdmin(),
-            RequestAdmin.routeName: (context) => RequestAdmin(),
+            NotificationScreenAdmin.routName: (context) => const NotificationScreenAdmin(),
+            RequestAdmin.routeName: (context) => const RequestAdmin(),
             //   Collaborator
-            NotificationScreenOD.routName: (context) => NotificationScreenOD(),
-            RequestCollaborator.routeName: (context) => RequestCollaborator()
+            NotificationScreenOD.routName: (context) => const NotificationScreenOD(),
+            RequestCollaborator.routeName: (context) => const RequestCollaborator()
           },
           theme: AppTheme.mainTheme,
         );
@@ -89,7 +88,7 @@ Future<void> initializeNotification() async {
           channelKey: 'basic_channel',
           channelName: 'Basic notifications',
           channelDescription: 'Notification channel for basic tests',
-          defaultColor: Color(0xFF9D50DD),
+          defaultColor: const Color(0xFF9D50DD),
           ledColor: Colors.white,
         )
       ],
@@ -100,7 +99,7 @@ Future<void> initializeNotification() async {
       ],
       debug: true);
 
-  print("Notification initialization result: ${initializationResult}");
+  print("Notification initialization result: $initializationResult");
 
   bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
 

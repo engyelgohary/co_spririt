@@ -45,10 +45,10 @@ class CustomChatBubble extends StatelessWidget {
         );
       } else {
         images.add(Padding(
-          padding: EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 8),
           child: ElevatedButton(
             child: Text(
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
               attachment.fileName ?? "",
             ),
             onPressed: () async {
@@ -60,7 +60,7 @@ class CustomChatBubble extends StatelessWidget {
                       id: 16,
                       channelKey: 'basic_channel',
                       title: "Download is complete",
-                      body: "download location: ${path}",
+                      body: "download location: $path",
                       notificationLayout: NotificationLayout.BigText,
                     ),
                   );
@@ -71,7 +71,7 @@ class CustomChatBubble extends StatelessWidget {
                       id: 16,
                       channelKey: 'basic_channel',
                       title: "Download faild",
-                      body: "download error message:  ${errorMessage}",
+                      body: "download error message:  $errorMessage",
                       notificationLayout: NotificationLayout.BigText,
                     ),
                   );

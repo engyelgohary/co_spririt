@@ -229,8 +229,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 1,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.red),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.red),
+                    const SizedBox(width: 8),
                     Text(
                       'Red',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -245,8 +245,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 2,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.green),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.green),
+                    const SizedBox(width: 8),
                     Text(
                       'Green',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -261,8 +261,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 value: 3,
                 child: Row(
                   children: [
-                    Icon(Icons.circle, color: Colors.orange),
-                    SizedBox(width: 8),
+                    const Icon(Icons.circle, color: Colors.orange),
+                    const SizedBox(width: 8),
                     Text(
                       'Orange',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(

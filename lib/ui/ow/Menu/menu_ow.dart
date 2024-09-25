@@ -17,7 +17,7 @@ class MenuScreenOW extends StatefulWidget {
   static const String routeName = 'Menu Screen Opportunity Manager';
   final String OWId;
 
-  MenuScreenOW({required this.OWId});
+  const MenuScreenOW({super.key, required this.OWId});
 
   @override
   State<MenuScreenOW> createState() => _MenuScreenOWState();

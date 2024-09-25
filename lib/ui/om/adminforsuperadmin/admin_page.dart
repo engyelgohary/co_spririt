@@ -15,6 +15,8 @@ import 'infoAdmin.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class AdminScreenForSuper extends StatefulWidget {
+  const AdminScreenForSuper({super.key});
+
   @override
   State<AdminScreenForSuper> createState() => _AdminScreenForSuperState();
 }

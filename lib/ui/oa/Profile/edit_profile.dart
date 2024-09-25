@@ -65,7 +65,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
         child: BlocBuilder<CollaboratorCubit, CollaboratorState>(
           builder: (context, state) {
             if (state is CollaboratorLoading) {
-              return const Center(child: const CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is CollaboratorSuccess) {
               final collaborator = state.collaboratorData;
               firstNameController.text = "${collaborator!.firstName}";

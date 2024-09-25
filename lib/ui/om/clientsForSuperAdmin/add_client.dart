@@ -29,7 +29,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is ClientLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is ClientError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -38,7 +38,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
           print(state.errorMessage);
         } else if (state is ClientSuccess) {
           widget.onOpportunityAdded(); // Call the callback
-          Navigator.of(context).pop();          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          Navigator.of(context).pop();          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Client Added Successfully"),
           ));
         }
@@ -47,7 +47,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
         return SingleChildScrollView(
           child: Container(
             height: 450.h,
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             child: Form(
               key: viewModel.formKey,
               child: Column(
@@ -82,7 +82,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
@@ -105,7 +105,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
                                   BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(

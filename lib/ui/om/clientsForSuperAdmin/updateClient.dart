@@ -10,7 +10,7 @@ import 'Cubit/client_cubit.dart';
 class UpdateClient extends StatefulWidget {
   Client client;
 
-  UpdateClient({required this.client});
+  UpdateClient({super.key, required this.client});
 
   @override
   State<UpdateClient> createState() => _UpdateClientState();
@@ -53,13 +53,13 @@ class _UpdateClientState extends State<UpdateClient> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: 450.h,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               CustomText(
                 keyboardType: TextInputType.name,
                 fieldName: 'First Name :',
@@ -71,7 +71,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Last Name :',
                 controller: lastNameController,
@@ -83,7 +83,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Mobile :',
                 controller: phoneController,
@@ -96,7 +96,7 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 11),
+              const SizedBox(height: 11),
               CustomText(
                 fieldName: 'Email :',
                 controller: emailController,
@@ -115,11 +115,11 @@ class _UpdateClientState extends State<UpdateClient> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
@@ -142,14 +142,14 @@ class _UpdateClientState extends State<UpdateClient> {
                                   BorderRadius.all(Radius.circular(5.r)))),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 35.h,
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {
                         updateClient();
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Client Update Successfully"),
                         ));
                       },

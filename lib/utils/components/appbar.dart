@@ -15,7 +15,7 @@ class AppBarCustom extends StatelessWidget {
           backgroundColor: AppColor.secondColor,
           child: Padding(
             padding: EdgeInsets.only(left: 4.w),
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.white,
               size: 15,

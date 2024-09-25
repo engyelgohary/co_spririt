@@ -87,7 +87,7 @@ class _ChatScreenOWState extends State<ChatScreenOW> {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: AppUI.whiteColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),

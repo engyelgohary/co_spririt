@@ -9,7 +9,7 @@ import 'Cubit/admin_cubit.dart';
 
 class AddAdmin extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-AddAdmin({required this.onOpportunityAdded});
+const AddAdmin({super.key, required this.onOpportunityAdded});
   @override
   _AddAdminState createState() => _AddAdminState();
 }
@@ -29,7 +29,7 @@ class _AddAdminState extends State<AddAdmin> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is AdminLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is AdminError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -38,7 +38,7 @@ class _AddAdminState extends State<AddAdmin> {
         }  else if (state is AdminSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Admin submitted successfully')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Admin submitted successfully')));
         }
       },
       builder: (context, state) {
@@ -46,7 +46,7 @@ class _AddAdminState extends State<AddAdmin> {
           child: Container(
             height: 600.h,
             width: 369.w,
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
               child: Column(
@@ -69,7 +69,7 @@ class _AddAdminState extends State<AddAdmin> {
                           child: CircleAvatar(
                             radius: 60.r,
                             backgroundColor: AppColor.disableColor,
-                            child: Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                            child: const Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
                           ),
                         );
                       },
@@ -180,11 +180,11 @@ class _AddAdminState extends State<AddAdmin> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
@@ -207,7 +207,7 @@ class _AddAdminState extends State<AddAdmin> {
                                   BorderRadius.all(Radius.circular(5.r)))),
                         ),
                       ),
-                     Container(
+                     SizedBox(
                           height: 35.h,
                           width: 135.w,
                           child: ElevatedButton(

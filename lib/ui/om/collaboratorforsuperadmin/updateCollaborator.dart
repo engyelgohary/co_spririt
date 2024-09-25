@@ -14,7 +14,7 @@ import '../../../utils/theme/appColors.dart';
 
 class Updatecollaborator extends StatefulWidget {
   final Collaborator collaborator;
-  Updatecollaborator({super.key, required this.collaborator});
+  const Updatecollaborator({super.key, required this.collaborator});
 
   @override
   State<Updatecollaborator> createState() => _UpdatecollaboratorState();

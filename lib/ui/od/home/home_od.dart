@@ -16,7 +16,7 @@ import '../Message/Message_od.dart';
 import '../Profile/profile_od.dart';
 
 class HomeScreenOD extends StatefulWidget {
-  HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
+  const HomeScreenOD({Key? key, required this.ODId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String ODId;
 
@@ -322,7 +322,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                                             if (post.pictureLocation != null) ...[
                                               CachedNetworkImage(
                                                 imageUrl:
-                                                    'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                    'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                                 placeholder: (context, url) =>
                                                     const CircularProgressIndicator(),
                                                 errorWidget: (context, url, error) =>

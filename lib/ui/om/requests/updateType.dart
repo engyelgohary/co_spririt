@@ -10,7 +10,7 @@ import '../../../utils/theme/appColors.dart';
 class UpdateType extends StatefulWidget {
   Types type;
 
-  UpdateType({required this.type});
+  UpdateType({super.key, required this.type});
 
   @override
   State<UpdateType> createState() => _UpdateTypeState();
@@ -41,12 +41,12 @@ class _UpdateTypeState extends State<UpdateType> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Container(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
         height: 500.h,
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CustomText(
               keyboardType: TextInputType.name,
               fieldName: 'Type :',
@@ -58,11 +58,11 @@ class _UpdateTypeState extends State<UpdateType> {
                 return null;
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
@@ -85,14 +85,14 @@ class _UpdateTypeState extends State<UpdateType> {
                             BorderRadius.all(Radius.circular(5.r)))),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 35.h,
                   width: 135.w,
                   child: ElevatedButton(
                     onPressed: () {
                       updateType();
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Type Update Successfully"),
                       ));
                     },

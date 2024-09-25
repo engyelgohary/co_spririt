@@ -14,7 +14,6 @@ import '../../../core/components.dart';
 import '../../../data/model/Post.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../admin/opportunities/opportunities_v2.dart';
 import '../../om/Message/oppy_om.dart';
 import 'creat_post.dart';
 
@@ -149,7 +148,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                     ],
                   ),
                   InkWell(
-                    onTap: () => AppUtil.mainNavigator(context, OppyOM()),
+                    onTap: () => AppUtil.mainNavigator(context, const OppyOM()),
                     child: Column(
                       children: [
                         SvgPicture.asset(
@@ -274,7 +273,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Padding(

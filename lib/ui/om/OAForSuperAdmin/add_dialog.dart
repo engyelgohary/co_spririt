@@ -3,14 +3,13 @@ import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../data/dip.dart';
 import '../../../../utils/components/textFormField.dart';
 import 'Cubit/OA_cubit.dart';
 
 class AddOA extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
 
-  AddOA({required this.onOpportunityAdded});
+  const AddOA({super.key, required this.onOpportunityAdded});
 
   @override
   _AddOAState createState() => _AddOAState();
@@ -26,7 +25,7 @@ class _AddOAState extends State<AddOA> {
     return BlocConsumer<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
       listener: (context, state) {
         if (state is OpportunityAnalyzerLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is OpportunityAnalyzerError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -36,7 +35,7 @@ class _AddOAState extends State<AddOA> {
           widget.onOpportunityAdded();
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Admin submitted successfully')),
+            const SnackBar(content: Text('Admin submitted successfully')),
           );
         }
       },
@@ -45,7 +44,7 @@ class _AddOAState extends State<AddOA> {
           child: Container(
             height: 600.h,
             width: 369.w,
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
               child: Column(
@@ -66,7 +65,7 @@ class _AddOAState extends State<AddOA> {
                           child: CircleAvatar(
                             radius: 60.r,
                             backgroundColor: AppColor.disableColor,
-                            child: Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
+                            child: const Icon(Icons.cameraswitch_outlined, size: 40, color: AppColor.blackColor),
                           ),
                         );
                       },
@@ -176,11 +175,11 @@ class _AddOAState extends State<AddOA> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(
@@ -204,7 +203,7 @@ class _AddOAState extends State<AddOA> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 35.h,
                         width: 135.w,
                         child: ElevatedButton(

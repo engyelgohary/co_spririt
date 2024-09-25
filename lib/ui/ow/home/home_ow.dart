@@ -16,7 +16,7 @@ import '../Message/Message_ow.dart';
 import '../Profile/profile_ow.dart';
 
 class HomeScreenOW extends StatefulWidget {
-  HomeScreenOW({Key? key, required this.OWId}) : super(key: key);
+  const HomeScreenOW({Key? key, required this.OWId}) : super(key: key);
   static String routeName = 'home screen admin';
   final String OWId;
 
@@ -317,7 +317,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                                             if (post.pictureLocation != null) ...[
                                               CachedNetworkImage(
                                                 imageUrl:
-                                                    'http://${ApiConstants.baseUrl}${post!.pictureLocation}',
+                                                    'http://${ApiConstants.baseUrl}${post.pictureLocation}',
                                                 placeholder: (context, url) =>
                                                     const CircularProgressIndicator(),
                                                 errorWidget: (context, url, error) =>

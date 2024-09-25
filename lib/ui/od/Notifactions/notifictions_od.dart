@@ -1,5 +1,4 @@
 import 'package:co_spririt/data/model/Notification.dart';
-import 'package:co_spririt/utils/components/appbar.dart';
 import 'package:co_spririt/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

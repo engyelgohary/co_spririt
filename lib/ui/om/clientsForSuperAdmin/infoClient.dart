@@ -8,7 +8,7 @@ import '../adminforsuperadmin/infoAdmin.dart';
 class InfoClient extends StatelessWidget {
   final Client? client;
   final List<Collaborator> collaborator;
-  InfoClient({required this.client,required this.collaborator});
+  const InfoClient({super.key, required this.client,required this.collaborator});
   @override
   String getCollaboratorName(int collaboratorId) {
     final collaborators = collaborator.firstWhere((collaborator) => collaborator.id == collaboratorId, orElse: () => Collaborator());
@@ -17,12 +17,12 @@ class InfoClient extends StatelessWidget {
   Widget build(BuildContext context) {
     final collaboratorName = client!.collaboratorId != null ? getCollaboratorName(client!.collaboratorId) : 'No Collaborator Assigned';
     if (client == null) {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
     return Container(
       height: 240.h,
       width: 369.w,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

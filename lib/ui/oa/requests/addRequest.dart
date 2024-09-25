@@ -10,7 +10,7 @@ import '../../../utils/theme/appColors.dart';
 
 class RequestDetailDialog extends StatefulWidget {
   final VoidCallback onOpportunityAdded;
-RequestDetailDialog({required this.onOpportunityAdded});
+const RequestDetailDialog({super.key, required this.onOpportunityAdded});
   @override
   _RequestDetailDialogState createState() => _RequestDetailDialogState();
 }
@@ -41,11 +41,11 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
         bloc: typesCubit,
         builder: (context, state) {
           if (state is TypesLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is TypesSuccess) {
             return buildDialog(state.getType ?? []);
           } else if (state is TypesError) {
-            return Center(child: Text('Failed to load types'));
+            return const Center(child: Text('Failed to load types'));
           }
           return Container();
         },
@@ -58,7 +58,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
       bloc: viewModel,
       listener: (context, state) {
         if (state is  RequestsLoading) {
-          CircularProgressIndicator();
+          const CircularProgressIndicator();
         } else if (state is RequestsError) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -68,7 +68,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
         } else if (state is RequestsSuccess) {
           widget.onOpportunityAdded(); // Call the callback
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Request Added Successfully"),
           ));
         }
@@ -96,7 +96,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                             hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
                             border: InputBorder.none,
                             isDense: true,
-                            contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                           ),
                         ),
                       ),
@@ -106,12 +106,12 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                 SizedBox(height: 8.h),
                 Text('Request Type', style: Theme.of(context).textTheme.titleMedium),
                 SizedBox(height: 8.h),
-                Container(
+                SizedBox(
                   height: 32.h,
                   width: 300.w,
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: AppColor.borderColor, width: 1.w),
                         borderRadius: BorderRadius.circular(5.r),
@@ -150,7 +150,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Container(
+                    child: SizedBox(
                       height: 35.h,
                       width: 120.w,
                       child: ElevatedButton(
@@ -169,7 +169,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                   ),
                   SizedBox(width: 5.w),
                   Flexible(
-                    child: Container(
+                    child: SizedBox(
                       height: 35.h,
                       width: 120.w,
                       child: ElevatedButton(

@@ -112,17 +112,18 @@ class _OppyOStateD extends State<OppyOA> {
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
-                print("Opportunity id: $context");
-                if (widget.opportunityId == null) {
-                  template = {"NewMessage": '', "GeneratedResult": '', "ChatHistory": []};
-                  loadingNotifier.response = [template, []];
-                  loadingNotifier.change();
-                }
-                if (loadingNotifier.loading && widget.opportunityId != null) {
-                  oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
-                  return const Expanded(
-                      child: Center(
-                          child: CircularProgressIndicator(color: OAColorScheme.buttonColor)));
+                if (loadingNotifier.loading) {
+                  if (widget.opportunityId != null) {
+                    oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
+                    return const Expanded(
+                        child: Center(
+                            child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
+                  } else {
+                    print("Entered Oppy page without opportunity ID");
+                    template = {"NewMessage": '', "GeneratedResult": '', "ChatHistory": []};
+                    loadingNotifier.response = [template, []];
+                    loadingNotifier.change();
+                  }
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(

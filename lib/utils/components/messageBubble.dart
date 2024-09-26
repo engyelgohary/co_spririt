@@ -142,12 +142,11 @@ class OppyChatBubble extends StatelessWidget {
     } else {
       columnWidgets = [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: Markdown(
+          padding: const EdgeInsets.all(8.0),
+          child: MarkdownBody(
             selectable: true,
             data: message,
             shrinkWrap: true,
-            softLineBreak: true,
             styleSheet: MarkdownStyleSheet(
               p: TextStyle(
                 fontSize: 16,

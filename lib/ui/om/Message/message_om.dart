@@ -64,9 +64,7 @@ class _MessagesScreenOMState extends State<MessagesScreenOM> {
               }
 
               final List data = loadingNotifier.response!;
-              return SizedBox(
-                height: 680.h,
-                width: 600.w,
+              return Flexible(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: data.length,

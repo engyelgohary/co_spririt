@@ -221,7 +221,15 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
               SizedBox(height: 15.h),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+              ),
+              SelectableText(
+                opportunity.description ?? "N/A",
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SelectableText(
+                "Recommendation:",
+                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
               Markdown(
                 shrinkWrap: true,

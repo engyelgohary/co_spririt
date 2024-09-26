@@ -121,6 +121,14 @@ class OpportunityViewOD extends StatelessWidget {
                 "Description:",
                 style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
+              SelectableText(
+                opportunity.description ?? "N/A",
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SelectableText(
+                "Recommendation:",
+                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+              ),
               Markdown(
                 shrinkWrap: true,
                 selectable: true,

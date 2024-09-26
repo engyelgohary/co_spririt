@@ -4,6 +4,7 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
+import '../../../data/model/Team.dart';
 import '../../../data/model/opportunity.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
@@ -20,15 +21,44 @@ class EditOpportunityPage extends StatefulWidget {
 
 class _EditOpportunityPageState extends State<EditOpportunityPage> {
   late List<dynamic> statuses = [];
+  late List<Team> teams = [];
   late ApiManager apiManager;
   late int selectedStatus;
+  late int selectedTeam;
 
   @override
   void initState() {
     super.initState();
     selectedStatus = widget.opportunity.statusId ?? 0;
+    selectedTeam = widget.opportunity.teamId ?? 0;
     apiManager = ApiManager.getInstance();
     fetchStatuses();
+    fetchAllTeams();
+  }
+
+  Future<void> fetchAllTeams() async {
+    try {
+      List<Team> fetchedTeams = await apiManager.fetchAllTeams();
+
+      for (var team in fetchedTeams) {
+        debugPrint('Fetched teams: ${team.name} with ID: ${team.id}');
+      }
+
+      setState(() {
+        teams = fetchedTeams;
+
+        if (widget.opportunity.teamId != null &&
+            fetchedTeams.any((team) => team.id == widget.opportunity.teamId)) {
+          selectedTeam = widget.opportunity.teamId!;
+        } else if (fetchedTeams.isNotEmpty) {
+          selectedTeam = fetchedTeams[0].id!;
+        } else {
+          selectedTeam = 0;
+        }
+      });
+    } catch (e) {
+      debugPrint('Error fetching teams: $e');
+    }
   }
 
   Future<void> fetchStatuses() async {
@@ -74,6 +104,26 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
       return null;
     }
   }
+
+  Future<Opportunity?> updateTeam() async {
+    final currentOpportunityId = widget.opportunity.id ?? 0;
+
+    print('Updating team for opportunity ID: $currentOpportunityId with new team: $selectedTeam');
+
+    bool success = await apiManager.assignTeamToOpportunity(opportunityId: currentOpportunityId, teamId: selectedTeam);
+
+    if (success) {
+      setState(() {
+        widget.opportunity.teamId = selectedTeam;
+      });
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return widget.opportunity;
+    } else {
+      debugPrint('Failed to update opportunity team for ID: $currentOpportunityId');
+      return null;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -233,12 +283,40 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                         TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: SelectableText(
-                      opportunity.teamName ?? "N/A",
-                      style: const TextStyle(fontSize: 16),
+                  Container(
+                    width: width * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    child: DropdownButton<int>(
+                      isExpanded: true,
+                      value: selectedTeam,
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          selectedTeam = newValue!;
+                        });
+                      },
+                      items: teams.map<DropdownMenuItem<int>>((Team team) {
+                        return DropdownMenuItem<int>(
+                          value: team.id,
+                          child: Center(
+                            child: Text(
+                              team.name!,
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+
+                      dropdownColor: Colors.white,
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+
                   ),
                 ],
               ),
@@ -317,19 +395,29 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      final updatedOpportunity = await updateStatus();
-                      debugPrint(
-                          'Updated Opportunity: $updatedOpportunity');
-
-                      if (updatedOpportunity != null) {
-                        Navigator.pop(context, updatedOpportunity);
-                      } else {
+                      if (selectedTeam == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text('Failed to update the opportunity.')),
+                          const SnackBar(content: Text('Please select a team.')),
                         );
+                        return;
                       }
+
+                      // Update the status
+                      final updatedStatus = await updateStatus();
+                      if (updatedStatus == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Failed to update the status.')),
+                        );
+                        return;
+                      }
+                      final updatedTeam = await updateTeam();
+                      if (updatedTeam == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Failed to update the team.')),
+                        );
+                        return;
+                      }
+                      Navigator.pop(context, updatedTeam);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

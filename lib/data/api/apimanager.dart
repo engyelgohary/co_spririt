@@ -24,6 +24,7 @@ import '../model/AllUsers.dart';
 import '../model/OA.dart';
 import '../model/ODAverageScore.dart';
 import '../model/OW.dart';
+import '../model/Team.dart';
 import '../model/TopODs.dart';
 import '../model/Type.dart';
 import '../model/opportunities.dart';
@@ -2287,6 +2288,7 @@ class ApiManager {
     }
   }
 
+/*
   Future<List> fetchAllTeams() async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
     try {
@@ -2301,6 +2303,24 @@ class ApiManager {
       throw Exception('Error fetching teams: $error');
     }
   }
+*/
+
+  Future<List<Team>> fetchAllTeams() async {
+    final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.teamApi);
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> teamJson = jsonDecode(response.body);
+        return teamJson.map((json) => Team.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load teams. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching teams: $error');
+      throw Exception('Error fetching teams: $error');
+    }
+  }
+
 
   Future<bool> addTeam(String name, int value) async {
     try {
@@ -2373,6 +2393,43 @@ class ApiManager {
       rethrow;
     }
   }
+
+  Future<bool> assignTeamToOpportunity({
+    required int opportunityId,
+    required int teamId,
+  }) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/opportunities/AssignTeamToOpportunity');
+      final response = await http.put(
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'opportunityId': opportunityId,
+          'teamId': teamId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Team assigned to opportunity successfully.');
+        return true;  // Return success
+      } else {
+        print('Failed to assign team: ${response.statusCode}');
+        return false;  // Return failure
+      }
+    } catch (e) {
+      print("Error assigning team to opportunity: $e");
+      return false;  // Return failure in case of exception
+    }
+  }
+
 
   Future<List<dynamic>> fetchAllStatus() async {
     final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import 'opportunity_edit.dart';

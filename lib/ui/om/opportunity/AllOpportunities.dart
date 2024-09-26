@@ -211,9 +211,9 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     itemCount: opportunities.length,
                     itemBuilder: (context, index) {
                       final opportunity = opportunities[index];
-                      // Filter by selected risk and status
                       if ((selectedRisk == null || opportunity.risks == selectedRisk) &&
-                          (selectedStatus == null || opportunity.status == selectedStatus)) {
+                          (selectedStatus == null || opportunity.status == selectedStatus) &&
+                          (selectedTeam == null || opportunity.teamName == selectedTeam)) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(

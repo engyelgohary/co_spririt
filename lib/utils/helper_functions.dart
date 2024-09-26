@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/data/model/Notification.dart';
@@ -558,4 +560,66 @@ AppBar customAppBar({
     toolbarHeight: height / 8,
     iconTheme: IconThemeData(color: backArrowColor),
   );
+}
+
+void uploadCsvFile(ApiManager apiManager, String path) async {
+  try {
+    final csvFile = File(path).readAsLinesSync();
+    final reward = [];
+    final teams = [];
+    final solutions = [];
+    final risks = [];
+    final status = [];
+    final feasibility = [];
+
+    for (var i = 1; i < csvFile.length; i++) {
+      final row = csvFile[i].split(',');
+
+      if (row[0].isNotEmpty && row[1].isNotEmpty) {
+        reward.add({"name": row[0], "value": row[1]});
+      }
+
+      if (row[2].isNotEmpty && row[3].isNotEmpty) {
+        status.add({"name": row[2], "value": row[3]});
+      }
+
+      if (row[4].isNotEmpty) {
+        teams.add({"name": row[4]});
+      }
+
+      if (row[5].isNotEmpty) {
+        risks.add({"name": row[5]});
+      }
+
+      if (row[6].isNotEmpty) {
+        solutions.add({"name": row[6]});
+      }
+
+      if (row[7].isNotEmpty) {
+        feasibility.add({"name": row[7]});
+      }
+    }
+    final List<Future> requests = [];
+    if (solutions.isNotEmpty) {
+      requests.add(apiManager.addSolutionsBulk(solutions));
+    }
+    if (risks.isNotEmpty) {
+      requests.add(apiManager.addRiskBulk(risks));
+    }
+    if (teams.isNotEmpty) {
+      requests.add(apiManager.addTeamBulk(teams));
+    }
+    if (feasibility.isNotEmpty) {
+      requests.add(apiManager.addFeasibilityBulk(feasibility));
+    }
+    // if (reward.isNotEmpty) {
+    //   requests.add(apiManager.addScoreBulk(reward));
+    // }
+    if (status.isNotEmpty) {
+      requests.add(apiManager.addOpportunityStatusBulk(status));
+    }
+    await Future.wait(requests);
+  } catch (e) {
+    print("- Error parsing csv file error:$e");
+  }
 }

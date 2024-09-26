@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 import 'package:co_spirit/data/model/Client.dart';
 import 'package:co_spirit/data/model/ClientReq.dart';
 import 'package:co_spirit/data/model/Collaborator.dart';
@@ -1854,6 +1854,31 @@ class ApiManager {
     }
   }
 
+  Future<bool> addOpportunityStatusBulk(List opportunityStatus) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityStatusApi}/AddList");
+      final response =
+          await http.post(uri, body: jsonEncode({"status": opportunityStatus}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add opportunityStatus bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add opportunityStatus bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteOpportunityStatus(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -1920,6 +1945,31 @@ class ApiManager {
       throw Exception('Failed to add Solutions: ${response.statusCode}');
     } catch (e) {
       print("Could not add Solutions $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addSolutionsBulk(List solutions) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.solutionApi}/AddList");
+      print(solutions);
+      final response = await http.post(uri, body: jsonEncode({"solutions": solutions}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add solutions bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add solutions bulk error:$e");
       rethrow;
     }
   }
@@ -1994,6 +2044,30 @@ class ApiManager {
     }
   }
 
+  Future<bool> addRiskBulk(List risk) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.riskApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"risks": risk}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add risk bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add risk bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteRisk(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -2036,6 +2110,30 @@ class ApiManager {
       throw Exception('Failed to get score: ${response.statusCode}');
     } catch (e) {
       print("Could not get score $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addScoreBulk(List score) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.scoreApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"score": score}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add score bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add score bulk error:$e");
       rethrow;
     }
   }
@@ -2136,6 +2234,31 @@ class ApiManager {
     }
   }
 
+  Future<bool> addFeasibilityBulk(List feasibility) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.feasibilityApi}/AddList");
+      final response =
+          await http.post(uri, body: jsonEncode({"feasibility": feasibility}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add feasibility bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add feasibility bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteFeasibility(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -2195,6 +2318,30 @@ class ApiManager {
       throw Exception('Failed to add team: ${response.statusCode}');
     } catch (e) {
       print("Could not add team $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addTeamBulk(List teams) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.teamApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"teams": teams}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add team bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add team bulk error:$e");
       rethrow;
     }
   }

@@ -7,7 +7,7 @@ import '../../../data/api/apimanager.dart';
 import '../../../data/model/opportunity.dart';
 import '../../../utils/components/appbar.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'opportunity_view.dart';
+import 'opportunity_view_om.dart';
 
 class AllOpportunities extends StatefulWidget {
   const AllOpportunities({Key? key}) : super(key: key);

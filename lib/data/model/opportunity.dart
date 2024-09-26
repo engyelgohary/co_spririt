@@ -57,9 +57,7 @@ class Opportunity {
       teamName: json['teamName'] as String?,
       teamId: json['teamId'] as String?,
       result: json['generated_Result'] as String?,
-      score: (json['score'] is int)
-          ? (json['score'] as int).toDouble()
-          : json['score'] as double?,
+      score: json['score'],
       statusId: json['statusId'] as int?,
     );
   }

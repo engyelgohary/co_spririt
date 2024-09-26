@@ -116,6 +116,7 @@ class CustomChatBubble extends StatelessWidget {
 class OppyChatBubble extends StatelessWidget {
   final String message;
   final bool isSender;
+  final bool loading;
   final Color textColor;
   final Color backgroundColor;
   const OppyChatBubble({
@@ -124,6 +125,7 @@ class OppyChatBubble extends StatelessWidget {
     required this.isSender,
     required this.textColor,
     required this.backgroundColor,
+    this.loading = false,
   });
 
   @override
@@ -136,6 +138,16 @@ class OppyChatBubble extends StatelessWidget {
           child: SelectableText(
             message,
             style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        )
+      ];
+    } else if (loading) {
+      columnWidgets = [
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: CircularProgressIndicator(
+            strokeWidth: 4,
+            color: textColor,
           ),
         )
       ];

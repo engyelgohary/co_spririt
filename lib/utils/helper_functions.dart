@@ -284,11 +284,13 @@ Future<void> oppyChatHistory(
 ) async {
   try {
     final respone = await apiManager.getOppyChatHistory(id);
+
     final template = {
       "NewMessage": respone["newMessage"],
       "GeneratedResult": respone["generatedResult"],
       "ChatHistory": []
     };
+
     final messages = [];
 
     for (var element in respone["chatHistory"]) {
@@ -320,19 +322,44 @@ Future<void> sendOppyMessage(
   String message,
   ApiManager apiManager,
   ListNotifier listNotifier,
-  ScrollController controller,
-) async {
+  ScrollController controller, {
+  bool storeChat = true,
+}) async {
   try {
+    print("in oppy");
     listNotifier.addItem([message, true]);
-    controller.animateTo(controller.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
     template["NewMessage"] = message;
+
+    final messageIndex = listNotifier.addItem([null, false]);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
     final result = await apiManager.sendOppyMessage(template);
+
     template["ChatHistory"].add(result);
-    listNotifier.addItem([result["Response"], false]);
-    controller.animateTo(controller.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
-    apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+
+    listNotifier.updateItem(messageIndex, [result["Response"], false]);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
+    if (storeChat) {
+      apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+    }
   } catch (e) {
     print("- sendMessage error : $e");
   }
@@ -439,7 +466,7 @@ Future<void> opportunitiesList(
     } else if (userType == 4) {
       // Opportunity owner
       loadingNotifier.response = await apiManager.getOpportunityOwnerOpportunities();
-    }  
+    }
   } catch (e) {
     print("- CollaboratorsList error : $e");
     loadingNotifier.response = null;

@@ -11,6 +11,9 @@ import '../../../utils/components/MenuItem.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import '../Notifications/notifications_om.dart';
+import '../OAForSuperAdmin/oa_screen.dart';
+import '../OWForSuperAdmin/ow_page.dart';
+import '../collaboratorforsuperadmin/collaborators_screen.dart';
 
 class MenuScreenOM extends StatelessWidget {
   static const String routeName = 'Menu Screen Opportunity Manager';
@@ -83,25 +86,23 @@ class MenuScreenOM extends StatelessWidget {
               },
             ),
             CustomMenuCard(
+              iconColor: OMColorScheme.mainColor,
+              textColor: OMColorScheme.textColor,
               name: 'All Users',
               onFunction: () {
                 AppUtil.mainNavigator(context, const AllUsersScreen());
               },
             ),
-            CustomMenuCard(
-              name: 'All Users',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const AllUsersScreen());
+
+             CustomMenuCard(
+               iconColor: OMColorScheme.mainColor,
+              textColor: OMColorScheme.textColor,
+               name: 'Opportunity Detectors',
+               onFunction: () {
+                AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
               },
             ),
-            // CustomMenuCard(
-            //   iconColor: OMColorScheme.mainColor,
-            //   textColor: OMColorScheme.textColor,
-            //   name: 'Collaborators',
-            //   onFunction: () {
-            //     AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
-            //   },
-            // ),
+
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,
@@ -110,22 +111,22 @@ class MenuScreenOM extends StatelessWidget {
             //     AppUtil.mainNavigator(context, const AdminScreenForSuper());
             //   },
             // ),
-            // CustomMenuCard(
-            //   iconColor: OMColorScheme.mainColor,
-            //   textColor: OMColorScheme.textColor,
-            //   name: 'Opportunity Analyzers',
-            //   onFunction: () {
-            //     AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
-            //   },
-            // ),
-            // CustomMenuCard(
-            //   iconColor: OMColorScheme.mainColor,
-            //   textColor: OMColorScheme.textColor,
-            //   name: 'Opportunity Owners',
-            //   onFunction: () {
-            //     AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
-            //   },
-            // ),
+            CustomMenuCard(
+              iconColor: OMColorScheme.mainColor,
+              textColor: OMColorScheme.textColor,
+              name: 'Opportunity Analyzers',
+        onFunction: () {
+                AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
+               },
+             ),
+             CustomMenuCard(
+               iconColor: OMColorScheme.mainColor,
+               textColor: OMColorScheme.textColor,
+               name: 'Opportunity Owners',
+              onFunction: () {
+                AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
+               },
+             ),
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,
@@ -138,7 +139,7 @@ class MenuScreenOM extends StatelessWidget {
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-              name: 'Profile & Settings',
+              name: 'Log Out',
               enableDivider: false,
               onFunction: () {
                 Navigator.of(context).pushAndRemoveUntil(

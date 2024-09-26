@@ -15,6 +15,7 @@ import '../../../data/model/Post.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../om/Message/oppy_om.dart';
+import '../opportunity/AllOpportunities.dart';
 import 'creat_post.dart';
 
 class HomeScreenOM extends StatefulWidget {
@@ -132,7 +133,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                   Column(
                     children: [
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OpportunitiesPageOM()),
+                        onTap: () => AppUtil.mainNavigator(context, const AllOpportunities()),
                         child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg", width: 35),
                       ),
                       const SizedBox(height: 8),

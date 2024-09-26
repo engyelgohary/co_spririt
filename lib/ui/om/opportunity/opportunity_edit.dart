@@ -58,17 +58,22 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
   Future<Opportunity?> updateStatus() async {
     final opportunityId = widget.opportunity.id ?? 0;
 
-    bool success = await apiManager.updateOpportunityStatus(opportunityId, selectedStatus);
+    debugPrint(
+        'Updating status for opportunity ID: $opportunityId with new status: $selectedStatus');
+
+    bool success =
+        await apiManager.updateOpportunityStatus(opportunityId, selectedStatus);
     if (success) {
       setState(() {
         widget.opportunity.statusId = selectedStatus;
       });
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
       return widget.opportunity;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return null;
     }
-    return null;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +201,8 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                           selectedStatus = newValue!;
                         });
                       },
-                      items: statuses.map<DropdownMenuItem<int>>((dynamic status) {
+                      items:
+                          statuses.map<DropdownMenuItem<int>>((dynamic status) {
                         return DropdownMenuItem<int>(
                           value: status['id'],
                           child: Center(
@@ -214,7 +220,6 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                         color: Colors.black,
                       ),
                     ),
-
                   ),
                 ],
               ),
@@ -304,32 +309,37 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.grey[300],
                       backgroundColor: Colors.grey,
-
                       padding: const EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 50.0),
-
-                      textStyle:
-                          const TextStyle(fontSize: 18),
+                      textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () async {
                       final updatedOpportunity = await updateStatus();
+                      debugPrint(
+                          'Updated Opportunity: $updatedOpportunity');
+
                       if (updatedOpportunity != null) {
-                        Navigator.pop(context, updatedOpportunity);  // Pass the updated opportunity back
+                        Navigator.pop(context, updatedOpportunity);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text('Failed to update the opportunity.')),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: const Color(0xFF4169E1),
-                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 50.0),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: const Text('Save'),
                   ),
-
-
                 ],
               ),
             ],

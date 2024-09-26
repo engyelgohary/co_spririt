@@ -230,48 +230,61 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  opportunity.clientName ?? 'No Name',
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontSize: 14,
-                                    color: Colors.black,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    opportunity.clientName ?? 'No Name',
+                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis, // Add this to prevent long text overflow
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  opportunity.title ?? 'No title',
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontSize: 14,
-                                    color: Colors.black,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    opportunity.title ?? 'No title',
+                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  (opportunity.score is int ? (opportunity.score as int).toDouble() : opportunity.score)?.toString() ?? 'No Score',
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontSize: 14,
-                                    color: Colors.black,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    (opportunity.score is int ? (opportunity.score as int).toDouble() : opportunity.score)?.toString() ?? 'No Score',
+                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  opportunity.risks ?? 'No Risk',
-                                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontSize: 14,
-                                    color: Colors.black,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    opportunity.risks ?? 'No Risk',
+                                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                             ],
                           ),
+
                         );
                       }
                       return Container();

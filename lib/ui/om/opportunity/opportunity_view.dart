@@ -52,7 +52,8 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
 
               if (updatedOpportunity != null && mounted) {
                 setState(() {
-                  opportunity.status = updatedOpportunity.status;
+                  print("Updated Opportunity: ${updatedOpportunity.status}");
+                  opportunity= updatedOpportunity;
                 });
               }
             },

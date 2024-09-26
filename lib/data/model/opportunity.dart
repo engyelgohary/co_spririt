@@ -35,9 +35,9 @@ class Opportunity {
   String? status;
   String? result;
   String? teamName;
-  String? teamId;
+  dynamic teamId;
   String? clientName;
-  int? statusId; // Add this property
+  int? statusId;
 
   factory Opportunity.fromJson(Map<String, dynamic> json) {
     return Opportunity(
@@ -53,9 +53,9 @@ class Opportunity {
       feasibility: json['feasibility'] as String?,
       risks: json['risks'] as String?,
       solution: json['solution'] as String?,
-      status: json['status'] as String?,
+      status: json['statusName'] as String?,
       teamName: json['teamName'] as String?,
-      teamId: json['teamId'] as String?,
+      teamId: json['teamId'] ,
       result: json['generated_Result'] as String?,
       score: json['score'],
       statusId: json['statusId'] as int?,

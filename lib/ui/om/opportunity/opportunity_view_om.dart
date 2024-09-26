@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
@@ -22,12 +24,43 @@ class OpportunityViewOM extends StatefulWidget {
 
 class _OpportunityViewOMState extends State<OpportunityViewOM> {
   late Opportunity opportunity;
+  late ApiManager apiManager;
 
   @override
   void initState() {
     super.initState();
+    apiManager =ApiManager.getInstance();
     opportunity = widget.opportunity;
+    _fetchOpportunity();
   }
+
+  Future<void> _fetchOpportunity() async {
+    if (opportunity.id != null) {
+      try {
+        final fetchedOpportunity = await apiManager.getOpportunityById(opportunity.id);
+        if (fetchedOpportunity != null) {
+          setState(() {
+            opportunity = fetchedOpportunity;
+            print(opportunity.status);
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Opportunity not found.")));
+        }
+      } catch (e) {
+        String errorMessage;
+
+        if (e is SocketException) {
+          errorMessage = "Network error: Unable to connect to the server.";
+        } else {
+          errorMessage = "An error occurred: $e";
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,25 +75,17 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
           IconButton(
             icon: const Icon(Icons.mode_edit_outlined),
             onPressed: () async {
-              final updatedOpportunity = await Navigator.push<Opportunity?>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditOpportunityPage(
-                    opportunity: opportunity,
+              if (opportunity.id != null) {
+                await Navigator.push<Opportunity?>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditOpportunityPage(opportunity: opportunity),
                   ),
-                ),
-              );
-
-              if (updatedOpportunity != null && mounted) {
-                setState(() {
-                  print("Updated Opportunity: ${updatedOpportunity.status}");
-                  opportunity= updatedOpportunity;
-                });
+                );
+                await _fetchOpportunity();
               }
             },
-          ),
-
-        ],
+          ),],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),

@@ -2617,4 +2617,42 @@ class ApiManager {
       rethrow;
     }
   }
+  Future<Opportunity> getOpportunityById(int? opportunityId) async {
+    String? token;
+
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      if (opportunityId == null) {
+        throw Exception('Invalid opportunity ID.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, '/api/v1/opportunities/GetById/$opportunityId');
+
+      print('Requesting opportunity with ID: $opportunityId');
+      print('Using token: $token');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        print(response.body);
+        return Opportunity.fromJson(jsonDecode(response.body));
+      }
+
+      throw Exception('Failed to load opportunity: ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error fetching opportunity: $e');
+      rethrow;
+    }
+  }
+
+
+
+
+
 }

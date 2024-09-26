@@ -66,7 +66,7 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
 
                 final List<dynamic> data = loadingNotifier.response!;
                 return SizedBox(
-                  height: 680.h,
+                  height: 600.h,
                   width: 600.w,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,

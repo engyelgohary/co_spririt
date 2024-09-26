@@ -124,6 +124,19 @@ class OpportunityViewOA extends StatelessWidget {
               Markdown(
                 shrinkWrap: true,
                 selectable: true,
+                data: opportunity.description ?? "N/A",
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(fontSize: 16),
+                ),
+              ),
+
+              const SelectableText(
+                "Result:",
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
+              ),
+              Markdown(
+                shrinkWrap: true,
+                selectable: true,
                 data: opportunity.result ?? "N/A",
                 styleSheet: MarkdownStyleSheet(
                   p: const TextStyle(fontSize: 16),

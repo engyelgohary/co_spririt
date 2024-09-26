@@ -33,9 +33,12 @@ class OpportunityViewOD extends StatelessWidget {
                 "Opportunity Title:",
                 style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
-              SelectableText(
-                opportunity.title ?? "N/A",
-                style: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: SelectableText(
+                  opportunity.title ?? "N/A",
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               const SelectableText(
                 "Status:",
@@ -121,20 +124,26 @@ class OpportunityViewOD extends StatelessWidget {
                 "Description:",
                 style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
-              SelectableText(
-                opportunity.description ?? "N/A",
-                style: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: SelectableText(
+                  opportunity.description ?? "N/A",
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               const SelectableText(
                 "Recommendation:",
                 style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
               ),
-              Markdown(
-                shrinkWrap: true,
-                selectable: true,
-                data: opportunity.result ?? "N/A",
-                styleSheet: MarkdownStyleSheet(
-                  p: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: MarkdownBody(
+                  shrinkWrap: true,
+                  selectable: true,
+                  data: opportunity.result ?? "N/A",
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
             ],

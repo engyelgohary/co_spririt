@@ -29,7 +29,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
   @override
   void initState() {
     super.initState();
-    apiManager =ApiManager.getInstance();
+    apiManager = ApiManager.getInstance();
     opportunity = widget.opportunity;
     _fetchOpportunity();
   }
@@ -44,7 +44,8 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
             print(opportunity.status);
           });
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Opportunity not found.")));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Opportunity not found.")));
         }
       } catch (e) {
         String errorMessage;
@@ -59,8 +60,6 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +84,8 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                 await _fetchOpportunity();
               }
             },
-          ),],
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -221,22 +221,29 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
               SizedBox(height: 15.h),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
-              SelectableText(
-                opportunity.description ?? "N/A",
-                style: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SelectableText(
+                  opportunity.description ?? "N/A",
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
+              SizedBox(height: 15.h),
               const SelectableText(
                 "Recommendation:",
-                style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
-              Markdown(
-                shrinkWrap: true,
-                selectable: true,
-                data: opportunity.result ?? "N/A",
-                styleSheet: MarkdownStyleSheet(
-                  p: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: MarkdownBody(
+                  shrinkWrap: true,
+                  selectable: true,
+                  data: opportunity.result ?? "N/A",
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
             ],

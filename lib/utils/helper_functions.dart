@@ -426,6 +426,7 @@ Future<void> opportunitiesList(
   int userType = 0,
 }) async {
   try {
+    loadingNotifier.response = await apiManager.getOpportunities();
     if (userType == 0) {
       // Super admin
       loadingNotifier.response = await apiManager.getOpportunities();
@@ -438,7 +439,7 @@ Future<void> opportunitiesList(
     } else if (userType == 4) {
       // Opportunity owner
       loadingNotifier.response = await apiManager.getOpportunityOwnerOpportunities();
-    }
+    }  
   } catch (e) {
     print("- CollaboratorsList error : $e");
     loadingNotifier.response = null;
@@ -562,7 +563,7 @@ AppBar customAppBar({
   );
 }
 
-void uploadCsvFile(ApiManager apiManager, String path) async {
+void uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
   try {
     final csvFile = File(path).readAsLinesSync();
     final reward = [];
@@ -619,6 +620,9 @@ void uploadCsvFile(ApiManager apiManager, String path) async {
       requests.add(apiManager.addOpportunityStatusBulk(status));
     }
     await Future.wait(requests);
+    if (context.mounted) {
+      snackBar(context, "Uploading csv is done");
+    }
   } catch (e) {
     print("- Error parsing csv file error:$e");
   }

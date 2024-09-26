@@ -7,6 +7,7 @@ import 'package:co_spirit/ui/om/clientsForSuperAdmin/Cubit/client_cubit.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/updateCollaborator.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,23 +74,20 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Opportunity Detectors',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
+      appBar: customAppBar(
+        title: "Opportunity Detectors",
+        context: context,
+        backArrowColor: OMColorScheme.mainColor,
+        textColor: OMColorScheme.textColor,
         actions: [
-          IconButton(
-            icon: CircleAvatar(
-              radius: 25.r,
-              backgroundColor: AppColor.secondColor,
-              child:
-                  const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              icon: const Icon(Icons.person_add_alt_outlined, size: 20),
+              onPressed: () {
+                showAddBottomSheet();
+              },
             ),
-            onPressed: () {
-              showAddBottomSheet();
-            },
           ),
         ],
       ),

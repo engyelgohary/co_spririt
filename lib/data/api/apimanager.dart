@@ -1528,13 +1528,12 @@ class ApiManager {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        debugPrint('${response.statusCode} , $responseData' );
+        debugPrint('${response.statusCode} , $responseData');
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
-
       }
-      throw Exception('Failed to read user notification code: ${response.statusCode}');
+      throw Exception('Failed to get opportunities code: ${response.statusCode}');
     } catch (e) {
-      print("Could not read user notification $e");
+      print("Could not get opportunities $e");
       rethrow;
     }
   }
@@ -1559,9 +1558,11 @@ class ApiManager {
         final responseData = jsonDecode(response.body);
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
       }
-      throw Exception('Failed to read user notification code: ${response.statusCode}');
+      print(jsonDecode(response.body));
+      throw Exception(
+          'Failed to get opportunities for opportunity analyzer code: ${response.statusCode}');
     } catch (e) {
-      print("Could not read user notification $e");
+      print("Could not get opportunities for opportunity analyzer $e");
       rethrow;
     }
   }
@@ -1586,9 +1587,10 @@ class ApiManager {
         final responseData = jsonDecode(response.body);
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
       }
-      throw Exception('Failed to read user notification code: ${response.statusCode}');
+      throw Exception(
+          'Failed to get opportunities for opportunity owner code: ${response.statusCode}');
     } catch (e) {
-      print("Could not read user notification $e");
+      print("Could not get opportunities for opportunity owner $e");
       rethrow;
     }
   }

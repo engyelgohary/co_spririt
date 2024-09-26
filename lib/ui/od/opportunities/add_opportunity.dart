@@ -112,9 +112,9 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                         child: ElevatedButton(
                           onPressed: () async {
                             final path = await FilePicker.platform.pickFiles(
-                              type: FileType.custom,
-                              // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
-                            );
+                                // type: FileType.custom,
+                                // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
+                                );
                             if (path != null) {
                               descriptionFilePath = path.paths[0];
                             }

@@ -2615,4 +2615,22 @@ class ApiManager {
       rethrow;
     }
   }
+  Future<Opportunity?> getOpportunityById(int opportunityId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://your-api-url/api/v1/opportunities/GetById/$opportunityId'),
+      );
+
+      if (response.statusCode == 200) {
+        return Opportunity.fromJson(jsonDecode(response.body));
+      } else {
+        print('Failed to load opportunity: ${response.statusCode}');
+        return null; // Handle failure
+      }
+    } catch (e) {
+      print('Error fetching opportunity: $e');
+      return null; // Handle error
+    }
+  }
+
 }

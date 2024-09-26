@@ -235,7 +235,7 @@ class _OpportunitiesPageOMState extends State<OpportunitiesPageOM> {
                             content: NotificationContent(
                               id: 16,
                               channelKey: 'basic_channel',
-                              title: "Download faild",
+                              title: "Download failed",
                               body: "download error message:  $errorMessage",
                               notificationLayout: NotificationLayout.BigText,
                             ),

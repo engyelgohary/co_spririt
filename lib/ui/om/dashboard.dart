@@ -198,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Center(
                       child: Column(
                         children: [
@@ -225,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
                                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                                         child: Row(
                                           children: [
-                                            const Text("• ", style: TextStyle(fontSize: 25)),
+                                            const Text("• ", style: TextStyle(fontSize: 20)),
                                             Text(
                                               "${odScore.name ?? 'No Name'}: ",
                                               style: TextStyle(fontSize: 18),
@@ -254,7 +254,7 @@ class _DashboardState extends State<Dashboard> {
                                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                                         child: Row(
                                           children: [
-                                            const Text("• ", style: TextStyle(fontSize: 25)),
+                                            const Text("• ", style: TextStyle(fontSize: 20)),
                                             Text(
                                               "${odScore.name ?? 'No Name'}: ",
                                               style: TextStyle(fontSize: 18),

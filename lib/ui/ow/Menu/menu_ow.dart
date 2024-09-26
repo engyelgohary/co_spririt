@@ -114,7 +114,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Ask Oppy',
-                    onFunction: () => AppUtil.mainNavigator(context, const OppyOW()),
+                    onFunction: () => AppUtil.mainNavigator(context, OppyOW()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,

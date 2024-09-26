@@ -75,7 +75,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Collaborators',
+          'Opportunity Detectors',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
         ),
         leading: const AppBarCustom(),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../data/api/apimanager.dart';
 
@@ -103,6 +104,67 @@ class CustomChatBubble extends StatelessWidget {
         type: message.isSender ?? false ? BubbleType.sendBubble : BubbleType.receiverBubble,
       ),
       backGroundColor: message.isSender ?? false ? ODColorScheme.mainColor : Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: columnWidgets,
+      ),
+    );
+  }
+}
+
+class OppyChatBubble extends StatelessWidget {
+  final String message;
+  final bool isSender;
+  final Color textColor;
+  final Color backgroundColor;
+  const OppyChatBubble({
+    super.key,
+    required this.message,
+    required this.isSender,
+    required this.textColor,
+    required this.backgroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> columnWidgets;
+    if (isSender) {
+      columnWidgets = [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: SelectableText(
+            message,
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        )
+      ];
+    } else {
+      columnWidgets = [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Markdown(
+            selectable: true,
+            data: message,
+            shrinkWrap: true,
+            softLineBreak: true,
+            styleSheet: MarkdownStyleSheet(
+              p: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+          ),
+        )
+      ];
+    }
+
+    return ChatBubble(
+      alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+      clipper: ChatBubbleClipper5(
+        type: isSender ? BubbleType.sendBubble : BubbleType.receiverBubble,
+      ),
+      backGroundColor: isSender ? backgroundColor : Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

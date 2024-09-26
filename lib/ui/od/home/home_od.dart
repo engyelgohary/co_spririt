@@ -93,9 +93,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: screenHeight * 0.25 * 0.10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -156,7 +154,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOD()),
+                        onTap: () => AppUtil.mainNavigator(context, OppyOD()),
                         child: Column(
                           children: [
                             SvgPicture.asset(

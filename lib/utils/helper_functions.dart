@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/data/model/Notification.dart';
@@ -275,6 +277,67 @@ Future<void> sendMessage(
   }
 }
 
+Future<void> oppyChatHistory(
+  int id,
+  ApiManager apiManager,
+  LoadingStateNotifier loadingNotifier,
+) async {
+  try {
+    final respone = await apiManager.getOppyChatHistory(id);
+    final template = {
+      "NewMessage": respone["newMessage"],
+      "GeneratedResult": respone["generatedResult"],
+      "ChatHistory": []
+    };
+    final messages = [];
+
+    for (var element in respone["chatHistory"]) {
+      final message = element["message"];
+      final response = element["response"];
+      if (message != null) {
+        messages.add([message, true]);
+      }
+
+      if (response != null) {
+        messages.add([response, false]);
+      }
+
+      if (message != null && respone != null) {
+        template["ChatHistory"].add({"Message": message, "Response": response});
+      }
+    }
+    loadingNotifier.response = [template, messages];
+  } catch (e) {
+    print("- oppyChatHistory error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> sendOppyMessage(
+  int id,
+  Map template,
+  String message,
+  ApiManager apiManager,
+  ListNotifier listNotifier,
+  ScrollController controller,
+) async {
+  try {
+    listNotifier.addItem([message, true]);
+    controller.animateTo(controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    template["NewMessage"] = message;
+    final result = await apiManager.sendOppyMessage(template);
+    template["ChatHistory"].add(result);
+    listNotifier.addItem([result["Response"], false]);
+    controller.animateTo(controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+  } catch (e) {
+    print("- sendMessage error : $e");
+  }
+}
+
 Widget buildErrorIndicator(String error, VoidCallback tryAgain) {
   return Center(
     child: Column(
@@ -497,4 +560,66 @@ AppBar customAppBar({
     toolbarHeight: height / 8,
     iconTheme: IconThemeData(color: backArrowColor),
   );
+}
+
+void uploadCsvFile(ApiManager apiManager, String path) async {
+  try {
+    final csvFile = File(path).readAsLinesSync();
+    final reward = [];
+    final teams = [];
+    final solutions = [];
+    final risks = [];
+    final status = [];
+    final feasibility = [];
+
+    for (var i = 1; i < csvFile.length; i++) {
+      final row = csvFile[i].split(',');
+
+      if (row[0].isNotEmpty && row[1].isNotEmpty) {
+        reward.add({"name": row[0], "value": row[1]});
+      }
+
+      if (row[2].isNotEmpty && row[3].isNotEmpty) {
+        status.add({"name": row[2], "value": row[3]});
+      }
+
+      if (row[4].isNotEmpty) {
+        teams.add({"name": row[4]});
+      }
+
+      if (row[5].isNotEmpty) {
+        risks.add({"name": row[5]});
+      }
+
+      if (row[6].isNotEmpty) {
+        solutions.add({"name": row[6]});
+      }
+
+      if (row[7].isNotEmpty) {
+        feasibility.add({"name": row[7]});
+      }
+    }
+    final List<Future> requests = [];
+    if (solutions.isNotEmpty) {
+      requests.add(apiManager.addSolutionsBulk(solutions));
+    }
+    if (risks.isNotEmpty) {
+      requests.add(apiManager.addRiskBulk(risks));
+    }
+    if (teams.isNotEmpty) {
+      requests.add(apiManager.addTeamBulk(teams));
+    }
+    if (feasibility.isNotEmpty) {
+      requests.add(apiManager.addFeasibilityBulk(feasibility));
+    }
+    // if (reward.isNotEmpty) {
+    //   requests.add(apiManager.addScoreBulk(reward));
+    // }
+    if (status.isNotEmpty) {
+      requests.add(apiManager.addOpportunityStatusBulk(status));
+    }
+    await Future.wait(requests);
+  } catch (e) {
+    print("- Error parsing csv file error:$e");
+  }
 }

@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 import 'package:co_spirit/data/model/Client.dart';
 import 'package:co_spirit/data/model/ClientReq.dart';
 import 'package:co_spirit/data/model/Collaborator.dart';
@@ -12,6 +12,7 @@ import 'package:co_spirit/data/model/RequestsReq.dart';
 import 'package:co_spirit/data/model/RequestsResponse.dart';
 import 'package:co_spirit/data/model/message.dart';
 import 'package:co_spirit/data/model/typeReq.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
@@ -48,6 +49,7 @@ class ApiConstants {
   static const String allPostsApi = '/api/v1/post';
   static const String fetchPostsByAdminApi = '/api/v1/post/GetPostsAdmin';
   static const String messagingApi = '/api/v1/messages';
+  static const String oppyApi = '/api/ChatBot/';
   static const String superAdminApi = '/api/v1/SuperAdmin';
   static const String notificationApi = '/api/v1/NotificationMessage';
   static const String opportunityStatusApi = '/api/Status';
@@ -1526,7 +1528,9 @@ class ApiManager {
       );
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
+        debugPrint('${response.statusCode} , $responseData' );
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
+
       }
       throw Exception('Failed to read user notification code: ${response.statusCode}');
     } catch (e) {
@@ -1853,6 +1857,31 @@ class ApiManager {
     }
   }
 
+  Future<bool> addOpportunityStatusBulk(List opportunityStatus) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.opportunityStatusApi}/AddList");
+      final response =
+          await http.post(uri, body: jsonEncode({"status": opportunityStatus}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add opportunityStatus bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add opportunityStatus bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteOpportunityStatus(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -1919,6 +1948,31 @@ class ApiManager {
       throw Exception('Failed to add Solutions: ${response.statusCode}');
     } catch (e) {
       print("Could not add Solutions $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addSolutionsBulk(List solutions) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.solutionApi}/AddList");
+      print(solutions);
+      final response = await http.post(uri, body: jsonEncode({"solutions": solutions}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add solutions bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add solutions bulk error:$e");
       rethrow;
     }
   }
@@ -1993,6 +2047,30 @@ class ApiManager {
     }
   }
 
+  Future<bool> addRiskBulk(List risk) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.riskApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"risks": risk}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add risk bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add risk bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteRisk(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -2035,6 +2113,30 @@ class ApiManager {
       throw Exception('Failed to get score: ${response.statusCode}');
     } catch (e) {
       print("Could not get score $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addScoreBulk(List score) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.scoreApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"score": score}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add score bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add score bulk error:$e");
       rethrow;
     }
   }
@@ -2135,6 +2237,31 @@ class ApiManager {
     }
   }
 
+  Future<bool> addFeasibilityBulk(List feasibility) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.feasibilityApi}/AddList");
+      final response =
+          await http.post(uri, body: jsonEncode({"feasibility": feasibility}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add feasibility bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add feasibility bulk error:$e");
+      rethrow;
+    }
+  }
+
   Future<bool> deleteFeasibility(int id) async {
     try {
       final token = await storage.read(key: 'token');
@@ -2194,6 +2321,30 @@ class ApiManager {
       throw Exception('Failed to add team: ${response.statusCode}');
     } catch (e) {
       print("Could not add team $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> addTeamBulk(List teams) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.teamApi}/AddList");
+      final response = await http.post(uri, body: jsonEncode({"teams": teams}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      throw Exception('Failed to add team bulk: ${response.statusCode}');
+    } catch (e) {
+      print("Could not add team bulk error:$e");
       rethrow;
     }
   }
@@ -2374,6 +2525,94 @@ class ApiManager {
     } catch (e) {
       print('Error fetching users: $e');
       return [];
+    }
+  }
+
+  Future<dynamic> getOppyChatHistory(int id) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.oppyApi}History/ByOpportunity/$id');
+      final response = await http.get(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      throw Exception("Failed to get oppy chat history code: ${response.statusCode}");
+    } catch (e) {
+      print("Could not get oppy chat history error: $e");
+      rethrow;
+    }
+  }
+
+  Future<Map> sendOppyMessage(Map template) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      print("Template: $template");
+      final uri = Uri.parse("http://10.100.102.6:1044/api/v0/opp_detection/chatbot");
+      final request = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        encoding: Encoding.getByName("utf-8"),
+        body: jsonEncode(template),
+      );
+
+      if (request.statusCode == 200) {
+        return jsonDecode(request.body);
+      } else {
+        print(jsonDecode(request.body));
+        throw Exception('Failed to send oppy message: ${request.statusCode}');
+      }
+    } catch (e) {
+      print("Could not send oppy message $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> storeOppyMessage(int id, String message, String response) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, '/api/ChatBot');
+      final request = await http.post(
+        uri,
+        encoding: Encoding.getByName("utf-8"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({"message": message, "response": response, "opportunityId": id}),
+      );
+
+      if (request.statusCode == 200) {
+        return true;
+      } else {
+        print(jsonDecode(request.body));
+        throw Exception('Failed to store oppy message: ${request.statusCode}');
+      }
+    } catch (e) {
+      print("Could not store oppy message $e");
+      rethrow;
     }
   }
 }

@@ -93,9 +93,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: screenHeight * 0.25 * 0.10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -155,7 +153,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                         ],
                       ),
                       InkWell(
-                        onTap: () => AppUtil.mainNavigator(context, const OppyOA()),
+                        onTap: () => AppUtil.mainNavigator(context, OppyOA()),
                         child: Column(
                           children: [
                             SvgPicture.asset(
@@ -216,7 +214,8 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       future: adminPosts,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
+                          return const Center(
+                              child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

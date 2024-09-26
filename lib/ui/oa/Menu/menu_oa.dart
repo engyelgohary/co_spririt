@@ -10,7 +10,6 @@ import '../../../data/api/apimanager.dart';
 import '../../../data/repository/repository/repository_impl.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../od/requests/request_collaborator.dart';
 import '../Profile/Cubit/oa_cubit.dart';
 import '../opportunities/opportunities_oa.dart';
 
@@ -120,7 +119,15 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                     textColor: OAColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const OppyOA());
+                      AppUtil.mainNavigator(context, OppyOA());
+                    },
+                  ),
+                  CustomMenuCard(
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
+                    name: 'test csv',
+                    onFunction: () {
+                      uploadCsvFile(ApiManager.getInstance(), "/home/yusuf/Desktop/test.csv");
                     },
                   ),
                   CustomMenuCard(

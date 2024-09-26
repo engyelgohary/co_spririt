@@ -88,7 +88,7 @@ class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
                     opportunity.title ?? "N/A",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: OWColorScheme.textColor,
+                      color: OWColorScheme.mainColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -99,7 +99,7 @@ class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
                         opportunity.industry ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: OWColorScheme.textColor,
+                          color: OWColorScheme.mainColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -117,7 +117,7 @@ class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
                     onTap: () =>
                         AppUtil.mainNavigator(context, OpportunityViewOW(opportunity: opportunity)),
                     child: const CircleAvatar(
-                      backgroundColor: AppColor.SkyColor,
+                      backgroundColor: OWColorScheme.lighterButtonColor,
                       radius: 18,
                       child: Icon(
                         Icons.info_outline,

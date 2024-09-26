@@ -125,14 +125,6 @@ class _MenuScreenOAState extends State<MenuScreenOA> {
                   CustomMenuCard(
                     iconColor: OAColorScheme.buttonColor,
                     textColor: OAColorScheme.mainColor,
-                    name: 'test csv',
-                    onFunction: () {
-                      uploadCsvFile(context ,ApiManager.getInstance(), "/home/yusuf/Desktop/test.csv");
-                    },
-                  ),
-                  CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
                     name: 'Profile & Settings',
                     enableDivider: false,
                     onFunction: () {

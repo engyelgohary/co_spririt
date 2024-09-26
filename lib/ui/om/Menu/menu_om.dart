@@ -2,6 +2,7 @@ import 'package:co_spirit/ui/auth/login.dart';
 import 'package:co_spirit/ui/om/AllUsers.dart';
 import 'package:co_spirit/ui/om/Message/message_om.dart';
 import 'package:co_spirit/ui/om/Message/oppy_om.dart';
+import 'package:co_spirit/ui/om/Profile/profile_om.dart';
 import 'package:co_spirit/ui/om/dashboard.dart';
 import 'package:co_spirit/ui/om/opportunity/AllOpportunities.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,7 +83,7 @@ class MenuScreenOM extends StatelessWidget {
               textColor: OMColorScheme.textColor,
               name: 'Ask Oppy',
               onFunction: () {
-                AppUtil.mainNavigator(context,  OppyOM());
+                AppUtil.mainNavigator(context, OppyOM());
               },
             ),
             CustomMenuCard(
@@ -94,11 +95,11 @@ class MenuScreenOM extends StatelessWidget {
               },
             ),
 
-             CustomMenuCard(
-               iconColor: OMColorScheme.mainColor,
+            CustomMenuCard(
+              iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-               name: 'Opportunity Detectors',
-               onFunction: () {
+              name: 'Opportunity Detectors',
+              onFunction: () {
                 AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
               },
             ),
@@ -115,18 +116,18 @@ class MenuScreenOM extends StatelessWidget {
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
               name: 'Opportunity Analyzers',
-        onFunction: () {
+              onFunction: () {
                 AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
-               },
-             ),
-             CustomMenuCard(
-               iconColor: OMColorScheme.mainColor,
-               textColor: OMColorScheme.textColor,
-               name: 'Opportunity Owners',
+              },
+            ),
+            CustomMenuCard(
+              iconColor: OMColorScheme.mainColor,
+              textColor: OMColorScheme.textColor,
+              name: 'Opportunity Owners',
               onFunction: () {
                 AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
-               },
-             ),
+              },
+            ),
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,
@@ -139,13 +140,17 @@ class MenuScreenOM extends StatelessWidget {
             CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
-              name: 'Log Out',
+              name: 'Profile & Settings',
               enableDivider: false,
               onFunction: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  CupertinoPageRoute(builder: (context) => LoginScreen()),
-                  (route) => false,
-                );
+                AppUtil.mainNavigator(context, const ProfileScreenOM());
+
+                // uploadCsvFile(context, ApiManager.getInstance(), "/home/yusuf/Desktop/test.csv");
+
+                // Navigator.of(context).pushAndRemoveUntil(
+                //   CupertinoPageRoute(builder: (context) => LoginScreen()),
+                //   (route) => false,
+                // );
               },
             ),
           ],

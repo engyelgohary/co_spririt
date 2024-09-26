@@ -34,7 +34,7 @@ class _NotificationScreenOMState extends State<NotificationScreenOM> {
           title: "Notifications",
           context: context,
           textColor: OMColorScheme.textColor,
-          backArrowColor: OMColorScheme.buttonColor),
+          backArrowColor: OMColorScheme.mainColor,),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(

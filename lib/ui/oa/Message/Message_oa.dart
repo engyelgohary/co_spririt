@@ -106,13 +106,13 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
                                         CustomText(
                                           text: admin.firstName ?? "Unknown",
                                           fontSize: 15,
-                                          color: OAColorScheme.textColor,
+                                          color: OAColorScheme.mainColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                         CustomText(
                                           text: admin.email ?? "Unknown",
                                           fontSize: 12,
-                                          color: OAColorScheme.textColor,
+                                          color: OAColorScheme.mainColor,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],

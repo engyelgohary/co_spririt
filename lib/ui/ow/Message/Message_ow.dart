@@ -106,13 +106,13 @@ class _MessagesScreenOWState extends State<MessagesScreenOW> {
                                         CustomText(
                                           text: admin.firstName ?? "Unknown",
                                           fontSize: 15,
-                                          color: OWColorScheme.textColor,
+                                          color: OWColorScheme.mainColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                         CustomText(
                                           text: admin.email ?? "Unknown",
                                           fontSize: 12,
-                                          color: OWColorScheme.textColor,
+                                          color: OWColorScheme.mainColor,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],

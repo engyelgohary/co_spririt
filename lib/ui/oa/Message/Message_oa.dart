@@ -1,5 +1,7 @@
 import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/ui/oa/Message/chat_oa.dart';
 import 'package:co_spirit/ui/od/Message/chat_od.dart';
+import 'package:co_spirit/ui/ow/Message/chat_ow.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +82,7 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
                                 signalr.receiverId = admin.id;
                                 AppUtil.mainNavigator(
                                   context,
-                                  ChatScreenOD(
+                                  ChatScreenOA(
                                     receiverId: admin.id ?? 0,
                                     email: admin.email ?? "",
                                     name: admin.firstName ?? "",

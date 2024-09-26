@@ -573,6 +573,7 @@ AppBar customAppBar({
   double width = MediaQuery.of(context).size.width;
 
   return AppBar(
+    scrolledUnderElevation: 0,
     backgroundColor: backgroundColor,
     leading: Padding(
       padding: EdgeInsets.only(left: width / 25),

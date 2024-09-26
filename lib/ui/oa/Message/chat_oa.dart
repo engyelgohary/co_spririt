@@ -61,15 +61,12 @@ class _ChatScreenOAState extends State<ChatScreenOA> {
     double height = AppUtil.responsiveHeight(context);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: customAppBar(
+        title: "Messages",
+        context: context,
+        backArrowColor: OAColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: Icon(Icons.arrow_back_ios),
-          ),
-        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -79,10 +76,6 @@ class _ChatScreenOAState extends State<ChatScreenOA> {
             ),
           ),
         ],
-        title:
-            const Text("Messages", style: TextStyle(fontSize: 22, color: OAColorScheme.mainColor)),
-        toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: OAColorScheme.buttonColor),
       ),
       body: Column(
         children: [

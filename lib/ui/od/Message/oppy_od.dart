@@ -49,6 +49,7 @@ class _OppyOStateD extends State<OppyOD> {
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: Padding(
           padding: EdgeInsets.only(left: width / 25),

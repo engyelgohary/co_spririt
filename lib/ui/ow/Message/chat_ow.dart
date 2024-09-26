@@ -58,18 +58,14 @@ class _ChatScreenOWState extends State<ChatScreenOW> {
 
   @override
   Widget build(BuildContext context) {
-    double height = AppUtil.responsiveHeight(context);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: customAppBar(
+        title: "Messages",
+        context: context,
+        backArrowColor: OWColorScheme.buttonColor,
+        textColor: OWColorScheme.mainColor,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: Icon(Icons.arrow_back_ios),
-          ),
-        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -79,10 +75,6 @@ class _ChatScreenOWState extends State<ChatScreenOW> {
             ),
           ),
         ],
-        title:
-            const Text("Messages", style: TextStyle(fontSize: 22, color: OWColorScheme.mainColor)),
-        toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: OWColorScheme.buttonColor),
       ),
       body: Column(
         children: [
@@ -110,13 +102,13 @@ class _ChatScreenOWState extends State<ChatScreenOW> {
                             CustomText(
                               text: widget.name,
                               fontSize: 16,
-                              color: OMColorScheme.mainColor,
+                              color: OWColorScheme.mainColor,
                               fontWeight: FontWeight.w700,
                             ),
                             CustomText(
                               text: widget.email,
                               fontSize: 12,
-                              color: OMColorScheme.mainColor,
+                              color: OWColorScheme.mainColor,
                               fontWeight: FontWeight.w400,
                             ),
                           ],

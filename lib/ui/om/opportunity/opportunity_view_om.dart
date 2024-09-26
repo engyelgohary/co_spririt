@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import 'opportunity_edit.dart';
@@ -221,6 +220,19 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
               SizedBox(height: 15.h),
               const SelectableText(
                 "Description:",
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+              ),
+              Markdown(
+                shrinkWrap: true,
+                selectable: true,
+                data: opportunity.description ?? "N/A",
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(fontSize: 16),
+                ),
+              ),
+
+              const SelectableText(
+                "Result:",
                 style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
               Markdown(

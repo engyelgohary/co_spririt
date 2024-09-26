@@ -19,6 +19,7 @@ class OpportunitiesPageOW extends StatefulWidget {
 class _OpportunitiesPageOWState extends State<OpportunitiesPageOW> {
   final LoadingStateNotifier<Opportunity> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
+  
   @override
   void dispose() {
     loadingNotifier.dispose();

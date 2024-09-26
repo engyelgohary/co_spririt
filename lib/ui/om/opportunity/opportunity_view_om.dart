@@ -70,19 +70,22 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
         backArrowColor: OMColorScheme.mainColor,
         textColor: OMColorScheme.textColor,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.mode_edit_outlined),
-            onPressed: () async {
-              if (opportunity.id != null) {
-                await Navigator.push<Opportunity?>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditOpportunityPage(opportunity: opportunity),
-                  ),
-                );
-                await _fetchOpportunity();
-              }
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: const Icon(Icons.mode_edit_outlined),
+              onPressed: () async {
+                if (opportunity.id != null) {
+                  await Navigator.push<Opportunity?>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditOpportunityPage(opportunity: opportunity),
+                    ),
+                  );
+                  await _fetchOpportunity();
+                }
+              },
+            ),
           ),
         ],
       ),

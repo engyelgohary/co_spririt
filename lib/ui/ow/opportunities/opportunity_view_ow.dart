@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
@@ -8,10 +10,54 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../utils/theme/appColors.dart';
+import 'opportunity_edit_ow.dart';
 
-class OpportunityViewOW extends StatelessWidget {
+class OpportunityViewOW extends StatefulWidget {
   final Opportunity opportunity;
   const OpportunityViewOW({super.key, required this.opportunity});
+
+  @override
+  State<OpportunityViewOW> createState() => _OpportunityViewOWState();
+}
+
+class _OpportunityViewOWState extends State<OpportunityViewOW> {
+  late Opportunity opportunity;
+  late ApiManager apiManager;
+
+  @override
+  void initState() {
+    super.initState();
+    apiManager = ApiManager.getInstance();
+    opportunity = widget.opportunity;
+    _fetchOpportunity();
+  }
+
+  Future<void> _fetchOpportunity() async {
+    if (widget.opportunity.id != null) {
+      try {
+        final fetchedOpportunity = await apiManager.getOpportunityById(widget.opportunity.id);
+        if (fetchedOpportunity != null) {
+          setState(() {
+            opportunity = fetchedOpportunity;
+            print(widget.opportunity.status);
+          });
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Opportunity not found.")));
+        }
+      } catch (e) {
+        String errorMessage;
+
+        if (e is SocketException) {
+          errorMessage = "Network error: Unable to connect to the server.";
+        } else {
+          errorMessage = "An error occurred: $e";
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +68,25 @@ class OpportunityViewOW extends StatelessWidget {
         context: context,
         backArrowColor: OWColorScheme.buttonColor,
         textColor: OWColorScheme.mainColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: const Icon(Icons.mode_edit_outlined),
+              onPressed: () async {
+                if (widget.opportunity.id != null) {
+                  await Navigator.push<Opportunity?>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditOpportunityOWPage(opportunity: widget.opportunity),
+                    ),
+                  );
+                  await _fetchOpportunity();
+                }
+              },
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -36,7 +101,7 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: SelectableText(
-                  opportunity.title ?? "N/A",
+                  widget.opportunity.title ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -47,7 +112,7 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: SelectableText(
-                  opportunity.status ?? "N/A",
+                  widget.opportunity.status ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -58,7 +123,7 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: SelectableText(
-                  opportunity.feasibility ?? "N/A",
+                  widget.opportunity.feasibility ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -69,7 +134,7 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: SelectableText(
-                  opportunity.risks ?? "N/A",
+                  widget.opportunity.risks ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -80,21 +145,22 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: SelectableText(
-                  opportunity.type ?? "N/A",
+                  widget.opportunity.type ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
-              if (opportunity.descriptionLocation != null)
+              if (widget.opportunity.descriptionLocation != null)
                 const SelectableText(
                   "Description File:",
                   style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                 ),
-              if (opportunity.descriptionLocation != null)
+              if (widget.opportunity.descriptionLocation != null)
                 IconButton(
                   icon: const Icon(Icons.download),
                   onPressed: () {
                     FileDownloader.downloadFile(
-                      url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
+                      url:
+                          "http://${ApiConstants.baseUrl}${widget.opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
@@ -127,7 +193,7 @@ class OpportunityViewOW extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: SelectableText(
-                  opportunity.description ?? "N/A",
+                  widget.opportunity.description ?? "N/A",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -140,7 +206,7 @@ class OpportunityViewOW extends StatelessWidget {
                 child: MarkdownBody(
                   shrinkWrap: true,
                   selectable: true,
-                  data: opportunity.result ?? "N/A",
+                  data: widget.opportunity.result ?? "N/A",
                   styleSheet: MarkdownStyleSheet(
                     p: const TextStyle(fontSize: 16),
                   ),

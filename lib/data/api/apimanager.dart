@@ -1963,7 +1963,6 @@ class ApiManager {
       }
 
       final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.solutionApi}/AddList");
-      print(solutions);
       final response = await http.post(uri, body: jsonEncode({"solutions": solutions}), headers: {
         'Content-Type': 'application/json',
         "accept": '*/*',
@@ -2128,7 +2127,7 @@ class ApiManager {
       }
 
       final uri = Uri.http(ApiConstants.baseUrl, "${ApiConstants.scoreApi}/AddList");
-      final response = await http.post(uri, body: jsonEncode({"score": score}), headers: {
+      final response = await http.post(uri, body: jsonEncode({"scores": score}), headers: {
         'Content-Type': 'application/json',
         "accept": '*/*',
         'Authorization': 'Bearer $token',
@@ -2321,7 +2320,6 @@ class ApiManager {
     }
   }
 
-
   Future<bool> addTeam(String name, int value) async {
     try {
       final token = await storage.read(key: 'token');
@@ -2419,17 +2417,16 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         print('Team assigned to opportunity successfully.');
-        return true;  // Return success
+        return true; // Return success
       } else {
         print('Failed to assign team: ${response.statusCode}');
-        return false;  // Return failure
+        return false; // Return failure
       }
     } catch (e) {
       print("Error assigning team to opportunity: $e");
-      return false;  // Return failure in case of exception
+      return false; // Return failure in case of exception
     }
   }
-
 
   Future<List<dynamic>> fetchAllStatus() async {
     final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityStatusApi);
@@ -2674,6 +2671,7 @@ class ApiManager {
       rethrow;
     }
   }
+
   Future<Opportunity> getOpportunityById(int? opportunityId) async {
     String? token;
 
@@ -2707,9 +2705,4 @@ class ApiManager {
       rethrow;
     }
   }
-
-
-
-
-
 }

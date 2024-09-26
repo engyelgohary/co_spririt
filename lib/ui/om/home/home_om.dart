@@ -3,6 +3,7 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/om/Menu/menu_om.dart';
 import 'package:co_spirit/ui/om/Message/message_om.dart';
 import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
+import 'package:co_spirit/ui/om/Profile/profile_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -116,7 +117,9 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                     ],
                   ),
                   InkWell(
-                    onTap: () => snackBar(context, "Not implemented"),
+                    onTap: () => AppUtil.mainNavigator(context, const ProfileScreenOM()),
+
+                    // onTap: () => snackBar(context, "Not implemented"),
                     child: Column(
                       children: [
                         SvgPicture.asset("${AppUI.svgPath}profile.svg", width: 35),

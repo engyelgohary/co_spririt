@@ -1,16 +1,13 @@
 import 'dart:io';
+import 'package:co_spirit/ui/om/Profile/upload_data_om.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
-import 'edit_profile_om.dart';
 
 class ProfileScreenOM extends StatefulWidget {
   const ProfileScreenOM({super.key});
@@ -74,10 +71,7 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
             Center(
               child: CircleAvatar(
                 radius: 60.r,
-                backgroundImage: _selectedImage != null
-                    ? FileImage(File(_selectedImage!.path))
-                    : const NetworkImage('http://${ApiConstants.baseUrl}') as ImageProvider,
-                child: _selectedImage == null ? const Icon(Icons.camera_alt, size: 50) : null,
+                child: const Icon(Icons.camera_alt, size: 50),
               ),
             ),
             SizedBox(
@@ -166,13 +160,31 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      final path = await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ["csv"],
+                      showModalBottomSheet(
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        constraints: BoxConstraints(
+                          minHeight: height * 0.4,
+                          maxHeight: height * 0.7,
+                        ),
+                        context: context,
+                        builder: (context) => const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Icon(Icons.horizontal_rule_rounded),
+                            ),
+                            Flexible(child: UploadDataOM()),
+                          ],
+                        ),
                       );
-                      if (path != null) {
-                        uploadCsvFile(context, ApiManager.getInstance(), path.paths[0]!);
-                      }
                     },
                     icon: const Icon(
                       Icons.arrow_forward_ios,

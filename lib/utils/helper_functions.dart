@@ -522,10 +522,6 @@ Future<void> addOpportunityBackend(
       test[2].map((e) => "${e.firstName} ${e.lastName}").toList(),
       test[2].map((e) => e.id).toList(),
     );
-    print(test[0]);
-    print(test[1]);
-    print(test[2]);
-    print(test[3]);
 
     loadingNotifier.response = test;
   } catch (e) {
@@ -591,7 +587,7 @@ AppBar customAppBar({
   );
 }
 
-void uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
+Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
   try {
     final csvFile = File(path).readAsLinesSync();
     final reward = [];
@@ -641,9 +637,9 @@ void uploadCsvFile(BuildContext context, ApiManager apiManager, String path) asy
     if (feasibility.isNotEmpty) {
       requests.add(apiManager.addFeasibilityBulk(feasibility));
     }
-    // if (reward.isNotEmpty) {
-    //   requests.add(apiManager.addScoreBulk(reward));
-    // }
+    if (reward.isNotEmpty) {
+      requests.add(apiManager.addScoreBulk(reward));
+    }
     if (status.isNotEmpty) {
       requests.add(apiManager.addOpportunityStatusBulk(status));
     }

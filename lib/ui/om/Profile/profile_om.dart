@@ -165,19 +165,20 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                     style: TextStyle(fontSize: 16, color: OMColorScheme.textColor),
                   ),
                   IconButton(
-                      onPressed: () async {
-                        final path = await FilePicker.platform.pickFiles(
-                            // type: FileType.custom,
-                            // allowedExtensions: ["doc", "docm", "docx", "dot", "pdf"],
-                            );
-                        if (path != null) {
-                          uploadCsvFile(context, ApiManager.getInstance(), path.paths[0]!);
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: OMColorScheme.mainColor,
-                      ))
+                    onPressed: () async {
+                      final path = await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ["csv"],
+                      );
+                      if (path != null) {
+                        uploadCsvFile(context, ApiManager.getInstance(), path.paths[0]!);
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: OMColorScheme.mainColor,
+                    ),
+                  )
                 ],
               ),
             ),

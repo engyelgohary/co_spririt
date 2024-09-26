@@ -1,13 +1,11 @@
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../data/model/message.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
@@ -25,7 +23,7 @@ class OppyOA extends StatefulWidget {
 class _OppyOStateD extends State<OppyOA> {
   final TextEditingController messageController = TextEditingController();
   final ListNotifier listNotifier = ListNotifier(list: []);
-  final LoadingStateNotifier loadingNotifier = LoadingStateNotifier(loading: false);
+  final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
   Map template = {};
@@ -114,6 +112,7 @@ class _OppyOStateD extends State<OppyOA> {
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
+                print("Opportunity id: $context");
                 if (loadingNotifier.loading) {
                   oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
                   return const Expanded(
@@ -129,7 +128,6 @@ class _OppyOStateD extends State<OppyOA> {
                     ),
                   );
                 }
-                print(loadingNotifier.response);
                 template = loadingNotifier.response![0];
                 listNotifier.list = loadingNotifier.response![1];
 

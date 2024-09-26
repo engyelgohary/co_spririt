@@ -118,7 +118,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                       context,
                       OpportunityViewOA(opportunity: opportunity),
                     ),
-                    onLongPress: () => AppUtil.mainNavigator(
+                    onDoubleTap: () => AppUtil.mainNavigator(
                       context,
                       OppyOA(opportunityId: opportunity.id),
                     ),

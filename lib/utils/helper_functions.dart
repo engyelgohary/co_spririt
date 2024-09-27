@@ -597,14 +597,33 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
     final status = [];
     final feasibility = [];
 
+    final firstRow = csvFile[0].split(',').map((e) => e.trim().toLowerCase());
+    final firstRowCheck = firstRow.contains("reward") &&
+        firstRow.contains("reward score") &&
+        firstRow.contains("status score") &&
+        firstRow.contains("status") &&
+        firstRow.contains("team") &&
+        firstRow.contains("risk") &&
+        firstRow.contains("solution");
+
+    if (!firstRowCheck) {
+      throw Exception("Invalid titles");
+    }
+
     for (var i = 1; i < csvFile.length; i++) {
       final row = csvFile[i].split(',');
 
       if (row[0].isNotEmpty && row[1].isNotEmpty) {
+        if (int.tryParse(row[1]) == null) {
+           throw Exception("Invalid reward score at row ${i + 1}");
+        }
         reward.add({"name": row[0], "value": row[1]});
       }
 
       if (row[2].isNotEmpty && row[3].isNotEmpty) {
+        if (int.tryParse(row[3]) == null) {
+          throw Exception("Invalid status score at row ${i + 1}");
+        }
         status.add({"name": row[2], "value": row[3]});
       }
 
@@ -651,3 +670,4 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
     print("- Error parsing csv file error:$e");
   }
 }
+

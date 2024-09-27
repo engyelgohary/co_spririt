@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../auth/login.dart';
 
@@ -38,9 +39,11 @@ class _UploadDataOMState extends State<UploadDataOM> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      CupertinoPageRoute(builder: (context) => const LoginScreen()),
-                      (route) => false,
+                    launchUrl(
+                      Uri.parse(
+                        "https://drive.google.com/file/d/1-RJV8SqMhKE-TaTQTyBbtfgQlNF9ZMZ5/view?usp=sharing",
+                      ),
+                      mode: LaunchMode.externalApplication,
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -145,19 +148,17 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (dataFileLocation != null && dataFileLocation!.isNotEmpty) {
+                          // loadingIndicatorDialog(context);
                           try {
-                            loadingIndicatorDialog(context);
                             await uploadCsvFile(
                               context,
                               ApiManager.getInstance(),
                               "/home/yusuf/Desktop/test.csv",
                             );
-                            if (context.mounted) {
-                              Navigator.of(context).pop();
-                            }
+                            // Navigator.of(context).pop();
                           } catch (e) {
                             if (context.mounted) {
-                              Navigator.of(context).pop();
+                              snackBar(context, e.toString());
                             }
                             print("- uploadCsvFile error: $e");
                           }

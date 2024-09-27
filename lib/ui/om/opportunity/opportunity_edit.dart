@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -9,22 +10,22 @@ import '../../../data/model/opportunity.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditOpportunityPage extends StatefulWidget {
+class EditOpportunityOMPage extends StatefulWidget {
   final Opportunity opportunity;
 
-  const EditOpportunityPage({Key? key, required this.opportunity})
-      : super(key: key);
+  const EditOpportunityOMPage({Key? key, required this.opportunity}) : super(key: key);
 
   @override
-  _EditOpportunityPageState createState() => _EditOpportunityPageState();
+  _EditOpportunityOMPageState createState() => _EditOpportunityOMPageState();
 }
 
-class _EditOpportunityPageState extends State<EditOpportunityPage> {
+class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
   late List<dynamic> statuses = [];
   late List<Team> teams = [];
   late ApiManager apiManager;
   late int selectedStatus;
   late int selectedTeam;
+  late TextEditingController comment = TextEditingController();
 
   @override
   void initState() {
@@ -61,18 +62,32 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
     }
   }
 
+  Future<bool> updateComment() async {
+    final opportunityId = widget.opportunity.id ?? 0;
+
+    debugPrint(
+        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
+
+    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
+    if (success) {
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return true;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return false;
+    }
+  }
+
   Future<void> fetchStatuses() async {
     try {
       List<dynamic> fetchedStatuses = await apiManager.fetchAllStatus();
       for (var status in fetchedStatuses) {
-        debugPrint(
-            'Fetched status: ${status['name']} with ID: ${status['id']}');
+        debugPrint('Fetched status: ${status['name']} with ID: ${status['id']}');
       }
       setState(() {
         statuses = fetchedStatuses;
         if (widget.opportunity.statusId != null &&
-            fetchedStatuses
-                .any((s) => s['id'] == widget.opportunity.statusId)) {
+            fetchedStatuses.any((s) => s['id'] == widget.opportunity.statusId)) {
           selectedStatus = widget.opportunity.statusId!;
         } else if (fetchedStatuses.isNotEmpty) {
           selectedStatus = fetchedStatuses[0]['id'];
@@ -91,8 +106,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
     debugPrint(
         'Updating status for opportunity ID: $opportunityId with new status: $selectedStatus');
 
-    bool success =
-        await apiManager.updateOpportunityStatus(opportunityId, selectedStatus);
+    bool success = await apiManager.updateOpportunityStatus(opportunityId, selectedStatus);
     if (success) {
       setState(() {
         widget.opportunity.statusId = selectedStatus;
@@ -110,7 +124,8 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
 
     print('Updating team for opportunity ID: $currentOpportunityId with new team: $selectedTeam');
 
-    bool success = await apiManager.assignTeamToOpportunity(opportunityId: currentOpportunityId, teamId: selectedTeam);
+    bool success = await apiManager.assignTeamToOpportunity(
+        opportunityId: currentOpportunityId, teamId: selectedTeam);
 
     if (success) {
       setState(() {
@@ -123,7 +138,6 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
       return null;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -147,8 +161,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Client Name:",
-                    style:
-                        TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -162,8 +175,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Opportunity Title:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -177,8 +189,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Feasibility:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -195,8 +206,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Risks:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -213,8 +223,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Type:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -233,8 +242,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Status:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Container(
@@ -251,8 +259,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                           selectedStatus = newValue!;
                         });
                       },
-                      items:
-                          statuses.map<DropdownMenuItem<int>>((dynamic status) {
+                      items: statuses.map<DropdownMenuItem<int>>((dynamic status) {
                         return DropdownMenuItem<int>(
                           value: status['id'],
                           child: Center(
@@ -279,8 +286,7 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                 children: [
                   const SelectableText(
                     "Assigned To:",
-                    style:
-                        TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Container(
@@ -310,32 +316,36 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                           ),
                         );
                       }).toList(),
-
                       dropdownColor: Colors.white,
                       style: const TextStyle(
                         color: Colors.black,
                       ),
                     ),
-
                   ),
                 ],
               ),
 
-              SizedBox(height: 20), // Spacing
+              SizedBox(height: 8), // Spacing
+              OpportunityCommentTextFormField(
+                fieldName: 'Comment:',
+                controller: comment,
+                hintText: "You can type a comment...",
+                maxLines: null,
+                minLines: 2,
+                textColor: OAColorScheme.mainColor,
+              ),
 
               // If there is a description file
               if (opportunity.descriptionLocation != null) ...[
                 const SelectableText(
                   "Description File:",
-                  style:
-                      TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                 ),
                 IconButton(
                   icon: const Icon(Icons.download),
                   onPressed: () {
                     FileDownloader.downloadFile(
-                      url:
-                          "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
+                      url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
@@ -387,43 +397,68 @@ class _EditOpportunityPageState extends State<EditOpportunityPage> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.grey[300],
                       backgroundColor: Colors.grey,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16.0, horizontal: 50.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50.0),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (selectedTeam == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please select a team.')),
-                        );
-                        return;
-                      }
+                      loadingIndicatorDialog(context);
 
-                      // Update the status
-                      final updatedStatus = await updateStatus();
-                      if (updatedStatus == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Failed to update the status.')),
-                        );
-                        return;
+                      if (selectedStatus != opportunity.statusId) {
+                        final updatedStatus = await updateStatus();
+                        if (updatedStatus == null && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the status.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('updated the status.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        }
                       }
-                      final updatedTeam = await updateTeam();
-                      if (updatedTeam == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Failed to update the team.')),
-                        );
-                        return;
+                      if (selectedTeam != 0 && selectedTeam != opportunity.teamId) {
+                        final updatedTeam = await updateTeam();
+                        if (updatedTeam == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the team.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Assigned Team.'), duration: Duration(seconds: 1)),
+                          );
+                        }
                       }
-                      Navigator.pop(context, updatedTeam);
+                      if (comment.text.trim().isNotEmpty) {
+                        final updatedComment = await updateComment();
+                        if (updatedComment == false && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the comment.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          comment.clear();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Added comment.'), duration: Duration(seconds: 1)),
+                          );
+                        }
+                      }
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: const Color(0xFF4169E1),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16.0, horizontal: 50.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50.0),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: const Text('Save'),

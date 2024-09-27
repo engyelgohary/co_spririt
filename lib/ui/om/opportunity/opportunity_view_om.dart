@@ -79,7 +79,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   await Navigator.push<Opportunity?>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditOpportunityPage(opportunity: opportunity),
+                      builder: (context) => EditOpportunityOMPage(opportunity: opportunity),
                     ),
                   );
                   await _fetchOpportunity();

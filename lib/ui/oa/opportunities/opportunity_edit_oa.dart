@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
@@ -24,6 +25,7 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
   late ApiManager apiManager;
   late int selectedStatus;
   late int selectedTeam;
+  late TextEditingController comment = TextEditingController();
 
   @override
   void initState() {
@@ -97,6 +99,22 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
     } else {
       debugPrint('Failed to update opportunity status for ID: $opportunityId');
       return null;
+    }
+  }
+
+  Future<bool> updateComment() async {
+    final opportunityId = widget.opportunity.id ?? 0;
+
+    debugPrint(
+        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
+
+    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
+    if (success) {
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return true;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return false;
     }
   }
 
@@ -261,8 +279,15 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 20), // Spacing
+              const SizedBox(height: 8.0),
+              OpportunityCommentTextFormField(
+                fieldName: 'Comment:',
+                controller: comment,
+                hintText: "You can type a comment...",
+                maxLines: null,
+                minLines: 2,
+                textColor: OAColorScheme.mainColor,
+              ),
 
               // If there is a description file
               if (opportunity.descriptionLocation != null) ...[
@@ -333,16 +358,34 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      // Update the status
-                      final updatedStatus = await updateStatus();
-                      if (updatedStatus == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Failed to update the status.')),
-                        );
-                        return;
+                      loadingIndicatorDialog(context);
+                      if (selectedStatus != opportunity.statusId) {
+                        final updatedStatus = await updateStatus();
+                        if (updatedStatus == null && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Failed to update the status.')),
+                          );
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('updated the status.')),
+                          );
+                        }
                       }
 
-                      Navigator.pop(context);
+                      if (comment.text.trim().isNotEmpty) {
+                        final updatedComment = await updateComment();
+                        if (updatedComment == false && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Failed to update the comment.')),
+                          );
+                        } else if (context.mounted) {
+                          comment.clear();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Added comment.')),
+                          );
+                        }
+                      }
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

@@ -111,7 +111,7 @@ class OpportunityTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -148,6 +148,68 @@ class OpportunityTextFormField extends StatelessWidget {
             controller: controller,
             obscureText: isObscure,
             keyboardType: keyboardType,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class OpportunityCommentTextFormField extends StatelessWidget {
+  String fieldName;
+  Color textColor;
+  String? hintText;
+  int? maxLines;
+  int? minLines;
+  String? Function(String?)? validator;
+  TextEditingController controller;
+
+  OpportunityCommentTextFormField({
+    super.key,
+    this.validator,
+    this.hintText,
+    this.maxLines = 1,
+    this.minLines = 1,
+    required this.fieldName,
+    required this.textColor,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    double width = AppUtil.responsiveWidth(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          fieldName,
+          style: TextStyle(fontSize: 16, color: textColor),
+          textAlign: TextAlign.start,
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 8.h, bottom: 16.h, left: width / 50, right: width / 50),
+          child: TextFormField(
+            maxLines: maxLines,
+            minLines: minLines,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(16),
+              hintText: hintText,
+              hintStyle: const TextStyle(color: Color.fromARGB(150, 0, 0, 0)),
+              fillColor: AppColor.whiteColor,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color.fromARGB(150, 0, 0, 0)),
+                  borderRadius: BorderRadius.circular(30)),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+              focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+              disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+            ),
+            style: const TextStyle(color: AppColor.blackColor),
+            validator: validator,
+            controller: controller,
           ),
         )
       ],

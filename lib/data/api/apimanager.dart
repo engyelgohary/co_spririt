@@ -39,7 +39,7 @@ class ApiConstants {
   static const String clientApi = '/api/v1/client';
   static const String teamApi = '/api/team';
   static const String collaboratorApi = '/api/v1/collaborator';
-  static const String opportunitiesApi = '  /api/v1/opportunities/suggest';
+  static const String opportunitiesApi = '/api/v1/opportunities/suggest';
   static const String opportunitiesColApi = '/api/v1/opportunities/collaborator';
   static const String opportunitiesDeleteApi = '/api/v1/opportunities/remove';
   static const String opportunitiesAdminApi = '/api/v1/opportunities';
@@ -61,7 +61,8 @@ class ApiConstants {
   static const String opportunityCountByStatusApi = '/api/LeaderBoard/OpportunityCountByStatus';
   static const String odAverageScoreApi = '/api/LeaderBoard/OdAverageScore';
   static const String riskAverageApi = '/api/LeaderBoard/RiskAverage';
-  static const String feasibilityAverageApi = ' /api/LeaderBoard/FeasibilityAverage';
+  static const String feasibilityAverageApi = '/api/LeaderBoard/FeasibilityAverage';
+  static const String commentApi = '/api/Comment';
 }
 
 class ApiManager {
@@ -1758,6 +1759,32 @@ class ApiManager {
       throw Exception('Failed to update opportunity: ${response.statusCode}');
     } catch (e) {
       print("Could not update opportunity $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> updateOpportunityComment(int id, String comment) async {
+    try {
+      final token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.commentApi);
+      final response = await http
+          .post(uri, body: jsonEncode({"opportunityId": id, "comment": comment}), headers: {
+        'Content-Type': 'application/json',
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return true;
+      }
+      print(response.body);
+      throw Exception('Failed to update opportunity comment: ${response.statusCode}');
+    } catch (e) {
+      print("Could not update opportunity comment $e");
       rethrow;
     }
   }

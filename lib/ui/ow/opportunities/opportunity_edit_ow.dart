@@ -1,5 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../../core/app_util.dart';
@@ -24,6 +26,7 @@ class _EditOpportunityOWPageState extends State<EditOpportunityOWPage> {
   late ApiManager apiManager;
   late int selectedStatus;
   late int selectedTeam;
+  late TextEditingController comment = TextEditingController();
 
   @override
   void initState() {
@@ -98,6 +101,22 @@ class _EditOpportunityOWPageState extends State<EditOpportunityOWPage> {
     } else {
       debugPrint('Failed to update opportunity status for ID: $opportunityId');
       return null;
+    }
+  }
+
+  Future<bool> updateComment() async {
+    final opportunityId = widget.opportunity.id ?? 0;
+
+    debugPrint(
+        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
+
+    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
+    if (success) {
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return true;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return false;
     }
   }
 
@@ -307,7 +326,15 @@ class _EditOpportunityOWPageState extends State<EditOpportunityOWPage> {
                 ],
               ),
 
-              SizedBox(height: 20), // Spacing
+              SizedBox(height: 8), // Spacing
+              OpportunityCommentTextFormField(
+                fieldName: 'Comment:',
+                controller: comment,
+                hintText: "You can type a comment...",
+                maxLines: null,
+                minLines: 2,
+                textColor: OAColorScheme.mainColor,
+              ),
 
               // If there is a description file
               if (opportunity.descriptionLocation != null) ...[
@@ -378,29 +405,56 @@ class _EditOpportunityOWPageState extends State<EditOpportunityOWPage> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if (selectedTeam == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please select a team.')),
-                        );
-                        return;
-                      }
+                      loadingIndicatorDialog(context);
 
-                      // Update the status
-                      final updatedStatus = await updateStatus();
-                      if (updatedStatus == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Failed to update the status.')),
-                        );
-                        return;
+                      if (selectedStatus != opportunity.statusId) {
+                        final updatedStatus = await updateStatus();
+                        if (updatedStatus == null && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the status.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('updated the status.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        }
                       }
-                      final updatedTeam = await updateTeam();
-                      if (updatedTeam == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Failed to update the team.')),
-                        );
-                        return;
+                      if (selectedTeam != 0 && selectedTeam != opportunity.teamId) {
+                        final updatedTeam = await updateTeam();
+                        if (updatedTeam == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the team.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Assigned Team.'), duration: Duration(seconds: 1)),
+                          );
+                        }
                       }
-                      Navigator.pop(context, updatedTeam);
+                      if (comment.text.trim().isNotEmpty) {
+                        final updatedComment = await updateComment();
+                        if (updatedComment == false && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Failed to update the comment.'),
+                                duration: Duration(seconds: 1)),
+                          );
+                        } else if (context.mounted) {
+                          comment.clear();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Added comment.'), duration: Duration(seconds: 1)),
+                          );
+                        }
+                      }
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

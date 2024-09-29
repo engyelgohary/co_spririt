@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../auth/login.dart';
 
 class UploadDataOM extends StatefulWidget {
   const UploadDataOM({super.key});
@@ -148,20 +147,20 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (dataFileLocation != null && dataFileLocation!.isNotEmpty) {
-                          // loadingIndicatorDialog(context);
+                          loadingIndicatorDialog(context);
                           try {
                             await uploadCsvFile(
                               context,
                               ApiManager.getInstance(),
                               "/home/yusuf/Desktop/test.csv",
                             );
-                            // Navigator.of(context).pop();
                           } catch (e) {
                             if (context.mounted) {
                               snackBar(context, e.toString());
                             }
                             print("- uploadCsvFile error: $e");
                           }
+                          Navigator.of(context).pop();
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -175,7 +174,7 @@ class _UploadDataOMState extends State<UploadDataOM> {
                       ),
                       child: Center(
                         child: Text(
-                          'Update',
+                          'Upload',
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!

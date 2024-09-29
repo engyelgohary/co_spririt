@@ -615,7 +615,7 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
 
       if (row[0].isNotEmpty && row[1].isNotEmpty) {
         if (int.tryParse(row[1]) == null) {
-           throw Exception("Invalid reward score at row ${i + 1}");
+          throw Exception("Invalid reward score at row ${i + 1}");
         }
         reward.add({"name": row[0], "value": row[1]});
       }
@@ -663,11 +663,12 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
       requests.add(apiManager.addOpportunityStatusBulk(status));
     }
     await Future.wait(requests);
+
     if (context.mounted) {
       snackBar(context, "Uploading csv is done");
     }
   } catch (e) {
     print("- Error parsing csv file error:$e");
+    rethrow;
   }
 }
-

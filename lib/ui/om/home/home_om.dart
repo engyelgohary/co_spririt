@@ -254,18 +254,6 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                              Image.asset(
-                                '${AppUI.iconPath}images.png',
-                                width: MediaQuery.of(context).size.width * 0.03,
-                                height: MediaQuery.of(context).size.height * 0.03,
-                              ),
-                              SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                              Image.asset(
-                                '${AppUI.iconPath}point.png',
-                                width: MediaQuery.of(context).size.width * 0.03,
-                                height: MediaQuery.of(context).size.height * 0.03,
-                              ),
                             ],
                           ),
                         ),

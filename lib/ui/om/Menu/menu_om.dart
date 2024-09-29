@@ -86,24 +86,23 @@ class MenuScreenOM extends StatelessWidget {
                 AppUtil.mainNavigator(context, OppyOM());
               },
             ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'All Users',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const AllUsersScreen());
-              },
-            ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'All Users',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const AllUsersScreen());
+            //   },
+            // ),
 
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunity Detectors',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
-              },
-            ),
-
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunity Detectors',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const CollaboratorsScreenForSuper());
+            //   },
+            // ),
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,
@@ -112,22 +111,22 @@ class MenuScreenOM extends StatelessWidget {
             //     AppUtil.mainNavigator(context, const AdminScreenForSuper());
             //   },
             // ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunity Analyzers',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
-              },
-            ),
-            CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
-              name: 'Opportunity Owners',
-              onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
-              },
-            ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunity Analyzers',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const OpportunityAnalyzersScreen());
+            //   },
+            // ),
+            // CustomMenuCard(
+            //   iconColor: OMColorScheme.mainColor,
+            //   textColor: OMColorScheme.textColor,
+            //   name: 'Opportunity Owners',
+            //   onFunction: () {
+            //     AppUtil.mainNavigator(context, const OpportunityOwnersScreen());
+            //   },
+            // ),
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,

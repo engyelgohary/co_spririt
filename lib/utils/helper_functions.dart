@@ -284,11 +284,13 @@ Future<void> oppyChatHistory(
 ) async {
   try {
     final respone = await apiManager.getOppyChatHistory(id);
+
     final template = {
       "NewMessage": respone["newMessage"],
       "GeneratedResult": respone["generatedResult"],
       "ChatHistory": []
     };
+
     final messages = [];
 
     for (var element in respone["chatHistory"]) {
@@ -320,19 +322,44 @@ Future<void> sendOppyMessage(
   String message,
   ApiManager apiManager,
   ListNotifier listNotifier,
-  ScrollController controller,
-) async {
+  ScrollController controller, {
+  bool storeChat = true,
+}) async {
   try {
+    print("in oppy");
     listNotifier.addItem([message, true]);
-    controller.animateTo(controller.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
     template["NewMessage"] = message;
+
+    final messageIndex = listNotifier.addItem([null, false]);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
     final result = await apiManager.sendOppyMessage(template);
+
     template["ChatHistory"].add(result);
-    listNotifier.addItem([result["Response"], false]);
-    controller.animateTo(controller.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
-    apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+
+    listNotifier.updateItem(messageIndex, [result["Response"], false]);
+
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
+    if (storeChat) {
+      apiManager.storeOppyMessage(id, result["Message"], result["Response"]);
+    }
   } catch (e) {
     print("- sendMessage error : $e");
   }
@@ -426,6 +453,7 @@ Future<void> opportunitiesList(
   int userType = 0,
 }) async {
   try {
+    loadingNotifier.response = await apiManager.getOpportunities();
     if (userType == 0) {
       // Super admin
       loadingNotifier.response = await apiManager.getOpportunities();
@@ -494,10 +522,6 @@ Future<void> addOpportunityBackend(
       test[2].map((e) => "${e.firstName} ${e.lastName}").toList(),
       test[2].map((e) => e.id).toList(),
     );
-    print(test[0]);
-    print(test[1]);
-    print(test[2]);
-    print(test[3]);
 
     loadingNotifier.response = test;
   } catch (e) {
@@ -545,6 +569,7 @@ AppBar customAppBar({
   double width = MediaQuery.of(context).size.width;
 
   return AppBar(
+    scrolledUnderElevation: 0,
     backgroundColor: backgroundColor,
     leading: Padding(
       padding: EdgeInsets.only(left: width / 25),
@@ -562,7 +587,7 @@ AppBar customAppBar({
   );
 }
 
-void uploadCsvFile(ApiManager apiManager, String path) async {
+Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
   try {
     final csvFile = File(path).readAsLinesSync();
     final reward = [];
@@ -572,14 +597,33 @@ void uploadCsvFile(ApiManager apiManager, String path) async {
     final status = [];
     final feasibility = [];
 
+    final firstRow = csvFile[0].split(',').map((e) => e.trim().toLowerCase());
+    final firstRowCheck = firstRow.contains("reward") &&
+        firstRow.contains("reward score") &&
+        firstRow.contains("status score") &&
+        firstRow.contains("status") &&
+        firstRow.contains("team") &&
+        firstRow.contains("risk") &&
+        firstRow.contains("solution");
+
+    if (!firstRowCheck) {
+      throw Exception("Invalid titles");
+    }
+
     for (var i = 1; i < csvFile.length; i++) {
       final row = csvFile[i].split(',');
 
       if (row[0].isNotEmpty && row[1].isNotEmpty) {
+        if (int.tryParse(row[1]) == null) {
+          throw Exception("Invalid reward score at row ${i + 1}");
+        }
         reward.add({"name": row[0], "value": row[1]});
       }
 
       if (row[2].isNotEmpty && row[3].isNotEmpty) {
+        if (int.tryParse(row[3]) == null) {
+          throw Exception("Invalid status score at row ${i + 1}");
+        }
         status.add({"name": row[2], "value": row[3]});
       }
 
@@ -612,14 +656,19 @@ void uploadCsvFile(ApiManager apiManager, String path) async {
     if (feasibility.isNotEmpty) {
       requests.add(apiManager.addFeasibilityBulk(feasibility));
     }
-    // if (reward.isNotEmpty) {
-    //   requests.add(apiManager.addScoreBulk(reward));
-    // }
+    if (reward.isNotEmpty) {
+      requests.add(apiManager.addScoreBulk(reward));
+    }
     if (status.isNotEmpty) {
       requests.add(apiManager.addOpportunityStatusBulk(status));
     }
     await Future.wait(requests);
+
+    if (context.mounted) {
+      snackBar(context, "Uploading csv is done");
+    }
   } catch (e) {
     print("- Error parsing csv file error:$e");
+    rethrow;
   }
 }

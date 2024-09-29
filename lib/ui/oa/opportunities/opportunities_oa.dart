@@ -88,7 +88,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                     opportunity.title ?? "N/A",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: OAColorScheme.textColor,
+                      color: OAColorScheme.mainColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -99,7 +99,7 @@ class _OpportunitiesPageOAState extends State<OpportunitiesPageOA> {
                         opportunity.industry ?? "N/A",
                         style: const TextStyle(
                           fontSize: 14,
-                          color: OAColorScheme.textColor,
+                          color: OAColorScheme.mainColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),

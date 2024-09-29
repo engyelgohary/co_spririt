@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../../core/app_util.dart';
@@ -10,16 +11,16 @@ import '../../../data/model/opportunity.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditOpportunityOMPage extends StatefulWidget {
+class EditOpportunityOWPage extends StatefulWidget {
   final Opportunity opportunity;
 
-  const EditOpportunityOMPage({Key? key, required this.opportunity}) : super(key: key);
+  const EditOpportunityOWPage({Key? key, required this.opportunity}) : super(key: key);
 
   @override
-  _EditOpportunityOMPageState createState() => _EditOpportunityOMPageState();
+  _EditOpportunityOWPageState createState() => _EditOpportunityOWPageState();
 }
 
-class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
+class _EditOpportunityOWPageState extends State<EditOpportunityOWPage> {
   late List<dynamic> statuses = [];
   late List<Team> teams = [];
   late ApiManager apiManager;
@@ -59,22 +60,6 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
       });
     } catch (e) {
       debugPrint('Error fetching teams: $e');
-    }
-  }
-
-  Future<bool> updateComment() async {
-    final opportunityId = widget.opportunity.id ?? 0;
-
-    debugPrint(
-        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
-
-    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
-    if (success) {
-      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
-      return true;
-    } else {
-      debugPrint('Failed to update opportunity status for ID: $opportunityId');
-      return false;
     }
   }
 
@@ -119,6 +104,22 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
     }
   }
 
+  Future<bool> updateComment() async {
+    final opportunityId = widget.opportunity.id ?? 0;
+
+    debugPrint(
+        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
+
+    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
+    if (success) {
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return true;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return false;
+    }
+  }
+
   Future<Opportunity?> updateTeam() async {
     final currentOpportunityId = widget.opportunity.id ?? 0;
 
@@ -148,8 +149,8 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
       appBar: customAppBar(
         title: "Edit Opportunity",
         context: context,
-        backArrowColor: OMColorScheme.mainColor,
-        textColor: OMColorScheme.textColor,
+        backArrowColor: OWColorScheme.buttonColor,
+        textColor: OWColorScheme.mainColor,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -161,7 +162,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Client Name:",
-                    style: TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 18, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -175,7 +176,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Opportunity Title:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -189,7 +190,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Feasibility:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -206,7 +207,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Risks:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -223,7 +224,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Type:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -242,7 +243,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Status:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Container(
@@ -286,7 +287,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Assigned To:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Container(
@@ -339,7 +340,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
               if (opportunity.descriptionLocation != null) ...[
                 const SelectableText(
                   "Description File:",
-                  style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
                 ),
                 IconButton(
                   icon: const Icon(Icons.download),
@@ -376,7 +377,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
               SizedBox(height: 15.0),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),

@@ -49,6 +49,7 @@ class _OppyOStateD extends State<OppyOA> {
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: Padding(
           padding: EdgeInsets.only(left: width / 25),
@@ -112,12 +113,18 @@ class _OppyOStateD extends State<OppyOA> {
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
-                print("Opportunity id: $context");
                 if (loadingNotifier.loading) {
-                  oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
-                  return const Expanded(
-                      child: Center(
-                          child: CircularProgressIndicator(color: OAColorScheme.buttonColor)));
+                  if (widget.opportunityId != null) {
+                    oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
+                    return const Expanded(
+                        child: Center(
+                            child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
+                  } else {
+                    print("Entered Oppy page without opportunity ID");
+                    template = {"NewMessage": '', "GeneratedResult": '', "ChatHistory": []};
+                    loadingNotifier.response = [template, []];
+                    loadingNotifier.change();
+                  }
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -142,12 +149,23 @@ class _OppyOStateD extends State<OppyOA> {
                           controller: scrollController,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
-                            final bubble = OppyChatBubble(
-                              message: list[index][0],
-                              isSender: list[index][1],
-                              textColor: OMColorScheme.textColor,
-                              backgroundColor: OMColorScheme.mainColor,
-                            );
+                            final bubble;
+                            if (list[index][0] == null) {
+                              bubble = OppyChatBubble(
+                                message: "",
+                                loading: true,
+                                isSender: list[index][1],
+                                textColor: OAColorScheme.textColor,
+                                backgroundColor: OAColorScheme.mainColor,
+                              );
+                            } else {
+                              bubble = OppyChatBubble(
+                                message: list[index][0],
+                                isSender: list[index][1],
+                                textColor: OAColorScheme.textColor,
+                                backgroundColor: OAColorScheme.mainColor,
+                              );
+                            }
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: bubble,
@@ -178,6 +196,7 @@ class _OppyOStateD extends State<OppyOA> {
                       children: [
                         IconButton(
                           onPressed: () async {
+                            print(loadingNotifier.loading);
                             if (messageController.text.trim().isNotEmpty &&
                                 !loadingNotifier.loading) {
                               sendOppyMessage(
@@ -187,6 +206,7 @@ class _OppyOStateD extends State<OppyOA> {
                                 apiManager,
                                 listNotifier,
                                 scrollController,
+                                storeChat: widget.opportunityId != null,
                               );
                               messageController.clear();
                             }

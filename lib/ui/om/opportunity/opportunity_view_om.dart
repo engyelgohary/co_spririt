@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 import 'opportunity_edit.dart';
@@ -29,7 +28,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
   @override
   void initState() {
     super.initState();
-    apiManager =ApiManager.getInstance();
+    apiManager = ApiManager.getInstance();
     opportunity = widget.opportunity;
     _fetchOpportunity();
   }
@@ -44,7 +43,8 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
             print(opportunity.status);
           });
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Opportunity not found.")));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Opportunity not found.")));
         }
       } catch (e) {
         String errorMessage;
@@ -60,8 +60,6 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
@@ -72,20 +70,24 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
         backArrowColor: OMColorScheme.mainColor,
         textColor: OMColorScheme.textColor,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.mode_edit_outlined),
-            onPressed: () async {
-              if (opportunity.id != null) {
-                await Navigator.push<Opportunity?>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditOpportunityPage(opportunity: opportunity),
-                  ),
-                );
-                await _fetchOpportunity();
-              }
-            },
-          ),],
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              icon: const Icon(Icons.mode_edit_outlined),
+              onPressed: () async {
+                if (opportunity.id != null) {
+                  await Navigator.push<Opportunity?>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditOpportunityOMPage(opportunity: opportunity),
+                    ),
+                  );
+                  await _fetchOpportunity();
+                }
+              },
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -223,12 +225,27 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                 "Description:",
                 style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
               ),
-              Markdown(
-                shrinkWrap: true,
-                selectable: true,
-                data: opportunity.result ?? "N/A",
-                styleSheet: MarkdownStyleSheet(
-                  p: const TextStyle(fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SelectableText(
+                  opportunity.description ?? "N/A",
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              SizedBox(height: 15.h),
+              const SelectableText(
+                "Recommendation:",
+                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: MarkdownBody(
+                  shrinkWrap: true,
+                  selectable: true,
+                  data: opportunity.result ?? "N/A",
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
             ],

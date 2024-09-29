@@ -1,18 +1,18 @@
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/components.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../data/model/message.dart';
 import '../../../utils/components/messageBubble.dart';
 import '../../../utils/helper_functions.dart';
 
 class OppyOD extends StatefulWidget {
-  const OppyOD({
+  int? opportunityId;
+  OppyOD({
+    this.opportunityId,
     super.key,
   });
 
@@ -21,18 +21,15 @@ class OppyOD extends StatefulWidget {
 }
 
 class _OppyOStateD extends State<OppyOD> {
-  final Signalr signalr = Signalr();
   final TextEditingController messageController = TextEditingController();
-  final ListNotifier<Message> listNotifier = ListNotifier(list: []);
-  final LoadingStateNotifier<Message> loadingNotifier = LoadingStateNotifier(loading: false);
+  final ListNotifier listNotifier = ListNotifier(list: []);
+  final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final ScrollController scrollController = ScrollController();
-  Set<String> selectedAttachments = {};
+  Map template = {};
 
   @override
   void initState() {
-    signalr.listNotifier = listNotifier;
-    signalr.scrollController = scrollController;
     super.initState();
   }
 
@@ -42,24 +39,25 @@ class _OppyOStateD extends State<OppyOD> {
     loadingNotifier.dispose();
     messageController.dispose();
     scrollController.dispose();
-    signalr.listNotifier = null;
-    signalr.receiverId = null;
-    signalr.scrollController = null;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double height = AppUtil.responsiveHeight(context);
+    double width = AppUtil.responsiveWidth(context);
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: Icon(Icons.arrow_back_ios),
+        leading: Padding(
+          padding: EdgeInsets.only(left: width / 25),
+          child: Center(
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
           ),
         ),
         actions: [
@@ -74,7 +72,7 @@ class _OppyOStateD extends State<OppyOD> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-              SvgPicture.asset(
+            SvgPicture.asset(
               "${AppUI.svgPath}oppy.svg",
               colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
               height: 30,
@@ -115,11 +113,19 @@ class _OppyOStateD extends State<OppyOD> {
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
+                print("Opportunity id: $context");
                 if (loadingNotifier.loading) {
-                  // collaboratorsMessages("widget.receiverId", apiManager, loadingNotifier);
-                  return const Expanded(
-                      child: Center(
-                          child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
+                  if (widget.opportunityId != null) {
+                    oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
+                    return const Expanded(
+                        child: Center(
+                            child: CircularProgressIndicator(color: ODColorScheme.buttonColor)));
+                  } else {
+                    print("Entered Oppy page without opportunity ID");
+                    template = {"NewMessage": '', "GeneratedResult": '', "ChatHistory": []};
+                    loadingNotifier.response = [template, []];
+                    loadingNotifier.change();
+                  }
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -130,34 +136,35 @@ class _OppyOStateD extends State<OppyOD> {
                     ),
                   );
                 }
+                template = loadingNotifier.response![0];
+                listNotifier.list = loadingNotifier.response![1];
 
-                listNotifier.list = loadingNotifier.response!;
                 return Flexible(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: ListenableBuilder(
                       listenable: listNotifier,
                       builder: (context, child) {
-                        List<Message> list = listNotifier.list;
+                        final list = listNotifier.list;
                         return ListView.builder(
                           controller: scrollController,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
-                            final message = list[index];
-                            final bubble = CustomChatBubble(message: message);
-
-                            if (index == 0 || message.date != list[index - 1].date) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                      child: Text(message.date!),
-                                    ),
-                                    bubble
-                                  ],
-                                ),
+                            final bubble;
+                            if (list[index][0] == null) {
+                              bubble = OppyChatBubble(
+                                message: "",
+                                loading: true,
+                                isSender: list[index][1],
+                                textColor: ODColorScheme.textColor,
+                                backgroundColor: ODColorScheme.mainColor,
+                              );
+                            } else {
+                              bubble = OppyChatBubble(
+                                message: list[index][0],
+                                isSender: list[index][1],
+                                textColor: ODColorScheme.textColor,
+                                backgroundColor: ODColorScheme.mainColor,
                               );
                             }
                             return Padding(
@@ -188,31 +195,21 @@ class _OppyOStateD extends State<OppyOD> {
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            final res = await FilePicker.platform.pickFiles(allowMultiple: true);
-                            if (res != null) {
-                              for (var file in res.files) {
-                                selectedAttachments.add(file.path!);
-                              }
-                            }
-                          },
-                          child: const ImageIcon(
-                            AssetImage(
-                              '${AppUI.iconPath}file.png',
-                            ),
-                            color: AppUI.twoBasicColor,
-                            size: 20,
-                          ),
-                        ),
                         IconButton(
                           onPressed: () async {
+                            print(loadingNotifier.loading);
                             if (messageController.text.trim().isNotEmpty &&
                                 !loadingNotifier.loading) {
-                              // sendMessage(widget.receiverId, messageController.text.trim(),
-                              //     apiManager, listNotifier, selectedAttachments.toList());
+                              sendOppyMessage(
+                                widget.opportunityId ?? 0,
+                                template,
+                                messageController.text.trim(),
+                                apiManager,
+                                listNotifier,
+                                scrollController,
+                                storeChat: widget.opportunityId != null,
+                              );
                               messageController.clear();
-                              selectedAttachments.clear();
                             }
                             Future.delayed(
                               const Duration(milliseconds: 300),

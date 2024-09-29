@@ -46,8 +46,10 @@ class _OppyOStateD extends State<OppyOM> {
   Widget build(BuildContext context) {
     double height = AppUtil.responsiveHeight(context);
     double width = AppUtil.responsiveWidth(context);
+
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: Padding(
           padding: EdgeInsets.only(left: width / 25),
@@ -69,7 +71,6 @@ class _OppyOStateD extends State<OppyOM> {
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
               "${AppUI.svgPath}oppy.svg",
@@ -83,7 +84,7 @@ class _OppyOStateD extends State<OppyOM> {
                 CustomText(
                   text: "Ask Oppy",
                   fontSize: 16,
-                  color: OMColorScheme.textColor,
+                  color: OMColorScheme.mainColor,
                   fontWeight: FontWeight.w700,
                 ),
                 CustomText(
@@ -112,11 +113,19 @@ class _OppyOStateD extends State<OppyOM> {
           ListenableBuilder(
               listenable: loadingNotifier,
               builder: (context, child) {
+                print("Opportunity id: $context");
                 if (loadingNotifier.loading) {
-                  oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
-                  return const Expanded(
-                      child: Center(
-                          child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
+                  if (widget.opportunityId != null) {
+                    oppyChatHistory(widget.opportunityId ?? 0, apiManager, loadingNotifier);
+                    return const Expanded(
+                        child: Center(
+                            child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
+                  } else {
+                    print("Entered Oppy page without opportunity ID");
+                    template = {"NewMessage": '', "GeneratedResult": '', "ChatHistory": []};
+                    loadingNotifier.response = [template, []];
+                    loadingNotifier.change();
+                  }
                 } else if (loadingNotifier.response == null) {
                   return Expanded(
                     child: Center(
@@ -141,12 +150,23 @@ class _OppyOStateD extends State<OppyOM> {
                           controller: scrollController,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
-                            final bubble = OppyChatBubble(
-                              message: list[index][0],
-                              isSender: list[index][1],
-                              textColor: OMColorScheme.textColor,
-                              backgroundColor: OMColorScheme.mainColor,
-                            );
+                            final bubble;
+                            if (list[index][0] == null) {
+                              bubble = OppyChatBubble(
+                                message: "",
+                                loading: true,
+                                isSender: list[index][1],
+                                textColor: OMColorScheme.textColor,
+                                backgroundColor: OMColorScheme.mainColor,
+                              );
+                            } else {
+                              bubble = OppyChatBubble(
+                                message: list[index][0],
+                                isSender: list[index][1],
+                                textColor: OMColorScheme.textColor,
+                                backgroundColor: OMColorScheme.mainColor,
+                              );
+                            }
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: bubble,
@@ -172,35 +192,39 @@ class _OppyOStateD extends State<OppyOM> {
                     controller: messageController,
                     hint: "Type a message ...",
                     textInputType: TextInputType.text,
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: IconButton(
-                        onPressed: () async {
-                          if (messageController.text.trim().isNotEmpty &&
-                              !loadingNotifier.loading) {
-                            sendOppyMessage(
-                              widget.opportunityId ?? 0,
-                              template,
-                              messageController.text.trim(),
-                              apiManager,
-                              listNotifier,
-                              scrollController,
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            print(loadingNotifier.loading);
+                            if (messageController.text.trim().isNotEmpty &&
+                                !loadingNotifier.loading) {
+                              sendOppyMessage(
+                                widget.opportunityId ?? 0,
+                                template,
+                                messageController.text.trim(),
+                                apiManager,
+                                listNotifier,
+                                scrollController,
+                                storeChat: widget.opportunityId != null,
+                              );
+                              messageController.clear();
+                            }
+                            Future.delayed(
+                              const Duration(milliseconds: 300),
+                              () => scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeOut),
                             );
-                            messageController.clear();
-                          }
-                          Future.delayed(
-                            const Duration(milliseconds: 300),
-                            () => scrollController.animateTo(
-                                scrollController.position.maxScrollExtent,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOut),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.send,
-                          color: OMColorScheme.buttonColor,
+                          },
+                          icon: const Icon(
+                            Icons.send,
+                            color: OMColorScheme.buttonColor,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),

@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/opportunity.dart';
-import '../../../utils/components/appbar.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'opportunity_view_om.dart';
 
@@ -69,7 +70,8 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     children: [
                       pw.Text('${op.clientId ?? 'No Name'}', style: pw.TextStyle(font: customFont)),
                       pw.Text(op.title ?? 'No title', style: pw.TextStyle(font: customFont)),
-                      pw.Text(op.score?.toString() ?? 'No Score', style: pw.TextStyle(font: customFont)),
+                      pw.Text(op.score?.toString() ?? 'No Score',
+                          style: pw.TextStyle(font: customFont)),
                       pw.Text(op.risks ?? 'No Risk', style: pw.TextStyle(font: customFont)),
                     ],
                   );
@@ -90,7 +92,6 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('PDF downloaded successfully!')),
       );
-
     } catch (e) {
       print('Error generating PDF: $e');
 
@@ -100,25 +101,23 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Opportunities',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.download),
-            onPressed: _downloadPdf,
-          ),
-        ],
-      ),
+      appBar: customAppBar(
+          title: "Opportunities",
+          context: context,
+          textColor: OMColorScheme.textColor,
+          backArrowColor: OMColorScheme.mainColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: _downloadPdf,
+                icon: const Icon(Icons.download),
+              ),
+            ),
+          ]),
       body: Padding(
         padding: const EdgeInsets.all(22.0),
         child: Container(
@@ -137,7 +136,7 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     'Risk',
                     uniqueRisks,
                     selectedRisk,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedRisk = value == 'All' ? null : value;
                       });
@@ -147,7 +146,7 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     'Assigned Team',
                     uniqueTeams,
                     selectedTeam,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedTeam = value == 'All' ? null : value;
                       });
@@ -157,7 +156,7 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     'Status',
                     uniqueStatuses,
                     selectedStatus,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedStatus = value == 'All' ? null : value;
                       });
@@ -177,30 +176,30 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     Text(
                       "Customer Name",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: const Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: const Color(0xFF4169E1),
+                          ),
                     ),
                     Text(
                       "Title",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: const Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: const Color(0xFF4169E1),
+                          ),
                     ),
                     Text(
                       "Score",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: const Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: const Color(0xFF4169E1),
+                          ),
                     ),
                     Text(
                       "Risk",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: const Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: const Color(0xFF4169E1),
+                          ),
                     ),
                   ],
                 ),
@@ -212,9 +211,9 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                     itemCount: opportunities.length,
                     itemBuilder: (context, index) {
                       final opportunity = opportunities[index];
-                      // Filter by selected risk and status
                       if ((selectedRisk == null || opportunity.risks == selectedRisk) &&
-                          (selectedStatus == null || opportunity.status == selectedStatus)) {
+                          (selectedStatus == null || opportunity.status == selectedStatus) &&
+                          (selectedTeam == null || opportunity.teamName == selectedTeam)) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -236,10 +235,11 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                                   child: Text(
                                     opportunity.clientName ?? 'No Name',
                                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis, // Add this to prevent long text overflow
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                    overflow: TextOverflow
+                                        .ellipsis, // Add this to prevent long text overflow
                                   ),
                                 ),
                               ),
@@ -249,9 +249,9 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                                   child: Text(
                                     opportunity.title ?? 'No title',
                                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -260,11 +260,15 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    (opportunity.score is int ? (opportunity.score as int).toDouble() : opportunity.score)?.toString() ?? 'No Score',
+                                    (opportunity.score is int
+                                                ? (opportunity.score as int).toDouble()
+                                                : opportunity.score)
+                                            ?.toString() ??
+                                        'No Score',
                                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -275,16 +279,15 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
                                   child: Text(
                                     opportunity.risks ?? 'No Risk',
                                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-
                         );
                       }
                       return Container();
@@ -300,22 +303,19 @@ class _AllOpportunitiesState extends State<AllOpportunities> {
   }
 
   Widget buildDropdownMenu(
-      String title,
-      List<String?> options,
-      String? selectedValue,
-      ValueChanged<String?> onChanged) {
+      String title, List<String?> options, String? selectedValue, ValueChanged<String?> onChanged) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
         width: 100,
         child: DropdownButton<String?>(
           isExpanded: true,
-          hint: Text(title,style: TextStyle(fontSize: 13)),
+          hint: Text(title, style: TextStyle(fontSize: 13)),
           value: selectedValue,
           items: options.map((String? value) {
             return DropdownMenuItem<String?>(
               value: value,
-              child: Text(value ??  title,style: TextStyle(fontSize: 13)),
+              child: Text(value ?? title, style: TextStyle(fontSize: 13)),
             );
           }).toList(),
           onChanged: onChanged,

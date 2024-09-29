@@ -10,16 +10,16 @@ import '../../../data/model/opportunity.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
 
-class EditOpportunityOMPage extends StatefulWidget {
+class EditOpportunityOAPage extends StatefulWidget {
   final Opportunity opportunity;
 
-  const EditOpportunityOMPage({Key? key, required this.opportunity}) : super(key: key);
+  const EditOpportunityOAPage({Key? key, required this.opportunity}) : super(key: key);
 
   @override
-  _EditOpportunityOMPageState createState() => _EditOpportunityOMPageState();
+  _EditOpportunityOAPageState createState() => _EditOpportunityOAPageState();
 }
 
-class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
+class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
   late List<dynamic> statuses = [];
   late List<Team> teams = [];
   late ApiManager apiManager;
@@ -34,7 +34,6 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
     selectedTeam = widget.opportunity.teamId ?? 0;
     apiManager = ApiManager.getInstance();
     fetchStatuses();
-    fetchAllTeams();
   }
 
   Future<void> fetchAllTeams() async {
@@ -59,22 +58,6 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
       });
     } catch (e) {
       debugPrint('Error fetching teams: $e');
-    }
-  }
-
-  Future<bool> updateComment() async {
-    final opportunityId = widget.opportunity.id ?? 0;
-
-    debugPrint(
-        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
-
-    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
-    if (success) {
-      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
-      return true;
-    } else {
-      debugPrint('Failed to update opportunity status for ID: $opportunityId');
-      return false;
     }
   }
 
@@ -119,6 +102,22 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
     }
   }
 
+  Future<bool> updateComment() async {
+    final opportunityId = widget.opportunity.id ?? 0;
+
+    debugPrint(
+        'Updating comment for opportunity ID: $opportunityId with new comment: ${comment.text}');
+
+    bool success = await apiManager.updateOpportunityComment(opportunityId, comment.text);
+    if (success) {
+      debugPrint('Opportunity updated successfully: ${widget.opportunity}');
+      return true;
+    } else {
+      debugPrint('Failed to update opportunity status for ID: $opportunityId');
+      return false;
+    }
+  }
+
   Future<Opportunity?> updateTeam() async {
     final currentOpportunityId = widget.opportunity.id ?? 0;
 
@@ -148,8 +147,8 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
       appBar: customAppBar(
         title: "Edit Opportunity",
         context: context,
-        backArrowColor: OMColorScheme.mainColor,
-        textColor: OMColorScheme.textColor,
+        backArrowColor: OAColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 15),
@@ -161,7 +160,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Client Name:",
-                    style: TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 18, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -175,7 +174,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Opportunity Title:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   SelectableText(
@@ -189,7 +188,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Feasibility:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -206,7 +205,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Risks:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -223,7 +222,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Type:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Padding(
@@ -242,7 +241,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 children: [
                   const SelectableText(
                     "Status:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                   ),
                   SizedBox(width: 35.0),
                   Container(
@@ -280,52 +279,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 15.0),
-              Row(
-                children: [
-                  const SelectableText(
-                    "Assigned To:",
-                    style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
-                  ),
-                  SizedBox(width: 35.0),
-                  Container(
-                    width: width * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: DropdownButton<int>(
-                      isExpanded: true,
-                      value: selectedTeam,
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          selectedTeam = newValue!;
-                        });
-                      },
-                      items: teams.map<DropdownMenuItem<int>>((Team team) {
-                        return DropdownMenuItem<int>(
-                          value: team.id,
-                          child: Center(
-                            child: Text(
-                              team.name!,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      dropdownColor: Colors.white,
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 8), // Spacing
+              const SizedBox(height: 8.0),
               OpportunityCommentTextFormField(
                 fieldName: 'Comment:',
                 controller: comment,
@@ -339,7 +293,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
               if (opportunity.descriptionLocation != null) ...[
                 const SelectableText(
                   "Description File:",
-                  style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                 ),
                 IconButton(
                   icon: const Icon(Icons.download),
@@ -376,7 +330,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
               SizedBox(height: 15.0),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -405,51 +359,29 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                   ElevatedButton(
                     onPressed: () async {
                       loadingIndicatorDialog(context);
-
                       if (selectedStatus != opportunity.statusId) {
                         final updatedStatus = await updateStatus();
                         if (updatedStatus == null && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Failed to update the status.'),
-                                duration: Duration(seconds: 1)),
+                            const SnackBar(content: Text('Failed to update the status.')),
                           );
                         } else if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('updated the status.'),
-                                duration: Duration(seconds: 1)),
+                            const SnackBar(content: Text('updated the status.')),
                           );
                         }
                       }
-                      if (selectedTeam != 0 && selectedTeam != opportunity.teamId) {
-                        final updatedTeam = await updateTeam();
-                        if (updatedTeam == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Failed to update the team.'),
-                                duration: Duration(seconds: 1)),
-                          );
-                        } else if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Assigned Team.'), duration: Duration(seconds: 1)),
-                          );
-                        }
-                      }
+
                       if (comment.text.trim().isNotEmpty) {
                         final updatedComment = await updateComment();
                         if (updatedComment == false && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Failed to update the comment.'),
-                                duration: Duration(seconds: 1)),
+                            const SnackBar(content: Text('Failed to update the comment.')),
                           );
                         } else if (context.mounted) {
                           comment.clear();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Added comment.'), duration: Duration(seconds: 1)),
+                            const SnackBar(content: Text('Added comment.')),
                           );
                         }
                       }

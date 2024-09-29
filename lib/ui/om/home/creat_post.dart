@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_ui.dart';
@@ -9,7 +10,8 @@ class CreatePost extends StatefulWidget {
   final ApiManager apiManager;
   final VoidCallback onPostCreated;
 
-  const CreatePost({required this.apiManager, Key? key, required this.onPostCreated}) : super(key: key);
+  const CreatePost({required this.apiManager, Key? key, required this.onPostCreated})
+      : super(key: key);
 
   @override
   _CreatePostState createState() => _CreatePostState();
@@ -45,22 +47,19 @@ class _CreatePostState extends State<CreatePost> {
         image: imageFile,
       );
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Post created successfully!')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Post created successfully!')));
         widget.onPostCreated(); // Notify parent to reload posts
         Navigator.of(context).pop();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to create post.')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Failed to create post.')));
       }
     } catch (e) {
       print('Error: $e');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('An error occurred: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +108,8 @@ class _CreatePostState extends State<CreatePost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  text: _inputController.text.isEmpty
-                      ? 'Whats on your mind?'
-                      : _inputController.text,
+                  text:
+                      _inputController.text.isEmpty ? 'Whats on your mind?' : _inputController.text,
                   fontSize: screenWidth * 0.05,
                   color: AppUI.blackColor,
                   fontWeight: FontWeight.w600,
@@ -120,52 +118,91 @@ class _CreatePostState extends State<CreatePost> {
             ),
             const Spacer(),
             SingleChildScrollView(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomInput(
-                      borderColor: const Color.fromRGBO(241, 241, 241, 1),
-                      fillColor: const Color.fromRGBO(241, 241, 241, 1),
-                      controller: _inputController,
-                      hint: "Post Content",
-                      textInputType: TextInputType.text,
-                      suffixIcon: InkWell(
-                        onTap: () async {
-                          final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-                          if (pickedFile != null) {
-                            setState(() {
-                              _pickedFile = pickedFile;
-                            });
-                          }
-                        },
-                        child: ImageIcon(
-                          const AssetImage('${AppUI.iconPath}file.png'),
-                          color: AppUI.twoBasicColor,
-                          size: screenWidth * 0.06,
-                        ),),
-                    ),
-                  ),
-                  SizedBox(width: screenWidth * 0.02),
-                  InkWell(
-                    onTap: _createPost,
-                    child: Container(
-                      height: buttonSize,
-                      width: buttonSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(buttonSize / 2),
-                        color: AppUI.secondColor,
-                      ),
-                      child: Center(
-                        child: ImageIcon(
-                          const AssetImage('${AppUI.iconPath}send.png'),
-                          color: AppUI.whiteColor,
-                          size: buttonSize * 0.6,
+              child: CustomInput(
+                fillColor: const Color.fromRGBO(241, 241, 241, 1),
+                radius: 30,
+                controller: _inputController,
+                hint: "Type a message ...",
+                textInputType: TextInputType.text,
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        final pickedFile =
+                            await ImagePicker().pickImage(source: ImageSource.gallery);
+                        if (pickedFile != null) {
+                          setState(() {
+                            _pickedFile = pickedFile;
+                          });
+                        }
+                      },
+                      child: const ImageIcon(
+                        AssetImage(
+                          '${AppUI.iconPath}file.png',
                         ),
+                        color: AppUI.twoBasicColor,
+                        size: 20,
                       ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                      onPressed: _createPost,
+                      icon: const Icon(
+                        Icons.send,
+                        color: OMColorScheme.buttonColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              //  Row(
+              //   children: [
+              //     Expanded(
+              //       child: CustomInput(
+              //         borderColor: const Color.fromRGBO(241, 241, 241, 1),
+              //         fillColor: const Color.fromRGBO(241, 241, 241, 1),
+              //         controller: _inputController,
+              //         hint: "Post Content",
+              //         textInputType: TextInputType.text,
+              //         suffixIcon: InkWell(
+              //           onTap: () async {
+              //             final pickedFile =
+              //                 await ImagePicker().pickImage(source: ImageSource.gallery);
+              //             if (pickedFile != null) {
+              //               setState(() {
+              //                 _pickedFile = pickedFile;
+              //               });
+              //             }
+              //           },
+              //           child: ImageIcon(
+              //             const AssetImage('${AppUI.iconPath}file.png'),
+              //             color: AppUI.twoBasicColor,
+              //             size: screenWidth * 0.06,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: screenWidth * 0.02),
+              //     InkWell(
+              //       onTap: _createPost,
+              //       child: Container(
+              //         height: buttonSize,
+              //         width: buttonSize,
+              //         decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(buttonSize / 2),
+              //           color: AppUI.secondColor,
+              //         ),
+              //         child: Center(
+              //           child: ImageIcon(
+              //             const AssetImage('${AppUI.iconPath}send.png'),
+              //             color: AppUI.whiteColor,
+              //             size: buttonSize * 0.6,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ),
           ],
         ),

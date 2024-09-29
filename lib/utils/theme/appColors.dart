@@ -18,6 +18,7 @@ class AppColor {
 class ODColorScheme {
   static const Color mainColor = Color(0xff275391);
   static const Color buttonColor = Color(0xff228B22);
+  static const Color lighterButtonColor = Color(0x3f228B22);
   static const Color hintTextColor = Color(0x7f606770);
   static const Color disabledColor = Color(0xff898A8D);
   static const Color backgroundColor = Color(0xffD9D9D9);
@@ -27,6 +28,7 @@ class ODColorScheme {
 class OAColorScheme {
   static const Color mainColor = Color(0xff4682B4);
   static const Color buttonColor = Color(0xff6A0DAD);
+  static const Color lighterButtonColor = Color(0x3f6A0DAD);
   static const Color hintTextColor = Color(0x7f606770);
   static const Color disabledColor = Color(0xff898A8D);
   static const Color backgroundColor = Color(0xffD9D9D9);
@@ -36,6 +38,7 @@ class OAColorScheme {
 class OWColorScheme {
   static const Color mainColor = Color(0xff1E90FF);
   static const Color buttonColor = Color(0xffFF8C00);
+  static const Color lighterButtonColor = Color(0x3fFF8C00);
   static const Color hintTextColor = Color(0x7f606770);
   static const Color disabledColor = Color(0xff898A8D);
   static const Color backgroundColor = Color(0xffD9D9D9);

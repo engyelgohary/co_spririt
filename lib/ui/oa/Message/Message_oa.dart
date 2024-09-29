@@ -1,5 +1,7 @@
 import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/ui/oa/Message/chat_oa.dart';
 import 'package:co_spirit/ui/od/Message/chat_od.dart';
+import 'package:co_spirit/ui/ow/Message/chat_ow.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -65,9 +67,7 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
                 }
 
                 final List<dynamic> data = loadingNotifier.response!;
-                return SizedBox(
-                  height: 680.h,
-                  width: 600.w,
+                return Flexible(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: data.length,
@@ -82,7 +82,7 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
                                 signalr.receiverId = admin.id;
                                 AppUtil.mainNavigator(
                                   context,
-                                  ChatScreenOD(
+                                  ChatScreenOA(
                                     receiverId: admin.id ?? 0,
                                     email: admin.email ?? "",
                                     name: admin.firstName ?? "",
@@ -106,13 +106,13 @@ class _MessagesScreenOAState extends State<MessagesScreenOA> {
                                         CustomText(
                                           text: admin.firstName ?? "Unknown",
                                           fontSize: 15,
-                                          color: OAColorScheme.textColor,
+                                          color: OAColorScheme.mainColor,
                                           fontWeight: FontWeight.w700,
                                         ),
                                         CustomText(
                                           text: admin.email ?? "Unknown",
                                           fontSize: 12,
-                                          color: OAColorScheme.textColor,
+                                          color: OAColorScheme.mainColor,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ],

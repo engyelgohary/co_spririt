@@ -1,8 +1,10 @@
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/api/apimanager.dart';
 import '../../data/model/AllUsers.dart';
 import '../../utils/components/appbar.dart';
+import '../../utils/helper_functions.dart';
 
 class AllUsersScreen extends StatefulWidget {
   const AllUsersScreen({Key? key}) : super(key: key);
@@ -36,19 +38,28 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   }
 
   void extractUniqueValues() {
-    uniqueNames = ['All', ...users.map((user) => user.name).where((name) => name != null).toSet().toList()];
-    uniqueEmails = ['All', ...users.map((user) => user.email).where((email) => email != null).toSet().toList()];
-    uniqueRoles = ['All', ...users.map((user) => user.role).where((role) => role != null).toSet().toList()];
+    uniqueNames = [
+      'All',
+      ...users.map((user) => user.name).where((name) => name != null).toSet().toList()
+    ];
+    uniqueEmails = [
+      'All',
+      ...users.map((user) => user.email).where((email) => email != null).toSet().toList()
+    ];
+    uniqueRoles = [
+      'All',
+      ...users.map((user) => user.role).where((role) => role != null).toSet().toList()
+    ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Users',
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 20),
-        ),
-        leading: const AppBarCustom(),
+      appBar: customAppBar(
+        title: "Opportunity Detectors",
+        context: context,
+        backArrowColor: OMColorScheme.mainColor,
+        textColor: OMColorScheme.textColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(22.0),
@@ -69,7 +80,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                     'Name',
                     uniqueNames,
                     selectedName,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedName = value == 'All' ? null : value;
                       });
@@ -79,7 +90,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                     'Email',
                     uniqueEmails,
                     selectedEmail,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedEmail = value == 'All' ? null : value;
                       });
@@ -89,7 +100,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                     'Role',
                     uniqueRoles,
                     selectedRole,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedRole = value == 'All' ? null : value;
                       });
@@ -108,25 +119,25 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                   children: [
                     Text(
                       "Name",
-                    textAlign: TextAlign.left,
+                      textAlign: TextAlign.left,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: Color(0xFF4169E1),
+                          ),
                     ),
                     Text(
                       "Email",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: Color(0xFF4169E1),
+                          ),
                     ),
                     Text(
                       "Role",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 14,
-                        color: Color(0xFF4169E1),
-                      ),
+                            fontSize: 14,
+                            color: Color(0xFF4169E1),
+                          ),
                     ),
                   ],
                 ),
@@ -150,9 +161,9 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                               child: Text(
                                 user.name ?? 'No Name',
                                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                ),
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                    ),
                               ),
                             ),
                             Padding(
@@ -161,9 +172,9 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                                 textAlign: TextAlign.center,
                                 user.email ?? 'No Email',
                                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                ),
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                    ),
                               ),
                             ),
                             Padding(
@@ -171,9 +182,9 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                               child: Text(
                                 user.role ?? 'No Role',
                                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                ),
+                                      fontSize: 11,
+                                      color: Colors.black,
+                                    ),
                               ),
                             ),
                           ],
@@ -192,17 +203,17 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
   }
 
   Widget buildDropdownMenu(
-      String title,
-      List<String?> options,
-      String? selectedValue,
-      ValueChanged<String?> onChanged) {
+      String title, List<String?> options, String? selectedValue, ValueChanged<String?> onChanged) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
         width: 100,
         child: DropdownButton<String?>(
           isExpanded: true,
-          hint: Text(title,textAlign: TextAlign.center,),
+          hint: Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
           value: selectedValue,
           items: options.map((String? value) {
             return DropdownMenuItem<String?>(

@@ -58,18 +58,13 @@ class _ChatScreenODState extends State<ChatScreenOD> {
 
   @override
   Widget build(BuildContext context) {
-    double height = AppUtil.responsiveHeight(context);
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: customAppBar(
+        title: "Messages",
+        context: context,
+        backArrowColor: ODColorScheme.buttonColor,
+        textColor: ODColorScheme.mainColor,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: Icon(Icons.arrow_back_ios),
-          ),
-        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -79,10 +74,6 @@ class _ChatScreenODState extends State<ChatScreenOD> {
             ),
           ),
         ],
-        title:
-            const Text("Messages", style: TextStyle(fontSize: 22, color: ODColorScheme.mainColor)),
-        toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: ODColorScheme.buttonColor),
       ),
       body: Column(
         children: [

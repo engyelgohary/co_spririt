@@ -3,6 +3,7 @@ import 'package:co_spirit/ui/od/Message/Message_od.dart';
 import 'package:co_spirit/ui/od/Message/oppy_od.dart';
 import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
+import 'package:co_spirit/ui/od/RACI.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
@@ -96,6 +97,13 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     name: 'Opportunities',
                     onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
                   ),
+                  CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
+                    name: 'RACI Test',
+                    onFunction: () => AppUtil.mainNavigator(context, const RaciScreen()),
+                  ),
+
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,

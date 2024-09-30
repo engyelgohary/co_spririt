@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../core/app_ui.dart';
-import '../../core/components.dart'; // Assuming AppUI is the correct path for your assets
+import '../../core/components.dart';
 
 class RaciScreen extends StatefulWidget {
   const RaciScreen({Key? key}) : super(key: key);

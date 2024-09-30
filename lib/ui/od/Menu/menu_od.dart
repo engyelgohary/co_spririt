@@ -5,6 +5,7 @@ import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
 import 'package:co_spirit/ui/od/RACI.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
+import 'package:co_spirit/ui/od/solutions.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,12 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     name: 'RACI Test',
                     onFunction: () => AppUtil.mainNavigator(context, const RaciScreen()),
                   ),
-
+                  CustomMenuCard(
+                    iconColor: ODColorScheme.buttonColor,
+                    textColor: ODColorScheme.mainColor,
+                    name: 'Solutions Test',
+                    onFunction: () => AppUtil.mainNavigator(context, const Solutions()),
+                  ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,

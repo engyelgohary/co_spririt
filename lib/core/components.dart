@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../ui/od/Menu/menu_od.dart';
-import '../ui/od/RACI.dart';
 import 'app_ui.dart';
 import 'app_util.dart';
 
@@ -36,8 +34,7 @@ class RaciCard extends StatelessWidget {
               Spacer(),
               Image.asset(
                 "${AppUI.iconPath}progress.png",
-                height: 30.h, // Adjust image size
-                width: 30.w,
+                height: 30.h,
               ),
             ],
           ),

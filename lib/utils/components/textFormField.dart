@@ -419,12 +419,14 @@ class OpportunityDropDownMenu extends StatefulWidget {
   final TextEditingController? controller;
   final TextEditingController? selection;
   final Color textColor;
+  final Color? backgroundColor;
 
   const OpportunityDropDownMenu({
     super.key,
     this.controller,
     this.initialSelection,
     this.hintText,
+    this.backgroundColor,
     required this.fieldName,
     required this.selection,
     required this.dropDownOptions,
@@ -444,25 +446,30 @@ class _OpportunityDropDownMenuState extends State<OpportunityDropDownMenu> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 15),
-          child: Text(
-            widget.fieldName,
-            style: TextStyle(fontSize: 16, color: widget.textColor),
-            textAlign: TextAlign.start,
+        if (widget.fieldName.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 15),
+            child: Text(
+              widget.fieldName,
+              style: TextStyle(fontSize: 16, color: widget.textColor),
+              textAlign: TextAlign.start,
+            ),
           ),
-        ),
         Padding(
           padding: EdgeInsets.only(top: 8.h, bottom: 16.h, left: width / 15, right: width / 15),
           child: Container(
-            color: AppColor.whiteColor,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: widget.backgroundColor ?? AppColor.whiteColor,
+            ),
             child: DropdownMenu(
               hintText: widget.hintText,
               inputDecorationTheme: InputDecorationTheme(
-                  contentPadding: const EdgeInsets.all(16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  )),
+                contentPadding: const EdgeInsets.all(16),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
               menuHeight: 200,
               width: width * 0.85,
               controller: widget.selection,

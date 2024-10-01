@@ -152,7 +152,7 @@ class _UploadDataOMState extends State<UploadDataOM> {
                             await uploadCsvFile(
                               context,
                               ApiManager.getInstance(),
-                              "/home/yusuf/Desktop/test.csv",
+                              dataFileLocation ?? "",
                             );
                           } catch (e) {
                             if (context.mounted) {

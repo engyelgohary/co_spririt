@@ -63,6 +63,7 @@ class ApiConstants {
   static const String riskAverageApi = '/api/LeaderBoard/RiskAverage';
   static const String feasibilityAverageApi = '/api/LeaderBoard/FeasibilityAverage';
   static const String commentApi = '/api/Comment';
+  static const String projectManagementApi = '/api/ProjectManagement';
 }
 
 class ApiManager {
@@ -2729,6 +2730,345 @@ class ApiManager {
       throw Exception('Failed to load opportunity: ${response.statusCode} - ${response.body}');
     } catch (e) {
       print('Error fetching opportunity: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> addProjectName(String name) async {
+    String? token;
+
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/addProjectName');
+
+      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> addCategoryName(String categoryName, int projectId) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddCategoryName');
+
+      final response = await http.post(uri,
+          body: jsonEncode({"categoryName": categoryName, "projectId": projectId}),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
+
+      if (response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> addTaskName(String taskName, int categoryId) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddTaskName');
+
+      final response = await http
+          .post(uri, body: jsonEncode({"taskName": taskName, "categoryId": categoryId}), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> AddMembers(List teamMemberNames) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddMembers');
+
+      final response =
+          await http.post(uri, body: jsonEncode({"teamMemberNames": teamMemberNames}), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> AddNewTask({
+    required int projectId,
+    required int categoryId,
+    required int subTaskId,
+    required String taskName,
+    required List assignTasks,
+    required String milestone,
+    required String priority,
+    required int taskStatusId,
+    required int progress,
+  }) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddNewTask');
+
+      final response = await http.post(uri,
+          body: jsonEncode({
+            "projectId": projectId,
+            "categoryId": categoryId,
+            "subTaskId": subTaskId,
+            "taskName": taskName,
+            "assignTasks": assignTasks,
+            "milestone": milestone,
+            "priority": priority,
+            "taskStatusId": taskStatusId,
+            "progress": progress
+          }),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
+
+      if (response.statusCode == 204) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> projectNameAndId() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/ProjectNameAndId');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> categoryNameAndId(int projectId) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/CategoryNameAndId');
+      final request = http.MultipartRequest("POST", uri);
+      request.fields.addAll({"projectId": projectId.toString()});
+
+      request.headers.addAll({
+        "Content-Type": "multipart/form-data",
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      final response = await request.send();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(await response.stream.bytesToString());
+      }
+      throw Exception('Failed add project name : ${response.statusCode} ');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> taskNameAndId(int categoryId) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/TaskNameAndId');
+      final request = http.MultipartRequest("POST", uri);
+      request.fields.addAll({"categoryId": categoryId.toString()});
+
+      request.headers.addAll({
+        "Content-Type": "multipart/form-data",
+        "accept": '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      final response = await request.send();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(await response.stream.bytesToString());
+      }
+      throw Exception('Failed add project name : ${response.statusCode} ');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> memberNameAndId() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/MemberNameAndId');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> taskStatusNameAndId() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(
+          ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/TaskStatusNameAndId');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> responsibilityTaskNameAndId() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(
+          ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/ResponsibilityTaskNameAndId');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> getTasks() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/GetTasks');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
       rethrow;
     }
   }

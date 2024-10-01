@@ -1,6 +1,7 @@
-import 'package:co_spirit/ui/od/Message/Message_od.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/sc/menu.dart';
 import 'package:co_spirit/ui/sc/solutions.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/components.dart';
@@ -13,6 +14,8 @@ class RaciScreenSC extends StatefulWidget {
 }
 
 class _RaciScreenSCState extends State<RaciScreenSC> {
+  final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -61,20 +64,42 @@ class _RaciScreenSCState extends State<RaciScreenSC> {
               ],
             ),
             SizedBox(height: 20.h),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10.w,
-                  mainAxisSpacing: 10.h,
-                  childAspectRatio: 1.0,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return RaciCard();
-                },
-              ),
-            ),
+            ListenableBuilder(
+                listenable: loadingNotifier,
+                builder: (context, child) {
+                  if (loadingNotifier.loading) {
+                    homeList(apiManager, loadingNotifier);
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (loadingNotifier.response == null) {
+                    return Expanded(
+                      child: Center(
+                        child: buildErrorIndicator(
+                          "Some error occurred, Please try again.",
+                          () => loadingNotifier.change(),
+                        ),
+                      ),
+                    );
+                  }
+                  final tasks = loadingNotifier.response![0];
+
+                  return Expanded(
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.w,
+                        mainAxisSpacing: 10.h,
+                        childAspectRatio: 1.0,
+                      ),
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) {
+                        return RaciCard(
+                          taskName: tasks[index]["projectName"],
+                          status: tasks[index]["status"] ?? "N/A",
+                        );
+                      },
+                    ),
+                  );
+                }),
           ],
         ),
       ),

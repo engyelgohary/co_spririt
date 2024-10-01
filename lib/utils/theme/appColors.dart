@@ -54,10 +54,10 @@ class OMColorScheme {
   static const Color textColor = Color(0xff000000);
 }
 
-class SMColorScheme {
+class SCColorScheme {
   static const Color mainColor = Color(0xff000080);
   static const Color secondColor = Color(0xff3E3E84);
   static const Color thirdColor = Color(0x3f000080);
   static const Color forthColor = Color(0x4f000080);
-static const Color fifthColor = Color(0x7fffffff);
+  static const Color fifthColor = Color(0x7fffffff);
 }

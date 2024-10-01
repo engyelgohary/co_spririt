@@ -1,15 +1,24 @@
 import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spirit/ui/sm/new_project.dart';
+import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../ui/sc/new_subtask.dart';
+import '../ui/sc/new_task.dart';
+import '../ui/sc/new_task_category.dart';
+import '../ui/sc/new_team.dart';
+import '../utils/helper_functions.dart';
 import 'app_ui.dart';
 import 'app_util.dart';
 
 class RaciCard extends StatelessWidget {
-  const RaciCard({Key? key}) : super(key: key);
+  final String taskName;
+  final String status;
+  const RaciCard({Key? key, required this.taskName, required this.status}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +33,14 @@ class RaciCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "AGL",
+            taskName,
             style:
                 TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, color: Color(0xFF000080)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("InProgress", style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
+              Text(status, style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
               Spacer(),
               Image.asset(
                 "${AppUI.iconPath}progress.png",
@@ -146,8 +155,12 @@ class BottomNavBarSC extends StatelessWidget {
               if (selectedIndex == 3) {
                 return <PopupMenuEntry>[
                   const PopupMenuItem(
+                    textStyle: TextStyle(color: SCColorScheme.mainColor),
                     value: 0,
-                    child: Text('New solutions'),
+                    child: Text(
+                      'New solutions',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 1,
@@ -157,26 +170,89 @@ class BottomNavBarSC extends StatelessWidget {
               } else {
                 return <PopupMenuEntry>[
                   const PopupMenuItem(
+                    textStyle: TextStyle(color: SCColorScheme.mainColor),
                     value: 0,
-                    child: Text('New Task Category'),
+                    child: Text(
+                      'New Project',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
+                    textStyle: TextStyle(color: SCColorScheme.mainColor),
                     value: 1,
-                    child: Text('New Task'),
+                    child: Text(
+                      'New Task Category',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 2,
-                    child: Text("New Subtask"),
+                    child: Text(
+                      'New Task',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 3,
-                    child: Text("New Team Members"),
+                    child: Text(
+                      "New Subtask",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 4,
-                    child: Text("Download"),
+                    child: Text(
+                      "New Team Members",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 5,
+                    child: Text(
+                      "Download",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                 ];
+              }
+            },
+            onSelected: (value) {
+              if (selectedIndex == 1) {
+                if (value == 5) {
+                  snackBar(context, "not implemented");
+                  return;
+                }
+                showModalBottomSheet(
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  context: context,
+                  builder: (context) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Icon(Icons.horizontal_rule_rounded),
+                      ),
+                      if (value == 0) Flexible(child: NewProjectSheet()),
+                      if (value == 1) Flexible(child: NewTaskCategorySheet()),
+                      if (value == 2) Flexible(child: NewTaskSheet()),
+                      if (value == 3) Flexible(child: NewSubTaskSheet()),
+                      if (value == 4) Flexible(child: NewTeamSheet()),
+                    ],
+                  ),
+                );
               }
             },
             icon: Icon(

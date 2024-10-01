@@ -420,6 +420,7 @@ class OpportunityDropDownMenu extends StatefulWidget {
   final TextEditingController? selection;
   final Color textColor;
   final Color? backgroundColor;
+  final VoidCallback? callback;
 
   const OpportunityDropDownMenu({
     super.key,
@@ -427,6 +428,7 @@ class OpportunityDropDownMenu extends StatefulWidget {
     this.initialSelection,
     this.hintText,
     this.backgroundColor,
+    this.callback,
     required this.fieldName,
     required this.selection,
     required this.dropDownOptions,
@@ -480,7 +482,12 @@ class _OpportunityDropDownMenuState extends State<OpportunityDropDownMenu> {
                         value: e,
                       ))
                   .toList(),
-              onSelected: (value) => setState(() => selected = value),
+              onSelected: (value) => setState(() {
+                selected = value;
+                if (widget.callback != null) {
+                  widget.callback!();
+                }
+              }),
             ),
           ),
         ),

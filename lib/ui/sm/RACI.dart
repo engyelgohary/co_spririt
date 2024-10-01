@@ -73,7 +73,7 @@ class _RaciScreenSMState extends State<RaciScreenSM> {
                 ),
                 itemCount: 6,
                 itemBuilder: (context, index) {
-                  return RaciCard();
+                  return RaciCard(status: "",taskName: "",);
                 },
               ),
             ),

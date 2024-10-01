@@ -1,4 +1,6 @@
 import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,7 +16,7 @@ class NewProjectSheet extends StatefulWidget {
 
 class _NewProjectSheetState extends State<NewProjectSheet> {
   final projectName = TextEditingController();
-
+  final ApiManager apiManager = ApiManager.getInstance();
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
@@ -61,7 +63,20 @@ class _NewProjectSheetState extends State<NewProjectSheet> {
                 Expanded(
                   flex: 3,
                   child: ElevatedButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      if (projectName.text.trim().isEmpty) {
+                        return;
+                      }
+
+                      loadingIndicatorDialog(context);
+                      try {
+                        await apiManager.addProjectName(projectName.text.trim());
+                        snackBar(context, "Done");
+                      } catch (e) {
+                        snackBar(context, "Error $e");
+                      }
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
                       backgroundColor: ODColorScheme.buttonColor,

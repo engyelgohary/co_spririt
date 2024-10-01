@@ -8,6 +8,7 @@ import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
 import 'package:co_spirit/ui/sc/raci.dart';
 import 'package:co_spirit/ui/sc/solutions.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/ui/sm/raci_view.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,7 +104,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'RACI',
-                    onFunction: () => AppUtil.mainNavigator(context, const RACIPage()),
+                    onFunction: () => AppUtil.mainNavigator(context, RACIViewPage()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,

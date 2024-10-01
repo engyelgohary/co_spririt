@@ -30,18 +30,6 @@ class _NewProjectSheetState extends State<NewTeamSheet> {
             fieldName: 'Team 1',
             controller: projectName,
           ),
-          OpportunityTextFormField(
-            fieldName: 'Team 2',
-            controller: projectName,
-          ),
-          OpportunityTextFormField(
-            fieldName: 'Team 3',
-            controller: projectName,
-          ),
-          OpportunityTextFormField(
-            fieldName: 'Team 4',
-            controller: projectName,
-          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
             child: Row(

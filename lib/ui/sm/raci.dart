@@ -33,7 +33,7 @@ class RACIPage extends StatelessWidget {
                   controller: TextEditingController(),
                   dropDownOptions: [],
                   selection: null,
-                  textColor: SMColorScheme.mainColor,
+                  textColor: SCColorScheme.mainColor,
                 ))
               ],
             ),
@@ -50,7 +50,7 @@ class RACIPage extends StatelessWidget {
                   controller: TextEditingController(),
                   dropDownOptions: [],
                   selection: null,
-                  textColor: SMColorScheme.mainColor,
+                  textColor: SCColorScheme.mainColor,
                 ))
               ],
             ),
@@ -63,14 +63,14 @@ class RACIPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("AGL", style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor)),
+                  const Text("AGL", style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor)),
                   Icon(Icons.chat_outlined)
                 ],
               ),
             ),
           ),
           Container(
-            color: SMColorScheme.mainColor,
+            color: SCColorScheme.mainColor,
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.only(left: width / 25, top: width / 30, bottom: width / 30),
@@ -78,7 +78,7 @@ class RACIPage extends StatelessWidget {
             ),
           ),
           Container(
-            color: SMColorScheme.secondColor,
+            color: SCColorScheme.secondColor,
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.only(left: width / 25, top: width / 30, bottom: width / 30),
@@ -86,7 +86,7 @@ class RACIPage extends StatelessWidget {
             ),
           ),
           Container(
-            color: SMColorScheme.thirdColor,
+            color: SCColorScheme.thirdColor,
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.only(left: width / 25, top: width / 30, bottom: width / 30),
@@ -102,14 +102,14 @@ class RACIPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(color: Colors.green.shade700),
-                      bottom: BorderSide(color: SMColorScheme.fifthColor),
+                      bottom: BorderSide(color: SCColorScheme.fifthColor),
                     ),
-                    color: SMColorScheme.forthColor,
+                    color: SCColorScheme.forthColor,
                   ),
                   child: const Text(
                     textAlign: TextAlign.center,
                     "title",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               ),
@@ -120,13 +120,13 @@ class RACIPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       left: BorderSide(color: Colors.green),
-                      bottom: BorderSide(color: SMColorScheme.forthColor),
+                      bottom: BorderSide(color: SCColorScheme.forthColor),
                     ),
                     color: Colors.white,
                   ),
                   child: const Text(
                     "data",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               )
@@ -141,14 +141,14 @@ class RACIPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(color: Colors.green.shade700),
-                      bottom: BorderSide(color: SMColorScheme.fifthColor),
+                      bottom: BorderSide(color: SCColorScheme.fifthColor),
                     ),
-                    color: SMColorScheme.forthColor,
+                    color: SCColorScheme.forthColor,
                   ),
                   child: const Text(
                     textAlign: TextAlign.center,
                     "title",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               ),
@@ -159,13 +159,13 @@ class RACIPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       left: BorderSide(color: Colors.green),
-                      bottom: BorderSide(color: SMColorScheme.forthColor),
+                      bottom: BorderSide(color: SCColorScheme.forthColor),
                     ),
                     color: Colors.white,
                   ),
                   child: const Text(
                     "data",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               )
@@ -180,14 +180,14 @@ class RACIPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(color: Colors.green.shade700),
-                      bottom: BorderSide(color: SMColorScheme.fifthColor),
+                      bottom: BorderSide(color: SCColorScheme.fifthColor),
                     ),
-                    color: SMColorScheme.forthColor,
+                    color: SCColorScheme.forthColor,
                   ),
                   child: const Text(
                     textAlign: TextAlign.center,
                     "title",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               ),
@@ -198,13 +198,13 @@ class RACIPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       left: BorderSide(color: Colors.green),
-                      bottom: BorderSide(color: SMColorScheme.forthColor),
+                      bottom: BorderSide(color: SCColorScheme.forthColor),
                     ),
                     color: Colors.white,
                   ),
                   child: const Text(
                     "data",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               )
@@ -219,14 +219,14 @@ class RACIPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(color: Colors.green.shade700),
-                      bottom: BorderSide(color: SMColorScheme.fifthColor),
+                      bottom: BorderSide(color: SCColorScheme.fifthColor),
                     ),
-                    color: SMColorScheme.forthColor,
+                    color: SCColorScheme.forthColor,
                   ),
                   child: const Text(
                     textAlign: TextAlign.center,
                     "title",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               ),
@@ -237,13 +237,13 @@ class RACIPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       left: BorderSide(color: Colors.green),
-                      bottom: BorderSide(color: SMColorScheme.forthColor),
+                      bottom: BorderSide(color: SCColorScheme.forthColor),
                     ),
                     color: Colors.white,
                   ),
                   child: const Text(
                     "data",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               )
@@ -258,14 +258,14 @@ class RACIPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(color: Colors.green.shade700),
-                      bottom: BorderSide(color: SMColorScheme.fifthColor),
+                      bottom: BorderSide(color: SCColorScheme.fifthColor),
                     ),
-                    color: SMColorScheme.forthColor,
+                    color: SCColorScheme.forthColor,
                   ),
                   child: const Text(
                     textAlign: TextAlign.center,
                     "title",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               ),
@@ -276,13 +276,13 @@ class RACIPage extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                       left: BorderSide(color: Colors.green),
-                      bottom: BorderSide(color: SMColorScheme.forthColor),
+                      bottom: BorderSide(color: SCColorScheme.forthColor),
                     ),
                     color: Colors.white,
                   ),
                   child: const Text(
                     "data",
-                    style: TextStyle(fontSize: 16, color: SMColorScheme.mainColor),
+                    style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor),
                   ),
                 ),
               )

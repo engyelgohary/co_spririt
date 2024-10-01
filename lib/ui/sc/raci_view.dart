@@ -46,7 +46,7 @@ class RACIViewPage extends StatelessWidget {
                           controller: TextEditingController(),
                           dropDownOptions: [],
                           selection: null,
-                          textColor: SMColorScheme.mainColor,
+                          textColor: SCColorScheme.mainColor,
                         ))
                   ],
                 ),

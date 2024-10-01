@@ -672,3 +672,149 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
     rethrow;
   }
 }
+
+Future<void> taskCategoryList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    loadingNotifier.response = await apiManager.projectNameAndId();
+  } catch (e) {
+    print("- taskCategoryList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> taskList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    final projectsMap = {};
+    final projectsSubTaskMap = {};
+    final projects = await apiManager.projectNameAndId();
+
+    for (var project in projects) {
+      projectsMap.addAll({project["name"]: project["id"]});
+
+      final temp = {};
+      final category = await apiManager.categoryNameAndId(project["id"]);
+
+      for (var element in category) {
+        temp.addAll({element["name"]: element["id"]});
+      }
+
+      projectsSubTaskMap.addAll({project["name"]: temp});
+    }
+    loadingNotifier.response = [projectsMap, projectsSubTaskMap];
+  } catch (e) {
+    print("- taskList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> subTaskList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    final projectsMap = {};
+    final projectsSubTaskMap = {};
+    final projectsTaskMap = {};
+    final teamsMap = {};
+    final statusMap = {};
+
+    final projects = await apiManager.projectNameAndId();
+    final teams = await apiManager.memberNameAndId();
+    final status = await apiManager.taskStatusNameAndId();
+
+    for (var team in teams) {
+      teamsMap.addAll({team["name"]: team["id"]});
+    }
+
+    for (var _status in status) {
+      statusMap.addAll({_status["name"]: _status["id"]});
+    }
+
+    for (var project in projects) {
+      projectsMap.addAll({project["name"]: project["id"]});
+
+      final temp = {};
+      final category = await apiManager.categoryNameAndId(project["id"]);
+
+      for (var _category in category) {
+        temp.addAll({_category["name"]: _category["id"]});
+
+        final tempTask = {};
+        final tasks = await apiManager.taskNameAndId(_category["id"]);
+        print(tasks);
+
+        for (var task in tasks) {
+          tempTask.addAll({task["name"]: task["id"]});
+        }
+
+        projectsTaskMap.addAll({_category["name"]: tempTask});
+      }
+
+      projectsSubTaskMap.addAll({project["name"]: temp});
+    }
+
+    print(projectsMap);
+    print(projectsSubTaskMap);
+    print(projectsTaskMap);
+    print(teamsMap);
+    print(statusMap);
+    loadingNotifier.response = [
+      projectsMap,
+      projectsSubTaskMap,
+      projectsTaskMap,
+      teamsMap,
+      statusMap
+    ];
+  } catch (e) {
+    print("- taskList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+// {
+//   "projectName": "Co-spirit",
+//   "taskName": "finish ui",
+//   "milestone": null,
+//   "priority": null,
+//   "progress": null,
+//   "status": null,
+//   "category": "ui",
+//   "categoryId": 1,
+//   "taskMember": []
+// },
+Future<void> raciList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    Map projectsMap = {};
+    Map tasksMap = {};
+
+    final projects = await apiManager.projectNameAndId();
+    for (var project in projects) {
+      projectsMap.addAll({project["name"]: project["id"]});
+    }
+
+    final tasks = await apiManager.getTasks();
+    for (var task in tasks) {
+      if (!tasksMap.containsKey(task["projectName"])) {
+        tasksMap[task["projectName"]] = [];
+      }
+      tasksMap[task["projectName"]].add(task);
+    }
+    loadingNotifier.response = [projectsMap, tasksMap];
+  } catch (e) {
+    print("- taskCategoryList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> homeList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    final tasks = await apiManager.getTasks();
+
+    loadingNotifier.response = [tasks];
+  } catch (e) {
+    print("- taskCategoryList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}

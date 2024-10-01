@@ -1,18 +1,33 @@
+import 'package:co_spirit/ui/od/Message/Message_od.dart';
+import 'package:co_spirit/ui/sm/menu.dart';
+import 'package:co_spirit/ui/sm/solutions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/components.dart';
 
-class RaciScreen extends StatefulWidget {
-  const RaciScreen({Key? key}) : super(key: key);
+class RaciScreenSM extends StatefulWidget {
+  const RaciScreenSM({Key? key}) : super(key: key);
 
   @override
-  State<RaciScreen> createState() => _RaciScreenState();
+  State<RaciScreenSM> createState() => _RaciScreenSMState();
 }
 
-class _RaciScreenState extends State<RaciScreen> {
+class _RaciScreenSMState extends State<RaciScreenSM> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MenuScreen(ODId: "2")));
+      return;
+    }
+    if (index == 2) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolutionsScreen()));
+      return;
+    }
+    if (index == 3) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessagesScreenOD()));
+      return;
+    }
     setState(() {
       _selectedIndex = index;
     });

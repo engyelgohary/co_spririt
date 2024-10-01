@@ -1,20 +1,32 @@
+import 'package:co_spirit/ui/sc/RACI.dart';
+import 'package:co_spirit/ui/sc/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/components.dart';
 
-class Solutions extends StatefulWidget {
-  const Solutions({Key? key}) : super(key: key);
+class SolutionsScreen extends StatefulWidget {
+  const SolutionsScreen({Key? key}) : super(key: key);
 
   @override
-  State<Solutions> createState() => _SolutionsState();
+  State<SolutionsScreen> createState() => _SolutionsScreenState();
 }
 
-class _SolutionsState extends State<Solutions> {
+class _SolutionsScreenState extends State<SolutionsScreen> {
   int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MenuScreen(ODId: "2")));
+      return;
+    }
+
+    if (index == 1) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RaciScreenSC()));
+      return;
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -51,22 +63,27 @@ class _SolutionsState extends State<Solutions> {
             ),
             SizedBox(height: 20.h),
             Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration:
+                  BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height *0.75,
+              height: MediaQuery.of(context).size.height * 0.75,
               child: Column(
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        color: Color(0xFFEEEEEE), borderRadius: BorderRadius.circular(10)),                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height *0.16,
+                        color: Color(0xFFEEEEEE), borderRadius: BorderRadius.circular(10)),
+                    width: MediaQuery.of(context).size.width,
+                    // height: MediaQuery.of(context).size.height * 0.16,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text("Solutions",style: TextStyle(color: Color(0xFF000080),fontSize: 18),),
+                          Text(
+                            "Solutions",
+                            style: TextStyle(color: Color(0xFF000080), fontSize: 18),
+                          ),
                           SizedBox(height: 15.h),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -80,8 +97,7 @@ class _SolutionsState extends State<Solutions> {
                               ),
                               isExpanded: true,
                               items: [],
-                              onChanged: (value) {
-                              },
+                              onChanged: (value) {},
                               dropdownColor: Colors.white,
                               icon: Icon(
                                 Icons.arrow_drop_down,
@@ -90,20 +106,26 @@ class _SolutionsState extends State<Solutions> {
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-
                   ),
+                  Row(children: [
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Text("data")],
+                      ),
+                    ),
+                  ])
                 ],
               ),
             ),
-
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: BottomNavBarSC(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),

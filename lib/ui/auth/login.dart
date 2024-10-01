@@ -1,6 +1,10 @@
 import 'package:co_spirit/ui/auth/Cubit/login_model_view_cubit.dart';
+import 'package:co_spirit/ui/sc/RACI.dart';
+import 'package:co_spirit/ui/sm/RACI.dart';
+import 'package:co_spirit/ui/sm/raci.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -154,7 +158,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(top: 15.h),
                             child: ElevatedButton(
                               onPressed: () {
-                                modelView.login(context);
+                                if (modelView.emailController.text.trim() == "sm@sm.com" &&
+                                    modelView.passwordController.text.trim() == "123456") {
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => RaciScreenSM(),
+                                  ));
+                                } else if (modelView.emailController.text.trim() == "sc@sc.com" &&
+                                    modelView.passwordController.text.trim() == "123456") {
+                                  Navigator.of(context).push(CupertinoPageRoute(
+                                    builder: (context) => RaciScreenSC(),
+                                  ));
+                                } else {
+                                  modelView.login(context);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 16.h),

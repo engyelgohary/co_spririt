@@ -14,23 +14,24 @@ class RaciCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "AGL",
-            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold,color: Color(0xFF000080)),
+            style:
+                TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, color: Color(0xFF000080)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("InProgress", style: TextStyle(fontSize: 18.sp,color: Colors.grey)),
+              Text("InProgress", style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
               Spacer(),
               Image.asset(
                 "${AppUI.iconPath}progress.png",
@@ -43,7 +44,6 @@ class RaciCard extends StatelessWidget {
     );
   }
 }
-
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -67,7 +67,7 @@ class BottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => onItemTapped(0),
             icon: Icon(Icons.menu),
             color: selectedIndex == 0 ? focusColor : Colors.white,
             focusColor: focusColor,
@@ -84,14 +84,111 @@ class BottomNavBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => onItemTapped(2),
-            icon: Icon(Icons.add_box_outlined),
+            icon: Image.asset(
+              "${AppUI.iconPath}puzzle.png",
+              color: selectedIndex == 2 ? focusColor : Colors.white,
+            ),
             color: selectedIndex == 2 ? focusColor : Colors.white,
             focusColor: focusColor,
+            tooltip: "Solutions",
+          ),
+          IconButton(
+            onPressed: () => onItemTapped(3),
+            icon: Icon(Icons.message_outlined),
+            color: selectedIndex == 3 ? focusColor : Colors.white,
+            focusColor: focusColor,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomNavBarSC extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+
+  const BottomNavBarSC({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color focusColor = Color(0xFF228B22);
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.09,
+      color: Color(0xFF000080),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          IconButton(
+            onPressed: () => onItemTapped(0),
+            icon: Icon(Icons.menu),
+            color: selectedIndex == 0 ? focusColor : Colors.white,
+            focusColor: focusColor,
+            tooltip: "Menu",
+          ),
+          IconButton(
+            onPressed: () => onItemTapped(1),
+            icon: Image.asset(
+              "${AppUI.iconPath}RACI.png",
+              color: selectedIndex == 1 ? focusColor : Colors.white,
+            ),
+            tooltip: "RACI",
+            focusColor: focusColor,
+          ),
+          PopupMenuButton(
+            itemBuilder: (context) {
+              if (selectedIndex == 3) {
+                return <PopupMenuEntry>[
+                  const PopupMenuItem(
+                    value: 0,
+                    child: Text('New solutions'),
+                  ),
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Text('Download'),
+                  ),
+                ];
+              } else {
+                return <PopupMenuEntry>[
+                  const PopupMenuItem(
+                    value: 0,
+                    child: Text('New Task Category'),
+                  ),
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Text('New Task'),
+                  ),
+                  const PopupMenuItem(
+                    value: 2,
+                    child: Text("New Subtask"),
+                  ),
+                  const PopupMenuItem(
+                    value: 3,
+                    child: Text("New Team Members"),
+                  ),
+                  const PopupMenuItem(
+                    value: 4,
+                    child: Text("Download"),
+                  ),
+                ];
+              }
+            },
+            icon: Icon(
+              Icons.add_box_outlined,
+              color: Colors.white,
+            ),
           ),
           IconButton(
             onPressed: () => onItemTapped(3),
             icon: Image.asset(
               "${AppUI.iconPath}puzzle.png",
+              color: selectedIndex == 3 ? focusColor : Colors.white,
             ),
             color: selectedIndex == 3 ? focusColor : Colors.white,
             focusColor: focusColor,
@@ -172,8 +269,7 @@ class CustomButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(double.parse("$radius")),
             color: color,
-            border:
-                borderColor == null ? null : Border.all(color: borderColor!),
+            border: borderColor == null ? null : Border.all(color: borderColor!),
             // gradient: color==null?const LinearGradient(
             //     colors: [
             //       Color(0xff006168),
@@ -279,27 +375,23 @@ class CustomInput extends StatelessWidget {
         inputFormatters: inputFormatters,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: hintStyle ??
-              const TextStyle(color: AppUI.buttonColor, fontSize: 12),
+          hintStyle: hintStyle ?? const TextStyle(color: AppUI.buttonColor, fontSize: 12),
           suffixIcon: suffixIcon,
           labelText: lable,
           counterStyle: TextStyle(color: counterColor ?? AppUI.whiteColor),
           filled: true,
           fillColor: fillColor ?? AppUI.whiteColor,
           suffixIconConstraints: BoxConstraints(minWidth: suffixWidth),
-          prefixIconConstraints:
-              BoxConstraints(minWidth: prefixWidth, maxHeight: 35),
+          prefixIconConstraints: BoxConstraints(minWidth: prefixWidth, maxHeight: 35),
           prefixIcon: prefixIcon,
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: 12, vertical: contentPaddingVertical ?? 0),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 12, vertical: contentPaddingVertical ?? 0),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(radius)),
-              borderSide:
-                  const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
+              borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(radius)),
-              borderSide:
-                  const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
+              borderSide: const BorderSide(color: ui.Color.fromARGB(150, 0, 0, 0))),
         ),
       ),
     );
@@ -332,8 +424,7 @@ class CustomCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius ?? 15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 15)),
         elevation: elevation ?? 1,
         child: Container(
           padding: EdgeInsets.all(padding ?? 0),
@@ -342,8 +433,7 @@ class CustomCard extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius ?? 15),
-            border:
-                border != null ? Border.all(color: border!, width: 0.7) : null,
+            border: border != null ? Border.all(color: border!, width: 0.7) : null,
             color: color ?? AppUI.whiteColor,
           ),
           child: child,

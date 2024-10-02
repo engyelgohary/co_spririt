@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 
 import '../../utils/theme/appColors.dart';
 
-class RACIPage extends StatefulWidget {
-  RACIPage({super.key});
+class RACIPageSC extends StatefulWidget {
+  RACIPageSC({super.key});
 
   @override
-  State<RACIPage> createState() => _RACIPageState();
+  State<RACIPageSC> createState() => _RACIPageSCState();
 }
 
-class _RACIPageState extends State<RACIPage> {
+class _RACIPageSCState extends State<RACIPageSC> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final TextEditingController project = TextEditingController();
@@ -82,10 +82,10 @@ class _RACIPageState extends State<RACIPage> {
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Icon(Icons.horizontal_rule_rounded),
                         ),
-                        if (value == 0) const Flexible(child: NewTaskCategorySheet()),
-                        if (value == 1) const Flexible(child: NewTaskSheet()),
-                        if (value == 2) const Flexible(child: NewSubTaskSheet()),
-                        if (value == 3) const Flexible(child: NewTeamSheet()),
+                        if (value == 0) const Flexible(child: NewTaskCategorySheetSC()),
+                        if (value == 1) const Flexible(child: NewTaskSheetSC()),
+                        if (value == 2) const Flexible(child: NewSubTaskSheetSC()),
+                        if (value == 3) const Flexible(child: NewTeamSheetSC()),
                       ],
                     ),
                   );

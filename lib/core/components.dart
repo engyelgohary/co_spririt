@@ -2,15 +2,17 @@ import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/ui/sm/new_project.dart';
+import 'package:co_spirit/ui/sm/new_solution.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
-import '../ui/sc/new_subtask.dart';
-import '../ui/sc/new_task.dart';
-import '../ui/sc/new_task_category.dart';
-import '../ui/sc/new_team.dart';
+import '../ui/sm/new_subtask.dart';
+import '../ui/sm/new_task.dart';
+import '../ui/sm/new_task_category.dart';
+import '../ui/sm/new_team.dart';
 import '../utils/helper_functions.dart';
 import 'app_ui.dart';
 import 'app_util.dart';
@@ -18,12 +20,14 @@ import 'app_util.dart';
 class RaciCard extends StatelessWidget {
   final String taskName;
   final String status;
-  const RaciCard({Key? key, required this.taskName, required this.status}) : super(key: key);
+  final int progress;
+  const RaciCard({Key? key, required this.taskName, required this.status, required this.progress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
@@ -34,17 +38,25 @@ class RaciCard extends StatelessWidget {
         children: [
           Text(
             taskName,
-            style:
-                TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, color: Color(0xFF000080)),
+            style: TextStyle(
+              fontSize: 25.sp,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF000080),
+            ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(status, style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
-              Spacer(),
-              Image.asset(
-                "${AppUI.iconPath}progress.png",
-                height: 30.h,
+              Text(
+                status,
+                style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+              ),
+              CircularPercentIndicator(
+                radius: 30.0,
+                lineWidth: 5.0,
+                percent: progress / 100,
+                center: new Text("$progress%"),
+                progressColor: Colors.green,
               ),
             ],
           ),
@@ -66,36 +78,66 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color focusColor = Color(0xFF228B22);
+    Color focusColor = const Color(0xFF228B22);
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.09,
-      color: Color(0xFF000080),
+      color: SCColorScheme.mainColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
             onPressed: () => onItemTapped(0),
-            icon: Icon(Icons.menu),
+            icon: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.menu),
+                SizedBox(height: 4),
+                Text(
+                  "Menu",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
             color: selectedIndex == 0 ? focusColor : Colors.white,
             focusColor: focusColor,
             tooltip: "Menu",
           ),
           IconButton(
             onPressed: () => onItemTapped(1),
-            icon: Image.asset(
-              "${AppUI.iconPath}RACI.png",
-              color: selectedIndex == 1 ? focusColor : Colors.white,
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "${AppUI.iconPath}RACI.png",
+                  color: selectedIndex == 1 ? focusColor : Colors.white,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "RACI",
+                  style: TextStyle(color: selectedIndex == 1 ? focusColor : Colors.white),
+                ),
+              ],
             ),
             tooltip: "RACI",
             focusColor: focusColor,
           ),
           IconButton(
             onPressed: () => onItemTapped(2),
-            icon: Image.asset(
-              "${AppUI.iconPath}puzzle.png",
-              color: selectedIndex == 2 ? focusColor : Colors.white,
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "${AppUI.iconPath}puzzle.png",
+                  color: selectedIndex == 2 ? focusColor : Colors.white,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Solutions",
+                  style: TextStyle(color: selectedIndex == 2 ? focusColor : Colors.white),
+                ),
+              ],
             ),
             color: selectedIndex == 2 ? focusColor : Colors.white,
             focusColor: focusColor,
@@ -103,7 +145,17 @@ class BottomNavBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => onItemTapped(3),
-            icon: Icon(Icons.message_outlined),
+            icon: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.message_outlined),
+                SizedBox(height: 4),
+                Text(
+                  "Message",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
             color: selectedIndex == 3 ? focusColor : Colors.white,
             focusColor: focusColor,
           ),
@@ -113,11 +165,11 @@ class BottomNavBar extends StatelessWidget {
   }
 }
 
-class BottomNavBarSC extends StatelessWidget {
+class BottomNavBarSM extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const BottomNavBarSC({
+  const BottomNavBarSM({
     Key? key,
     required this.selectedIndex,
     required this.onItemTapped,
@@ -125,27 +177,47 @@ class BottomNavBarSC extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color focusColor = Color(0xFF228B22);
+    Color focusColor = const Color(0xFF228B22);
 
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.09,
-      color: Color(0xFF000080),
+      color: const Color(0xFF000080),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
             onPressed: () => onItemTapped(0),
-            icon: Icon(Icons.menu),
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.menu),
+                const SizedBox(height: 4),
+                Text(
+                  "Menu",
+                  style: TextStyle(color: selectedIndex == 0 ? focusColor : Colors.white),
+                )
+              ],
+            ),
             color: selectedIndex == 0 ? focusColor : Colors.white,
             focusColor: focusColor,
             tooltip: "Menu",
           ),
           IconButton(
             onPressed: () => onItemTapped(1),
-            icon: Image.asset(
-              "${AppUI.iconPath}RACI.png",
-              color: selectedIndex == 1 ? focusColor : Colors.white,
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "${AppUI.iconPath}RACI.png",
+                  color: selectedIndex == 1 ? focusColor : Colors.white,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "RACI",
+                  style: TextStyle(color: selectedIndex == 1 ? focusColor : Colors.white),
+                ),
+              ],
             ),
             tooltip: "RACI",
             focusColor: focusColor,
@@ -160,11 +232,15 @@ class BottomNavBarSC extends StatelessWidget {
                     child: Text(
                       'New solutions',
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
                     ),
                   ),
                   const PopupMenuItem(
                     value: 1,
-                    child: Text('Download'),
+                    child: Text(
+                      'Download',
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                 ];
               } else {
@@ -241,30 +317,76 @@ class BottomNavBarSC extends StatelessWidget {
                   builder: (context) => Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Icon(Icons.horizontal_rule_rounded),
                       ),
-                      if (value == 0) Flexible(child: NewProjectSheet()),
-                      if (value == 1) Flexible(child: NewTaskCategorySheet()),
-                      if (value == 2) Flexible(child: NewTaskSheet()),
-                      if (value == 3) Flexible(child: NewSubTaskSheet()),
-                      if (value == 4) Flexible(child: NewTeamSheet()),
+                      if (value == 0) const Flexible(child: NewProjectSheetSM()),
+                      if (value == 1) const Flexible(child: NewTaskCategorySheetSM()),
+                      if (value == 2) const Flexible(child: NewTaskSheetSM()),
+                      if (value == 3) const Flexible(child: NewSubTaskSheetSM()),
+                      if (value == 4) const Flexible(child: NewTeamSheetSM()),
+                    ],
+                  ),
+                );
+              }
+              if (selectedIndex == 3) {
+                if (value == 1) {
+                  snackBar(context, "not implemented");
+                  return;
+                }
+                showModalBottomSheet(
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  context: context,
+                  builder: (context) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Icon(Icons.horizontal_rule_rounded),
+                      ),
+                      if (value == 0) const Flexible(child: NewSolutionSM()),
                     ],
                   ),
                 );
               }
             },
-            icon: Icon(
-              Icons.add_box_outlined,
-              color: Colors.white,
+            icon: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add_box_outlined,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
             ),
           ),
           IconButton(
             onPressed: () => onItemTapped(3),
-            icon: Image.asset(
-              "${AppUI.iconPath}puzzle.png",
-              color: selectedIndex == 3 ? focusColor : Colors.white,
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "${AppUI.iconPath}puzzle.png",
+                  color: selectedIndex == 3 ? focusColor : Colors.white,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Solutions",
+                  style: TextStyle(color: selectedIndex == 3 ? focusColor : Colors.white),
+                ),
+              ],
             ),
             color: selectedIndex == 3 ? focusColor : Colors.white,
             focusColor: focusColor,

@@ -6,26 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/components.dart';
 
-class RaciScreenSC extends StatefulWidget {
-  const RaciScreenSC({Key? key}) : super(key: key);
+class RaciOverviewSC extends StatefulWidget {
+  const RaciOverviewSC({Key? key}) : super(key: key);
 
   @override
-  State<RaciScreenSC> createState() => _RaciScreenSCState();
+  State<RaciOverviewSC> createState() => _RaciOverviewSCState();
 }
 
-class _RaciScreenSCState extends State<RaciScreenSC> {
+class _RaciOverviewSCState extends State<RaciOverviewSC> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     if (index == 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MenuScreen(ODId: "2")));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MenuScreenSC(ODId: "2")));
       return;
     }
 
-    if (index == 3) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolutionsScreen()));
+    if (index == 2) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SolutionsScreenSC()));
       return;
     }
 
@@ -65,45 +65,46 @@ class _RaciScreenSCState extends State<RaciScreenSC> {
             ),
             SizedBox(height: 20.h),
             ListenableBuilder(
-                listenable: loadingNotifier,
-                builder: (context, child) {
-                  if (loadingNotifier.loading) {
-                    homeList(apiManager, loadingNotifier);
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (loadingNotifier.response == null) {
-                    return Expanded(
-                      child: Center(
-                        child: buildErrorIndicator(
-                          "Some error occurred, Please try again.",
-                          () => loadingNotifier.change(),
-                        ),
-                      ),
-                    );
-                  }
-                  final tasks = loadingNotifier.response![0];
-
+              listenable: loadingNotifier,
+              builder: (context, child) {
+                if (loadingNotifier.loading) {
+                  homeList(apiManager, loadingNotifier);
+                  return const Center(child: CircularProgressIndicator());
+                } else if (loadingNotifier.response == null) {
                   return Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.w,
-                        mainAxisSpacing: 10.h,
-                        childAspectRatio: 1.0,
+                    child: Center(
+                      child: buildErrorIndicator(
+                        "Some error occurred, Please try again.",
+                        () => loadingNotifier.change(),
                       ),
-                      itemCount: tasks.length,
-                      itemBuilder: (context, index) {
-                        return RaciCard(
-                          taskName: tasks[index]["projectName"],
-                          status: tasks[index]["status"] ?? "N/A",
-                        );
-                      },
                     ),
                   );
-                }),
+                }
+                final tasks = loadingNotifier.response![0];
+
+                return Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.w,
+                      mainAxisSpacing: 10.h,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      return RaciCard(
+                          taskName: tasks[index]["projectName"],
+                          status: tasks[index]["status"] ?? "N/A",
+                          progress: tasks[index]["progress"] ?? 0);
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarSC(
+      bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),

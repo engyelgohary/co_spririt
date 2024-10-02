@@ -6,24 +6,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/components.dart';
 
-class SolutionsScreen extends StatefulWidget {
-  const SolutionsScreen({Key? key}) : super(key: key);
+class SolutionsScreenSC extends StatefulWidget {
+  const SolutionsScreenSC({Key? key}) : super(key: key);
 
   @override
-  State<SolutionsScreen> createState() => _SolutionsScreenState();
+  State<SolutionsScreenSC> createState() => _SolutionsScreenSCState();
 }
 
-class _SolutionsScreenState extends State<SolutionsScreen> {
-  int _selectedIndex = 3;
+class _SolutionsScreenSCState extends State<SolutionsScreenSC> {
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     if (index == 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MenuScreen(ODId: "2")));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const MenuScreenSC(ODId: "2")));
       return;
     }
 
     if (index == 1) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RaciScreenSC()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RaciOverviewSC()));
       return;
     }
 
@@ -46,18 +47,18 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                   width: 110.w,
                   height: 56.h,
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.search, color: Color(0xFF000080)),
+                  icon: const Icon(Icons.search, color: Color(0xFF000080)),
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.message_outlined, color: Color(0xFF000080)),
+                  icon: const Icon(Icons.message_outlined, color: Color(0xFF000080)),
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.notifications_none_rounded, color: Color(0xFF000080)),
+                  icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF000080)),
                 ),
               ],
             ),
@@ -71,7 +72,7 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        color: Color(0xFFEEEEEE), borderRadius: BorderRadius.circular(10)),
+                        color: const Color(0xFFEEEEEE), borderRadius: BorderRadius.circular(10)),
                     width: MediaQuery.of(context).size.width,
                     // height: MediaQuery.of(context).size.height * 0.16,
                     child: Padding(
@@ -80,18 +81,18 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          const Text(
                             "Solutions",
                             style: TextStyle(color: Color(0xFF000080), fontSize: 18),
                           ),
                           SizedBox(height: 15.h),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
                             child: DropdownButton<String>(
                               value: null,
-                              hint: Text(
+                              hint: const Text(
                                 "Select an option",
                                 style: TextStyle(color: Colors.grey),
                               ),
@@ -99,18 +100,18 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                               items: [],
                               onChanged: (value) {},
                               dropdownColor: Colors.white,
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_drop_down,
                                 color: Colors.grey,
                               ),
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Row(children: [
+                  const Row(children: [
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Column(
@@ -125,7 +126,7 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarSC(
+      bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),

@@ -5,9 +5,10 @@ import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
 import 'package:co_spirit/ui/sm/RACI.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
-import 'package:co_spirit/ui/sm/raci.dart';
+import 'package:co_spirit/ui/sm/raci_view_old.dart';
 import 'package:co_spirit/ui/sm/solutions.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/ui/sm/raci_view.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,17 +17,17 @@ import '../../../data/api/apimanager.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
 
-class MenuScreen extends StatefulWidget {
+class MenuScreenSM extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';
   final String ODId;
 
-  const MenuScreen({super.key, required this.ODId});
+  const MenuScreenSM({super.key, required this.ODId});
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState();
+  State<MenuScreenSM> createState() => _MenuScreenSMState();
 }
 
-class _MenuScreenState extends State<MenuScreen> {
+class _MenuScreenSMState extends State<MenuScreenSM> {
   late CollaboratorCubit adminCubit;
 
   @override
@@ -92,18 +93,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     name: 'Home',
                     onFunction: () => Navigator.of(context).pop(),
                   ),
-                  // CustomMenuCard(
-                  //   iconColor: ODColorScheme.buttonColor,
-                  //   textColor: ODColorScheme.mainColor,
-                  //   name: 'Opportunities',
-                  //   onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
-                  // ),
-
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'RACI',
-                    onFunction: () => AppUtil.mainNavigator(context, const RACIPage()),
+                    onFunction: () => AppUtil.mainNavigator(context, RACIViewPageSM()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,

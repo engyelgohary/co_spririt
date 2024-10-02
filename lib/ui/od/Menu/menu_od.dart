@@ -3,9 +3,7 @@ import 'package:co_spirit/ui/od/Message/Message_od.dart';
 import 'package:co_spirit/ui/od/Message/oppy_od.dart';
 import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
-import 'package:co_spirit/ui/sm/RACI.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
-import 'package:co_spirit/ui/sm/solutions.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -97,18 +95,6 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     textColor: ODColorScheme.mainColor,
                     name: 'Opportunities',
                     onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
-                  ),
-                  CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
-                    name: 'RACI Test',
-                    onFunction: () => AppUtil.mainNavigator(context, const RaciScreenSM()),
-                  ),
-                  CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
-                    name: 'Solutions Test',
-                    onFunction: () => AppUtil.mainNavigator(context, const SolutionsScreen()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,

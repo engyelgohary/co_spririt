@@ -1,174 +1,418 @@
+import 'package:co_spirit/core/components.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../../utils/theme/appColors.dart';
+import 'new_project.dart';
+import 'new_solution.dart';
+import 'new_subtask.dart';
+import 'new_task.dart';
+import 'new_task_category.dart';
+import 'new_team.dart';
 
-class RACIViewPage extends StatelessWidget {
-  const RACIViewPage({super.key});
+class RACIViewPageSC extends StatefulWidget {
+  const RACIViewPageSC({super.key});
+
+  @override
+  State<RACIViewPageSC> createState() => _RACIViewPageSCState();
+}
+
+class _RACIViewPageSCState extends State<RACIViewPageSC> {
+  final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
+  final ApiManager apiManager = ApiManager.getInstance();
+  final TextEditingController project = TextEditingController();
+  final TextEditingController category = TextEditingController();
+  Map projects = {};
+  Map tasks = {};
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: customAppBar(
-        title: "RACI",
-        context: context,
-        backArrowColor: OAColorScheme.buttonColor,
-        textColor: OAColorScheme.mainColor,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(width / 25),
-        child: Table(
-          children: [
-            TableRow(children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-                padding: EdgeInsets.symmetric(vertical: width / 30),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: const Text(
-                        "Project",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
-                      ),
-                    ),
-                    Flexible(
-                        flex: 3,
-                        child: OpportunityDropDownMenu(
-                          fieldName: "",
-                          controller: TextEditingController(),
-                          dropDownOptions: [],
-                          selection: null,
-                          textColor: SCColorScheme.mainColor,
-                        ))
-                  ],
-                ),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                color: Colors.grey.shade300,
-                padding: EdgeInsets.symmetric(vertical: width / 25),
-                child: const Row(
-                  children: [
-                    Expanded(
+          title: "RACI",
+          context: context,
+          backArrowColor: ODColorScheme.buttonColor,
+          textColor: ODColorScheme.mainColor,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: width / 25),
+              child: PopupMenuButton(
+                itemBuilder: (context) {
+                  return <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 0,
                       child: Text(
-                        "Project",
+                        'New Project',
                         textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
-                    // Text("Milestone"),
-                    Expanded(
-                        child: Text(
-                      "Progress",
-                      textAlign: TextAlign.start,
-                    )),
-                    Expanded(child: Text("Status"))
-                  ],
-                ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                // padding: EdgeInsets.symmetric(vertical: width / 35),
-                decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.shade300,
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 1,
+                      child: Text(
+                        'New Task Category',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
-                    color: Colors.white),
-                child: Theme(
-                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0.0),
-                    child: ExpansionTile(
-                      title: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                        Expanded(
-                            flex: 2,
-                            child: Text(
-                              "AGL",
-                              textAlign: TextAlign.center,
-                            )),
-                        Expanded(
-                            flex: 2,
-                            child: Text(
-                              "70%",
-                              textAlign: TextAlign.center,
-                            )),
-                        Expanded(
-                            flex: 2,
-                            child: Text(
-                              "In progress",
-                              textAlign: TextAlign.center,
-                            )),
-                      ]),
+                    const PopupMenuItem(
+                      value: 2,
+                      child: Text(
+                        'New Task',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 3,
+                      child: Text(
+                        "New Subtask",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 4,
+                      child: Text(
+                        "New Team Members",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    // const PopupMenuItem(
+                    //   value: 5,
+                    //   child: Text(
+                    //     "Download",
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(color: SCColorScheme.mainColor),
+                    //   ),
+                    // ),
+                  ];
+                },
+                onSelected: (value) {
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: width / 35),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.grey.shade300,
-                                ),
-                              ),
-                              color: Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("Project1"),
-                              Text("Project1"),
-                              Text("Project1"),
-                              Text("Project1")
-                            ],
-                          ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: width / 35),
-                          decoration: BoxDecoration(color: Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("Project2"),
-                              Text("Project2"),
-                              Text("Project2"),
-                              Text("Project2")
-                            ],
-                          ),
-                        ),
+                        if (value == 0) const Flexible(child: NewProjectSheetSC()),
+                        if (value == 1) const Flexible(child: NewTaskCategorySheetSC()),
+                        if (value == 2) const Flexible(child: NewTaskSheetSC()),
+                        if (value == 3) const Flexible(child: NewSubTaskSheetSC()),
+                        if (value == 4) const Flexible(child: NewTeamSheetSC()),
                       ],
                     ),
-                  ),
-                ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: width / 35),
-                decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.shade300,
+                  );
+
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
                       ),
                     ),
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
-                    color: Colors.white),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Text("Project"), Text("Project"), Text("Project"), Text("Project")],
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
+                        ),
+                        if (value == 0) const Flexible(child: NewSolutionSC()),
+                      ],
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: ODColorScheme.buttonColor,
                 ),
-              )
-            ])
-          ],
-        ),
+              ),
+            )
+          ]),
+      body: ListenableBuilder(
+        listenable: loadingNotifier,
+        builder: (context, child) {
+          if (loadingNotifier.loading) {
+            raciList(apiManager, loadingNotifier);
+            return const Center(child: CircularProgressIndicator());
+          } else if (loadingNotifier.response == null) {
+            return Expanded(
+              child: Center(
+                child: buildErrorIndicator(
+                  "Some error occurred, Please try again.",
+                  () => loadingNotifier.change(),
+                ),
+              ),
+            );
+          }
+
+          projects = loadingNotifier.response![0];
+          tasks = loadingNotifier.response![1];
+
+          return Padding(
+            padding: EdgeInsets.all(width / 25),
+            child: Table(
+              children: [
+                TableRow(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+                      padding: EdgeInsets.symmetric(vertical: width / 30),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Expanded(
+                            child: Text(
+                              "Project",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: OpportunityDropDownMenu(
+                              fieldName: "",
+                              dropDownOptions: projects.keys.toList(),
+                              selection: project,
+                              textColor: SCColorScheme.mainColor,
+                              callback: () => setState(
+                                () {},
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Container(
+                      color: Colors.grey.shade300,
+                      padding: EdgeInsets.symmetric(vertical: width / 25),
+                      child: const Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Project",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          // Text("Milestone"),
+                          Expanded(
+                              child: Text(
+                            "Progress",
+                            textAlign: TextAlign.start,
+                          )),
+                          Expanded(child: Text("Status"))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                if (project.text.isNotEmpty && tasks.containsKey(project.text))
+                  ...tasks[project.text].map(
+                    (e) {
+                      final TextEditingController comment = TextEditingController();
+                      return TableRow(
+                        children: [
+                          Container(
+                            // padding: EdgeInsets.symmetric(vertical: width / 35),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey.shade300,
+                                  ),
+                                ),
+                                color: Colors.white),
+                            child: Theme(
+                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 0.0),
+                                child: ExpansionTile(
+                                  onExpansionChanged: (value) => comment.clear(),
+                                  title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              e["projectName"],
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              "${e["progress"] ?? 0}%",
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              e["status"] ?? "N/A ",
+                                              textAlign: TextAlign.center,
+                                            )),
+                                      ]),
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: width / 35),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                            top: BorderSide(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                          ),
+                                          color: Colors.white),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [Text("Task Category:"), Text(e["category"])],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: width / 35),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                          ),
+                                          color: Colors.white),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [Text("Task:"), Text(e["taskName"])],
+                                      ),
+                                    ),
+                                    if (e["taskMember"].isNotEmpty)
+                                      Container(
+                                        padding: EdgeInsets.symmetric(vertical: width / 35),
+                                        decoration: const BoxDecoration(color: Colors.white),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text("RACI:"),
+                                            Text(
+                                                "${e["taskMember"][0]["memberNAme"]}:     ${e["taskMember"][0]["responsibility"]}\n${e["taskMember"][1]["memberNAme"]}:     ${e["taskMember"][1]["responsibility"]}\n${e["taskMember"][2]["memberNAme"]}:     ${e["taskMember"][2]["responsibility"]}\n${e["taskMember"][3]["memberNAme"]}:     ${e["taskMember"][3]["responsibility"]}")
+                                          ],
+                                        ),
+                                      ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: width / 35),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                            top: BorderSide(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                          ),
+                                          color: Colors.white),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text("Comments:"),
+                                          Text(e["comments"].join("\n"))
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 32, right: 32, top: 16),
+                                      child: CustomInput(
+                                        contentPaddingVertical: 16,
+                                        fillColor: const Color.fromRGBO(241, 241, 241, 1),
+                                        radius: 30,
+                                        controller: comment,
+                                        hint: "Write your comment  ...",
+                                        textInputType: TextInputType.text,
+                                        suffixIcon: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () async {
+                                                if (comment.text.isEmpty) {
+                                                  return;
+                                                }
+                                                loadingIndicatorDialog(context);
+                                                try {
+                                                  await apiManager.AddCommentToTask(
+                                                    taskId: e["id"],
+                                                    comment: comment.text,
+                                                  );
+                                                  snackBar(context, "Done");
+                                                  e["comments"].add(comment.text);
+                                                } catch (e) {
+                                                  snackBar(context, "Error $e");
+                                                }
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: const Icon(
+                                                Icons.send,
+                                                color: ODColorScheme.buttonColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ).toList(),
+                TableRow(
+                  children: [
+                    Container(
+                      height: 15,
+                      padding: EdgeInsets.symmetric(vertical: width / 35),
+                      decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                          borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
+                          color: Colors.white),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

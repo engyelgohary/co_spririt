@@ -7,14 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class NewTaskCategorySheet extends StatefulWidget {
-  const NewTaskCategorySheet({super.key});
+class NewTaskCategorySheetSC extends StatefulWidget {
+  const NewTaskCategorySheetSC({super.key});
 
   @override
-  State<NewTaskCategorySheet> createState() => _NewProjectSheetState();
+  State<NewTaskCategorySheetSC> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewTaskCategorySheet> {
+class _NewProjectSheetState extends State<NewTaskCategorySheetSC> {
   final taskCategory = TextEditingController();
   final projectName = TextEditingController();
   final ApiManager apiManager = ApiManager.getInstance();

@@ -7,14 +7,14 @@ import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 import '../../data/api/apimanager.dart';
 
-class NewTaskSheet extends StatefulWidget {
-  const NewTaskSheet({super.key});
+class NewTaskSheetSC extends StatefulWidget {
+  const NewTaskSheetSC({super.key});
 
   @override
-  State<NewTaskSheet> createState() => _NewProjectSheetState();
+  State<NewTaskSheetSC> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewTaskSheet> {
+class _NewProjectSheetState extends State<NewTaskSheetSC> {
   final projectName = TextEditingController();
   final taskCategory = TextEditingController();
   final taskName = TextEditingController();

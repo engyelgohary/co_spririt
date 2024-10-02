@@ -1,11 +1,4 @@
 import 'dart:io';
-import 'package:co_spirit/ui/sm/new_project.dart';
-import 'package:co_spirit/ui/sm/new_subtask.dart';
-import 'package:co_spirit/ui/sm/new_task.dart';
-import 'package:co_spirit/ui/sm/new_task_category.dart';
-import 'package:co_spirit/ui/sm/new_team.dart';
-import 'package:co_spirit/ui/sm/raci.dart';
-import 'package:co_spirit/ui/sm/raci_view.dart';
 import 'package:co_spirit/ui/om/Profile/upload_data_om.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -211,37 +204,7 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                     style: TextStyle(fontSize: 16, color: OMColorScheme.textColor),
                   ),
                   IconButton(
-                    onPressed: () {
-                      // showModalBottomSheet(
-                      //   backgroundColor: Colors.white,
-                      //   isScrollControlled: true,
-                      //   shape: const RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.vertical(
-                      //       top: Radius.circular(30),
-                      //     ),
-                      //   ),
-                      //   clipBehavior: Clip.antiAliasWithSaveLayer,
-                      //   context: context,
-                      //   builder: (context) => const Column(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       Padding(
-                      //         padding: EdgeInsets.symmetric(vertical: 16),
-                      //         child: Icon(Icons.horizontal_rule_rounded),
-                      //       ),
-                      //       // Flexible(child: NewProjectSheet()),
-                      //       // Flexible(child: NewTaskCategorySheet()),
-                      //       // Flexible(child: NewTaskSheet()),
-                      //       // Flexible(child: NewTeamSheet()),
-                      //       // Flexible(child: NewSubTaskSheet()),
-                      //     ],
-                      //   ),
-                      // );
-                      Navigator.of(context).push(
-                          CupertinoDialogRoute(builder: (context) => RACIPage(), context: context));
-                      // CupertinoDialogRoute(
-                      // builder: (context) => RACIViewPage(), context: context));
-                    },
+                    onPressed: () {},
                     icon: const Icon(
                       Icons.arrow_forward_ios,
                       color: OMColorScheme.mainColor,

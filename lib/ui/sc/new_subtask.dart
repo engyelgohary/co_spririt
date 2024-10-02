@@ -7,16 +7,14 @@ import '../../../utils/theme/appColors.dart';
 import '../../data/api/apimanager.dart';
 import '../../utils/helper_functions.dart';
 
-// TODO do add team
-
-class NewSubTaskSheet extends StatefulWidget {
-  const NewSubTaskSheet({super.key});
+class NewSubTaskSheetSC extends StatefulWidget {
+  const NewSubTaskSheetSC({super.key});
 
   @override
-  State<NewSubTaskSheet> createState() => _NewProjectSheetState();
+  State<NewSubTaskSheetSC> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewSubTaskSheet> {
+class _NewProjectSheetState extends State<NewSubTaskSheetSC> {
   final projectName = TextEditingController();
   final taskCategory = TextEditingController();
   final taskName = TextEditingController();
@@ -91,7 +89,7 @@ class _NewProjectSheetState extends State<NewSubTaskSheet> {
                     callback: () => setState(() {}),
                   ),
                   OpportunityDropDownMenu(
-                    fieldName: 'Subtask',
+                    fieldName: 'task',
                     selection: subTask,
                     dropDownOptions: taskCategory.text.trim().isEmpty
                         ? []
@@ -99,7 +97,7 @@ class _NewProjectSheetState extends State<NewSubTaskSheet> {
                     textColor: OMColorScheme.mainColor,
                   ),
                   OpportunityTextFormField(
-                    fieldName: 'Task',
+                    fieldName: 'Subtask',
                     controller: taskName,
                   ),
                   Flexible(

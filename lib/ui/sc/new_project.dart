@@ -5,14 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class NewProjectSheet extends StatefulWidget {
-  const NewProjectSheet({super.key});
+class NewProjectSheetSC extends StatefulWidget {
+  const NewProjectSheetSC({super.key});
 
   @override
-  State<NewProjectSheet> createState() => _NewProjectSheetState();
+  State<NewProjectSheetSC> createState() => _NewProjectSheetSCState();
 }
 
-class _NewProjectSheetState extends State<NewProjectSheet> {
+class _NewProjectSheetSCState extends State<NewProjectSheetSC> {
   final projectName = TextEditingController();
 
   @override

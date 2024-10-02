@@ -1,19 +1,22 @@
 import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
-class NewProjectSheetSM extends StatefulWidget {
-  const NewProjectSheetSM({super.key});
+class NewSolutionSC extends StatefulWidget {
+  const NewSolutionSC({super.key});
 
   @override
-  State<NewProjectSheetSM> createState() => _NewProjectSheetSMState();
+  State<NewSolutionSC> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetSMState extends State<NewProjectSheetSM> {
-  final projectName = TextEditingController();
+class _NewProjectSheetState extends State<NewSolutionSC> {
+  ApiManager apiManager = ApiManager.getInstance();
+  List fields = [TextEditingController()];
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,44 @@ class _NewProjectSheetSMState extends State<NewProjectSheetSM> {
         mainAxisSize: MainAxisSize.min,
         children: [
           OpportunityTextFormField(
-            fieldName: 'Project Name',
-            controller: projectName,
-            // hintText: "Opportunity title",
+            fieldName: 'Solution',
+            controller: TextEditingController(),
+          ),
+          OpportunityTextFormField(
+            fieldName: 'Customer value',
+            controller: TextEditingController(),
+            maxLines: null,
+            minLines: 3,
+          ),
+          OpportunityDropDownMenu(
+            fieldName: "Target Customer/Users:",
+            selection: TextEditingController(),
+            dropDownOptions: [],
+            textColor: ODColorScheme.mainColor,
+          ),
+          OpportunityDropDownMenu(
+            fieldName: "Co-working Customer:",
+            selection: TextEditingController(),
+            dropDownOptions: [],
+            textColor: ODColorScheme.mainColor,
+          ),
+          OpportunityDropDownMenu(
+            fieldName: "Phase:",
+            selection: TextEditingController(),
+            dropDownOptions: ["Proposal", "PoC", "on Service"],
+            textColor: ODColorScheme.mainColor,
+          ),
+          OpportunityDropDownMenu(
+            fieldName: "Co-working Stakeholder",
+            selection: TextEditingController(),
+            dropDownOptions: [],
+            textColor: ODColorScheme.mainColor,
+          ),
+          OpportunityDropDownMenu(
+            fieldName: "Target Co-R&D",
+            selection: TextEditingController(),
+            dropDownOptions: [],
+            textColor: ODColorScheme.mainColor,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -61,7 +99,11 @@ class _NewProjectSheetSMState extends State<NewProjectSheetSM> {
                 Expanded(
                   flex: 3,
                   child: ElevatedButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      loadingIndicatorDialog(context);
+                      try {} catch (e) {}
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
                       backgroundColor: ODColorScheme.buttonColor,

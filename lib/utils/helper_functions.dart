@@ -818,3 +818,18 @@ Future<void> homeList(ApiManager apiManager, LoadingStateNotifier loadingNotifie
   }
   loadingNotifier.change();
 }
+
+Future<void> solutionsList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    final tasks = await apiManager.GetSolutions();
+    Map output = {};
+    for (var task in tasks) {
+      output.addAll({task["solution"]: task});
+    }
+    loadingNotifier.response = [output];
+  } catch (e) {
+    print("- taskCategoryList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}

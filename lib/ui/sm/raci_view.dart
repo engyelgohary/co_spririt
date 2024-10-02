@@ -4,15 +4,21 @@ import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/theme/appColors.dart';
+import 'new_project.dart';
+import 'new_solution.dart';
+import 'new_subtask.dart';
+import 'new_task.dart';
+import 'new_task_category.dart';
+import 'new_team.dart';
 
-class RACIViewPage extends StatefulWidget {
-  const RACIViewPage({super.key});
+class RACIViewPageSM extends StatefulWidget {
+  const RACIViewPageSM({super.key});
 
   @override
-  State<RACIViewPage> createState() => _RACIViewPageState();
+  State<RACIViewPageSM> createState() => _RACIViewPageSMState();
 }
 
-class _RACIViewPageState extends State<RACIViewPage> {
+class _RACIViewPageSMState extends State<RACIViewPageSM> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final TextEditingController project = TextEditingController();
@@ -24,11 +30,125 @@ class _RACIViewPageState extends State<RACIViewPage> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: customAppBar(
-        title: "RACI",
-        context: context,
-        backArrowColor: ODColorScheme.buttonColor,
-        textColor: ODColorScheme.mainColor,
-      ),
+          title: "RACI",
+          context: context,
+          backArrowColor: ODColorScheme.buttonColor,
+          textColor: ODColorScheme.mainColor,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: width / 25),
+              child: PopupMenuButton(
+                itemBuilder: (context) {
+                  return <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 0,
+                      child: Text(
+                        'New Project',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 1,
+                      child: Text(
+                        'New Task Category',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 2,
+                      child: Text(
+                        'New Task',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 3,
+                      child: Text(
+                        "New Subtask",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 4,
+                      child: Text(
+                        "New Team Members",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    // const PopupMenuItem(
+                    //   value: 5,
+                    //   child: Text(
+                    //     "Download",
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(color: SCColorScheme.mainColor),
+                    //   ),
+                    // ),
+                  ];
+                },
+                onSelected: (value) {
+                 
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
+                        ),
+                        if (value == 0) const Flexible(child: NewProjectSheetSM()),
+                        if (value == 1) const Flexible(child: NewTaskCategorySheetSM()),
+                        if (value == 2) const Flexible(child: NewTaskSheetSM()),
+                        if (value == 3) const Flexible(child: NewSubTaskSheetSM()),
+                        if (value == 4) const Flexible(child: NewTeamSheetSM()),
+                      ],
+                    ),
+                  );
+
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
+                        ),
+                        if (value == 0) const Flexible(child: NewSolutionSM()),
+                      ],
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: ODColorScheme.buttonColor,
+                ),
+              ),
+            )
+          ]),
       body: ListenableBuilder(
         listenable: loadingNotifier,
         builder: (context, child) {

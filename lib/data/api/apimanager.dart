@@ -3072,4 +3072,100 @@ class ApiManager {
       rethrow;
     }
   }
+
+  Future<void> AddCommentToTask({
+    required int taskId,
+    required String comment,
+  }) async {
+    String? token;
+    try {
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddCommentToTask');
+
+      final response =
+          await http.post(uri, body: jsonEncode({"comment": comment, "taskId": taskId}), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJBZG1pbkBhZG1pbi5jb20iLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJ0eXBlIjoiMCIsIm5iZiI6MTcyNzg4MTUwNiwiZXhwIjoxNzI3ODgzMzA2LCJpYXQiOjE3Mjc4ODE1MDYsImlzcyI6ImFwaS5jby1zcGlyaXQuY29tIiwiYXVkIjoiY28tc3Bpcml0LmNvbSJ9.bUmCdz3IGlAQJ8PcwEqG8WnV7RbAdxgonGBoWBpw-28',
+      });
+
+      if (response.statusCode == 204 || response.statusCode == 200 || response.statusCode == 201) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> AddSolution({
+    required String solution,
+    required String targetCustomerUser,
+    required String customerValue,
+    required String coWorkingCustomer,
+    required String phase,
+    required String coWorkingStakeHolder,
+    required String targetCoRD,
+  }) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddSolution');
+
+      final response = await http.post(uri,
+          body: jsonEncode({
+            "solution": solution,
+            "customerValue": customerValue,
+            "targetCustomerUser": targetCustomerUser,
+            "coWorkingCustomer": coWorkingCustomer,
+            "phase": phase,
+            "coWorkingStakeHolder": coWorkingStakeHolder,
+            "targetCoRD": targetCoRD,
+          }),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
+
+      if (response.statusCode == 204 || response.statusCode == 200 || response.statusCode == 201) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> GetSolutions() async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/GetSolutions');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
 }

@@ -105,6 +105,7 @@ class _NewProjectSheetState extends State<NewTaskCategorySheetSC> {
                             await apiManager.addCategoryName(
                                 taskCategory.text.trim(), map[projectName.text.trim()]);
                             snackBar(context, "Done");
+                            Navigator.of(context).pop();
                           } catch (e) {
                             snackBar(context, "Error $e");
                           }

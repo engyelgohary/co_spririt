@@ -270,6 +270,7 @@ class _NewProjectSheetState extends State<NewSubTaskSheetSC> {
                                     taskStatusId: statusMap[status.text],
                                     progress: int.tryParse(progress.text.trim()) ?? 0);
                                 snackBar(context, "Done");
+                                Navigator.of(context).pop();
                               } catch (e) {
                                 snackBar(context, "Error $e");
                               }

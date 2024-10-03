@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:co_spirit/core/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
-import '../../data/api/apimanager.dart';
-import '../../utils/helper_functions.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
+import '../../../utils/helper_functions.dart';
 
 class NewSubTaskSheetSM extends StatefulWidget {
   const NewSubTaskSheetSM({super.key});
@@ -88,18 +90,60 @@ class _NewProjectSheetState extends State<NewSubTaskSheetSM> {
                     textColor: OMColorScheme.mainColor,
                     callback: () => setState(() {}),
                   ),
-                  OpportunityDropDownMenu(
-                    fieldName: 'Task',
-                    selection: subTask,
-                    dropDownOptions: taskCategory.text.trim().isEmpty
-                        ? []
-                        : projectsTasksMap[taskCategory.text].keys.toList(),
-                    textColor: OMColorScheme.mainColor,
-                  ),
+                  // OpportunityDropDownMenu(
+                  //   fieldName: 'Task',
+                  //   selection: subTask,
+                  //   dropDownOptions: taskCategory.text.trim().isEmpty
+                  //       ? []
+                  //       : projectsTasksMap[taskCategory.text].keys.toList(),
+                  //   textColor: OMColorScheme.mainColor,
+                  // ),
                   OpportunityTextFormField(
-                    fieldName: 'Subtask',
+                    fieldName: 'Task',
                     controller: taskName,
                   ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: width / 15),
+                  //         child: const Text(
+                  //           "Assigned Team",
+                  //           style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: EdgeInsets.symmetric(horizontal: width / 15),
+                  //         child: Text(
+                  //           "RACI",
+                  //           style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: OpportunityDropDownMenu(
+                  //         fieldName: "",
+                  //         selection: team2,
+                  //         dropDownOptions: teamsMap.keys.toList(),
+                  //         textColor: OMColorScheme.mainColor,
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: OpportunityDropDownMenu(
+                  //         fieldName: "",
+                  //         selection: team2,
+                  //         dropDownOptions: teamsMap.keys.toList(),
+                  //         textColor: OMColorScheme.mainColor,
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                   Flexible(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -241,11 +285,12 @@ class _NewProjectSheetState extends State<NewSubTaskSheetSM> {
                               }
                               loadingIndicatorDialog(context);
                               try {
+                                print(subTask.text);
                                 await apiManager.AddNewTask(
                                     projectId: projectsMap[projectName.text],
                                     categoryId: projectsSubTaskMap[projectName.text]
                                         [taskCategory.text],
-                                    subTaskId: projectsTasksMap[taskCategory.text][subTask.text],
+                                    subTaskId: 1,
                                     taskName: taskName.text,
                                     assignTasks: [
                                       {
@@ -270,6 +315,7 @@ class _NewProjectSheetState extends State<NewSubTaskSheetSM> {
                                     taskStatusId: statusMap[status.text],
                                     progress: int.tryParse(progress.text.trim()) ?? 0);
                                 snackBar(context, "Done");
+                                Navigator.of(context).pop();
                               } catch (e) {
                                 snackBar(context, "Error $e");
                               }

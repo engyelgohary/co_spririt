@@ -55,7 +55,8 @@ class OMColorScheme {
 }
 
 class SCColorScheme {
-  static const Color mainColor = Color(0xff043443);
+  static const Color mainColor = Color(0xff000080);
+  static const Color scColor = Color(0xff043443);
   static const Color secondColor = Color(0xff3E3E84);
   static const Color thirdColor = Color(0x3f000080);
   static const Color forthColor = Color(0x4f000080);

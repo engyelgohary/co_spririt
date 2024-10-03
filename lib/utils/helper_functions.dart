@@ -810,8 +810,15 @@ Future<void> raciList(ApiManager apiManager, LoadingStateNotifier loadingNotifie
 Future<void> homeList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
   try {
     final tasks = await apiManager.getTasks();
+    Map tasksMap = {};
+    for (var task in tasks) {
+      if (!tasksMap.containsKey(task["projectName"])) {
+        tasksMap[task["projectName"]] = [];
+      }
+      tasksMap[task["projectName"]].add(task);
+    }
 
-    loadingNotifier.response = [tasks];
+    loadingNotifier.response = [tasksMap];
   } catch (e) {
     print("- taskCategoryList error : $e");
     loadingNotifier.response = null;

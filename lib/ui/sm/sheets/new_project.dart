@@ -1,9 +1,11 @@
 import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
 
 class NewProjectSheetSM extends StatefulWidget {
   const NewProjectSheetSM({super.key});
@@ -14,6 +16,7 @@ class NewProjectSheetSM extends StatefulWidget {
 
 class _NewProjectSheetSMState extends State<NewProjectSheetSM> {
   final projectName = TextEditingController();
+  final apiManager = ApiManager.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,21 @@ class _NewProjectSheetSMState extends State<NewProjectSheetSM> {
                 Expanded(
                   flex: 3,
                   child: ElevatedButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      if (projectName.text.isEmpty) {
+                        return;
+                      }
+
+                      loadingIndicatorDialog(context);
+                      try {
+                        await apiManager.addProjectName(projectName.text);
+                        snackBar(context, "Done");
+                        Navigator.of(context).pop();
+                      } catch (e) {
+                        snackBar(context, "Error $e");
+                      }
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
                       backgroundColor: ODColorScheme.buttonColor,

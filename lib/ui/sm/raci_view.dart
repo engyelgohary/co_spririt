@@ -4,12 +4,12 @@ import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/theme/appColors.dart';
-import 'new_project.dart';
-import 'new_solution.dart';
-import 'new_subtask.dart';
-import 'new_task.dart';
-import 'new_task_category.dart';
-import 'new_team.dart';
+import 'sheets/new_project.dart';
+import 'sheets/new_solution.dart';
+import 'sheets/new_subtask.dart';
+import 'sheets/new_task.dart';
+import 'sheets/new_task_category.dart';
+import 'sheets/new_team.dart';
 
 class RACIViewPageSM extends StatefulWidget {
   const RACIViewPageSM({super.key});
@@ -58,18 +58,18 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                         style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
-                    const PopupMenuItem(
-                      value: 2,
-                      child: Text(
-                        'New Task',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: SCColorScheme.mainColor),
-                      ),
-                    ),
+                    // const PopupMenuItem(
+                    //   value: 2,
+                    //   child: Text(
+                    //     'New Task',
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(color: SCColorScheme.mainColor),
+                    //   ),
+                    // ),
                     const PopupMenuItem(
                       value: 3,
                       child: Text(
-                        "New Subtask",
+                        "New Task",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: SCColorScheme.mainColor),
                       ),
@@ -93,10 +93,12 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                   ];
                 },
                 onSelected: (value) {
-                 
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.90,
+                    ),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30),
@@ -116,28 +118,6 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                         if (value == 2) const Flexible(child: NewTaskSheetSM()),
                         if (value == 3) const Flexible(child: NewSubTaskSheetSM()),
                         if (value == 4) const Flexible(child: NewTeamSheetSM()),
-                      ],
-                    ),
-                  );
-
-                  showModalBottomSheet(
-                    backgroundColor: Colors.white,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(30),
-                      ),
-                    ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    context: context,
-                    builder: (context) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Icon(Icons.horizontal_rule_rounded),
-                        ),
-                        if (value == 0) const Flexible(child: NewSolutionSM()),
                       ],
                     ),
                   );
@@ -217,7 +197,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Project",
+                              "Task",
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -227,7 +207,8 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                             "Progress",
                             textAlign: TextAlign.start,
                           )),
-                          Expanded(child: Text("Status"))
+                          Expanded(child: Text("Status")),
+                          Expanded(child: Text("Milestone"))
                         ],
                       ),
                     )
@@ -256,7 +237,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                                           Expanded(
                                               flex: 2,
                                               child: Text(
-                                                e["projectName"],
+                                                e["taskName"],
                                                 textAlign: TextAlign.center,
                                               )),
                                           Expanded(
@@ -271,15 +252,18 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                                                 e["status"] ?? "N/A ",
                                                 textAlign: TextAlign.center,
                                               )),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                e["milestone"] ?? "N/A ",
+                                                textAlign: TextAlign.center,
+                                              )),
                                         ]),
                                     children: [
                                       Container(
                                         padding: EdgeInsets.symmetric(vertical: width / 35),
                                         decoration: BoxDecoration(
                                             border: Border(
-                                              bottom: BorderSide(
-                                                color: Colors.grey.shade300,
-                                              ),
                                               top: BorderSide(
                                                 color: Colors.grey.shade300,
                                               ),
@@ -290,24 +274,17 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                                           children: [Text("Task Category:"), Text(e["category"])],
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(vertical: width / 35),
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            ),
-                                            color: Colors.white),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [Text("Task:"), Text(e["taskName"])],
-                                        ),
-                                      ),
                                       if (e["taskMember"].isNotEmpty)
                                         Container(
                                           padding: EdgeInsets.symmetric(vertical: width / 35),
-                                          decoration: const BoxDecoration(color: Colors.white),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border(
+                                              top: BorderSide(
+                                                color: Colors.grey.shade300,
+                                              ),
+                                            ),
+                                          ),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [

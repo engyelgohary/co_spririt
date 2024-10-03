@@ -16,7 +16,13 @@ class NewSolutionSC extends StatefulWidget {
 
 class _NewProjectSheetState extends State<NewSolutionSC> {
   ApiManager apiManager = ApiManager.getInstance();
-  List fields = [TextEditingController()];
+  final TextEditingController solution = TextEditingController();
+  final TextEditingController customerValue = TextEditingController();
+  final TextEditingController targetCustomer = TextEditingController();
+  final TextEditingController customer = TextEditingController();
+  final TextEditingController phase = TextEditingController();
+  final TextEditingController stakeholder = TextEditingController();
+  final TextEditingController rd = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,43 +35,33 @@ class _NewProjectSheetState extends State<NewSolutionSC> {
         children: [
           OpportunityTextFormField(
             fieldName: 'Solution',
-            controller: TextEditingController(),
+            controller: solution,
           ),
           OpportunityTextFormField(
             fieldName: 'Customer value',
-            controller: TextEditingController(),
+            controller: customerValue,
             maxLines: null,
             minLines: 3,
           ),
-          OpportunityDropDownMenu(
+          OpportunityTextFormField(
             fieldName: "Target Customer/Users:",
-            selection: TextEditingController(),
-            dropDownOptions: [],
-            textColor: ODColorScheme.mainColor,
+            controller: targetCustomer,
           ),
-          OpportunityDropDownMenu(
+          OpportunityTextFormField(
             fieldName: "Co-working Customer:",
-            selection: TextEditingController(),
-            dropDownOptions: [],
-            textColor: ODColorScheme.mainColor,
+            controller: customer,
           ),
-          OpportunityDropDownMenu(
+          OpportunityTextFormField(
             fieldName: "Phase:",
-            selection: TextEditingController(),
-            dropDownOptions: ["Proposal", "PoC", "on Service"],
-            textColor: ODColorScheme.mainColor,
+            controller: phase,
           ),
-          OpportunityDropDownMenu(
+          OpportunityTextFormField(
             fieldName: "Co-working Stakeholder",
-            selection: TextEditingController(),
-            dropDownOptions: [],
-            textColor: ODColorScheme.mainColor,
+            controller: stakeholder,
           ),
-          OpportunityDropDownMenu(
+          OpportunityTextFormField(
             fieldName: "Target Co-R&D",
-            selection: TextEditingController(),
-            dropDownOptions: [],
-            textColor: ODColorScheme.mainColor,
+            controller: rd,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -100,8 +96,31 @@ class _NewProjectSheetState extends State<NewSolutionSC> {
                   flex: 3,
                   child: ElevatedButton(
                     onPressed: () async {
+                      if (solution.text.isEmpty ||
+                          customerValue.text.isEmpty ||
+                          targetCustomer.text.isEmpty ||
+                          customer.text.isEmpty ||
+                          phase.text.isEmpty ||
+                          stakeholder.text.isEmpty ||
+                          rd.text.isEmpty) {
+                        return;
+                      }
                       loadingIndicatorDialog(context);
-                      try {} catch (e) {}
+                      try {
+                        await apiManager.AddSolution(
+                          solution: solution.text,
+                          customerValue: customerValue.text,
+                          targetCustomerUser: targetCustomer.text,
+                          coWorkingCustomer: customer.text,
+                          phase: phase.text,
+                          coWorkingStakeHolder: stakeholder.text,
+                          targetCoRD: rd.text,
+                        );
+                        snackBar(context, "Done");
+                        Navigator.of(context).pop();
+                      } catch (e) {
+                        snackBar(context, "Error $e");
+                      }
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(

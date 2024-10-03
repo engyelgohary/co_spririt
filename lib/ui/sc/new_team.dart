@@ -68,7 +68,7 @@ class _NewProjectSheetState extends State<NewTeamSheetSC> {
               shrinkWrap: true,
               itemCount: count,
               itemBuilder: (context, index) => OpportunityTextFormField(
-                fieldName: 'Team ${index + 1}',
+                fieldName: 'Team Member ${index + 1}',
                 controller: fields[index],
               ),
             ),
@@ -118,6 +118,7 @@ class _NewProjectSheetState extends State<NewTeamSheetSC> {
                       try {
                         await apiManager.AddMembers(teams);
                         snackBar(context, "Done");
+                        Navigator.of(context).pop();
                       } catch (e) {
                         snackBar(context, "Error $e");
                       }

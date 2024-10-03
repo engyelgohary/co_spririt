@@ -1,8 +1,8 @@
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/ui/sm/new_subtask.dart';
-import 'package:co_spirit/ui/sm/new_task.dart';
-import 'package:co_spirit/ui/sm/new_task_category.dart';
-import 'package:co_spirit/ui/sm/new_team.dart';
+import 'package:co_spirit/ui/sm/sheets/new_subtask.dart';
+import 'package:co_spirit/ui/sm/sheets/new_task.dart';
+import 'package:co_spirit/ui/sm/sheets/new_task_category.dart';
+import 'package:co_spirit/ui/sm/sheets/new_team.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -111,9 +111,6 @@ class _RACIPageSMState extends State<RACIPageSM> {
             }
             projects = loadingNotifier.response![0];
             categories = loadingNotifier.response![1];
-            print(projects);
-            print(categories);
-
             return Column(
               children: [
                 Padding(

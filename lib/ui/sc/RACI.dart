@@ -92,7 +92,7 @@ class _RaciOverviewSCState extends State<RaciOverviewSC> {
                     ),
                     itemCount: tasks.length,
                     itemBuilder: (context, index) {
-                      return RaciCard(
+                      return TaskCard(
                           taskName: tasks[index]["projectName"],
                           status: tasks[index]["status"] ?? "N/A",
                           progress: tasks[index]["progress"] ?? 0);

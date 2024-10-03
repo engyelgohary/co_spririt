@@ -61,18 +61,18 @@ class _RACIViewPageSCState extends State<RACIViewPageSC> {
                         style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
-                    const PopupMenuItem(
-                      value: 2,
-                      child: Text(
-                        'New Task',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: SCColorScheme.mainColor),
-                      ),
-                    ),
+                    // const PopupMenuItem(
+                    //   value: 2,
+                    //   child: Text(
+                    //     'New Task',
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(color: SCColorScheme.mainColor),
+                    //   ),
+                    // ),
                     const PopupMenuItem(
                       value: 3,
                       child: Text(
-                        "New Subtask",
+                        "New Task",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: SCColorScheme.mainColor),
                       ),
@@ -99,6 +99,9 @@ class _RACIViewPageSCState extends State<RACIViewPageSC> {
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.90,
+                    ),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30),
@@ -125,6 +128,9 @@ class _RACIViewPageSCState extends State<RACIViewPageSC> {
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.90,
+                    ),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30),
@@ -220,7 +226,7 @@ class _RACIViewPageSCState extends State<RACIViewPageSC> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Project",
+                              "Project", // TODO to be replaced with task
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -369,6 +375,7 @@ class _RACIViewPageSCState extends State<RACIViewPageSC> {
                                                   );
                                                   snackBar(context, "Done");
                                                   e["comments"].add(comment.text);
+                                                  Navigator.of(context).pop();
                                                 } catch (e) {
                                                   snackBar(context, "Error $e");
                                                 }

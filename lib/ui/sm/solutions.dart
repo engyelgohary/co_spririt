@@ -1,4 +1,6 @@
-import 'package:co_spirit/ui/sm/RACI.dart';
+import 'package:co_spirit/ui/sm/raci_view.dart';
+import 'package:co_spirit/ui/sm/raci_view_old.dart';
+import 'package:co_spirit/ui/sm/tasks_overview.dart';
 import 'package:co_spirit/ui/sm/menu.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
@@ -25,13 +27,12 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
 
   void _onItemTapped(int index) {
     if (index == 0) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MenuScreenSM(ODId: "2")));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RACIViewPageSM()));
       return;
     }
 
     if (index == 1) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RaciOverviewSM()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TasksOverviewSM()));
       return;
     }
 
@@ -87,9 +88,9 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
                     );
                   }
                   solutions = loadingNotifier.response![0];
-                  if (solutions.isNotEmpty) {
-                    selected = solutions.keys.first;
-                  }
+                  // if (solutions.isNotEmpty) {
+                  //   selected = solutions.keys.first;
+                  // }
                   return Container(
                     decoration:
                         BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
@@ -120,7 +121,7 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
                                   decoration: BoxDecoration(
                                       color: Colors.white, borderRadius: BorderRadius.circular(10)),
                                   child: DropdownButton<String>(
-                                    value: null,
+                                    value: selected.isNotEmpty ? selected : null,
                                     hint: const Text(
                                       "Select an option",
                                       style: TextStyle(color: Colors.grey),
@@ -130,6 +131,7 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
                                         .map(
                                           (e) => DropdownMenuItem<String>(
                                             child: Text(e),
+                                            value: e,
                                           ),
                                         )
                                         .toList(),
@@ -151,58 +153,60 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: SingleChildScrollView(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Customer Value:",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(solutions[selected]["customerValue"] ?? "N/A")),
-                              const Text(
-                                "Target Customer/User :",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(solutions[selected]["targetCustomerUser"] ?? "N/A")),
-                              const Text(
-                                "Co-working Customer :",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(solutions[selected]["coWorkingCustomer"] ?? "N/A")),
-                              const Text(
-                                "Phase (Proposal / PoC / on Service) :",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(solutions[selected]["phase"] ?? "N/A")),
-                              const Text(
-                                "Co-working Stakeholder :",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child:
-                                      Text(solutions[selected]["coWorkingStakeHolder"] ?? "N/A")),
-                              const Text(
-                                "Target Co-R&D :",
-                                style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(solutions[selected]["targetCoRD"] ?? "N/A")),
-                            ],
-                          )),
-                        )
+                        if (selected.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: SingleChildScrollView(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Customer Value:",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(solutions[selected]["customerValue"] ?? "N/A")),
+                                const Text(
+                                  "Target Customer/User :",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child:
+                                        Text(solutions[selected]["targetCustomerUser"] ?? "N/A")),
+                                const Text(
+                                  "Co-working Customer :",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(solutions[selected]["coWorkingCustomer"] ?? "N/A")),
+                                const Text(
+                                  "Phase (Proposal / PoC / on Service) :",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(solutions[selected]["phase"] ?? "N/A")),
+                                const Text(
+                                  "Co-working Stakeholder :",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child:
+                                        Text(solutions[selected]["coWorkingStakeHolder"] ?? "N/A")),
+                                const Text(
+                                  "Target Co-R&D :",
+                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(solutions[selected]["targetCoRD"] ?? "N/A")),
+                              ],
+                            )),
+                          )
                       ],
                     ),
                   );

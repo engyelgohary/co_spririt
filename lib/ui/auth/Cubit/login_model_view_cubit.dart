@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:co_spirit/data/model/GetAdmin.dart';
 import 'package:co_spirit/data/repository/repoContract.dart';
+import 'package:co_spirit/ui/sc/RACI.dart';
+import 'package:co_spirit/ui/sm/tasks_overview.dart';
+import 'package:co_spirit/ui/sm/home_page_sm.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:co_spirit/ui/od/home/home_od.dart';
 import 'package:co_spirit/ui/om/home/home_om.dart';
@@ -33,7 +36,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
 
         if (decodedToken.containsKey('Type') || decodedToken.containsKey('type')) {
           String roleType = (decodedToken['Type'] ?? decodedToken['type']).toString();
-          String? roleId = decodedToken['nameid']?.toString();
+          String? userId = decodedToken['nameid']?.toString();
 
           switch (roleType) {
             case "0":
@@ -42,9 +45,9 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               if (superAdminId != null) {
                 await prefs.setInt('superAdminId', superAdminId);
               }
-              if (roleId != null) {
+              if (userId != null) {
                 emit(LoginModelViewSuccess(HomeScreenOM(
-                  superAdminId: roleId,
+                  superAdminId: userId,
                 )));
                 print(decodedToken);
               } else {
@@ -66,9 +69,9 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               }
               print('Fetching admin details for ID: $adminId');
               GetAdmin? admin = await authRepository.fetchAdminDetails(adminId);
-              if (roleId != null) {
+              if (userId != null) {
                 emit(LoginModelViewSuccess(HomeScreenAdmin(
-                  OMId: roleId,
+                  OMId: userId,
                   admin: admin!,
                 )));
                 print(decodedToken);
@@ -78,8 +81,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               }
               break;
             case "2":
-              if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenOD(ODId: roleId)));
+              if (userId != null) {
+                emit(LoginModelViewSuccess(HomeScreenOD(ODId: userId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Collaborator.');
@@ -87,8 +90,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               }
               break;
             case "3":
-              if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenOA(OAId: roleId)));
+              if (userId != null) {
+                emit(LoginModelViewSuccess(HomeScreenOA(OAId: userId)));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Opportunity Analyzer.');
@@ -96,8 +99,27 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
               }
               break;
             case "4":
-              if (roleId != null) {
-                emit(LoginModelViewSuccess(HomeScreenOW(OWId: roleId)));
+              if (userId != null) {
+                emit(LoginModelViewSuccess(HomeScreenOW(OWId: userId)));
+                print(decodedToken);
+              } else {
+                print('Role ID "nameid" not found for Opportunity Owner.');
+                emit(LoginModelViewError('Role ID "nameid" not found for Opportunity Owner.'));
+              }
+              break;
+            case "5": //sc
+              if (userId != null) {
+                emit(LoginModelViewSuccess(const RaciOverviewSC()));
+                print(decodedToken);
+              } else {
+                print('Role ID "nameid" not found for Opportunity Owner.');
+                emit(LoginModelViewError('Role ID "nameid" not found for Opportunity Owner.'));
+              }
+              break;
+            case "6": //sm
+              if (userId != null) {
+                // emit(LoginModelViewSuccess(HomePageSm(SMId: userId)));
+                emit(LoginModelViewSuccess(TasksOverviewSM()));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Opportunity Owner.');

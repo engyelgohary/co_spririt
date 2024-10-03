@@ -1,7 +1,6 @@
 import 'package:co_spirit/ui/auth/Cubit/login_model_view_cubit.dart';
 import 'package:co_spirit/ui/sc/RACI.dart';
-import 'package:co_spirit/ui/sm/RACI.dart';
-import 'package:co_spirit/ui/sm/raci_view_old.dart';
+import 'package:co_spirit/ui/sm/tasks_overview.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/cupertino.dart';
@@ -158,19 +157,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(top: 15.h),
                             child: ElevatedButton(
                               onPressed: () {
-                                if (modelView.emailController.text.trim() == "sm@sm.com" &&
-                                    modelView.passwordController.text.trim() == "123456") {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                    builder: (context) => RaciOverviewSM(),
-                                  ));
-                                } else if (modelView.emailController.text.trim() == "sc@sc.com" &&
-                                    modelView.passwordController.text.trim() == "123456") {
-                                  Navigator.of(context).push(CupertinoPageRoute(
-                                    builder: (context) => RaciOverviewSC(),
-                                  ));
-                                } else {
+                                // if (modelView.emailController.text.trim() == "sm@sm.com" &&
+                                //     modelView.passwordController.text.trim() == "123456") {
+                                //   Navigator.of(context).push(CupertinoPageRoute(
+                                //     builder: (context) => RaciOverviewSM(),
+                                //   ));
+                                // } else if (modelView.emailController.text.trim() == "sc@sc.com" &&
+                                //     modelView.passwordController.text.trim() == "123456") {
+                                //   Navigator.of(context).push(CupertinoPageRoute(
+                                //     builder: (context) => RaciOverviewSC(),
+                                //   ));
+                                // } else {
                                   modelView.login(context);
-                                }
+                                // }
                               },
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 16.h),

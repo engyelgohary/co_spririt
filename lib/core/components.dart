@@ -1,33 +1,34 @@
 import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spirit/ui/sm/new_project.dart';
-import 'package:co_spirit/ui/sm/new_solution.dart';
+import 'package:co_spirit/ui/sm/sheets/new_project.dart';
+import 'package:co_spirit/ui/sm/sheets/new_solution.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../ui/sm/new_subtask.dart';
-import '../ui/sm/new_task.dart';
-import '../ui/sm/new_task_category.dart';
-import '../ui/sm/new_team.dart';
+import '../ui/sm/menu.dart';
+import '../ui/sm/sheets/new_subtask.dart';
+import '../ui/sm/sheets/new_task_category.dart';
+import '../ui/sm/sheets/new_team.dart';
 import '../utils/helper_functions.dart';
 import 'app_ui.dart';
 import 'app_util.dart';
 
-class RaciCard extends StatelessWidget {
+class TaskCard extends StatelessWidget {
   final String taskName;
   final String status;
   final int progress;
-  const RaciCard({Key? key, required this.taskName, required this.status, required this.progress})
+  const TaskCard({Key? key, required this.taskName, required this.status, required this.progress})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.all(16),
+      width: MediaQuery.of(context).size.width * 0.40,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
@@ -38,19 +39,19 @@ class RaciCard extends StatelessWidget {
         children: [
           Text(
             taskName,
-            style: TextStyle(
-              fontSize: 25.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF000080),
-            ),
+            style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF000080),
+                overflow: TextOverflow.ellipsis),
+          ),
+          Text(
+            status,
+            style: TextStyle(fontSize: 14, color: Colors.grey, overflow: TextOverflow.ellipsis),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                status,
-                style: TextStyle(fontSize: 16.sp, color: Colors.grey),
-              ),
               CircularPercentIndicator(
                 radius: 30.0,
                 lineWidth: 5.0,
@@ -168,11 +169,13 @@ class BottomNavBar extends StatelessWidget {
 class BottomNavBarSM extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
+  final LoadingStateNotifier? loadingNotifier;
 
   const BottomNavBarSM({
     Key? key,
     required this.selectedIndex,
     required this.onItemTapped,
+    this.loadingNotifier,
   }) : super(key: key);
 
   @override
@@ -191,35 +194,38 @@ class BottomNavBarSM extends StatelessWidget {
             icon: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.menu),
+                Image.asset(
+                  "${AppUI.iconPath}RACI.png",
+                  color: selectedIndex == 0 ? focusColor : Colors.white,
+                ),
                 const SizedBox(height: 4),
                 Text(
-                  "Menu",
+                  "RACI",
                   style: TextStyle(color: selectedIndex == 0 ? focusColor : Colors.white),
                 )
               ],
             ),
             color: selectedIndex == 0 ? focusColor : Colors.white,
             focusColor: focusColor,
-            tooltip: "Menu",
+            tooltip: "RACI",
           ),
           IconButton(
             onPressed: () => onItemTapped(1),
             icon: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "${AppUI.iconPath}RACI.png",
+                Icon(
+                  Icons.task_outlined,
                   color: selectedIndex == 1 ? focusColor : Colors.white,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "RACI",
+                  "Tasks",
                   style: TextStyle(color: selectedIndex == 1 ? focusColor : Colors.white),
                 ),
               ],
             ),
-            tooltip: "RACI",
+            tooltip: "Tasks",
             focusColor: focusColor,
           ),
           PopupMenuButton(
@@ -263,18 +269,18 @@ class BottomNavBarSM extends StatelessWidget {
                       style: TextStyle(color: SCColorScheme.mainColor),
                     ),
                   ),
-                  const PopupMenuItem(
-                    value: 2,
-                    child: Text(
-                      'New Task',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
+                  // const PopupMenuItem(
+                  //   value: 2,
+                  //   child: Text(
+                  //     'New Task',
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(color: SCColorScheme.mainColor),
+                  //   ),
+                  // ),
                   const PopupMenuItem(
                     value: 3,
                     child: Text(
-                      "New Subtask",
+                      "New Task",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: SCColorScheme.mainColor),
                     ),
@@ -312,6 +318,7 @@ class BottomNavBarSM extends StatelessWidget {
                       top: Radius.circular(30),
                     ),
                   ),
+                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   context: context,
                   builder: (context) => Column(
@@ -323,7 +330,7 @@ class BottomNavBarSM extends StatelessWidget {
                       ),
                       if (value == 0) const Flexible(child: NewProjectSheetSM()),
                       if (value == 1) const Flexible(child: NewTaskCategorySheetSM()),
-                      if (value == 2) const Flexible(child: NewTaskSheetSM()),
+                      // if (value == 2) const Flexible(child: NewTaskSheetSM()),
                       if (value == 3) const Flexible(child: NewSubTaskSheetSM()),
                       if (value == 4) const Flexible(child: NewTeamSheetSM()),
                     ],
@@ -338,6 +345,7 @@ class BottomNavBarSM extends StatelessWidget {
                 showModalBottomSheet(
                   backgroundColor: Colors.white,
                   isScrollControlled: true,
+                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(30),
@@ -391,6 +399,25 @@ class BottomNavBarSM extends StatelessWidget {
             color: selectedIndex == 3 ? focusColor : Colors.white,
             focusColor: focusColor,
             tooltip: "Solutions",
+          ),
+          IconButton(
+            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => MenuScreenSM(ODId: "2"),
+            )),
+            icon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.settings),
+                const SizedBox(height: 4),
+                Text(
+                  "Settings",
+                  style: TextStyle(color: selectedIndex == 4 ? focusColor : Colors.white),
+                ),
+              ],
+            ),
+            color: selectedIndex == 4 ? focusColor : Colors.white,
+            focusColor: focusColor,
+            tooltip: "Settings",
           ),
         ],
       ),

@@ -41,23 +41,38 @@ class _RACIPageSCState extends State<RACIPageSC> {
                 itemBuilder: (context) => <PopupMenuEntry>[
                   const PopupMenuItem(
                     value: 0,
-                    child: Text('New Task Category'),
+                    child: Text(
+                      'New Task Category',
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 1,
-                    child: Text('New Task'),
+                    child: Text(
+                      "New Task",
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 2,
-                    child: Text("New Subtask"),
+                    child: Text(
+                      "New Subtask",
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 3,
-                    child: Text("New Team Members"),
+                    child: Text(
+                      "New Team Members",
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                   const PopupMenuItem(
                     value: 4,
-                    child: Text("Download"),
+                    child: Text(
+                      "Download",
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
                   ),
                 ],
                 onSelected: (value) {
@@ -147,12 +162,12 @@ class _RACIPageSCState extends State<RACIPageSC> {
                       Flexible(
                           child: OpportunityDropDownMenu(
                         fieldName: "",
-                        controller: TextEditingController(),
                         dropDownOptions: project.text.trim().isEmpty
                             ? []
                             : categories[project.text].keys.toList(),
                         selection: category,
                         textColor: SCColorScheme.mainColor,
+                        callback: () => setState(() {}),
                       ))
                     ],
                   ),
@@ -162,10 +177,11 @@ class _RACIPageSCState extends State<RACIPageSC> {
                   width: double.infinity,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: width / 25, vertical: width / 30),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("AGL", style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor)),
+                        Text(project.text,
+                            style: TextStyle(fontSize: 16, color: SCColorScheme.mainColor)),
                         Icon(
                           Icons.chat_outlined,
                           color: ODColorScheme.buttonColor,
@@ -179,7 +195,7 @@ class _RACIPageSCState extends State<RACIPageSC> {
                   width: double.infinity,
                   child: Padding(
                     padding: EdgeInsets.only(left: width / 25, top: width / 30, bottom: width / 30),
-                    child: const Text("AGL", style: TextStyle(fontSize: 16, color: Colors.white)),
+                    child: Text(category.text, style: TextStyle(fontSize: 16, color: Colors.white)),
                   ),
                 ),
                 Container(

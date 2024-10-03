@@ -3081,12 +3081,14 @@ class ApiManager {
     try {
       final uri =
           Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddCommentToTask');
-
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
       final response =
           await http.post(uri, body: jsonEncode({"comment": comment, "taskId": taskId}), headers: {
         HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.authorizationHeader:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJBZG1pbkBhZG1pbi5jb20iLCJuYW1lIjoiU3VwZXIgQWRtaW4iLCJ0eXBlIjoiMCIsIm5iZiI6MTcyNzg4MTUwNiwiZXhwIjoxNzI3ODgzMzA2LCJpYXQiOjE3Mjc4ODE1MDYsImlzcyI6ImFwaS5jby1zcGlyaXQuY29tIiwiYXVkIjoiY28tc3Bpcml0LmNvbSJ9.bUmCdz3IGlAQJ8PcwEqG8WnV7RbAdxgonGBoWBpw-28',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
       });
 
       if (response.statusCode == 204 || response.statusCode == 200 || response.statusCode == 201) {

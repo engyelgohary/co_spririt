@@ -1,25 +1,27 @@
 import 'package:co_spirit/core/app_util.dart';
-import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
 
-class NewTaskCategorySheetSM extends StatefulWidget {
-  const NewTaskCategorySheetSM({super.key});
+class NewTaskSheetSM extends StatefulWidget {
+  const NewTaskSheetSM({super.key});
 
   @override
-  State<NewTaskCategorySheetSM> createState() => _NewProjectSheetState();
+  State<NewTaskSheetSM> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewTaskCategorySheetSM> {
-  final taskCategory = TextEditingController();
+class _NewProjectSheetState extends State<NewTaskSheetSM> {
   final projectName = TextEditingController();
+  final taskCategory = TextEditingController();
+  final taskName = TextEditingController();
   final ApiManager apiManager = ApiManager.getInstance();
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
-  final map = {};
+  Map projectsMap = {};
+  Map projectsSubTaskMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class _NewProjectSheetState extends State<NewTaskCategorySheetSM> {
         listenable: loadingNotifier,
         builder: (context, child) {
           if (loadingNotifier.loading) {
-            taskCategoryList(apiManager, loadingNotifier);
+            taskList(apiManager, loadingNotifier);
             return const Center(child: CircularProgressIndicator());
           } else if (loadingNotifier.response == null) {
             return Expanded(
@@ -44,25 +46,32 @@ class _NewProjectSheetState extends State<NewTaskCategorySheetSM> {
             );
           }
 
-          for (var element in loadingNotifier.response!) {
-            map.addAll({element["name"]: element["id"]});
-          }
+          projectsMap = loadingNotifier.response![0];
+          projectsSubTaskMap = loadingNotifier.response![1];
 
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               OpportunityDropDownMenu(
                 fieldName: 'Project',
-                controller: null,
                 hintText: "",
                 selection: projectName,
-                dropDownOptions: map.keys.toList(),
+                dropDownOptions: projectsMap.keys.toList(),
+                textColor: ODColorScheme.mainColor,
+                callback: () => setState(() {}),
+              ),
+              OpportunityDropDownMenu(
+                fieldName: 'Task Category',
+                hintText: "",
+                selection: taskCategory,
+                dropDownOptions: projectName.text.trim().isEmpty
+                    ? []
+                    : projectsSubTaskMap[projectName.text].keys.toList(),
                 textColor: ODColorScheme.mainColor,
               ),
               OpportunityTextFormField(
-                fieldName: 'Task Category',
-                controller: taskCategory,
-                // hintText: "Opportunity title",
+                fieldName: 'Task Name',
+                controller: taskName,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -97,14 +106,17 @@ class _NewProjectSheetState extends State<NewTaskCategorySheetSM> {
                       flex: 3,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (projectName.text.trim().isEmpty || taskCategory.text.trim().isEmpty) {
+                          if (projectName.text.trim().isEmpty ||
+                              taskCategory.text.trim().isEmpty ||
+                              taskName.text.trim().isEmpty) {
                             return;
                           }
                           loadingIndicatorDialog(context);
                           try {
-                            await apiManager.addCategoryName(
-                                taskCategory.text.trim(), map[projectName.text.trim()]);
+                            await apiManager.addTaskName(taskName.text.trim(),
+                                projectsSubTaskMap[projectName.text][taskCategory.text]);
                             snackBar(context, "Done");
+                            Navigator.of(context).pop();
                           } catch (e) {
                             snackBar(context, "Error $e");
                           }

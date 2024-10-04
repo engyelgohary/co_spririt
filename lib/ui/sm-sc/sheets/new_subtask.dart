@@ -347,8 +347,7 @@ class _NewProjectSheetState extends State<NewSubTaskSheet> {
                                   },
                                 );
                               }
-                              print(assignTasks);
-                              return;
+
                               loadingIndicatorDialog(context);
                               try {
                                 print(subTask.text);

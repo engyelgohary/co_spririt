@@ -5,7 +5,7 @@ import 'package:co_spirit/ui/sc/raci_view.dart';
 import 'package:co_spirit/ui/sm-sc/sheets/new_project.dart';
 import 'package:co_spirit/ui/sm-sc/sheets/new_solution.dart';
 import 'package:co_spirit/ui/sm-sc/solutions.dart';
-import 'package:co_spirit/ui/sm-sc/tasks_overview.dart';
+import 'package:co_spirit/ui/sm-sc/projects_overview.dart';
 import 'package:co_spirit/ui/sm-sc/raci_view.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,7 +125,7 @@ class BottomNavBar extends StatelessWidget {
             flex: 1,
             child: IconButton(
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const TasksOverview(isSm: false)),
+                MaterialPageRoute(builder: (context) => const ProjectsOverview(isSm: false)),
               ),
               icon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +136,7 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "Tasks",
+                    "Projects",
                     style: TextStyle(
                         fontSize: 12, color: selectedIndex == 1 ? focusColor : Colors.white),
                   ),
@@ -263,7 +263,7 @@ class BottomNavBarSM extends StatelessWidget {
             flex: 1,
             child: IconButton(
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const TasksOverview(isSm: true)),
+                MaterialPageRoute(builder: (context) => const ProjectsOverview(isSm: true)),
               ),
               icon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -274,13 +274,13 @@ class BottomNavBarSM extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "Tasks",
+                    "Projects",
                     style: TextStyle(
                         fontSize: 12, color: selectedIndex == 1 ? focusColor : Colors.white),
                   ),
                 ],
               ),
-              tooltip: "Tasks",
+              tooltip: "Projects",
               focusColor: focusColor,
             ),
           ),

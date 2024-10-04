@@ -808,11 +808,7 @@ Future<void> raciList(ApiManager apiManager, LoadingStateNotifier loadingNotifie
       tasksMap["${task["projectName"]}-${task["category"]}"].add(task);
     }
 
-    print(projectsList);
-    print(categoriesMap);
-    print(tasksMap);
-
-    loadingNotifier.response = [projectsList,categoriesMap, tasksMap];
+    loadingNotifier.response = [projectsList, categoriesMap, tasksMap];
   } catch (e) {
     print("- taskCategoryList error : $e");
     loadingNotifier.response = null;

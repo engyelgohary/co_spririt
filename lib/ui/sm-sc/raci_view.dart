@@ -116,6 +116,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
         ],
       ),
       body: ListenableBuilder(
+        // TODO do it later
         listenable: loadingNotifier,
         builder: (context, child) {
           if (loadingNotifier.loading) {
@@ -312,7 +313,12 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                                             children: [
                                               const Text("RACI:"),
                                               Text(
-                                                  "${e["taskMember"][0]["memberNAme"]}:     ${e["taskMember"][0]["responsibility"]}\n${e["taskMember"][1]["memberNAme"]}:     ${e["taskMember"][1]["responsibility"]}\n${e["taskMember"][2]["memberNAme"]}:     ${e["taskMember"][2]["responsibility"]}\n${e["taskMember"][3]["memberNAme"]}:     ${e["taskMember"][3]["responsibility"]}")
+                                                e["taskMember"]
+                                                    .map((e) =>
+                                                        "${e["memberNAme"]} - ${e["responsibility"]}")
+                                                    .toList()
+                                                    .join("\n"),
+                                              ),
                                             ],
                                           ),
                                         ),

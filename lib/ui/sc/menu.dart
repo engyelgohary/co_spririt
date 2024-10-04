@@ -101,7 +101,7 @@ class _MenuScreenSCState extends State<MenuScreenSC> {
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'RACI_old',
-                    onFunction: () => AppUtil.mainNavigator(context, RACIPageSC()),
+                    onFunction: () => AppUtil.mainNavigator(context, RACIPageSCold()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,

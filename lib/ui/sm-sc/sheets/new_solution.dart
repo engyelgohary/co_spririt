@@ -3,19 +3,18 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http_parser/http_parser.dart';
 
 import '../../../../utils/components/textFormField.dart';
 import '../../../../utils/theme/appColors.dart';
 
-class NewSolutionSM extends StatefulWidget {
-  const NewSolutionSM({super.key});
+class NewSolution extends StatefulWidget {
+  const NewSolution({super.key});
 
   @override
-  State<NewSolutionSM> createState() => _NewProjectSheetState();
+  State<NewSolution> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewSolutionSM> {
+class _NewProjectSheetState extends State<NewSolution> {
   ApiManager apiManager = ApiManager.getInstance();
   final TextEditingController solution = TextEditingController();
   final TextEditingController customerValue = TextEditingController();

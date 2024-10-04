@@ -1,8 +1,12 @@
 import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:co_spirit/ui/sm/sheets/new_project.dart';
-import 'package:co_spirit/ui/sm/sheets/new_solution.dart';
+import 'package:co_spirit/ui/sc/raci_view.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_project.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_solution.dart';
+import 'package:co_spirit/ui/sm-sc/solutions.dart';
+import 'package:co_spirit/ui/sm-sc/tasks_overview.dart';
+import 'package:co_spirit/ui/sm-sc/raci_view.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +14,9 @@ import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../ui/sm/menu.dart';
-import '../ui/sm/sheets/new_subtask.dart';
-import '../ui/sm/sheets/new_task_category.dart';
-import '../ui/sm/sheets/new_team.dart';
+import '../ui/sm-sc/sheets/new_subtask.dart';
+import '../ui/sm-sc/sheets/new_task_category.dart';
+import '../ui/sm-sc/sheets/new_team.dart';
 import '../utils/helper_functions.dart';
 import 'app_ui.dart';
 import 'app_util.dart';
@@ -47,7 +51,8 @@ class TaskCard extends StatelessWidget {
           ),
           Text(
             status,
-            style: TextStyle(fontSize: 14, color: Colors.grey, overflow: TextOverflow.ellipsis),
+            style:
+                const TextStyle(fontSize: 14, color: Colors.grey, overflow: TextOverflow.ellipsis),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -56,7 +61,7 @@ class TaskCard extends StatelessWidget {
                 radius: 30.0,
                 lineWidth: 5.0,
                 percent: progress / 100,
-                center: new Text("$progress%"),
+                center: Text("$progress%"),
                 progressColor: Colors.green,
               ),
             ],
@@ -88,77 +93,114 @@ class BottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            onPressed: () => onItemTapped(0),
-            icon: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.menu),
-                SizedBox(height: 4),
-                Text(
-                  "Menu",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const RACIViewPageSC()),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "${AppUI.iconPath}RACI.png",
+                    color: selectedIndex == 0 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "RACI",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: selectedIndex == 0 ? focusColor : Colors.white,
+                    ),
+                  )
+                ],
+              ),
+              color: selectedIndex == 0 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "RACI",
             ),
-            color: selectedIndex == 0 ? focusColor : Colors.white,
-            focusColor: focusColor,
-            tooltip: "Menu",
           ),
-          IconButton(
-            onPressed: () => onItemTapped(1),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "${AppUI.iconPath}RACI.png",
-                  color: selectedIndex == 1 ? focusColor : Colors.white,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "RACI",
-                  style: TextStyle(color: selectedIndex == 1 ? focusColor : Colors.white),
-                ),
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const TasksOverview(isSm: false)),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.task_outlined,
+                    color: selectedIndex == 1 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Tasks",
+                    style: TextStyle(
+                        fontSize: 12, color: selectedIndex == 1 ? focusColor : Colors.white),
+                  ),
+                ],
+              ),
+              tooltip: "Tasks",
+              focusColor: focusColor,
             ),
-            tooltip: "RACI",
-            focusColor: focusColor,
           ),
-          IconButton(
-            onPressed: () => onItemTapped(2),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "${AppUI.iconPath}puzzle.png",
-                  color: selectedIndex == 2 ? focusColor : Colors.white,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "Solutions",
-                  style: TextStyle(color: selectedIndex == 2 ? focusColor : Colors.white),
-                ),
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const SolutionsScreen(
+                          isSM: false,
+                        )),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "${AppUI.iconPath}puzzle.png",
+                    color: selectedIndex == 3 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Solutions",
+                    style: TextStyle(
+                      color: selectedIndex == 3 ? focusColor : Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              color: selectedIndex == 3 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "Solutions",
             ),
-            color: selectedIndex == 2 ? focusColor : Colors.white,
-            focusColor: focusColor,
-            tooltip: "Solutions",
           ),
-          IconButton(
-            onPressed: () => onItemTapped(3),
-            icon: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.message_outlined),
-                SizedBox(height: 4),
-                Text(
-                  "Message",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                builder: (context) => const MenuScreenSM(ODId: "2"),
+              )),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.settings),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Settings",
+                    style: TextStyle(
+                      color: selectedIndex == 4 ? focusColor : Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              color: selectedIndex == 4 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "Settings",
             ),
-            color: selectedIndex == 3 ? focusColor : Colors.white,
-            focusColor: focusColor,
           ),
         ],
       ),
@@ -187,237 +229,275 @@ class BottomNavBarSM extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.09,
       color: const Color(0xFF000080),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
-            onPressed: () => onItemTapped(0),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "${AppUI.iconPath}RACI.png",
-                  color: selectedIndex == 0 ? focusColor : Colors.white,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "RACI",
-                  style: TextStyle(color: selectedIndex == 0 ? focusColor : Colors.white),
-                )
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const RACIViewPageSM()),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "${AppUI.iconPath}RACI.png",
+                    color: selectedIndex == 0 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "RACI",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: selectedIndex == 0 ? focusColor : Colors.white,
+                    ),
+                  )
+                ],
+              ),
+              color: selectedIndex == 0 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "RACI",
             ),
-            color: selectedIndex == 0 ? focusColor : Colors.white,
-            focusColor: focusColor,
-            tooltip: "RACI",
           ),
-          IconButton(
-            onPressed: () => onItemTapped(1),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.task_outlined,
-                  color: selectedIndex == 1 ? focusColor : Colors.white,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "Tasks",
-                  style: TextStyle(color: selectedIndex == 1 ? focusColor : Colors.white),
-                ),
-              ],
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const TasksOverview(isSm: true)),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.task_outlined,
+                    color: selectedIndex == 1 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Tasks",
+                    style: TextStyle(
+                        fontSize: 12, color: selectedIndex == 1 ? focusColor : Colors.white),
+                  ),
+                ],
+              ),
+              tooltip: "Tasks",
+              focusColor: focusColor,
             ),
-            tooltip: "Tasks",
-            focusColor: focusColor,
           ),
-          PopupMenuButton(
-            itemBuilder: (context) {
-              if (selectedIndex == 3) {
-                return <PopupMenuEntry>[
-                  const PopupMenuItem(
-                    textStyle: TextStyle(color: SCColorScheme.mainColor),
-                    value: 0,
-                    child: Text(
-                      'New solutions',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text(
-                      'Download',
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                ];
-              } else {
-                return <PopupMenuEntry>[
-                  const PopupMenuItem(
-                    textStyle: TextStyle(color: SCColorScheme.mainColor),
-                    value: 0,
-                    child: Text(
-                      'New Project',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    textStyle: TextStyle(color: SCColorScheme.mainColor),
-                    value: 1,
-                    child: Text(
-                      'New Task Category',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                  // const PopupMenuItem(
-                  //   value: 2,
-                  //   child: Text(
-                  //     'New Task',
-                  //     textAlign: TextAlign.center,
-                  //     style: TextStyle(color: SCColorScheme.mainColor),
-                  //   ),
-                  // ),
-                  const PopupMenuItem(
-                    value: 3,
-                    child: Text(
-                      "New Task",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 4,
-                    child: Text(
-                      "New Team Members",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 5,
-                    child: Text(
-                      "Download",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: SCColorScheme.mainColor),
-                    ),
-                  ),
-                ];
-              }
-            },
-            onSelected: (value) {
-              if (selectedIndex == 1) {
-                if (value == 5) {
-                  snackBar(context, "not implemented");
-                  return;
-                }
-                showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
-                    ),
-                  ),
-                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  context: context,
-                  builder: (context) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Icon(Icons.horizontal_rule_rounded),
+          Expanded(
+            flex: 1,
+            child: PopupMenuButton(
+              color: Colors.white,
+              itemBuilder: (context) {
+                if (selectedIndex == 3) {
+                  return <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 0,
+                      child: Text(
+                        'New Solution',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
                       ),
-                      if (value == 0) const Flexible(child: NewProjectSheetSM()),
-                      if (value == 1) const Flexible(child: NewTaskCategorySheetSM()),
-                      // if (value == 2) const Flexible(child: NewTaskSheetSM()),
-                      if (value == 3) const Flexible(child: NewSubTaskSheetSM()),
-                      if (value == 4) const Flexible(child: NewTeamSheetSM()),
-                    ],
-                  ),
-                );
-              }
-              if (selectedIndex == 3) {
-                if (value == 1) {
-                  snackBar(context, "not implemented");
-                  return;
+                    ),
+                    const PopupMenuItem(
+                      value: 1,
+                      child: Text(
+                        'Download',
+                        style: TextStyle(
+                          color: SCColorScheme.mainColor,
+                        ),
+                      ),
+                    ),
+                  ];
+                } else {
+                  return <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 0,
+                      child: Text(
+                        'New Project',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
+                      value: 1,
+                      child: Text(
+                        'New Task Category',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    // const PopupMenuItem(
+                    //   value: 2,
+                    //   child: Text(
+                    //     'New Task',
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(color: SCColorScheme.mainColor),
+                    //   ),
+                    // ),
+                    const PopupMenuItem(
+                      value: 3,
+                      child: Text(
+                        "New Task",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 4,
+                      child: Text(
+                        "New Team Members",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                    const PopupMenuItem(
+                      value: 5,
+                      child: Text(
+                        "Download",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
+                      ),
+                    ),
+                  ];
                 }
-                showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(30),
+              },
+              onSelected: (value) {
+                if (selectedIndex == 1) {
+                  if (value == 5) {
+                    snackBar(context, "not implemented");
+                    return;
+                  }
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    constraints:
+                        BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
+                        ),
+                        if (value == 0) const Flexible(child: NewProjectSheet()),
+                        if (value == 1) const Flexible(child: NewTaskCategorySheet()),
+                        if (value == 3) const Flexible(child: NewSubTaskSheet()),
+                        if (value == 4) const Flexible(child: NewTeamSheet()),
+                      ],
+                    ),
+                  );
+                }
+                if (selectedIndex == 3) {
+                  if (value == 1) {
+                    snackBar(context, "not implemented");
+                    return;
+                  }
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    constraints:
+                        BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.90),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    context: context,
+                    builder: (context) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Icon(Icons.horizontal_rule_rounded),
+                        ),
+                        if (value == 0) const Flexible(child: NewSolution()),
+                      ],
+                    ),
+                  );
+                }
+              },
+              icon: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_box_outlined,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const SolutionsScreen(
+                          isSM: true,
+                        )),
+              ),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "${AppUI.iconPath}puzzle.png",
+                    color: selectedIndex == 3 ? focusColor : Colors.white,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Solutions",
+                    style: TextStyle(
+                      color: selectedIndex == 3 ? focusColor : Colors.white,
+                      fontSize: 12,
                     ),
                   ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  context: context,
-                  builder: (context) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Icon(Icons.horizontal_rule_rounded),
-                      ),
-                      if (value == 0) const Flexible(child: NewSolutionSM()),
-                    ],
+                ],
+              ),
+              color: selectedIndex == 3 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "Solutions",
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                builder: (context) => const MenuScreenSM(ODId: "2"),
+              )),
+              icon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.settings),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Settings",
+                    style: TextStyle(
+                      color: selectedIndex == 4 ? focusColor : Colors.white,
+                      fontSize: 12,
+                    ),
                   ),
-                );
-              }
-            },
-            icon: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add_box_outlined,
-                  color: Colors.white,
-                  size: 40,
-                ),
-                SizedBox(
-                  height: 16,
-                )
-              ],
+                ],
+              ),
+              color: selectedIndex == 4 ? focusColor : Colors.white,
+              focusColor: focusColor,
+              tooltip: "Settings",
             ),
-          ),
-          IconButton(
-            onPressed: () => onItemTapped(3),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "${AppUI.iconPath}puzzle.png",
-                  color: selectedIndex == 3 ? focusColor : Colors.white,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "Solutions",
-                  style: TextStyle(color: selectedIndex == 3 ? focusColor : Colors.white),
-                ),
-              ],
-            ),
-            color: selectedIndex == 3 ? focusColor : Colors.white,
-            focusColor: focusColor,
-            tooltip: "Solutions",
-          ),
-          IconButton(
-            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => MenuScreenSM(ODId: "2"),
-            )),
-            icon: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.settings),
-                const SizedBox(height: 4),
-                Text(
-                  "Settings",
-                  style: TextStyle(color: selectedIndex == 4 ? focusColor : Colors.white),
-                ),
-              ],
-            ),
-            color: selectedIndex == 4 ? focusColor : Colors.white,
-            focusColor: focusColor,
-            tooltip: "Settings",
           ),
         ],
       ),

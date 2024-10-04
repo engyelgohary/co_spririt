@@ -1,22 +1,22 @@
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/ui/sc/new_subtask.dart';
-import 'package:co_spirit/ui/sc/new_task.dart';
-import 'package:co_spirit/ui/sc/new_task_category.dart';
-import 'package:co_spirit/ui/sc/new_team.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_subtask.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_task.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_task_category.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_team.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/theme/appColors.dart';
 
-class RACIPageSC extends StatefulWidget {
-  RACIPageSC({super.key});
+class RACIPageSCold extends StatefulWidget {
+  RACIPageSCold({super.key});
 
   @override
-  State<RACIPageSC> createState() => _RACIPageSCState();
+  State<RACIPageSCold> createState() => _RACIPageSColdState();
 }
 
-class _RACIPageSCState extends State<RACIPageSC> {
+class _RACIPageSColdState extends State<RACIPageSCold> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   final TextEditingController project = TextEditingController();
@@ -97,10 +97,10 @@ class _RACIPageSCState extends State<RACIPageSC> {
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Icon(Icons.horizontal_rule_rounded),
                         ),
-                        if (value == 0) const Flexible(child: NewTaskCategorySheetSC()),
-                        if (value == 1) const Flexible(child: NewTaskSheetSC()),
-                        if (value == 2) const Flexible(child: NewSubTaskSheetSC()),
-                        if (value == 3) const Flexible(child: NewTeamSheetSC()),
+                        if (value == 0) const Flexible(child: NewTaskCategorySheet()),
+                        if (value == 1) const Flexible(child: NewTaskSheet()),
+                        if (value == 2) const Flexible(child: NewSubTaskSheet()),
+                        if (value == 3) const Flexible(child: NewTeamSheet()),
                       ],
                     ),
                   );

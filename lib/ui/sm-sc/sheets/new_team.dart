@@ -4,17 +4,17 @@ import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
 
-class NewTeamSheetSC extends StatefulWidget {
-  const NewTeamSheetSC({super.key});
+class NewTeamSheet extends StatefulWidget {
+  const NewTeamSheet({super.key});
 
   @override
-  State<NewTeamSheetSC> createState() => _NewProjectSheetState();
+  State<NewTeamSheet> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewTeamSheetSC> {
+class _NewProjectSheetState extends State<NewTeamSheet> {
   ApiManager apiManager = ApiManager.getInstance();
   List fields = [TextEditingController()];
   int count = 1;

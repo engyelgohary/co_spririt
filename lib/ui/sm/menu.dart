@@ -3,12 +3,8 @@ import 'package:co_spirit/ui/od/Message/Message_od.dart';
 import 'package:co_spirit/ui/od/Message/oppy_od.dart';
 import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
-import 'package:co_spirit/ui/sm/tasks_overview.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
-import 'package:co_spirit/ui/sm/raci_view_old.dart';
-import 'package:co_spirit/ui/sm/solutions.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:co_spirit/ui/sm/raci_view.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +12,7 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/MenuItem.dart';
 import '../../../utils/theme/appColors.dart';
+import '../sm-sc/raci_view.dart';
 
 class MenuScreenSM extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';

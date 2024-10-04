@@ -752,11 +752,6 @@ Future<void> subTaskList(ApiManager apiManager, LoadingStateNotifier loadingNoti
       projectsSubTaskMap.addAll({project["name"]: temp});
     }
 
-    print(projectsMap);
-    print(projectsSubTaskMap);
-    print(projectsTaskMap);
-    print(teamsMap);
-    print(statusMap);
     loadingNotifier.response = [
       projectsMap,
       projectsSubTaskMap,
@@ -782,24 +777,42 @@ Future<void> subTaskList(ApiManager apiManager, LoadingStateNotifier loadingNoti
 //   "categoryId": 1,
 //   "taskMember": []
 // },
+
 Future<void> raciList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
   try {
-    Map projectsMap = {};
+    List projectsList = [];
+    Map categoriesMap = {};
     Map tasksMap = {};
 
     final projects = await apiManager.projectNameAndId();
+
     for (var project in projects) {
-      projectsMap.addAll({project["name"]: project["id"]});
+      projectsList.add(project["name"]);
+
+      List temp = [];
+      final categories = await apiManager.categoryNameAndId(project["id"]);
+
+      for (var category in categories) {
+        temp.add(category["name"]);
+      }
+
+      categoriesMap.addAll({project["name"]: temp});
     }
 
     final tasks = await apiManager.getTasks();
+
     for (var task in tasks) {
-      if (!tasksMap.containsKey(task["projectName"])) {
-        tasksMap[task["projectName"]] = [];
+      if (!tasksMap.containsKey("${task["projectName"]}-${task["category"]}")) {
+        tasksMap["${task["projectName"]}-${task["category"]}"] = [];
       }
-      tasksMap[task["projectName"]].add(task);
+      tasksMap["${task["projectName"]}-${task["category"]}"].add(task);
     }
-    loadingNotifier.response = [projectsMap, tasksMap];
+
+    print(projectsList);
+    print(categoriesMap);
+    print(tasksMap);
+
+    loadingNotifier.response = [projectsList,categoriesMap, tasksMap];
   } catch (e) {
     print("- taskCategoryList error : $e");
     loadingNotifier.response = null;

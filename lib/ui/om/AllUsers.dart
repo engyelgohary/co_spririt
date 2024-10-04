@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../data/api/apimanager.dart';
 import '../../data/model/AllUsers.dart';
-import '../../utils/components/appbar.dart';
 import '../../utils/helper_functions.dart';
 
 class AllUsersScreen extends StatefulWidget {

@@ -1,28 +1,22 @@
 import 'package:co_spirit/core/app_util.dart';
-import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
 
-class NewSolutionSC extends StatefulWidget {
-  const NewSolutionSC({super.key});
+class NewProjectSheet extends StatefulWidget {
+  const NewProjectSheet({super.key});
 
   @override
-  State<NewSolutionSC> createState() => _NewProjectSheetState();
+  State<NewProjectSheet> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewSolutionSC> {
-  ApiManager apiManager = ApiManager.getInstance();
-  final TextEditingController solution = TextEditingController();
-  final TextEditingController customerValue = TextEditingController();
-  final TextEditingController targetCustomer = TextEditingController();
-  final TextEditingController customer = TextEditingController();
-  final TextEditingController phase = TextEditingController();
-  final TextEditingController stakeholder = TextEditingController();
-  final TextEditingController rd = TextEditingController();
+class _NewProjectSheetState extends State<NewProjectSheet> {
+  final projectName = TextEditingController();
+  final apiManager = ApiManager.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -34,34 +28,9 @@ class _NewProjectSheetState extends State<NewSolutionSC> {
         mainAxisSize: MainAxisSize.min,
         children: [
           OpportunityTextFormField(
-            fieldName: 'Solution',
-            controller: solution,
-          ),
-          OpportunityTextFormField(
-            fieldName: 'Customer value',
-            controller: customerValue,
-            maxLines: null,
-            minLines: 3,
-          ),
-          OpportunityTextFormField(
-            fieldName: "Target Customer/Users:",
-            controller: targetCustomer,
-          ),
-          OpportunityTextFormField(
-            fieldName: "Co-working Customer:",
-            controller: customer,
-          ),
-          OpportunityTextFormField(
-            fieldName: "Phase:",
-            controller: phase,
-          ),
-          OpportunityTextFormField(
-            fieldName: "Co-working Stakeholder",
-            controller: stakeholder,
-          ),
-          OpportunityTextFormField(
-            fieldName: "Target Co-R&D",
-            controller: rd,
+            fieldName: 'Project Name',
+            controller: projectName,
+            // hintText: "Opportunity title",
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width / 15, vertical: 32),
@@ -96,26 +65,13 @@ class _NewProjectSheetState extends State<NewSolutionSC> {
                   flex: 3,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (solution.text.isEmpty ||
-                          customerValue.text.isEmpty ||
-                          targetCustomer.text.isEmpty ||
-                          customer.text.isEmpty ||
-                          phase.text.isEmpty ||
-                          stakeholder.text.isEmpty ||
-                          rd.text.isEmpty) {
+                      if (projectName.text.isEmpty) {
                         return;
                       }
+
                       loadingIndicatorDialog(context);
                       try {
-                        await apiManager.AddSolution(
-                          solution: solution.text,
-                          customerValue: customerValue.text,
-                          targetCustomerUser: targetCustomer.text,
-                          coWorkingCustomer: customer.text,
-                          phase: phase.text,
-                          coWorkingStakeHolder: stakeholder.text,
-                          targetCoRD: rd.text,
-                        );
+                        await apiManager.addProjectName(projectName.text);
                         snackBar(context, "Done");
                         Navigator.of(context).pop();
                       } catch (e) {

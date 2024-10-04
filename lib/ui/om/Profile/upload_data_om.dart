@@ -1,7 +1,6 @@
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';

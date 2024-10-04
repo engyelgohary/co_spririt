@@ -1,8 +1,8 @@
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/ui/sm/sheets/new_subtask.dart';
-import 'package:co_spirit/ui/sm/sheets/new_task.dart';
-import 'package:co_spirit/ui/sm/sheets/new_task_category.dart';
-import 'package:co_spirit/ui/sm/sheets/new_team.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_subtask.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_task.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_task_category.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_team.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -82,10 +82,10 @@ class _RACIPageSMState extends State<RACIPageSM> {
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Icon(Icons.horizontal_rule_rounded),
                         ),
-                        if (value == 0) const Flexible(child: NewTaskCategorySheetSM()),
-                        if (value == 1) const Flexible(child: NewTaskSheetSM()),
-                        if (value == 2) const Flexible(child: NewSubTaskSheetSM()),
-                        if (value == 3) const Flexible(child: NewTeamSheetSM()),
+                        if (value == 0) const Flexible(child: NewTaskCategorySheet()),
+                        if (value == 1) const Flexible(child: NewTaskSheet()),
+                        if (value == 2) const Flexible(child: NewSubTaskSheet()),
+                        if (value == 3) const Flexible(child: NewTeamSheet()),
                       ],
                     ),
                   );

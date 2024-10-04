@@ -16,7 +16,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
-import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
 import 'addCollaborator.dart';
 

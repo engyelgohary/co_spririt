@@ -1,24 +1,20 @@
-import 'package:co_spirit/ui/sm/raci_view.dart';
-import 'package:co_spirit/ui/sm/raci_view_old.dart';
-import 'package:co_spirit/ui/sm/tasks_overview.dart';
-import 'package:co_spirit/ui/sm/menu.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/components.dart';
 import '../../data/api/apimanager.dart';
 
-class SolutionsScreenSM extends StatefulWidget {
-  const SolutionsScreenSM({Key? key}) : super(key: key);
+class SolutionsScreen extends StatefulWidget {
+  final bool isSM;
+  const SolutionsScreen({Key? key, required this.isSM}) : super(key: key);
 
   @override
-  State<SolutionsScreenSM> createState() => _SolutionsScreenSMState();
+  State<SolutionsScreen> createState() => _SolutionsScreenState();
 }
 
-class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
+class _SolutionsScreenState extends State<SolutionsScreen> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   Map solutions = {};
@@ -26,16 +22,6 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
   int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
-    if (index == 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RACIViewPageSM()));
-      return;
-    }
-
-    if (index == 1) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TasksOverviewSM()));
-      return;
-    }
-
     setState(() {
       _selectedIndex = index;
     });
@@ -214,10 +200,15 @@ class _SolutionsScreenSMState extends State<SolutionsScreenSM> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarSM(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
-      ),
+      bottomNavigationBar: widget.isSM
+          ? BottomNavBarSM(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            )
+          : BottomNavBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            ),
     );
   }
 }

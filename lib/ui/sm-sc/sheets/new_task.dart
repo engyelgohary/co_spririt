@@ -3,18 +3,18 @@ import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
-import '../../data/api/apimanager.dart';
+import '../../../../utils/components/textFormField.dart';
+import '../../../../utils/theme/appColors.dart';
+import '../../../data/api/apimanager.dart';
 
-class NewTaskSheetSC extends StatefulWidget {
-  const NewTaskSheetSC({super.key});
+class NewTaskSheet extends StatefulWidget {
+  const NewTaskSheet({super.key});
 
   @override
-  State<NewTaskSheetSC> createState() => _NewProjectSheetState();
+  State<NewTaskSheet> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewTaskSheetSC> {
+class _NewProjectSheetState extends State<NewTaskSheet> {
   final projectName = TextEditingController();
   final taskCategory = TextEditingController();
   final taskName = TextEditingController();

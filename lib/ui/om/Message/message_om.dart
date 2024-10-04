@@ -1,6 +1,5 @@
 import 'package:co_spirit/ui/om/Message/chat_om.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';

@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:excel/excel.dart' hide Border;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../../utils/theme/appColors.dart';
 import '../sm-sc/sheets/new_project.dart';
@@ -60,7 +65,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                     ),
                   ),
                   const PopupMenuItem(
-                    value: 3,
+                    value: 2,
                     child: Text(
                       "New Task",
                       textAlign: TextAlign.center,
@@ -68,16 +73,92 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                     ),
                   ),
                   const PopupMenuItem(
-                    value: 4,
+                    value: 3,
                     child: Text(
                       "New Team Members",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: SCColorScheme.mainColor),
                     ),
                   ),
+                  const PopupMenuItem(
+                    value: 4,
+                    child: Text(
+                      "Download :)",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: SCColorScheme.mainColor),
+                    ),
+                  ),
                 ];
               },
-              onSelected: (value) {
+              onSelected: (value) async {
+                if (value == 4) {
+                  if (project.text.isEmpty) {
+                    return;
+                  }
+
+                  String? excelPath;
+
+                  var excel = Excel.createExcel();
+                  Sheet sheetObject = excel['SheetName'];
+
+                  // sheetObject.cell(CellIndex.indexByString("A1")).value =
+                  //     TextCellValue("Project Name");
+                  // sheetObject.cell(CellIndex.indexByString("B1")).value = TextCellValue("Tasks");
+                  // sheetObject.cell(CellIndex.indexByString("C1")).value =
+                  //     TextCellValue("MileStone");
+                  // sheetObject.cell(CellIndex.indexByString("E1")).value = TextCellValue("RACI");
+                  // sheetObject.cell(CellIndex.indexByString("D1")).value = TextCellValue("Progress");
+                  // sheetObject.cell(CellIndex.indexByString("F1")).value = TextCellValue("Status");
+                  // sheetObject.cell(CellIndex.indexByString("G1")).value = TextCellValue("Notes");
+                  // sheetObject.cell(CellIndex.indexByString("E1")).value = TextCellValue("R");
+                  // sheetObject.cell(CellIndex.indexByString("D1")).value = TextCellValue("A");
+                  // sheetObject.cell(CellIndex.indexByString("F1")).value = TextCellValue("C");
+                  // sheetObject.cell(CellIndex.indexByString("G1")).value = TextCellValue("I");
+                  // sheetObject.cell(CellIndex.indexByString("I1")).value = TextCellValue("Progress");
+                  // sheetObject.cell(CellIndex.indexByString("L1")).value = TextCellValue("Status");
+                  // sheetObject.cell(CellIndex.indexByString("M1")).value = TextCellValue("Notes");
+                  sheetObject.appendRow([
+                    TextCellValue("Project Name"),
+                    TextCellValue("Task Category"),
+                    TextCellValue("Task Name"),
+                    TextCellValue("Milestone"),
+                    TextCellValue("RACI"),
+                    TextCellValue("progress"),
+                    TextCellValue("Status"),
+                    TextCellValue("Comments"),
+                  ]);
+                  for (var projectCategory in categories[project.text]) {
+                    for (var task in tasks["${project.text}-$projectCategory"]) {
+                      sheetObject.appendRow([
+                        TextCellValue(project.text),
+                        TextCellValue(projectCategory),
+                        TextCellValue(task["taskName"] ?? "N/A"),
+                        TextCellValue(task["milestone"] ?? "N/A"),
+                        TextCellValue(
+                          task["taskMember"]
+                              .map((e) => "${e["memberNAme"]} - ${e["responsibility"]}")
+                              .toList()
+                              .join(" \n"),
+                        ),
+                        IntCellValue(task["progress"] ?? 0),
+                        TextCellValue(task["status"] ?? "N/A"),
+                        TextCellValue(task["comments"].join(" \n") ?? "N/A"),
+                      ]);
+                    }
+                  }
+                  var fileBytes = excel.save();
+
+                  final res = await FilePicker.platform
+                      .getDirectoryPath(dialogTitle: "Select save directory");
+
+                  if (res != null) {
+                    excelPath = res.toString();
+                    File(join(excelPath, "output.xlsx"))
+                      ..createSync(recursive: true)
+                      ..writeAsBytesSync(fileBytes ?? []);
+                  }
+                  return;
+                }
                 showModalBottomSheet(
                   backgroundColor: Colors.white,
                   isScrollControlled: true,
@@ -100,9 +181,8 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                       ),
                       if (value == 0) const Flexible(child: NewProjectSheet()),
                       if (value == 1) const Flexible(child: NewTaskCategorySheet()),
-                      if (value == 2) const Flexible(child: NewTaskSheet()),
-                      if (value == 3) const Flexible(child: NewSubTaskSheet()),
-                      if (value == 4) const Flexible(child: NewTeamSheet()),
+                      if (value == 2) const Flexible(child: NewSubTaskSheet()),
+                      if (value == 3) const Flexible(child: NewTeamSheet()),
                     ],
                   ),
                 );
@@ -116,7 +196,6 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
         ],
       ),
       body: ListenableBuilder(
-        // TODO do it later
         listenable: loadingNotifier,
         builder: (context, child) {
           if (loadingNotifier.loading) {

@@ -740,7 +740,6 @@ Future<void> subTaskList(ApiManager apiManager, LoadingStateNotifier loadingNoti
 
         final tempTask = {};
         final tasks = await apiManager.taskNameAndId(_category["id"]);
-        print(tasks);
 
         for (var task in tasks) {
           tempTask.addAll({task["name"]: task["id"]});

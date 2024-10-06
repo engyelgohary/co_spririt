@@ -2865,7 +2865,7 @@ class ApiManager {
           body: jsonEncode({
             "projectId": projectId,
             "categoryId": categoryId,
-            "subTaskId": subTaskId,
+            "subTaskId": null,
             "taskName": taskName,
             "assignTasks": assignTasks,
             "milestone": milestone,
@@ -3167,6 +3167,55 @@ class ApiManager {
       throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
     } catch (e) {
       print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<void> UpdateTask({
+    required int id,
+    required int projectId,
+    required int categoryId,
+    required int subTaskId,
+    required String taskName,
+    required List assignTasks,
+    required String milestone,
+    required String priority,
+    required int taskStatusId,
+    required int progress,
+  }) async {
+    String? token;
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/UpdateTask/$id');
+
+      final response = await http.put(uri,
+          body: jsonEncode({
+            "projectId": projectId,
+            "categoryId": categoryId,
+            "subTaskId": null,
+            "taskName": taskName,
+            "assignTasks": assignTasks,
+            "milestone": milestone,
+            "priority": priority,
+            "taskStatusId": taskStatusId,
+            "progress": progress
+          }),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
+
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return;
+      }
+
+      throw Exception('Failed update project  : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error update project : $e');
       rethrow;
     }
   }

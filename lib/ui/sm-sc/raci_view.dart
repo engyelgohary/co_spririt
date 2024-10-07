@@ -12,7 +12,6 @@ import 'package:path/path.dart';
 import '../../utils/theme/appColors.dart';
 import '../sm-sc/sheets/new_project.dart';
 import '../sm-sc/sheets/new_subtask.dart';
-import '../sm-sc/sheets/new_task.dart';
 import '../sm-sc/sheets/new_task_category.dart';
 import '../sm-sc/sheets/new_team.dart';
 
@@ -84,7 +83,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                   const PopupMenuItem(
                     value: 4,
                     child: Text(
-                      "Download :)",
+                      "Download",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: SCColorScheme.mainColor),
                     ),
@@ -100,24 +99,8 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                   String? excelPath;
 
                   var excel = Excel.createExcel();
-                  Sheet sheetObject = excel['SheetName'];
+                  Sheet sheetObject = excel['Sheet1'];
 
-                  // sheetObject.cell(CellIndex.indexByString("A1")).value =
-                  //     TextCellValue("Project Name");
-                  // sheetObject.cell(CellIndex.indexByString("B1")).value = TextCellValue("Tasks");
-                  // sheetObject.cell(CellIndex.indexByString("C1")).value =
-                  //     TextCellValue("MileStone");
-                  // sheetObject.cell(CellIndex.indexByString("E1")).value = TextCellValue("RACI");
-                  // sheetObject.cell(CellIndex.indexByString("D1")).value = TextCellValue("Progress");
-                  // sheetObject.cell(CellIndex.indexByString("F1")).value = TextCellValue("Status");
-                  // sheetObject.cell(CellIndex.indexByString("G1")).value = TextCellValue("Notes");
-                  // sheetObject.cell(CellIndex.indexByString("E1")).value = TextCellValue("R");
-                  // sheetObject.cell(CellIndex.indexByString("D1")).value = TextCellValue("A");
-                  // sheetObject.cell(CellIndex.indexByString("F1")).value = TextCellValue("C");
-                  // sheetObject.cell(CellIndex.indexByString("G1")).value = TextCellValue("I");
-                  // sheetObject.cell(CellIndex.indexByString("I1")).value = TextCellValue("Progress");
-                  // sheetObject.cell(CellIndex.indexByString("L1")).value = TextCellValue("Status");
-                  // sheetObject.cell(CellIndex.indexByString("M1")).value = TextCellValue("Notes");
                   sheetObject.appendRow([
                     TextCellValue("Project Name"),
                     TextCellValue("Task Category"),
@@ -152,12 +135,15 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                   final res = await FilePicker.platform
                       .getDirectoryPath(dialogTitle: "Select save directory");
 
+                  print("before");
                   if (res != null) {
                     excelPath = res.toString();
                     File(join(excelPath, "output.xlsx"))
                       ..createSync(recursive: true)
-                      ..writeAsBytesSync(fileBytes ?? []);
+                      ..writeAsBytesSync(fileBytes ?? [], flush: true);
                   }
+                  print("after");
+                  snackBar(context, "Done");
                   return;
                 }
                 showModalBottomSheet(
@@ -267,7 +253,7 @@ class _RACIViewPageSMState extends State<RACIViewPageSM> {
                               ),
                               Flexible(
                                 flex: 3,
-                                child: OpportunityDropDownMenu(
+                                child: RaciDropDownMenu(
                                   fieldName: "",
                                   dropDownOptions: categories[project.text] ?? [],
                                   selection: category,

@@ -464,10 +464,99 @@ class _OpportunityDropDownMenuState extends State<OpportunityDropDownMenu> {
               borderRadius: BorderRadius.circular(30),
               color: widget.backgroundColor ?? AppColor.whiteColor,
             ),
+            child: DropdownMenuTheme(
+              data: DropdownMenuThemeData(
+                  menuStyle: MenuStyle(backgroundColor: WidgetStateProperty.all(Colors.white),)),
+              child: DropdownMenu(
+                hintText: widget.hintText,
+                inputDecorationTheme: InputDecorationTheme(
+                  contentPadding: const EdgeInsets.all(16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                menuHeight: 200,
+                width: width * 0.85,
+                controller: widget.selection,
+                initialSelection: widget.initialSelection,
+                dropdownMenuEntries: widget.dropDownOptions
+                    .map((e) => DropdownMenuEntry(
+                          label: e.toString(),
+                          value: e,
+                        ))
+                    .toList(),
+                onSelected: (value) => setState(() {
+                  selected = value;
+                  if (widget.callback != null) {
+                    widget.callback!();
+                  }
+                }),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RaciDropDownMenu extends StatefulWidget {
+  final String fieldName;
+  final String? initialSelection;
+  final String? hintText;
+  final List dropDownOptions;
+  final TextEditingController? controller;
+  final TextEditingController? selection;
+  final Color textColor;
+  final Color? backgroundColor;
+  final VoidCallback? callback;
+
+  const RaciDropDownMenu({
+    super.key,
+    this.controller,
+    this.initialSelection,
+    this.hintText,
+    this.backgroundColor,
+    this.callback,
+    required this.fieldName,
+    required this.selection,
+    required this.dropDownOptions,
+    required this.textColor,
+  });
+
+  @override
+  State<RaciDropDownMenu> createState() => _RaciDropDownMenuState();
+}
+
+class _RaciDropDownMenuState extends State<RaciDropDownMenu> {
+  String? selected;
+
+  @override
+  Widget build(BuildContext context) {
+    double width = AppUtil.responsiveWidth(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (widget.fieldName.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width / 15),
+            child: Text(
+              widget.fieldName,
+              style: TextStyle(fontSize: 16, color: widget.textColor),
+              textAlign: TextAlign.start,
+            ),
+          ),
+        Padding(
+          padding: EdgeInsets.only(top: 8.h, bottom: 16.h, left: width / 15, right: width / 15),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: widget.backgroundColor ?? AppColor.whiteColor,
+            ),
             child: DropdownMenu(
               hintText: widget.hintText,
               inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.all(16),
+                contentPadding: const EdgeInsets.all(8),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

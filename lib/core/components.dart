@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/ui/sc/raci_view.dart';
 import 'package:co_spirit/ui/sm-sc/sheets/new_project.dart';
 import 'package:co_spirit/ui/sm-sc/sheets/new_solution.dart';
+import 'package:co_spirit/ui/sm-sc/sheets/new_target_service.dart';
 import 'package:co_spirit/ui/sm-sc/solutions.dart';
 import 'package:co_spirit/ui/sm-sc/projects_overview.dart';
 import 'package:co_spirit/ui/sm-sc/raci_view.dart';
@@ -301,12 +302,12 @@ class BottomNavBarSM extends StatelessWidget {
                       ),
                     ),
                     const PopupMenuItem(
+                      textStyle: TextStyle(color: SCColorScheme.mainColor),
                       value: 1,
                       child: Text(
-                        'Download',
-                        style: TextStyle(
-                          color: SCColorScheme.mainColor,
-                        ),
+                        'New Target Service',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
                   ];
@@ -354,23 +355,11 @@ class BottomNavBarSM extends StatelessWidget {
                         style: TextStyle(color: SCColorScheme.mainColor),
                       ),
                     ),
-                    const PopupMenuItem(
-                      value: 5,
-                      child: Text(
-                        "Download",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: SCColorScheme.mainColor),
-                      ),
-                    ),
                   ];
                 }
               },
               onSelected: (value) {
                 if (selectedIndex == 1) {
-                  if (value == 5) {
-                    snackBar(context, "not implemented");
-                    return;
-                  }
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
@@ -399,10 +388,6 @@ class BottomNavBarSM extends StatelessWidget {
                   );
                 }
                 if (selectedIndex == 3) {
-                  if (value == 1) {
-                    snackBar(context, "not implemented");
-                    return;
-                  }
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
@@ -423,6 +408,7 @@ class BottomNavBarSM extends StatelessWidget {
                           child: Icon(Icons.horizontal_rule_rounded),
                         ),
                         if (value == 0) const Flexible(child: NewSolution()),
+                        if (value == 1) const Flexible(child: NewTargetService()),
                       ],
                     ),
                   );

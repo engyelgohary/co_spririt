@@ -2761,6 +2761,60 @@ class ApiManager {
     }
   }
 
+  Future<void> addTargetService(String name) async {
+    String? token;
+
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/AddTargetService');
+
+      final response = await http.post(uri, body: jsonEncode({"name": name}), headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return;
+      }
+
+      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error add project name to : $e');
+      rethrow;
+    }
+  }
+
+  Future<List> getTargetService() async {
+    String? token;
+
+    try {
+      token = await storage.read(key: 'token');
+      if (token == null) {
+        throw Exception('No token found. Please log in.');
+      }
+      final uri =
+          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/GetTargetService');
+
+      final response = await http.get(uri, headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+
+      throw Exception('Failed get Target Service : ${response.statusCode} - ${response.body}');
+    } catch (e) {
+      print('Error get Target Service : $e');
+      rethrow;
+    }
+  }
+
   Future<void> addCategoryName(String categoryName, int projectId) async {
     String? token;
     try {
@@ -3105,6 +3159,7 @@ class ApiManager {
   Future<void> AddSolution({
     required String solution,
     required String targetCustomerUser,
+    required int targetServiceId,
     required String customerValue,
     required String coWorkingCustomer,
     required String phase,
@@ -3123,6 +3178,7 @@ class ApiManager {
       final response = await http.post(uri,
           body: jsonEncode({
             "solution": solution,
+            "targetServiceId": targetServiceId,
             "customerValue": customerValue,
             "targetCustomerUser": targetCustomerUser,
             "coWorkingCustomer": coWorkingCustomer,
@@ -3146,27 +3202,29 @@ class ApiManager {
     }
   }
 
-  Future<List> GetSolutions() async {
+  Future<List> GetSolutions(int targetServiceId) async {
     String? token;
     try {
       token = await storage.read(key: 'token');
       if (token == null) {
         throw Exception('No token found. Please log in.');
       }
-      final uri =
-          Uri.http(ApiConstants.baseUrl, '${ApiConstants.projectManagementApi}/GetSolutions');
-
-      final response = await http.get(uri, headers: {
+      print(targetServiceId);
+      final uri = Uri.http(
+        ApiConstants.baseUrl,
+        '${ApiConstants.projectManagementApi}/GetSolutions',
+        {'targetServiceId': "$targetServiceId"},
+      );
+      final response = await http.post(uri, headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }
-
-      throw Exception('Failed add project name : ${response.statusCode} - ${response.body}');
+      throw Exception('Failed get Solutions : ${response.statusCode} - ${response.body}');
     } catch (e) {
-      print('Error add project name to : $e');
+      print('Error get Solutions: $e');
       rethrow;
     }
   }

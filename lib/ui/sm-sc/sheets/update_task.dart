@@ -1,7 +1,6 @@
 import 'package:co_spirit/core/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../utils/components/textFormField.dart';
 import '../../../../utils/theme/appColors.dart';
@@ -61,47 +60,6 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
   List<Widget> rows = [];
 
   @override
-  void initState() {
-    projectName.text = widget.projectName;
-    taskCategory.text = widget.taskCategory;
-    taskName.text = widget.taskName;
-    milestone.text = widget.milestone;
-    priority.text = widget.priority;
-    progress.text = widget.progress;
-    status.text = widget.status;
-
-    for (var team in widget.teams) {
-      teams.add(TextEditingController(text: team["memberNAme"]));
-      responsibilities.add(TextEditingController(text: team["responsibility"]));
-      rows.add(
-        Row(
-          children: [
-            Expanded(
-              child: OpportunityDropDownMenu(
-                fieldName: "",
-                selection: teams[count - 1],
-                dropDownOptions: teamsMap.keys.toList(),
-                textColor: ODColorScheme.mainColor,
-              ),
-            ),
-            Expanded(
-              child: OpportunityDropDownMenu(
-                fieldName: "",
-                selection: responsibilities[count - 1],
-                dropDownOptions: raciMap.keys.toList(),
-                textColor: ODColorScheme.mainColor,
-              ),
-            )
-          ],
-        ),
-      );
-      count++;
-    }
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
 
@@ -123,7 +81,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                 ),
               );
             }
-
+            print("object");
             projectsMap = loadingNotifier.response![0];
             projectsSubTaskMap = loadingNotifier.response![1];
             projectsTasksMap = loadingNotifier.response![2];
@@ -131,28 +89,41 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
             statusMap = loadingNotifier.response![4];
 
             if (rows.isEmpty) {
-              rows.add(
-                Row(
-                  children: [
-                    Expanded(
-                      child: OpportunityDropDownMenu(
-                        fieldName: "",
-                        selection: teams[count - 1],
-                        dropDownOptions: teamsMap.keys.toList(),
-                        textColor: ODColorScheme.mainColor,
+              projectName.text = widget.projectName;
+              taskCategory.text = widget.taskCategory;
+              taskName.text = widget.taskName;
+              milestone.text = widget.milestone;
+              priority.text = widget.priority;
+              progress.text = widget.progress;
+              status.text = widget.status;
+
+              for (var team in widget.teams) {
+                teams.add(TextEditingController(text: team["memberNAme"]));
+                responsibilities.add(TextEditingController(text: team["responsibility"]));
+                rows.add(
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OpportunityDropDownMenu(
+                          fieldName: "",
+                          selection: teams[count - 1],
+                          dropDownOptions: teamsMap.keys.toList(),
+                          textColor: ODColorScheme.mainColor,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: OpportunityDropDownMenu(
-                        fieldName: "",
-                        selection: responsibilities[count - 1],
-                        dropDownOptions: raciMap.keys.toList(),
-                        textColor: ODColorScheme.mainColor,
-                      ),
-                    )
-                  ],
-                ),
-              );
+                      Expanded(
+                        child: OpportunityDropDownMenu(
+                          fieldName: "",
+                          selection: responsibilities[count - 1],
+                          dropDownOptions: raciMap.keys.toList(),
+                          textColor: ODColorScheme.mainColor,
+                        ),
+                      )
+                    ],
+                  ),
+                );
+                count++;
+              }
             }
             return SingleChildScrollView(
               child: Column(
@@ -223,7 +194,6 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                       setState(() {
                                         teams.add(TextEditingController());
                                         responsibilities.add(TextEditingController());
-                                        count++;
                                         rows.add(
                                           Row(
                                             children: [
@@ -247,6 +217,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                           ),
                                         );
                                       });
+                                      count++;
                                     },
                                     icon: const Icon(
                                       Icons.add_circle,

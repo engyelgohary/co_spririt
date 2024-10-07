@@ -18,6 +18,7 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
   final LoadingStateNotifier loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
   Map solutions = {};
+  String selectedTaskService = '';
   String selected = '';
   int _selectedIndex = 3;
 
@@ -74,9 +75,13 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                     );
                   }
                   solutions = loadingNotifier.response![0];
+                  if (selectedTaskService.isNotEmpty) {
+                    print(solutions[selectedTaskService]);
+                  }
                   // if (solutions.isNotEmpty) {
                   //   selected = solutions.keys.first;
                   // }
+                  {}
                   return Container(
                     decoration:
                         BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
@@ -98,6 +103,45 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Text(
+                                  "Task Service",
+                                  style: TextStyle(color: Color(0xFF000080), fontSize: 18),
+                                ),
+                                SizedBox(height: 15.h),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                  child: DropdownButton<String>(
+                                    value:
+                                        selectedTaskService.isNotEmpty ? selectedTaskService : null,
+                                    hint: const Text(
+                                      "Select an option",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    isExpanded: true,
+                                    items: solutions.keys
+                                        .map(
+                                          (e) => DropdownMenuItem<String>(
+                                            child: Text(e),
+                                            value: e,
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedTaskService = value ?? '';
+                                      });
+                                    },
+                                    dropdownColor: Colors.white,
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.grey,
+                                    ),
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                                SizedBox(height: 15.h),
+                                const Text(
                                   "Solutions",
                                   style: TextStyle(color: Color(0xFF000080), fontSize: 18),
                                 ),
@@ -113,14 +157,15 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                     isExpanded: true,
-                                    items: solutions.keys
-                                        .map(
-                                          (e) => DropdownMenuItem<String>(
-                                            child: Text(e),
-                                            value: e,
-                                          ),
-                                        )
-                                        .toList(),
+                                    items: selectedTaskService.isEmpty
+                                        ? []
+                                        : List<DropdownMenuItem<String>>.from(
+                                            solutions[selectedTaskService].keys.map(
+                                                  (e) => DropdownMenuItem<String>(
+                                                    child: Text(e),
+                                                    value: e,
+                                                  ),
+                                                )),
                                     onChanged: (value) {
                                       setState(() {
                                         selected = value ?? '';

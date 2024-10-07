@@ -836,14 +836,38 @@ Future<void> homeList(ApiManager apiManager, LoadingStateNotifier loadingNotifie
 
 Future<void> solutionsList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
   try {
-    final tasks = await apiManager.GetSolutions();
+    final targets = await apiManager.getTargetService();
     Map output = {};
-    for (var task in tasks) {
-      output.addAll({task["solution"]: task});
+    for (var target in targets) {
+      if (!output.containsKey(target["name"])) {
+        output[target["name"]] = {};
+      }
+
+      final solutions = await apiManager.GetSolutions(target["id"]);
+      for (var solution in solutions) {
+        output[target["name"]].addAll({solution["solution"]: solution});
+      }
     }
+    print(output);
     loadingNotifier.response = [output];
   } catch (e) {
-    print("- taskCategoryList error : $e");
+    print("- solutionsList error : $e");
+    loadingNotifier.response = null;
+  }
+  loadingNotifier.change();
+}
+
+Future<void> taskServiceList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
+  try {
+    final targets = await apiManager.getTargetService();
+    Map output = {};
+    for (var target in targets) {
+      output.addAll({target["name"]: target["id"]});
+    }
+    print(output);
+    loadingNotifier.response = [output];
+  } catch (e) {
+    print("- taskServiceList error : $e");
     loadingNotifier.response = null;
   }
   loadingNotifier.change();

@@ -29,179 +29,189 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0, 28.0, 15.0, 0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/logo-corelia.png",
-                    width: 110.w,
-                    height: 56.h,
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search, color: Color(0xFF000080)),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.message_outlined, color: Color(0xFF000080)),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF000080)),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              ListenableBuilder(
-                listenable: loadingNotifier,
-                builder: (context, child) {
-                  if (loadingNotifier.loading) {
-                    homeList(apiManager, loadingNotifier);
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (loadingNotifier.response == null) {
-                    return Expanded(
-                      child: Center(
-                        child: buildErrorIndicator(
-                          "Some error occurred, Please try again.",
-                          () => loadingNotifier.change(),
-                        ),
-                      ),
-                    );
-                  }
-                  final Map tasks = loadingNotifier.response![0];
-                  List<Widget> output = [];
-                  for (var project in tasks.keys) {
-                    output.add(Text(
-                      "$project:",
-                      style: const TextStyle(
-                          fontSize: 24,
-                          color: SCColorScheme.mainColor,
-                          fontWeight: FontWeight.bold),
-                    ));
-                    output.add(const SizedBox(height: 8));
-
-                    List<Widget> temp = [];
-
-                    for (var task in tasks[project]) {
-                      temp.add(GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  backgroundColor: Colors.white,
-                                  content: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        task["taskName"],
-                                        style: const TextStyle(
-                                            fontSize: 20, fontWeight: FontWeight.w600),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      const Text(
-                                        "Project Name:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text(task["projectName"] ?? "N/A"),
-                                      ),
-                                      const Text(
-                                        "Category:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text(task["category"] ?? "n/a"),
-                                      ),
-                                      const Text(
-                                        "Milestone:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text(task["milestone"] ?? "N/A"),
-                                      ),
-                                      const Text(
-                                        "priority:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text(task["priority"] ?? "N/A"),
-                                      ),
-                                      const Text(
-                                        "progress:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text("${task["progress"]}%"),
-                                      ),
-                                      const Text(
-                                        "status:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8, top: 4),
-                                        child: Text(task["status"] ?? "N/A"),
-                                      ),
-                                      const Text(
-                                        "Team members:",
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                      ),
-                                      if (task["taskMember"].isNotEmpty)
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 8, top: 4),
-                                          child: Text(
-                                            task["taskMember"]
-                                                .map((e) =>
-                                                    "${e["memberNAme"]} - ${e["responsibility"]}")
-                                                .toList()
-                                                .join("\n"),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                )),
-                        child: TaskCard(
-                          taskName: task["taskName"],
-                          status: task["status"] ?? "N/A",
-                          progress: task["progress"] ?? 0,
-                        ),
-                      ));
-                      temp.add(const SizedBox(width: 8));
-                    }
-                    output.add(
-                      Flexible(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: temp,
+        child: RefreshIndicator(
+          onRefresh: () async => loadingNotifier.change(),
+            child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/logo-corelia.png",
+                      width: 110.w,
+                      height: 56.h,
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search, color: Color(0xFF000080)),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.message_outlined, color: Color(0xFF000080)),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF000080)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                ListenableBuilder(
+                  listenable: loadingNotifier,
+                  builder: (context, child) {
+                    if (loadingNotifier.loading) {
+                      homeList(apiManager, loadingNotifier);
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (loadingNotifier.response == null) {
+                      return Expanded(
+                        child: Center(
+                          child: buildErrorIndicator(
+                            "Some error occurred, Please try again.",
+                            () => loadingNotifier.change(),
                           ),
                         ),
+                      );
+                    }
+                    final Map tasks = loadingNotifier.response![0];
+                    List<Widget> output = [];
+                    for (var project in tasks.keys) {
+                      output.add(Text(
+                        "$project:",
+                        style: const TextStyle(
+                            fontSize: 24,
+                            color: SCColorScheme.mainColor,
+                            fontWeight: FontWeight.bold),
+                      ));
+                      output.add(const SizedBox(height: 8));
+
+                      List<Widget> temp = [];
+
+                      for (var task in tasks[project]) {
+                        temp.add(GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    content: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          task["taskName"],
+                                          style: const TextStyle(
+                                              fontSize: 20, fontWeight: FontWeight.w600),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        const Text(
+                                          "Project Name:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text(task["projectName"] ?? "N/A"),
+                                        ),
+                                        const Text(
+                                          "Category:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text(task["category"] ?? "n/a"),
+                                        ),
+                                        const Text(
+                                          "Milestone:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text(task["milestone"] ?? "N/A"),
+                                        ),
+                                        const Text(
+                                          "priority:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text(task["priority"] ?? "N/A"),
+                                        ),
+                                        const Text(
+                                          "progress:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text("${task["progress"]}%"),
+                                        ),
+                                        const Text(
+                                          "status:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8, top: 4),
+                                          child: Text(task["status"] ?? "N/A"),
+                                        ),
+                                        const Text(
+                                          "Team members:",
+                                          style:
+                                              TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                        ),
+                                        if (task["taskMember"].isNotEmpty)
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 8, top: 4),
+                                            child: Text(
+                                              task["taskMember"]
+                                                  .map((e) =>
+                                                      "${e["memberNAme"]} - ${e["responsibility"]}")
+                                                  .toList()
+                                                  .join("\n"),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  )),
+                          child: TaskCard(
+                            taskName: task["taskName"],
+                            status: task["status"] ?? "N/A",
+                            progress: task["progress"] ?? 0,
+                          ),
+                        ));
+                        temp.add(const SizedBox(width: 8));
+                      }
+                      output.add(
+                        Flexible(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: temp,
+                            ),
+                          ),
+                        ),
+                      );
+                      output.add(const SizedBox(height: 16));
+                    }
+                    return SingleChildScrollView(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: output,
+                        ),
                       ),
                     );
-                    output.add(const SizedBox(height: 16));
-                  }
-                  return SingleChildScrollView(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: output,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

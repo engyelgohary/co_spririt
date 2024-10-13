@@ -3,7 +3,7 @@ import 'package:co_spirit/ui/admin/Notifactions/notifictionadmin.dart';
 import 'package:co_spirit/ui/admin/requests/request_admin.dart';
 import 'package:co_spirit/ui/auth/Cubit/login_model_view_cubit.dart';
 import 'package:co_spirit/ui/auth/login.dart';
-import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/Notifications/notifications_od.dart';
 import 'package:co_spirit/ui/od/opportunities/cubit/opportunities_cubit.dart';
 import 'package:co_spirit/ui/od/requests/request_collaborator.dart';
 import 'package:co_spirit/ui/splash/splashscreen.dart';

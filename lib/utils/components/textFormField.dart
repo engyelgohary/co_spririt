@@ -466,7 +466,9 @@ class _OpportunityDropDownMenuState extends State<OpportunityDropDownMenu> {
             ),
             child: DropdownMenuTheme(
               data: DropdownMenuThemeData(
-                  menuStyle: MenuStyle(backgroundColor: WidgetStateProperty.all(Colors.white),)),
+                  menuStyle: MenuStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.white),
+              )),
               child: DropdownMenu(
                 hintText: widget.hintText,
                 inputDecorationTheme: InputDecorationTheme(
@@ -534,53 +536,36 @@ class _RaciDropDownMenuState extends State<RaciDropDownMenu> {
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (widget.fieldName.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width / 15),
-            child: Text(
-              widget.fieldName,
-              style: TextStyle(fontSize: 16, color: widget.textColor),
-              textAlign: TextAlign.start,
-            ),
-          ),
-        Padding(
-          padding: EdgeInsets.only(top: 8.h, bottom: 16.h, left: width / 15, right: width / 15),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: widget.backgroundColor ?? AppColor.whiteColor,
-            ),
-            child: DropdownMenu(
-              hintText: widget.hintText,
-              inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.all(8),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: width / 8),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return DropdownMenu(
+            hintText: widget.hintText,
+            inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
               ),
-              menuHeight: 200,
-              width: width * 0.85,
-              controller: widget.selection,
-              initialSelection: widget.initialSelection,
-              dropdownMenuEntries: widget.dropDownOptions
-                  .map((e) => DropdownMenuEntry(
-                        label: e.toString(),
-                        value: e,
-                      ))
-                  .toList(),
-              onSelected: (value) => setState(() {
-                selected = value;
-                if (widget.callback != null) {
-                  widget.callback!();
-                }
-              }),
             ),
-          ),
-        ),
-      ],
+            menuHeight: 200,
+            width: constraints.maxWidth,
+            controller: widget.selection,
+            initialSelection: widget.initialSelection,
+            dropdownMenuEntries: widget.dropDownOptions
+                .map((e) => DropdownMenuEntry(
+                      label: e.toString(),
+                      value: e,
+                    ))
+                .toList(),
+            onSelected: (value) => setState(() {
+              selected = value;
+              if (widget.callback != null) {
+                widget.callback!();
+              }
+            }),
+          );
+        },
+      ),
     );
   }
 }

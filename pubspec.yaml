@@ -97,8 +97,9 @@ flutter:
     - assets/images/
     - assets/icons/png/
     - assets/icons/svg/
+    - assets/icons/svg/project_management/navbar/
+    - assets/icons/svg/project_management/appbar/
     - assets/Roboto-Medium.ttf
-
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

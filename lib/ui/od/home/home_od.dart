@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/ui/od/Menu/menu_od.dart';
 import 'package:co_spirit/ui/od/Message/oppy_od.dart';
-import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/Notifications/notifications_od.dart';
 import 'package:co_spirit/ui/od/opportunities/opportunities_od.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';

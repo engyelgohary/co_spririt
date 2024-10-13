@@ -182,13 +182,13 @@ class _SolutionsScreenSCState extends State<SolutionsScreenSC> {
                                     padding: const EdgeInsets.symmetric(vertical: 8),
                                     child:
                                         Text(solutions[selected]["coWorkingStakeHolder"] ?? "N/A")),
-                                const Text(
-                                  "Target Co-R&D :",
-                                  style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(solutions[selected]["targetCoRD"] ?? "N/A")),
+                                // const Text(
+                                //   "Target Co-R&D :",
+                                //   style: TextStyle(color: ODColorScheme.mainColor, fontSize: 16),
+                                // ),
+                                // Padding(
+                                //     padding: const EdgeInsets.symmetric(vertical: 8),
+                                //     child: Text(solutions[selected]["targetCoRD"] ?? "N/A")),
                               ],
                             )),
                           )

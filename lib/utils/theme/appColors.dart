@@ -62,3 +62,13 @@ class SCColorScheme {
   static const Color forthColor = Color(0x4f000080);
   static const Color fifthColor = Color(0x7fffffff);
 }
+
+class SMColorScheme {
+  static const Color background = Color(0xffF5F5F5);
+  static const Color bars = Color(0xffffffff);
+  static const Color main = Color(0xff1E4481);
+  static const Color second = Color(0xff789DC9);
+  static const Color third = Color(0xffE67F4F);
+  static const Color forth = Color(0xffE64F52);
+  static const Color cards = Color(0x4fEAEDF3);
+}

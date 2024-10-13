@@ -587,6 +587,22 @@ AppBar customAppBar({
   );
 }
 
+AppBar customAppBarNeo({
+  required BuildContext context,
+  required String title,
+  required Color textColor,
+  Color? backgroundColor,
+}) {
+  double height = MediaQuery.of(context).size.height;
+
+  return AppBar(
+    scrolledUnderElevation: 0,
+    backgroundColor: backgroundColor,
+    title: Text(title, style: TextStyle(fontSize: 22, color: textColor)),
+    toolbarHeight: height / 8,
+  );
+}
+
 Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
   try {
     final csvFile = File(path).readAsLinesSync();

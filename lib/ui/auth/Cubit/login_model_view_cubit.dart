@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:co_spirit/data/model/GetAdmin.dart';
 import 'package:co_spirit/data/repository/repoContract.dart';
 import 'package:co_spirit/ui/sm-sc/projects_overview.dart';
+import 'package:co_spirit/ui/sm/sm_home_page.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:co_spirit/ui/od/home/home_od.dart';
 import 'package:co_spirit/ui/om/home/home_om.dart';
@@ -117,7 +118,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
             case "6": //sm
               if (userId != null) {
                 // emit(LoginModelViewSuccess(HomePageSm(SMId: userId)));
-                emit(LoginModelViewSuccess(const ProjectsOverview(isSm: true)));
+                emit(LoginModelViewSuccess(const SMHomePage()));
                 print(decodedToken);
               } else {
                 print('Role ID "nameid" not found for Opportunity Owner.');

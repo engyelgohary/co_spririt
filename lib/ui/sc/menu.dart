@@ -1,7 +1,7 @@
 import 'package:co_spirit/data/dip.dart';
 import 'package:co_spirit/ui/od/Message/Message_od.dart';
 import 'package:co_spirit/ui/od/Message/oppy_od.dart';
-import 'package:co_spirit/ui/od/Notifactions/notifictions_od.dart';
+import 'package:co_spirit/ui/od/Notifications/notifications_od.dart';
 import 'package:co_spirit/ui/od/Profile/profile_od.dart';
 import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';

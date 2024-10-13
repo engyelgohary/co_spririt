@@ -33,7 +33,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width * 0.40,
+      width: 250,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
@@ -45,15 +45,15 @@ class TaskCard extends StatelessWidget {
           Text(
             taskName,
             style: const TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF000080),
+                color: Colors.black,
                 overflow: TextOverflow.ellipsis),
           ),
           Text(
             status,
-            style:
-                const TextStyle(fontSize: 14, color: Colors.grey, overflow: TextOverflow.ellipsis),
+            style: const TextStyle(
+                fontSize: 14, color: SMColorScheme.second, overflow: TextOverflow.ellipsis),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

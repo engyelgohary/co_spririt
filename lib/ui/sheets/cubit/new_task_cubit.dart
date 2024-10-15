@@ -1,15 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:co_spirit/data/repository/data_source.dart';
-import 'package:flutter/material.dart';
+import 'package:co_spirit/ui/sheets/cubit/sheet_state.dart';
 
-part 'new_task_state.dart';
-
-class NewTaskCubit extends Cubit<NewTaskState> {
+class NewTaskCubit extends Cubit<SheetState> {
   SMDataSource smDataSource;
-  NewTaskCubit({required this.smDataSource}) : super(NewTaskInitialState());
+  NewTaskCubit({required this.smDataSource}) : super(SheetInitialState());
 
   Future<void> taskServiceList() async {
-    emit(NewTaskLoadingState());
+    emit(SheetLoadingState());
     try {
       final projectsMap = {};
       final projectsSubTaskMap = {};
@@ -51,11 +49,11 @@ class NewTaskCubit extends Cubit<NewTaskState> {
         projectsSubTaskMap.addAll({project["name"]: temp});
       }
 
-      emit(NewTaskSuccessfulState(
+      emit(SheetSuccessfulState(
           [projectsMap, projectsSubTaskMap, projectsTaskMap, teamsMap, statusMap]));
     } catch (e) {
       print("- taskCategoryList error : $e");
-      emit(NewTaskFailureState(e.toString()));
+      emit(SheetFailureState(e.toString()));
     }
   }
 }

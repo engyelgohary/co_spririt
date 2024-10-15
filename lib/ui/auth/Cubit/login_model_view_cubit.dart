@@ -26,7 +26,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
       email: emailController.text,
       password: passwordController.text,
     );
-    
+
     if (token != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token); // Save the token
@@ -119,7 +119,8 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
           case "6": //sm
             if (userId != null) {
               // emit(LoginModelViewSuccess(HomePageSm(SMId: userId)));
-              emit(LoginModelViewSuccess(const SMHomePage()));
+              // emit(LoginModelViewSuccess(const SMHomePage()));
+              emit(LoginModelViewSuccess(const SCHomePage()));
               print(decodedToken);
             } else {
               print('Role ID "nameid" not found for Opportunity Owner.');

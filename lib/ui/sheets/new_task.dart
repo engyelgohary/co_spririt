@@ -5,6 +5,7 @@ import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
 import 'package:co_spirit/ui/sheets/cubit/new_task_cubit.dart';
+import 'package:co_spirit/ui/sheets/cubit/sheet_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,9 +53,9 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
       body: BlocBuilder(
           bloc: newTaskCubit,
           builder: (context, state) {
-            if (state is NewTaskLoadingState) {
+            if (state is SheetLoadingState) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is NewTaskSuccessfulState) {
+            } else if (state is SheetSuccessfulState) {
               projectsMap = state.response[0];
               projectsSubTaskMap = state.response[1];
               projectsTasksMap = state.response[2];

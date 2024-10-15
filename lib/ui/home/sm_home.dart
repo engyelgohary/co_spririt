@@ -181,11 +181,11 @@ class _SMHomePageState extends State<SMHomePage> {
             }
           },
           icon: FloatingActionButton(
-            backgroundColor: SMColorScheme.background,
+            backgroundColor: SMColorScheme.main,
             onPressed: null,
             child: Icon(
               Icons.add,
-              color: SMColorScheme.main,
+              color: Colors.white,
             ),
           ),
         ),

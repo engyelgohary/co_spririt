@@ -18,8 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginModelViewCubit modelView = LoginModelViewCubit(
-      authDataSource: AuthDataSourceRemote(apiManager: ApiManager.getInstance()));
-  bool RememberMe = false;
+    authDataSource: AuthDataSourceRemote(apiManager: ApiManager.getInstance()),
+  );
+  bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
@@ -123,10 +124,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   children: [
                                     Checkbox(
                                       activeColor: ODColorScheme.buttonColor,
-                                      value: RememberMe,
+                                      value: rememberMe,
                                       onChanged: (value) {
                                         setState(() {
-                                          RememberMe = value ?? false;
+                                          rememberMe = value ?? false;
                                         });
                                       },
                                     ),
@@ -156,19 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(top: 15),
                             child: ElevatedButton(
                               onPressed: () {
-                                // if (modelView.emailController.text.trim() == "sm@sm.com" &&
-                                //     modelView.passwordController.text.trim() == "123456") {
-                                //   Navigator.of(context).push(CupertinoPageRoute(
-                                //     builder: (context) => RaciOverviewSM(),
-                                //   ));
-                                // } else if (modelView.emailController.text.trim() == "sc@sc.com" &&
-                                //     modelView.passwordController.text.trim() == "123456") {
-                                //   Navigator.of(context).push(CupertinoPageRoute(
-                                //     builder: (context) => RaciOverviewSC(),
-                                //   ));
-                                // } else {
                                 modelView.login(context);
-                                // }
                               },
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),

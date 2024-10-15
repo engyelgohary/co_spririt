@@ -1,25 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:co_spirit/data/repository/data_source.dart';
-import 'package:flutter/material.dart';
+import 'package:co_spirit/ui/sheets/cubit/sheet_state.dart';
 
-part 'new_solution_state.dart';
-
-class NewSolutionCubit extends Cubit<NewSolutionState> {
+class NewSolutionCubit extends Cubit<SheetState> {
   SMDataSource smDataSource;
-  NewSolutionCubit({required this.smDataSource}) : super(NewSolutionInitialState());
+  NewSolutionCubit({required this.smDataSource}) : super(SheetInitialState());
 
   Future<void> taskServiceList() async {
-    emit(NewSolutionLoadingState());
+    emit(SheetLoadingState());
     try {
       final targets = await smDataSource.getTargetService();
       Map output = {};
       for (var target in targets) {
         output.addAll({target["name"]: target["id"]});
       }
-      emit(NewSolutionSuccessfulState(output));
+      emit(SheetSuccessfulState(output));
     } catch (e) {
       print("- taskCategoryList error : $e");
-      emit(NewSolutionFailureState(e.toString()));
+      emit(SheetFailureState(e.toString()));
     }
   }
 }

@@ -1,12 +1,12 @@
+import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/core/components/helper_functions.dart';
+import 'package:co_spirit/core/components/text_form_field.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/data/repository/remote_data_source.dart';
 import 'package:co_spirit/ui/auth/Cubit/login_model_view_cubit.dart';
-import 'package:co_spirit/utils/components/textFormField.dart';
-import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../core/app_util.dart';
-import '../../data/dip.dart';
-import '../../utils/helper_functions.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'LoginScreen';
@@ -17,11 +17,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  LoginModelViewCubit modelView = LoginModelViewCubit(authRepository: injectAuthRepository());
+  LoginModelViewCubit modelView = LoginModelViewCubit(
+      authDataSource: AuthDataSourceRemote(apiManager: ApiManager.getInstance()));
   bool RememberMe = false;
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
+    // return Center(child: Text("data"));
     return BlocListener<LoginModelViewCubit, LoginModelViewState>(
       bloc: modelView,
       listener: (BuildContext context, state) {
@@ -52,11 +54,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image.asset(
                     "assets/images/logo-corelia.png",
-                    width: 194.w,
-                    height: 56.h,
+                    width: 194,
+                    height: 56,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 26.h),
+                    padding: EdgeInsets.only(top: 26),
                     child: Form(
                       key: modelView.formKey,
                       child: Column(
@@ -151,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 15.h),
+                            padding: EdgeInsets.only(top: 15),
                             child: ElevatedButton(
                               onPressed: () {
                                 // if (modelView.emailController.text.trim() == "sm@sm.com" &&
@@ -165,14 +167,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //     builder: (context) => RaciOverviewSC(),
                                 //   ));
                                 // } else {
-                                  modelView.login(context);
+                                modelView.login(context);
                                 // }
                               },
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 16.h),
+                                  padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),
                                   backgroundColor: ODColorScheme.buttonColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(30.r)))),
+                                      borderRadius: BorderRadius.all(Radius.circular(30)))),
                               child: const Text(
                                 'Login',
                                 style: TextStyle(fontSize: 16, color: Colors.white),
@@ -180,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 15.h),
+                            padding: EdgeInsets.only(top: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

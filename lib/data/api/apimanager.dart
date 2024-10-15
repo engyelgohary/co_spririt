@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:co_spirit/data/model/Client.dart';
 import 'package:co_spirit/data/model/ClientReq.dart';
 import 'package:co_spirit/data/model/Collaborator.dart';
-import 'package:co_spirit/data/model/GetAdmin.dart';
+import 'package:co_spirit/data/model/admin.dart';
 import 'package:co_spirit/data/model/Notification.dart';
 import 'package:co_spirit/data/model/OpportunityAnalyzer.dart';
 import 'package:co_spirit/data/model/OpportunityOwner.dart';
@@ -112,7 +112,7 @@ class ApiManager {
   }
 
 //Admin
-  Future<List<GetAdmin>> getAllAdmins({int page = 1}) async {
+  Future<List<Admin>> getAllAdmins({int page = 1}) async {
     final Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi, {
       "page": page.toString(),
     });
@@ -122,7 +122,7 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(response.body);
-        final List<GetAdmin> admins = jsonList.map((json) => GetAdmin.fromJson(json)).toList();
+        final List<Admin> admins = jsonList.map((json) => Admin.fromJson(json)).toList();
         return admins;
       } else {
         throw Exception('Failed to load admins. Status code: ${response.statusCode}');
@@ -133,7 +133,7 @@ class ApiManager {
     }
   }
 
-  Future<GetAdmin> addAdmin(Map<String, dynamic> adminData, XFile? image) async {
+  Future<Admin> addAdmin(Map<String, dynamic> adminData, XFile? image) async {
     var uri = Uri.http(ApiConstants.baseUrl, ApiConstants.adminApi);
     var request = http.MultipartRequest('POST', uri);
 
@@ -161,25 +161,25 @@ class ApiManager {
 
     if (response.statusCode == 201) {
       var responseData = await http.Response.fromStream(response);
-      return GetAdmin.fromJson(jsonDecode(responseData.body));
+      return Admin.fromJson(jsonDecode(responseData.body));
     } else {
       var responseData = await http.Response.fromStream(response);
       throw Exception('Failed to add admin: ${responseData.body}');
     }
   }
 
-  Future<GetAdmin> fetchAdminDetails(int id) async {
+  Future<Admin> fetchAdminDetails(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      return GetAdmin.fromJson(jsonDecode(response.body));
+      return Admin.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load admin details');
     }
   }
 
-  Future<GetAdmin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
+  Future<Admin> updateAdmin(Map<String, dynamic> adminData, XFile? image) async {
     try {
       var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/${adminData['id']}');
       var request = http.MultipartRequest('PUT', uri);
@@ -210,10 +210,10 @@ class ApiManager {
 
       if (response.statusCode == 204) {
         // No Content
-        return GetAdmin(); // Assuming an empty GetAdmin object
+        return Admin(); // Assuming an empty GetAdmin object
       } else if (response.statusCode == 200) {
         var responseData = await http.Response.fromStream(response);
-        return GetAdmin.fromJson(jsonDecode(responseData.body));
+        return Admin.fromJson(jsonDecode(responseData.body));
       } else {
         var responseData = await http.Response.fromStream(response);
         throw Exception('Failed to update admin: ${responseData.body}');
@@ -223,13 +223,13 @@ class ApiManager {
     }
   }
 
-  Future<GetAdmin> deleteAdmin(int id) async {
+  Future<Admin> deleteAdmin(int id) async {
     var uri = Uri.http(ApiConstants.baseUrl, '${ApiConstants.adminApi}/$id');
     final response = await http.delete(uri);
     if (response.statusCode == 204) {
-      return GetAdmin();
+      return Admin();
     } else if (response.statusCode == 200) {
-      return GetAdmin.fromJson(jsonDecode(response.body));
+      return Admin.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to delete admin ');
     }
@@ -1202,7 +1202,7 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         List responseData = jsonDecode(response.body);
-        responseData = List.from(responseData.map((e) => GetAdmin.fromJson(e)));
+        responseData = List.from(responseData.map((e) => Admin.fromJson(e)));
         return responseData;
       } else {
         throw Exception('Failed to get super admin data code: ${response.statusCode}');

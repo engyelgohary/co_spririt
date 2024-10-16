@@ -89,7 +89,7 @@ class _OpportunityOwnersScreenState extends State<OpportunityOwnersScreen> {
       //   actions: [
       //     IconButton(
       //       icon: CircleAvatar(
-      //         radius: 25.r,
+      //         radius: 25,
       //         backgroundColor: AppColor.secondColor,
       //         child: const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
       //       ),
@@ -117,7 +117,7 @@ class _OpportunityOwnersScreenState extends State<OpportunityOwnersScreen> {
                       ),
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 20.r,
+                        radius: 20,
                         child:
                             const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
@@ -145,7 +145,7 @@ class _OpportunityOwnersScreenState extends State<OpportunityOwnersScreen> {
                       },
                       child: CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 18.r,
+                        radius: 18,
                         child: const Icon(
                           Icons.info_outline,
                           color: AppColor.secondColor,

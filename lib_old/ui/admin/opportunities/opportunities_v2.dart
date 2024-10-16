@@ -409,7 +409,7 @@ class _CustomDropDownMenu2State extends State<CustomDropDownMenu2> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 15.h, bottom: 20.h, right: 12.w, left: 12.w),
+          padding: EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12.w),
           child: Container(
             color: AppColor.whiteColor,
             child: DropdownMenu<dynamic>(

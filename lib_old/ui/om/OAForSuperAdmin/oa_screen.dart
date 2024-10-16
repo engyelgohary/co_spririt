@@ -97,7 +97,7 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
                       ),
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 20.r,
+                        radius: 20,
                         child:
                             const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
@@ -125,7 +125,7 @@ class _OpportunityAnalyzersScreenState extends State<OpportunityAnalyzersScreen>
                       },
                       child: CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 18.r,
+                        radius: 18,
                         child: const Icon(
                           Icons.info_outline,
                           color: AppColor.secondColor,

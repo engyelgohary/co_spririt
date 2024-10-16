@@ -13,8 +13,8 @@ class InfoType extends StatelessWidget {
       return const CircularProgressIndicator();
     }
     return Container(
-      height: 100.h,
-      width: 369.w,
+      height: 100,
+      width: 369,
       padding: const EdgeInsets.all(20),
       child: CustomTextInfo(fieldName: 'Type :', data: "${types!.type}"),
     );

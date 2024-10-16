@@ -80,8 +80,8 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
       },
       builder: (context, state) {
         return Container(
-          width: 319.w,
-          height: 254.h,
+          width: 319,
+          height: 254,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(40.r)),
           child: AlertDialog(
             content: Column(
@@ -115,8 +115,8 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                 Text('Request Type', style: Theme.of(context).textTheme.titleMedium),
                 SizedBox(height: 8.h),
                 SizedBox(
-                  height: 32.h,
-                  width: 300.w,
+                  height: 32,
+                  width: 300,
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -166,8 +166,8 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                 children: [
                   Flexible(
                     child: SizedBox(
-                      height: 35.h,
-                      width: 120.w,
+                      height: 35,
+                      width: 120,
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop(); // Close the dialog
@@ -190,8 +190,8 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                   SizedBox(width: 5.w),
                   Flexible(
                     child: SizedBox(
-                      height: 35.h,
-                      width: 120.w,
+                      height: 35,
+                      width: 120,
                       child: ElevatedButton(
                         onPressed: () {
                           viewModel.addRequest();

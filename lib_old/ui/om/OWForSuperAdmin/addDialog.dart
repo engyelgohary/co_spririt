@@ -42,8 +42,8 @@ class _AddOWState extends State<AddOW> {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            height: 600.h,
-            width: 369.w,
+            height: 600,
+            width: 369,
             margin: const EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
@@ -57,14 +57,14 @@ class _AddOWState extends State<AddOW> {
                         if (state is OpportunityOwnerImageSelected) {
                           return Center(
                             child: CircleAvatar(
-                              radius: 60.r,
+                              radius: 60,
                               backgroundImage: FileImage(File(state.image.path)),
                             ),
                           );
                         }
                         return Center(
                           child: CircleAvatar(
-                            radius: 60.r,
+                            radius: 60,
                             backgroundColor: AppColor.disableColor,
                             child: const Icon(Icons.cameraswitch_outlined,
                                 size: 40, color: AppColor.blackColor),
@@ -183,8 +183,8 @@ class _AddOWState extends State<AddOW> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
@@ -208,8 +208,8 @@ class _AddOWState extends State<AddOW> {
                         ),
                       ),
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             if (viewModel.formKey.currentState!.validate()) {

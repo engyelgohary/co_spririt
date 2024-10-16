@@ -88,7 +88,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SizedBox(
-          height: 600.h,
+          height: 600,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -96,7 +96,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                 onTap: _pickImage,
                 child: Center(
                   child: CircleAvatar(
-                    radius: 60.r,
+                    radius: 60,
                     backgroundImage: selectedImage != null
                         ? FileImage(File(selectedImage!.path))
                         : widget.collaborator.pictureLocation != null
@@ -175,8 +175,8 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
               Row(
                 children: [
                   SizedBox(
-                    height: 32.h,
-                    width: 140.w,
+                    height: 32,
+                    width: 140,
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       controller: contractStartController,
@@ -188,7 +188,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -217,8 +217,8 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   ),
                   const SizedBox(width: 9),
                   SizedBox(
-                    height: 32.h,
-                    width: 140.w,
+                    height: 32,
+                    width: 140,
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       controller: contractEndController,
@@ -230,7 +230,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -263,8 +263,8 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                   ),
                   SizedBox(width: 154.w),
                   SizedBox(
-                    height: 35.h,
-                    width: 135.w,
+                    height: 35,
+                    width: 135,
                     child: ElevatedButton(
                       onPressed: () {
                         selectCv();
@@ -288,8 +288,8 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: 35.h,
-                    width: 135.w,
+                    height: 35,
+                    width: 135,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
@@ -307,8 +307,8 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                     ),
                   ),
                   SizedBox(
-                    height: 35.h,
-                    width: 135.w,
+                    height: 35,
+                    width: 135,
                     child: ElevatedButton(
                       onPressed: () {
                         updateCollaborator();

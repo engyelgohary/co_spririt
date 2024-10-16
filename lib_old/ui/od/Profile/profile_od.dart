@@ -120,7 +120,7 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                   children: [
                     Center(
                       child: CircleAvatar(
-                        radius: 60.r,
+                        radius: 60,
                         backgroundImage: _selectedImage != null
                             ? FileImage(File(_selectedImage!.path))
                             : NetworkImage(
@@ -132,14 +132,14 @@ class _ProfileScreenODState extends State<ProfileScreenOD> {
                       ),
                     ),
                     SizedBox(
-                      height: 16.h,
+                      height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
-                      height: 16.h,
+                      height: 16,
                     ),
                     CustomTextFormField(
                       fieldName: 'First Name',

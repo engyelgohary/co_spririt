@@ -16,8 +16,8 @@ class InfoAdmin extends StatelessWidget {
       return const CircularProgressIndicator();
     }
     return Container(
-      height: 482.h,
-      width: 369.w,
+      height: 482,
+      width: 369,
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -28,26 +28,26 @@ class InfoAdmin extends StatelessWidget {
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
             imageBuilder: (context, imageProvider) => CircleAvatar(
-              radius: 75.r,
+              radius: 75,
               backgroundImage: imageProvider,
             ),
           ),
           SizedBox(height: 20.h),
           CustomTextInfo(fieldName: 'First Name :', data: "${admin!.firstName}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Last Name : ', data: "${admin!.lastName}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Mobile : ', data: "${admin!.phone}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'E-mail : ', data: "${admin!.email}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Can Post:', data: "${admin!.canPost}"),
         ],
@@ -74,7 +74,7 @@ class CustomTextInfo extends StatelessWidget {
               .copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
         ),
         SizedBox(
-          width: width!.w,
+          width: width!,
         ),
         Text(
           data,

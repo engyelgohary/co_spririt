@@ -110,7 +110,7 @@ class _NotificationScreenOAState extends State<NotificationScreenOA> {
                       ),
                       trailing: CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 18.r,
+                        radius: 18,
                         child: const Icon(
                           Icons.info_outline,
                           color: AppColor.secondColor,

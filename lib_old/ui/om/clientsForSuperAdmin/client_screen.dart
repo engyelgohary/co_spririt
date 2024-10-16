@@ -71,7 +71,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
         actions: [
           IconButton(
             icon: CircleAvatar(
-              radius: 25.r,
+              radius: 25,
               backgroundColor: AppColor.secondColor,
               child:
                   const Icon(Icons.person_add_alt_outlined, color: AppColor.whiteColor, size: 20),
@@ -132,7 +132,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                             },
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
+                              radius: 18,
                               child: const Icon(
                                 Icons.update_outlined,
                                 color: AppColor.secondColor,
@@ -147,7 +147,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                             },
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
+                              radius: 18,
                               child: const Icon(
                                 Icons.info_outline,
                                 color: AppColor.secondColor,

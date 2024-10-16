@@ -159,7 +159,6 @@ class Signalr {
         HttpConnectionOptions(
           logMessageContent: true,
           logging: (level, message) {
-            // print("-level = $level");
             print("-message = $message");
           },
         ),
@@ -779,18 +778,6 @@ Future<void> subTaskList(ApiManager apiManager, LoadingStateNotifier loadingNoti
   }
   loadingNotifier.change();
 }
-
-// {
-//   "projectName": "Co-spirit",
-//   "taskName": "finish ui",
-//   "milestone": null,
-//   "priority": null,
-//   "progress": null,
-//   "status": null,
-//   "category": "ui",
-//   "categoryId": 1,
-//   "taskMember": []
-// },
 
 Future<void> raciList(ApiManager apiManager, LoadingStateNotifier loadingNotifier) async {
   try {

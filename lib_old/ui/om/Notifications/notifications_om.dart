@@ -31,10 +31,11 @@ class _NotificationScreenOMState extends State<NotificationScreenOM> {
 
     return Scaffold(
       appBar: customAppBar(
-          title: "Notifications",
-          context: context,
-          textColor: OMColorScheme.textColor,
-          backArrowColor: OMColorScheme.mainColor,),
+        title: "Notifications",
+        context: context,
+        textColor: OMColorScheme.textColor,
+        backArrowColor: OMColorScheme.mainColor,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(
@@ -112,7 +113,7 @@ class _NotificationScreenOMState extends State<NotificationScreenOM> {
                       ),
                       trailing: CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 18.r,
+                        radius: 18,
                         child: const Icon(
                           Icons.info_outline,
                           color: AppColor.secondColor,

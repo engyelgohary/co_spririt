@@ -43,7 +43,7 @@ class _UpdateTypeState extends State<UpdateType> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
-        height: 500.h,
+        height: 500,
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -63,8 +63,8 @@ class _UpdateTypeState extends State<UpdateType> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 35.h,
-                  width: 135.w,
+                  height: 35,
+                  width: 135,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
@@ -82,8 +82,8 @@ class _UpdateTypeState extends State<UpdateType> {
                   ),
                 ),
                 SizedBox(
-                  height: 35.h,
-                  width: 135.w,
+                  height: 35,
+                  width: 135,
                   child: ElevatedButton(
                     onPressed: () {
                       updateType();

@@ -1,4 +1,3 @@
-// import 'package:co_spirit/ui/auth/login.dart';
 import 'dart:convert';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -9,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../core/components/helper_functions.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -17,6 +18,8 @@ class SplashScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
+        Signalr().start();
+
         await initializeHive();
         await initializeNotification();
         if (context.mounted) {

@@ -83,7 +83,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       child: GestureDetector(
                         onTap: _pickImage,
                         child: CircleAvatar(
-                          radius: 60.r,
+                          radius: 60,
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
@@ -96,14 +96,14 @@ class _EditProfileOAState extends State<EditProfileOA> {
                       ),
                     ),
                     SizedBox(
-                      height: 16.h,
+                      height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
-                      height: 16.h,
+                      height: 16,
                     ),
                     CustomTextFormField(
                       fieldName: 'First Name',

@@ -27,8 +27,8 @@ class InfoClient extends StatelessWidget {
       return const CircularProgressIndicator();
     }
     return Container(
-      height: 240.h,
-      width: 369.w,
+      height: 240,
+      width: 369,
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -36,19 +36,19 @@ class InfoClient extends StatelessWidget {
           SizedBox(height: 20.h),
           CustomTextInfo(fieldName: 'First Name :', data: "${client!.firstName}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Last Name : ', data: "${client!.lastName}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Mobile : ', data: "${client!.contactNumber}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'E-mail : ', data: "${client!.email}"),
           SizedBox(
-            height: 16.h,
+            height: 16,
           ),
           CustomTextInfo(fieldName: 'Collaborator Name:', data: collaboratorName),
         ],

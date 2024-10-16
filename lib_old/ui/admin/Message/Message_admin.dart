@@ -83,8 +83,8 @@ class _MessagesScreenAdminState extends State<MessagesScreenAdmin> {
 
                 final List<dynamic> data = loadingNotifier.response!;
                 return SizedBox(
-                  height: 680.h,
-                  width: 600.w,
+                  height: 680,
+                  width: 600,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: data.length,

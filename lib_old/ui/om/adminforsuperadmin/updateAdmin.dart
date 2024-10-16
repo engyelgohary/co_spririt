@@ -68,13 +68,13 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
-        height: 600.h,
+        height: 600,
         child: Column(
           children: [
             GestureDetector(
               onTap: _pickImage,
               child: CircleAvatar(
-                radius: 60.r,
+                radius: 60,
                 backgroundImage: _selectedImage != null
                     ? FileImage(File(_selectedImage!.path))
                     : widget.admin.pictureLocation != null
@@ -190,8 +190,8 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 35.h,
-                  width: 135.w,
+                  height: 35,
+                  width: 135,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
@@ -209,8 +209,8 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                   ),
                 ),
                 SizedBox(
-                  height: 35.h,
-                  width: 135.w,
+                  height: 35,
+                  width: 135,
                   child: ElevatedButton(
                     onPressed: () {
                       updateAdmin();

@@ -82,7 +82,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                 );
               },
               child: CircleAvatar(
-                radius: 16.r, // Adjust the radius as needed
+                radius: 16, // Adjust the radius as needed
                 backgroundColor: AppColor.secondColor,
                 child: const Icon(
                   Icons.add,
@@ -157,25 +157,25 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                                       ));
                                     }
                                     return Container(
-                                      height: 200.h,
-                                      width: 369.w,
+                                      height: 200,
+                                      width: 369,
                                       padding: const EdgeInsets.all(20),
                                       child: Column(
                                         children: [
                                           CustomTextInfo(
                                               fieldName: 'Title :', data: "${item.description}"),
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 5,
                                           ),
                                           CustomTextInfo(
                                               fieldName: 'Type :', data: "${item.requestType}"),
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 5,
                                           ),
                                           CustomTextInfo(
                                               fieldName: 'Status :', data: "${item.type}"),
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 5,
                                           ),
                                           CustomTextInfo(
                                               fieldName: 'Admin Name :', data: "${item.to}"),
@@ -197,7 +197,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                         },
                         child: CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
-                          radius: 18.r,
+                          radius: 18,
                           child: const Icon(
                             Icons.info_outline,
                             color: AppColor.secondColor,

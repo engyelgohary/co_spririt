@@ -16,8 +16,8 @@ class InfoOA extends StatelessWidget {
       return const CircularProgressIndicator(); // Show loading indicator if data is null
     }
     return Container(
-      height: 482.h,
-      width: 369.w,
+      height: 482,
+      width: 369,
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class InfoOA extends StatelessWidget {
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
             imageBuilder: (context, imageProvider) => CircleAvatar(
-              radius: 75.r,
+              radius: 75,
               backgroundImage: imageProvider,
             ),
           ),

@@ -1,21 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/ui/om/Menu/menu_om.dart';
-import 'package:co_spirit/ui/om/Message/message_om.dart';
-import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
-import 'package:co_spirit/ui/om/Profile/profile_om.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
-import '../../../core/components.dart';
 import '../../../data/model/Post.dart';
-import '../../../utils/theme/appColors.dart';
-import '../Message/oppy_om.dart';
-import '../opportunity/AllOpportunities.dart';
-import 'creat_post.dart';
 
 class HomeScreenOM extends StatefulWidget {
   const HomeScreenOM({Key? key, required this.superAdminId}) : super(key: key);

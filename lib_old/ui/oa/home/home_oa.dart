@@ -61,7 +61,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
               Column(
                 children: [
                   SizedBox(
-                    height: 30.h,
+                    height: 30,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -70,8 +70,8 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                       children: [
                         SvgPicture.asset(
                           '${AppUI.svgPath}corelia_logo.svg',
-                          height: 28.h,
-                          width: 100.w,
+                          height: 28,
+                          width: 100,
                           // fit: BoxFit.cover,
                         ),
                         InkWell(

@@ -70,19 +70,19 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
           children: [
             Center(
               child: CircleAvatar(
-                radius: 60.r,
+                radius: 60,
                 child: const Icon(Icons.camera_alt, size: 50),
               ),
             ),
             SizedBox(
-              height: 16.h,
+              height: 16,
             ),
             Center(
               child: Text("${firstNameController.text} ${lastNameController.text}",
                   style: const TextStyle(color: OMColorScheme.textColor, fontSize: 18)),
             ),
             SizedBox(
-              height: 16.h,
+              height: 16,
             ),
             CustomTextFormField(
               fieldName: 'First Name',

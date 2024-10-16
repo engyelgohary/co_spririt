@@ -86,8 +86,8 @@ class InfoCollaborator extends StatelessWidget {
         collaborator!.adminId != null ? getAdminName(collaborator!.adminId!) : 'No Admin Assigned';
     return SingleChildScrollView(
       child: Container(
-        height: 600.h,
-        width: 369.w,
+        height: 600,
+        width: 369,
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -98,7 +98,7 @@ class InfoCollaborator extends StatelessWidget {
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(Icons.error),
               imageBuilder: (context, imageProvider) => CircleAvatar(
-                radius: 75.r,
+                radius: 75,
                 backgroundImage: imageProvider,
               ),
             ),
@@ -130,8 +130,8 @@ class InfoCollaborator extends StatelessWidget {
                 ),
                 const Spacer(),
                 SizedBox(
-                  height: 35.h,
-                  width: 135.w,
+                  height: 35,
+                  width: 135,
                   child: ElevatedButton(
                     onPressed: () {
                       _downloadAndOpenCV(context);

@@ -56,7 +56,7 @@ class _UpdateClientState extends State<UpdateClient> {
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: SizedBox(
-          height: 450.h,
+          height: 450,
           child: Column(
             children: [
               const SizedBox(height: 20),
@@ -120,8 +120,8 @@ class _UpdateClientState extends State<UpdateClient> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: 35.h,
-                    width: 135.w,
+                    height: 35,
+                    width: 135,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
@@ -139,8 +139,8 @@ class _UpdateClientState extends State<UpdateClient> {
                     ),
                   ),
                   SizedBox(
-                    height: 35.h,
-                    width: 135.w,
+                    height: 35,
+                    width: 135,
                     child: ElevatedButton(
                       onPressed: () {
                         updateClient();

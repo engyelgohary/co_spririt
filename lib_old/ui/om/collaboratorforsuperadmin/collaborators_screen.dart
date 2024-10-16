@@ -123,7 +123,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             const CircularProgressIndicator(color: AppColor.secondColor),
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: AppColor.SkyColor,
-                          radius: 20.r,
+                          radius: 20,
                           child: const Icon(Icons.error_outline,
                               color: AppColor.secondColor, size: 20),
                         ),
@@ -157,7 +157,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             elevation: 0,
                             icon: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
+                              radius: 18,
                               child: const Icon(
                                 Icons.person_add_outlined,
                                 color: AppColor.secondColor,
@@ -197,7 +197,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             },
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
+                              radius: 18,
                               child: const Icon(
                                 Icons.update_outlined,
                                 color: AppColor.secondColor,
@@ -212,7 +212,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             },
                             child: CircleAvatar(
                               backgroundColor: AppColor.SkyColor,
-                              radius: 18.r,
+                              radius: 18,
                               child: const Icon(Icons.info_outline,
                                   color: AppColor.secondColor, size: 20),
                             ),
@@ -333,8 +333,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
               } else if (state is AdminSuccess) {
                 final admins = state.getAdmin ?? []; // Get the list of admins
                 return Container(
-                  height: 155.h,
-                  width: 319.w,
+                  height: 155,
+                  width: 319,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Admin',
@@ -363,7 +363,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                         children: [
                           Flexible(
                             child: SizedBox(
-                              height: 30.h,
+                              height: 30,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(); // Close the dialog
@@ -382,11 +382,11 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                             ),
                           ),
                           SizedBox(
-                            width: 8.w,
+                            width: 8,
                           ),
                           Flexible(
                             child: SizedBox(
-                              height: 30.h,
+                              height: 30,
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (selectedClientId != null) {
@@ -414,16 +414,16 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 );
               } else if (state is AdminError) {
                 return Container(
-                  height: 155.h,
-                  width: 319.w,
+                  height: 155,
+                  width: 319,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: const Text('Select Admin'),
                     content: Text('Failed to load admins: ${state.errorMessage}'),
                     actions: [
                       SizedBox(
-                        height: 30.h,
-                        width: 120.w,
+                        height: 30,
+                        width: 120,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -470,8 +470,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
               } else if (state is ClientSuccess) {
                 final clients = state.getClient ?? []; // Get the list of clients
                 return Container(
-                  height: 155.h,
-                  width: 319.w,
+                  height: 155,
+                  width: 319,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: Text('Select Client',
@@ -500,8 +500,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                         children: [
                           Flexible(
                             child: SizedBox(
-                              height: 30.h,
-                              width: 120.w,
+                              height: 30,
+                              width: 120,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context).pop(); // Close the dialog
@@ -523,8 +523,8 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                           SizedBox(width: 8.w),
                           Flexible(
                             child: SizedBox(
-                              height: 30.h,
-                              width: 120.w,
+                              height: 30,
+                              width: 120,
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (selectedClientId != null) {
@@ -552,16 +552,16 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 );
               } else if (state is ClientError) {
                 return Container(
-                  height: 155.h,
-                  width: 319.w,
+                  height: 155,
+                  width: 319,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
                   child: AlertDialog(
                     title: const Text('Select Client'),
                     content: Text('Failed to load clients: ${state.errorMessage}'),
                     actions: [
                       SizedBox(
-                        height: 30.h,
-                        width: 120.w,
+                        height: 30,
+                        width: 120,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog

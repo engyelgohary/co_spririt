@@ -80,7 +80,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                       child: GestureDetector(
                         onTap: _pickImage,
                         child: CircleAvatar(
-                          radius: 60.r,
+                          radius: 60,
                           backgroundImage: _selectedImage != null
                               ? FileImage(File(_selectedImage!.path))
                               : NetworkImage(
@@ -93,7 +93,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                       ),
                     ),
                     SizedBox(
-                      height: 5.h,
+                      height: 5,
                     ),
                     Center(
                       child: Text(
@@ -137,8 +137,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                     ),
                     Center(
                       child: SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             context.read<AdminCubit>().updateAdmin({

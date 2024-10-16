@@ -78,8 +78,8 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
             onTap: () => showAddDialog(),
             child: Container(
               margin: EdgeInsets.only(right: 10.w),
-              height: 60.h,
-              width: 32.w,
+              height: 60,
+              width: 32,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColor.secondColor,
@@ -97,7 +97,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5.w),
             child: Text("Types",
                 style: Theme.of(context)
                     .textTheme
@@ -149,7 +149,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: AppColor.SkyColor,
-                                    radius: 15.r,
+                                    radius: 15,
                                     child: const Icon(
                                       Icons.update_outlined,
                                       color: AppColor.secondColor,
@@ -164,7 +164,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: AppColor.SkyColor,
-                                    radius: 15.r,
+                                    radius: 15,
                                     child: const Icon(
                                       Icons.info_outline,
                                       color: AppColor.secondColor,

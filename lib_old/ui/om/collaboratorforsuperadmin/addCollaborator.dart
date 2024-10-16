@@ -46,7 +46,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            height: 600.h,
+            height: 600,
             margin: const EdgeInsets.all(20),
             child: Form(
               key: viewModel.formKey,
@@ -61,14 +61,14 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                         if (state is CollaboratorImageSelected) {
                           return Center(
                             child: CircleAvatar(
-                              radius: 60.r,
+                              radius: 60,
                               backgroundImage: FileImage(File(state.image.path)),
                             ),
                           );
                         }
                         return Center(
                           child: CircleAvatar(
-                            radius: 60.r,
+                            radius: 60,
                             backgroundColor: AppColor.disableColor,
                             child: const Icon(Icons.cameraswitch_outlined,
                                 size: 40, color: AppColor.blackColor),
@@ -82,7 +82,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
                     controller: viewModel.firstNameController,
-                    width: 2.w,
+                    width: 2,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your first name';
@@ -94,7 +94,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastNameController,
-                    width: 2.w,
+                    width: 2,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your last name';
@@ -106,7 +106,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phoneController,
-                    width: 30.w,
+                    width: 30,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -119,7 +119,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.emailController,
-                    width: 38.w,
+                    width: 38,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -144,8 +144,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                   Row(
                     children: [
                       SizedBox(
-                        height: 32.h,
-                        width: 140.w,
+                        height: 32,
+                        width: 140,
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           controller: viewModel.contractStartController,
@@ -157,8 +157,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
@@ -187,8 +186,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       ),
                       const SizedBox(width: 9),
                       SizedBox(
-                        height: 32.h,
-                        width: 140.w,
+                        height: 32,
+                        width: 140,
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           controller: viewModel.contractEndController,
@@ -200,8 +199,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 4.0.h, horizontal: 10.0.w),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
@@ -234,8 +232,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       ),
                       SizedBox(width: 150.w),
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             viewModel.selectCv();
@@ -259,8 +257,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
@@ -278,8 +276,8 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                         ),
                       ),
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             viewModel.addCollaborator();

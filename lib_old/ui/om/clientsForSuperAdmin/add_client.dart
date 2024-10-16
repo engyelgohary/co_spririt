@@ -47,7 +47,7 @@ class _AddClientScreenState extends State<AddClientScreen> {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            height: 450.h,
+            height: 450,
             margin: const EdgeInsets.all(20),
             child: Form(
               key: viewModel.formKey,
@@ -56,27 +56,27 @@ class _AddClientScreenState extends State<AddClientScreen> {
                 children: [
                   CustomText(
                       fieldName: 'First Name :',
-                      width: 2.w,
+                      width: 2,
                       controller: viewModel.firstName_controller),
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
                     keyboardType: TextInputType.text,
-                    width: 2.w,
+                    width: 2,
                   ),
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'E-mail :',
                     controller: viewModel.email_controller,
-                    width: 30.w,
+                    width: 30,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 11.h),
                   CustomText(
                     fieldName: 'Phone :',
                     controller: viewModel.phone_controller,
-                    width: 32.w,
+                    width: 32,
                     keyboardType: TextInputType.phone,
                   ),
                   SizedBox(height: 26.h),
@@ -84,8 +84,8 @@ class _AddClientScreenState extends State<AddClientScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
@@ -103,8 +103,8 @@ class _AddClientScreenState extends State<AddClientScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             viewModel.addClient();

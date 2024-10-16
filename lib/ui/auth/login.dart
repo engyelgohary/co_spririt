@@ -1,6 +1,7 @@
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/text_form_field.dart';
+import 'package:co_spirit/core/constants.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
@@ -24,21 +25,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
-    // return Center(child: Text("data"));
     return BlocListener<LoginModelViewCubit, LoginModelViewState>(
       bloc: modelView,
       listener: (BuildContext context, state) {
         if (state is LoginModelViewLoading) {
-          loadingIndicatorDialog(context);
+          loadingIndicatorDialog(context); // to fix later
         } else if (state is LoginModelViewError) {
           Navigator.pop(context);
           snackBar(context, state.error);
         } else if (state is LoginModelViewSuccess) {
           Navigator.pop(context);
           snackBar(context, "Sign In Success", duration: 3);
-          final signalr = Signalr();
-          signalr.start();
-
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => state.homeScreen),
@@ -72,9 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value == null || value.trim().isEmpty) {
                                 return 'Please enter your email address';
                               }
-                              bool emailValid = RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value);
+                              bool emailValid = RegExp(emailRegex).hasMatch(value);
                               if (!emailValid) {
                                 return 'Invalid email';
                               }

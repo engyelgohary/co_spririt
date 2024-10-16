@@ -39,22 +39,22 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
         String? userId = decodedToken['nameid']?.toString();
 
         switch (roleType) {
-          // case "0":
-          //   SharedPreferences prefs = await SharedPreferences.getInstance();
-          //   int? superAdminId = int.tryParse(decodedToken['nameid']?.toString() ?? '');
-          //   if (superAdminId != null) {
-          //     await prefs.setInt('superAdminId', superAdminId);
-          //   }
-          //   if (userId != null) {
-          //     emit(LoginModelViewSuccess(HomeScreenOM(
-          //       superAdminId: userId,
-          //     )));
-          //     print(decodedToken);
-          //   } else {
-          //     print('Role ID "nameid" not found for Admin.');
-          //     emit(LoginModelViewError('Role ID "nameid" not found for Admin.'));
-          //   }
-          //   break;
+          case "0":
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            int? superAdminId = int.tryParse(decodedToken['nameid']?.toString() ?? '');
+            if (superAdminId != null) {
+              await prefs.setInt('superAdminId', superAdminId);
+            }
+            if (userId != null) {
+              emit(LoginModelViewSuccess(HomeScreenOM(
+                superAdminId: userId,
+              )));
+              print(decodedToken);
+            } else {
+              print('Role ID "nameid" not found for Admin.');
+              emit(LoginModelViewError('Role ID "nameid" not found for Admin.'));
+            }
+            break;
 
           // case "1":
           //   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -119,8 +119,7 @@ class LoginModelViewCubit extends Cubit<LoginModelViewState> {
           case "6": //sm
             if (userId != null) {
               // emit(LoginModelViewSuccess(HomePageSm(SMId: userId)));
-              // emit(LoginModelViewSuccess(const SMHomePage()));
-              emit(LoginModelViewSuccess(const SCHomePage()));
+              emit(LoginModelViewSuccess(const SMHomePage()));
               print(decodedToken);
             } else {
               print('Role ID "nameid" not found for Opportunity Owner.');

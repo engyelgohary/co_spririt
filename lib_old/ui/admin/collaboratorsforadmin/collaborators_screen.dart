@@ -72,7 +72,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                           const CircularProgressIndicator(color: AppColor.secondColor),
                       errorWidget: (context, url, error) => CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
-                        radius: 20.r,
+                        radius: 20,
                         child:
                             const Icon(Icons.error_outline, color: AppColor.secondColor, size: 20),
                       ),
@@ -112,7 +112,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
+                            radius: 18,
                             child: const Icon(
                               Icons.message_outlined,
                               color: AppColor.secondColor,
@@ -127,7 +127,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
+                            radius: 18,
                             child: const Icon(
                               Icons.add_reaction_outlined,
                               color: AppColor.secondColor,
@@ -142,7 +142,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColor.SkyColor,
-                            radius: 18.r,
+                            radius: 18,
                             child: const Icon(Icons.info_outline,
                                 color: AppColor.secondColor, size: 20),
                           ),
@@ -278,8 +278,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
           ),
           actions: [
             SizedBox(
-              height: 35.h,
-              width: 115.w,
+              height: 35,
+              width: 115,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
@@ -303,8 +303,8 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
               ),
             ),
             SizedBox(
-              height: 35.h,
-              width: 115.w,
+              height: 35,
+              width: 115,
               child: ElevatedButton(
                 onPressed: () {
                   if (selectedStatus != null) {

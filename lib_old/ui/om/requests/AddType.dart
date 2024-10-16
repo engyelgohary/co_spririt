@@ -42,8 +42,8 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
       },
       builder: (context, state) {
         return Container(
-          height: 155.h,
-          width: 319.w,
+          height: 155,
+          width: 319,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35.r),
           ),
@@ -77,8 +77,8 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 30.h,
-                    width: 120.w,
+                    height: 30,
+                    width: 120,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
@@ -102,8 +102,8 @@ class _AddStatusDialogState extends State<AddStatusDialog> {
                   ),
                   SizedBox(width: 5.w),
                   SizedBox(
-                    height: 30.h,
-                    width: 115.w,
+                    height: 30,
+                    width: 115,
                     child: ElevatedButton(
                       onPressed: () {
                         viewModel.addType();

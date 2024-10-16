@@ -45,8 +45,8 @@ class _AddAdminState extends State<AddAdmin> {
       builder: (context, state) {
         return SingleChildScrollView(
           child: Container(
-            height: 600.h,
-            width: 369.w,
+            height: 600,
+            width: 369,
             margin: const EdgeInsets.all(15),
             child: Form(
               key: viewModel.formKey,
@@ -61,14 +61,14 @@ class _AddAdminState extends State<AddAdmin> {
                         if (state is AdminImageSelected) {
                           return Center(
                             child: CircleAvatar(
-                              radius: 60.r,
+                              radius: 60,
                               backgroundImage: FileImage(File(state.image.path)),
                             ),
                           );
                         }
                         return Center(
                           child: CircleAvatar(
-                            radius: 60.r,
+                            radius: 60,
                             backgroundColor: AppColor.disableColor,
                             child: const Icon(Icons.cameraswitch_outlined,
                                 size: 40, color: AppColor.blackColor),
@@ -93,7 +93,7 @@ class _AddAdminState extends State<AddAdmin> {
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
-                    width: 7.w,
+                    width: 7,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your last name';
@@ -105,7 +105,7 @@ class _AddAdminState extends State<AddAdmin> {
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phone_controller,
-                    width: 35.w,
+                    width: 35,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -118,7 +118,7 @@ class _AddAdminState extends State<AddAdmin> {
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.email_controller,
-                    width: 45.w,
+                    width: 45,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -181,8 +181,8 @@ class _AddAdminState extends State<AddAdmin> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
@@ -200,8 +200,8 @@ class _AddAdminState extends State<AddAdmin> {
                         ),
                       ),
                       SizedBox(
-                        height: 35.h,
-                        width: 135.w,
+                        height: 35,
+                        width: 135,
                         child: ElevatedButton(
                           onPressed: () {
                             viewModel.register();

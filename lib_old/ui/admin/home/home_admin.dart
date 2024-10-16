@@ -90,8 +90,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
         children: [
           Image.asset(
             '${AppUI.imgPath}Rectangle 15.png',
-            height: 191.h,
-            width: 375.w,
+            height: 191,
+            width: 375,
             fit: BoxFit.fill,
           ),
           Column(
@@ -104,8 +104,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                   children: [
                     Image.asset(
                       '${AppUI.imgPath}logo.png',
-                      height: 28.h,
-                      width: 100.w,
+                      height: 28,
+                      width: 100,
                     ),
                     InkWell(
                       onTap: () {
@@ -264,8 +264,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                           children: [
                             Image.asset(
                               '${AppUI.imgPath}photo.png',
-                              height: 31.h,
-                              width: 30.w,
+                              height: 31,
+                              width: 30,
                             ),
                             SizedBox(width: screenWidth * 0.02),
                             // Conditionally show the "What's on your mind" field based on canPost
@@ -311,14 +311,14 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                       SizedBox(width: 140.w),
                                       Image.asset(
                                         '${AppUI.iconPath}images.png',
-                                        width: 12.w,
-                                        height: 12.h,
+                                        width: 12,
+                                        height: 12,
                                       ),
                                       SizedBox(width: 10.w),
                                       Image.asset(
                                         '${AppUI.iconPath}point.png',
-                                        width: 12.w,
-                                        height: 12.h,
+                                        width: 12,
+                                        height: 12,
                                       ),
                                     ],
                                   ),

@@ -3,7 +3,6 @@ import 'package:co_spirit/ui/om/Profile/upload_data_om.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
@@ -224,11 +223,11 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(30.r),
+                        Radius.circular(30),
                       ),
                     ),
                   ),

@@ -10,6 +10,16 @@ class AppTheme {
       backgroundColor: AppColor.backgroundColor,
       elevation: 0,
     ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.white),
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white,
+      backgroundColor: Colors.white,
+    ),
     textTheme: const TextTheme(
         titleLarge:
             TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColor.whiteColor),

@@ -1,8 +1,10 @@
+import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/text_form_field.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
 import 'package:co_spirit/ui/raci/cubit/raci_cubit.dart';
+import 'package:co_spirit/ui/sheets/update_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -255,6 +257,7 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                             ),
                                             child: ElevatedButton(
                                               onPressed: () async {
+                                                print(e);
                                                 showModalBottomSheet(
                                                   backgroundColor: Colors.white,
                                                   isScrollControlled: true,
@@ -271,7 +274,30 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                                   context: context,
                                                   builder: (context) => Padding(
                                                     padding: EdgeInsets.symmetric(vertical: 16),
-                                                    child: Icon(Icons.horizontal_rule_rounded),
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        const Padding(
+                                                            padding:
+                                                                EdgeInsets.symmetric(vertical: 16),
+                                                            child: Icon(
+                                                                Icons.horizontal_rule_rounded)),
+                                                        Flexible(
+                                                          child: UpdateTaskSheet(
+                                                            id: e["id"],
+                                                            projectName: e["projectName"],
+                                                            taskCategory: e["category"],
+                                                            taskName: e["taskName"],
+                                                            progress: e["progress"],
+                                                            status: e["status"],
+                                                            milestone: e["milestone"],
+                                                            priority: e["priority"],
+                                                            teams: e["taskMember"],
+                                                            raciCubit: raciCubit,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 );
                                               },

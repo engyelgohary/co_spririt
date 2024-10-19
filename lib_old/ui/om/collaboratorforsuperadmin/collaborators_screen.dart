@@ -10,7 +10,6 @@ import 'package:co_spirit/ui/om/collaboratorforsuperadmin/updateCollaborator.dar
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -149,9 +148,9 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           PopupMenuButton<int>(
-                            offset: Offset(0, 40.h),
+                            offset: Offset(0, 40),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.r),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             padding: EdgeInsets.zero,
                             elevation: 0,
@@ -190,7 +189,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                               }
                             },
                           ),
-                          SizedBox(width: 5.w),
+                          SizedBox(width: 5),
                           InkWell(
                             onTap: () {
                               showUpdateCollaboratorDialog(item);
@@ -205,7 +204,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
+                          SizedBox(width: 10),
                           InkWell(
                             onTap: () {
                               showCollaboratorDetailsBottomSheet(item.id ?? 1);
@@ -335,7 +334,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 return Container(
                   height: 155,
                   width: 319,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
                   child: AlertDialog(
                     title: Text('Select Admin',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
@@ -371,7 +370,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.greyColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5)))),
                                 child: Center(
                                     child: Text('Cancel',
                                         style: Theme.of(context)
@@ -398,7 +397,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.buttonColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5)))),
                                 child: Text('Assign',
                                     style: Theme.of(context)
                                         .textTheme
@@ -416,7 +415,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 return Container(
                   height: 155,
                   width: 319,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
                   child: AlertDialog(
                     title: const Text('Select Admin'),
                     content: Text('Failed to load admins: ${state.errorMessage}'),
@@ -431,7 +430,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                           child: Center(
                               child: Text('Cancel',
                                   style: Theme.of(context)
@@ -472,7 +471,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 return Container(
                   height: 155,
                   width: 319,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
                   child: AlertDialog(
                     title: Text('Select Client',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 15)),
@@ -509,7 +508,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.greyColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5)))),
                                 child: Center(
                                   child: Text('Cancel',
                                       style: Theme.of(context)
@@ -520,7 +519,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.w),
+                          SizedBox(width: 8),
                           Flexible(
                             child: SizedBox(
                               height: 30,
@@ -536,7 +535,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.buttonColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                        borderRadius: BorderRadius.all(Radius.circular(5)))),
                                 child: Text('Assign',
                                     style: Theme.of(context)
                                         .textTheme
@@ -554,7 +553,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                 return Container(
                   height: 155,
                   width: 319,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35.r)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
                   child: AlertDialog(
                     title: const Text('Select Client'),
                     content: Text('Failed to load clients: ${state.errorMessage}'),
@@ -569,7 +568,7 @@ class _CollaboratorsScreenForSuperState extends State<CollaboratorsScreenForSupe
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                           child: Center(
                             child: Text('Cancel',
                                 style: Theme.of(context)

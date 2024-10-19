@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
 import '../../../core/components.dart';
@@ -96,9 +95,9 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           ),
           Column(
             children: [
-              SizedBox(height: 50.h),
+              SizedBox(height: 50),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -112,7 +111,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                         AppUtil.mainNavigator(context, const NotificationScreenAdmin());
                       },
                       child: Padding(
-                        padding: EdgeInsets.only(right: 13.w),
+                        padding: EdgeInsets.only(right: 13),
                         child: const Icon(
                           Icons.notifications_outlined,
                           color: AppUI.borderColor,
@@ -299,7 +298,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(width: 10.w),
+                                      SizedBox(width: 10),
                                       const Text(
                                         "What's on your mind",
                                         style: TextStyle(
@@ -308,13 +307,13 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      SizedBox(width: 140.w),
+                                      SizedBox(width: 140),
                                       Image.asset(
                                         '${AppUI.iconPath}images.png',
                                         width: 12,
                                         height: 12,
                                       ),
-                                      SizedBox(width: 10.w),
+                                      SizedBox(width: 10),
                                       Image.asset(
                                         '${AppUI.iconPath}point.png',
                                         width: 12,

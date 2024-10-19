@@ -1,30 +1,48 @@
-import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class AppBarCustom extends StatelessWidget {
-  const AppBarCustom({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 4),
-      child: IconButton(
-        icon: CircleAvatar(
-          radius: 25, // Adjust the radius as needed
-          backgroundColor: AppColor.secondColor,
-          child: Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 15,
-            ),
-          ),
+AppBar customAppBar({
+  required BuildContext context,
+  required String title,
+  required Color textColor,
+  required Color backArrowColor,
+  Color? backgroundColor,
+  List<Widget>? actions,
+}) {
+  double height = MediaQuery.of(context).size.height;
+  double width = MediaQuery.of(context).size.width;
+
+  return AppBar(
+    scrolledUnderElevation: 0,
+    backgroundColor: backgroundColor,
+    leading: Padding(
+      padding: EdgeInsets.only(left: width / 25),
+      child: Center(
+        child: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
-    );
-  }
+    ),
+    actions: actions,
+    title: Text(title, style: TextStyle(fontSize: 22, color: textColor)),
+    toolbarHeight: height / 8,
+    iconTheme: IconThemeData(color: backArrowColor),
+  );
+}
+
+AppBar customAppBarNeo({
+  required BuildContext context,
+  required String title,
+  required Color textColor,
+  Color? backgroundColor,
+}) {
+  double height = MediaQuery.of(context).size.height;
+
+  return AppBar(
+    scrolledUnderElevation: 0,
+    backgroundColor: backgroundColor,
+    title: Text(title, style: TextStyle(fontSize: 22, color: textColor)),
+    toolbarHeight: height / 8,
+  );
 }

@@ -5,7 +5,6 @@ import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cub
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../data/api/apimanager.dart';
@@ -188,22 +187,21 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: AppColor.borderColor),
-                            borderRadius: BorderRadius.circular(5.r)),
+                            borderRadius: BorderRadius.circular(5)),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         errorBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: AppColor.errorColor),
-                            borderRadius: BorderRadius.circular(5.r)),
+                            borderRadius: BorderRadius.circular(5)),
                         focusedErrorBorder:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                        disabledBorder:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                        disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                         focusColor: AppColor.basicColor,
                         hoverColor: AppColor.basicColor,
                       ),
@@ -230,22 +228,21 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       },
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
+                        contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
                         fillColor: AppColor.whiteColor,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: AppColor.borderColor),
-                            borderRadius: BorderRadius.circular(5.r)),
+                            borderRadius: BorderRadius.circular(5)),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         errorBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: AppColor.errorColor),
-                            borderRadius: BorderRadius.circular(5.r)),
+                            borderRadius: BorderRadius.circular(5)),
                         focusedErrorBorder:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
-                        disabledBorder:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                        disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                         focusColor: AppColor.basicColor,
                         hoverColor: AppColor.basicColor,
                       ),
@@ -261,7 +258,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                   ),
-                  SizedBox(width: 154.w),
+                  SizedBox(width: 154),
                   SizedBox(
                     height: 35,
                     width: 135,
@@ -272,7 +269,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5)))),
                       child: Center(
                           child: Text('Upload',
                               style: Theme.of(context)
@@ -297,7 +294,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5)))),
                       child: Center(
                           child: Text('Cancel',
                               style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -320,7 +317,7 @@ class _UpdatecollaboratorState extends State<Updatecollaborator> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                              borderRadius: BorderRadius.all(Radius.circular(5)))),
                       child: Center(
                           child: Text('Update',
                               style: Theme.of(context)

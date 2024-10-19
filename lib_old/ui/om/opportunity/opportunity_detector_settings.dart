@@ -2,7 +2,6 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/components/textFormField.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/components/appbar.dart';
 import '../../../utils/theme/appColors.dart';
@@ -255,7 +254,7 @@ class CustomButton extends StatelessWidget {
           onPressed: functionality,
           style: ElevatedButton.styleFrom(
               backgroundColor: AppColor.buttonColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
           child: Center(
             child: Text(
               label,

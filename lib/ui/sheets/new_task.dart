@@ -21,7 +21,7 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
   final taskCategory = TextEditingController();
   final taskName = TextEditingController();
   final subTask = TextEditingController();
-  final mileStone = TextEditingController();
+  final milestone = TextEditingController();
   final priority = TextEditingController();
   final progress = TextEditingController();
   final status = TextEditingController();
@@ -195,7 +195,7 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
                     ...rows,
                     OpportunityTextFormField(
                       fieldName: 'Milestone',
-                      controller: mileStone,
+                      controller: milestone,
                     ),
                     OpportunityTextFormField(
                       fieldName: 'Priority',
@@ -252,7 +252,7 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
                                     priority.text.trim().isEmpty ||
                                     progress.text.trim().isEmpty ||
                                     status.text.trim().isEmpty ||
-                                    mileStone.text.trim().isEmpty) {
+                                    milestone.text.trim().isEmpty) {
                                   return;
                                 }
 
@@ -277,7 +277,7 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
                                       subTaskId: 1,
                                       taskName: taskName.text,
                                       assignTasks: assignTasks,
-                                      milestone: mileStone.text.trim(),
+                                      milestone: milestone.text.trim(),
                                       priority: priority.text.trim(),
                                       taskStatusId: statusMap[status.text],
                                       progress: int.tryParse(progress.text.trim()) ?? 0);

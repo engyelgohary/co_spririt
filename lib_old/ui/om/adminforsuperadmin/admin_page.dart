@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/ui/om/adminforsuperadmin/updateAdmin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../utils/components/appbar.dart';
 import '../../../../utils/theme/appColors.dart';
@@ -155,7 +154,7 @@ class _AdminScreenForSuperState extends State<AdminScreenForSuper> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 16.w),
+                          SizedBox(width: 16),
                           InkWell(
                             onTap: () {
                               showAdminDetailsBottomSheet(item.id ?? 1);

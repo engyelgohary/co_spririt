@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/GetAdmin.dart';
@@ -151,7 +150,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                 ),
-                SizedBox(width: 65.w),
+                SizedBox(width: 65),
                 Radio<bool>(
                   value: false,
                   groupValue: canPost,
@@ -167,7 +166,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                 ),
-                SizedBox(width: 24.w),
+                SizedBox(width: 24),
                 Radio<bool>(
                   value: true,
                   groupValue: canPost,
@@ -199,7 +198,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.greyColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5)))),
                     child: Center(
                         child: Text('Cancel',
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -222,7 +221,7 @@ class _UpdateAdminDialogState extends State<UpdateAdminDialog> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.buttonColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5)))),
                     child: Center(
                         child: Text('Update',
                             style: Theme.of(context)

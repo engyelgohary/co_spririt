@@ -1,3 +1,4 @@
+import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/components.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/text_form_field.dart';
@@ -245,8 +246,8 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                               ),
                                             ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 32, right: 32, top: 16),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 32, vertical: 16),
                                             child: CustomInput(
                                               contentPaddingVertical: 16,
                                               fillColor: const Color.fromRGBO(241, 241, 241, 1),
@@ -287,62 +288,6 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                                     ),
                                                   ),
                                                 ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(vertical: width / 35),
-                                            width: width * 0.25,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: Colors.grey.shade300,
-                                                ),
-                                              ),
-                                            ),
-                                            child: ElevatedButton(
-                                              onPressed: () async {
-                                                showModalBottomSheet(
-                                                  backgroundColor: Colors.white,
-                                                  isScrollControlled: true,
-                                                  constraints: BoxConstraints(
-                                                    maxHeight:
-                                                        MediaQuery.of(context).size.height * 0.90,
-                                                  ),
-                                                  shape: const RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.vertical(
-                                                      top: Radius.circular(30),
-                                                    ),
-                                                  ),
-                                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                                  context: context,
-                                                  builder: (context) => Padding(
-                                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                                    child: Icon(Icons.horizontal_rule_rounded),
-                                                  ),
-                                                );
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                padding: EdgeInsets.symmetric(vertical: 16),
-                                                backgroundColor: ODColorScheme.buttonColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(30),
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Update',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                        fontSize: 16,
-                                                        color: AppColor.whiteColor,
-                                                      ),
-                                                ),
                                               ),
                                             ),
                                           ),

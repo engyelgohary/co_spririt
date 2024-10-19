@@ -2,7 +2,6 @@ import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/helper_functions.dart';
@@ -120,11 +119,11 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            padding: EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(30.r),
+                                Radius.circular(30),
                               ),
                             ),
                           ),
@@ -155,11 +154,11 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                         child: ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            padding: EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.disabledColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(30.r),
+                                Radius.circular(30),
                               ),
                             ),
                           ),
@@ -240,11 +239,11 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             loadingNotifier.change();
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            padding: EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(30.r),
+                                Radius.circular(30),
                               ),
                             ),
                           ),

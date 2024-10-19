@@ -5,7 +5,6 @@ import 'package:co_spirit/ui/om/clientsForSuperAdmin/infoClient.dart';
 import 'package:co_spirit/ui/om/clientsForSuperAdmin/updateClient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/dip.dart';
@@ -140,7 +139,7 @@ class _ClientScreenfoSuperState extends State<ClientScreenfoSuper> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 16.w),
+                          SizedBox(width: 16),
                           InkWell(
                             onTap: () {
                               showClientDetailsBottomSheet(item.id ?? 1);

@@ -1,7 +1,6 @@
 import 'package:co_spirit/data/model/Notification.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';

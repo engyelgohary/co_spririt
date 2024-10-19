@@ -1,6 +1,5 @@
 import 'package:co_spirit/data/model/Collaborator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/Client.dart';
 import '../adminforsuperadmin/infoAdmin.dart';
@@ -33,7 +32,7 @@ class InfoClient extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
           CustomTextInfo(fieldName: 'First Name :', data: "${client!.firstName}"),
           SizedBox(
             height: 16,

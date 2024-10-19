@@ -1,36 +1,33 @@
-import 'package:co_spirit/data/dip.dart';
-import 'package:co_spirit/ui/od/Message/Message_od.dart';
-import 'package:co_spirit/ui/od/Message/oppy_od.dart';
-import 'package:co_spirit/ui/od/Notifications/notifications_od.dart';
-import 'package:co_spirit/ui/od/Profile/profile_od.dart';
-import 'package:co_spirit/ui/od/opportunities/scores_od.dart';
-import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
-import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:co_spirit/core/components/appbar.dart';
+import 'package:co_spirit/core/components/helper_functions.dart';
+import 'package:co_spirit/core/components/menu_item.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/data/repository/remote_data_source.dart';
+import 'package:co_spirit/core/Cubit/collaborator_cubit.dart';
+import 'package:co_spirit/ui/profile/od_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../utils/components/MenuItem.dart';
-import '../../../utils/theme/appColors.dart';
-import '../opportunities/opportunities_od.dart';
 
-class MenuScreenOD extends StatefulWidget {
+class ODMenu extends StatefulWidget {
   static const String routeName = 'Menu Screen Collaborator';
   final String ODId;
 
-  const MenuScreenOD({super.key, required this.ODId});
+  const ODMenu({super.key, required this.ODId});
 
   @override
-  State<MenuScreenOD> createState() => _MenuScreenODState();
+  State<ODMenu> createState() => _ODMenuState();
 }
 
-class _MenuScreenODState extends State<MenuScreenOD> {
+class _ODMenuState extends State<ODMenu> {
   late CollaboratorCubit adminCubit;
 
   @override
   void initState() {
     super.initState();
-    adminCubit = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
+    adminCubit = CollaboratorCubit(
+        collaboratorRepository: CollaboratorRepositoryRemote(apiManager: ApiManager.getInstance()));
     adminCubit.fetchCollaboratorDetails(int.parse(widget.ODId));
   }
 
@@ -94,26 +91,29 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                    // onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOD()),
+                    onFunction: () => null,
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Scores',
-                    onFunction: () => AppUtil.mainNavigator(context, const ScoresPageOD()),
+                    // onFunction: () => AppUtil.mainNavigator(context, const ScoresPageOD()),
+                    onFunction: () => null,
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Notifications',
-                    onFunction: () => AppUtil.mainNavigator(context, const NotificationScreenOD()),
+                    onFunction: () => null,
+                    // onFunction: () => AppUtil.mainNavigator(context, const NotificationScreenOD()),
                   ),
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreenOD());
+                      // AppUtil.mainNavigator(context, const MessagesScreenOD());
                     },
                   ),
                   CustomMenuCard(
@@ -121,7 +121,7 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     textColor: ODColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, OppyOD());
+                      // AppUtil.mainNavigator(context, OppyOD());
                     },
                   ),
                   CustomMenuCard(
@@ -132,8 +132,8 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        ProfileScreenOD(
-                          collaboratorId: widget.ODId,
+                        ODProfileScreen(
+                          ODId: widget.ODId,
                         ),
                       );
                     },

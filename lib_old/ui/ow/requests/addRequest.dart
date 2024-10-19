@@ -3,7 +3,6 @@ import 'package:co_spirit/ui/od/requests/cubit/requests_cubit.dart';
 import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/Type.dart';
 import '../../../utils/theme/appColors.dart';
@@ -82,7 +81,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
         return Container(
           width: 319,
           height: 254,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(40.r)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(40)),
           child: AlertDialog(
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -111,9 +110,9 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Text('Request Type', style: Theme.of(context).textTheme.titleMedium),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 SizedBox(
                   height: 32,
                   width: 300,
@@ -121,12 +120,12 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColor.borderColor, width: 1.w),
-                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: BorderSide(color: AppColor.borderColor, width: 1),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColor.borderColor, width: 1.w),
-                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: BorderSide(color: AppColor.borderColor, width: 1),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     value: selectedType,
@@ -182,12 +181,12 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.greyColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                              borderRadius: BorderRadius.all(Radius.circular(5))),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 5.w),
+                  SizedBox(width: 5),
                   Flexible(
                     child: SizedBox(
                       height: 35,
@@ -206,7 +205,7 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.buttonColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                              borderRadius: BorderRadius.all(Radius.circular(5))),
                         ),
                       ),
                     ),

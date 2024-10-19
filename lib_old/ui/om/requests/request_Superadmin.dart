@@ -6,7 +6,6 @@ import 'package:co_spirit/ui/om/requests/updateType.dart';
 import 'package:co_spirit/utils/components/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -77,7 +76,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
           InkWell(
             onTap: () => showAddDialog(),
             child: Container(
-              margin: EdgeInsets.only(right: 10.w),
+              margin: EdgeInsets.only(right: 10),
               height: 60,
               width: 32,
               decoration: const BoxDecoration(
@@ -97,7 +96,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5.w),
+            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
             child: Text("Types",
                 style: Theme.of(context)
                     .textTheme
@@ -133,7 +132,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                           ),
                           child: ListTile(
                             title: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 4.h),
+                              padding: EdgeInsets.symmetric(vertical: 4),
                               child: Text(item.type ?? "",
                                   style: Theme.of(context)
                                       .textTheme
@@ -157,7 +156,7 @@ class _RequestSuperAdminState extends State<RequestSuperAdmin> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 16.w),
+                                SizedBox(width: 16),
                                 InkWell(
                                   onTap: () {
                                     showTypeDetailsBottomSheet(item.id ?? 0);

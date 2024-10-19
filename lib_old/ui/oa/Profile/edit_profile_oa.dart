@@ -3,7 +3,6 @@ import 'package:co_spirit/data/repository/repository/repository_impl.dart';
 import 'package:co_spirit/ui/oa/Profile/Cubit/oa_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/textFormField.dart';
@@ -150,11 +149,11 @@ class _EditProfileOAState extends State<EditProfileOA> {
                             child: ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                padding: EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OAColorScheme.disabledColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
-                                    Radius.circular(30.r),
+                                    Radius.circular(30),
                                   ),
                                 ),
                               ),
@@ -188,11 +187,11 @@ class _EditProfileOAState extends State<EditProfileOA> {
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                padding: EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OAColorScheme.buttonColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
-                                    Radius.circular(30.r),
+                                    Radius.circular(30),
                                   ),
                                 ),
                               ),

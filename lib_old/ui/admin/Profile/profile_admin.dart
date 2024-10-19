@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
 import '../../../data/dip.dart';
@@ -160,7 +159,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ),

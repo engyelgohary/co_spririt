@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  GlobalKey<FormState> key = GlobalKey<FormState>();
   LoginModelViewCubit modelView = LoginModelViewCubit(
     authDataSource: AuthDataSourceRemote(apiManager: ApiManager.getInstance()),
   );
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: 26),
                     child: Form(
-                      key: modelView.formKey,
+                      key: key,
                       child: Column(
                         children: [
                           AuthTextFormField(
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextButton(
                                   onPressed: () => snackBar(context, "Not implemented"),
                                   child: const Text(
-                                    "Forgot Password  ?",
+                                    "Forgot Password?",
                                     style: TextStyle(
                                       color: ODColorScheme.mainColor,
                                       fontSize: 15,
@@ -152,7 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(top: 15),
                             child: ElevatedButton(
                               onPressed: () {
-                                modelView.login(context);
+                                if (key.currentState != null && key.currentState!.validate()) {
+                                  modelView.login(context);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),

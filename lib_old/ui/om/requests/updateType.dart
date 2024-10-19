@@ -2,7 +2,6 @@ import 'package:co_spirit/data/model/Type.dart';
 import 'package:co_spirit/ui/om/requests/cubit/types_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
@@ -78,7 +77,7 @@ class _UpdateTypeState extends State<UpdateType> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.greyColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5)))),
                   ),
                 ),
                 SizedBox(
@@ -101,7 +100,7 @@ class _UpdateTypeState extends State<UpdateType> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.buttonColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                            borderRadius: BorderRadius.all(Radius.circular(5)))),
                   ),
                 ),
               ],

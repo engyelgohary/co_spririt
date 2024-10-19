@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/OW.dart';
@@ -22,7 +21,7 @@ class InfoOW extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CachedNetworkImage(
             imageUrl: 'http://${ApiConstants.baseUrl}${opportunityOwner!.pictureLocation}',
             placeholder: (context, url) => const CircularProgressIndicator(),
@@ -32,15 +31,15 @@ class InfoOW extends StatelessWidget {
               backgroundImage: imageProvider,
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
           CustomTextInfo(fieldName: 'First Name:', data: "${opportunityOwner!.firstName}"),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CustomTextInfo(fieldName: 'Last Name:', data: "${opportunityOwner!.lastName}"),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CustomTextInfo(fieldName: 'Mobile:', data: "${opportunityOwner!.phone}"),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CustomTextInfo(fieldName: 'E-mail:', data: "${opportunityOwner!.email}"),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CustomTextInfo(fieldName: 'Can Post:', data: "${opportunityOwner!.canPost}"),
         ],
       ),
@@ -66,7 +65,7 @@ class CustomTextInfo extends StatelessWidget {
               .titleLarge!
               .copyWith(fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
         ),
-        SizedBox(width: width!.w),
+        SizedBox(width: width!),
         Text(
           data,
           style: Theme.of(context)

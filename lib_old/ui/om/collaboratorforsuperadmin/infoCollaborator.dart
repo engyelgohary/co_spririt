@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/data/model/Collaborator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
@@ -92,7 +91,7 @@ class InfoCollaborator extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CachedNetworkImage(
               imageUrl: 'http://${ApiConstants.baseUrl}${collaborator!.pictureLocation}',
               placeholder: (context, url) => const CircularProgressIndicator(),
@@ -102,25 +101,25 @@ class InfoCollaborator extends StatelessWidget {
                 backgroundImage: imageProvider,
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20),
             CustomTextInfo(fieldName: 'First Name :', data: "${collaborator!.firstName}"),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'Last Name :', data: "${collaborator!.lastName}"),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'Mobile :', data: "${collaborator!.phone}"),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'E-mail :', data: "${collaborator!.email}"),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'Contract Duration :', data: formattedDuration),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'Last Communications:', data: formattedDate),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(
                 fieldName: 'Status :',
                 data: collaborator != null ? _getStatusText(collaborator!.status) : 'Unknown'),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             CustomTextInfo(fieldName: 'Assigned To Admin:', data: adminName),
-            SizedBox(height: 16.h),
+            SizedBox(height: 16),
             Row(
               children: [
                 Text(
@@ -139,7 +138,7 @@ class InfoCollaborator extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.buttonColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                     ),
                     child: Center(

@@ -2,7 +2,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/api/apimanager.dart';
 import '../../../utils/components/appbar.dart';
@@ -401,7 +400,7 @@ class _CustomDropDownMenu2State extends State<CustomDropDownMenu2> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             widget.fieldName,
             style: Theme.of(context).textTheme.titleSmall,
@@ -409,7 +408,7 @@ class _CustomDropDownMenu2State extends State<CustomDropDownMenu2> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12.w),
+          padding: EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12),
           child: Container(
             color: AppColor.whiteColor,
             child: DropdownMenu<dynamic>(

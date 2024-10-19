@@ -3,7 +3,6 @@ import 'package:co_spirit/data/dip.dart';
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/Cubit/collaborator_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
 
@@ -77,7 +76,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20),
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
@@ -90,7 +89,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastNameController,
@@ -102,7 +101,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phoneController,
@@ -115,7 +114,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.emailController,
@@ -134,7 +133,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   Text(
                     "Contract Info : ",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -157,22 +156,22 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.borderColor),
-                                borderRadius: BorderRadius.circular(5.r)),
+                                borderRadius: BorderRadius.circular(5)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.r),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             errorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.errorColor),
-                                borderRadius: BorderRadius.circular(5.r)),
+                                borderRadius: BorderRadius.circular(5)),
                             focusedErrorBorder:
-                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                             disabledBorder:
-                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                             focusColor: AppColor.basicColor,
                             hoverColor: AppColor.basicColor,
                           ),
@@ -199,22 +198,22 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0.w),
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
                             fillColor: AppColor.whiteColor,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.borderColor),
-                                borderRadius: BorderRadius.circular(5.r)),
+                                borderRadius: BorderRadius.circular(5)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.r),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             errorBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(color: AppColor.errorColor),
-                                borderRadius: BorderRadius.circular(5.r)),
+                                borderRadius: BorderRadius.circular(5)),
                             focusedErrorBorder:
-                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                             disabledBorder:
-                                OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
+                                OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
                             focusColor: AppColor.basicColor,
                             hoverColor: AppColor.basicColor,
                           ),
@@ -222,7 +221,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20),
                   Row(
                     children: [
                       Text(
@@ -230,7 +229,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                       ),
-                      SizedBox(width: 150.w),
+                      SizedBox(width: 150),
                       SizedBox(
                         height: 35,
                         width: 135,
@@ -247,7 +246,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ],
@@ -272,7 +271,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                       SizedBox(
@@ -291,7 +290,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ],

@@ -4,7 +4,6 @@ import 'package:co_spirit/ui/oa/Notifactions/notifictions_oa.dart';
 import 'package:co_spirit/ui/oa/opportunities/opportunities_oa.dart';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/app_ui.dart';
 import '../../../core/app_util.dart';
@@ -64,7 +63,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                     height: 30,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -82,7 +81,7 @@ class _HomeScreenOAState extends State<HomeScreenOA> {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.only(right: 13.w),
+                            padding: EdgeInsets.only(right: 13),
                             child: const Icon(
                               Icons.notifications_outlined,
                               color: Colors.white,

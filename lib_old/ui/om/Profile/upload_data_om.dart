@@ -2,7 +2,6 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/theme/appColors.dart';
 
@@ -45,11 +44,11 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(30.r),
+                        Radius.circular(30),
                       ),
                     ),
                   ),
@@ -88,11 +87,11 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(30.r),
+                        Radius.circular(30),
                       ),
                     ),
                   ),
@@ -121,11 +120,11 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.h),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: ODColorScheme.disabledColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(30.r),
+                            Radius.circular(30),
                           ),
                         ),
                       ),
@@ -163,11 +162,11 @@ class _UploadDataOMState extends State<UploadDataOM> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.h),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: OMColorScheme.mainColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(30.r),
+                            Radius.circular(30),
                           ),
                         ),
                       ),

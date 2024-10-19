@@ -100,16 +100,8 @@ class _SMHomePageState extends State<SMHomePage> {
                     style: TextStyle(color: SCColorScheme.mainColor),
                   ),
                 ),
-                // const PopupMenuItem(
-                //   value: 2,
-                //   child: Text(
-                //     'New Task',
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(color: SCColorScheme.mainColor),
-                //   ),
-                // ),
                 const PopupMenuItem(
-                  value: 3,
+                  value: 2,
                   child: Text(
                     "New Task",
                     textAlign: TextAlign.center,
@@ -117,7 +109,7 @@ class _SMHomePageState extends State<SMHomePage> {
                   ),
                 ),
                 const PopupMenuItem(
-                  value: 4,
+                  value: 3,
                   child: Text(
                     "New Team Members",
                     textAlign: TextAlign.center,
@@ -149,8 +141,8 @@ class _SMHomePageState extends State<SMHomePage> {
                     ),
                     if (value == 0) const Flexible(child: NewProjectSheet()),
                     if (value == 1) const Flexible(child: NewTaskCategorySheet()),
-                    if (value == 3) const Flexible(child: NewTaskSheet()),
-                    if (value == 4) const Flexible(child: NewTeamSheet()),
+                    if (value == 2) const Flexible(child: NewTaskSheet()),
+                    if (value == 3) const Flexible(child: NewTeamSheet()),
                   ],
                 ),
               );
@@ -190,6 +182,7 @@ class _SMHomePageState extends State<SMHomePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           currentIndex: pageIndex,

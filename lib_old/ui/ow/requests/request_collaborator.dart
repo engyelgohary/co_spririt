@@ -3,7 +3,6 @@ import 'package:co_spirit/data/model/RequestsResponse.dart';
 import 'package:co_spirit/ui/od/requests/cubit/requests_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../utils/components/appbar.dart';
@@ -122,7 +121,7 @@ class _RequestCollaboratorState extends State<RequestCollaborator> {
                     ),
                     child: ListTile(
                       title: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.h),
+                        padding: EdgeInsets.symmetric(vertical: 0),
                         child: Text(item.description ?? "",
                             style: Theme.of(context)
                                 .textTheme

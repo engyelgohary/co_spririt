@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/dip.dart';
 import '../../../data/model/RequestsResponse.dart';
@@ -79,7 +78,7 @@ class _RequestAdminState extends State<RequestAdmin> {
                 itemBuilder: (context, item, index) {
                   return ListTile(
                     title: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 0.h),
+                      padding: EdgeInsets.symmetric(vertical: 0),
                       child: Text(item.description ?? "",
                           style: Theme.of(context)
                               .textTheme

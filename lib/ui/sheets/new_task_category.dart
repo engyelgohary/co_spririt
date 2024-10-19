@@ -99,8 +99,8 @@ class _NewProjectSheetState extends State<NewTaskCategorySheet> {
                             }
                             loadingIndicatorDialog(context);
                             try {
-                              await ApiManager.getInstance().addCategoryName(
-                                  taskCategory.text.trim(), map[projectName.text.trim()]);
+                              await ApiManager.getInstance()
+                                  .addCategoryName(taskCategory.text.trim(), map[projectName.text]);
                               snackBar(context, "Done");
                               Navigator.of(context).pop();
                             } catch (e) {

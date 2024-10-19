@@ -1,6 +1,5 @@
 import 'package:co_spirit/data/model/Type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../adminforsuperadmin/infoAdmin.dart';
 
 class InfoType extends StatelessWidget {

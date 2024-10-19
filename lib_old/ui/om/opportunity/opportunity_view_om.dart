@@ -6,7 +6,6 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../utils/helper_functions.dart';
 import '../../../utils/theme/appColors.dart';
@@ -101,35 +100,35 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                     "Client Name",
                     style: TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   SelectableText(
                     opportunity.clientName ?? "N/A",
                     style: const TextStyle(fontSize: 18),
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Opportunity Title:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   SelectableText(
                     opportunity.title ?? "N/A",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Feasibility:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -139,14 +138,14 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Risks:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -156,14 +155,14 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Type:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -173,14 +172,14 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Status:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 50.w),
+                  SizedBox(width: 50),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -190,14 +189,14 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               Row(
                 children: [
                   const SelectableText(
                     "Assigned To:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.w),
+                  SizedBox(width: 35),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -207,7 +206,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               if (opportunity.descriptionLocation != null) ...[
                 const SelectableText(
                   "Description File:",
@@ -220,7 +219,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   },
                 ),
               ],
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               const SelectableText(
                 "Description:",
                 style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
@@ -232,7 +231,7 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 15.h),
+              SizedBox(height: 15),
               const SelectableText(
                 "Recommendation:",
                 style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),

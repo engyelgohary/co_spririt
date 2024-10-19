@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/api/apimanager.dart';
 import '../../../data/model/GetAdmin.dart';
@@ -22,7 +21,7 @@ class InfoAdmin extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
           CachedNetworkImage(
             imageUrl: 'http://${ApiConstants.baseUrl}${admin!.pictureLocation}',
             placeholder: (context, url) => const CircularProgressIndicator(),
@@ -32,7 +31,7 @@ class InfoAdmin extends StatelessWidget {
               backgroundImage: imageProvider,
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 20),
           CustomTextInfo(fieldName: 'First Name :', data: "${admin!.firstName}"),
           SizedBox(
             height: 16,

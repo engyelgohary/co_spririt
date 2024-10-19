@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/dip.dart';
 import '../../../../utils/components/textFormField.dart';
 import 'Cubit/admin_cubit.dart';
@@ -77,7 +76,7 @@ class _AddAdminState extends State<AddAdmin> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20),
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
@@ -89,7 +88,7 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
@@ -101,7 +100,7 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phone_controller,
@@ -114,7 +113,7 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.email_controller,
@@ -133,7 +132,7 @@ class _AddAdminState extends State<AddAdmin> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -142,7 +141,7 @@ class _AddAdminState extends State<AddAdmin> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 18, fontWeight: FontWeight.w700, color: AppColor.basicColor),
                       ),
-                      SizedBox(width: 65.w),
+                      SizedBox(width: 65),
                       Radio<bool>(
                         value: false,
                         groupValue: viewModel.canPost,
@@ -158,7 +157,7 @@ class _AddAdminState extends State<AddAdmin> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 18, fontWeight: FontWeight.w400, color: AppColor.basicColor),
                       ),
-                      SizedBox(width: 24.w),
+                      SizedBox(width: 24),
                       Radio<bool>(
                         value: true,
                         groupValue: viewModel.canPost,
@@ -196,7 +195,7 @@ class _AddAdminState extends State<AddAdmin> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.greyColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                       SizedBox(
@@ -215,7 +214,7 @@ class _AddAdminState extends State<AddAdmin> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColor.buttonColor,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.r)))),
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ],

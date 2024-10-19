@@ -5,7 +5,6 @@ import 'package:co_spirit/ui/admin/collaboratorsforadmin/Cubit/colloborator_to_a
 import 'package:co_spirit/ui/om/collaboratorforsuperadmin/infoCollaborator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../core/app_util.dart';
@@ -120,7 +119,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 15.w),
+                        SizedBox(width: 15),
                         InkWell(
                           onTap: () {
                             showStatusDialog(item.id ?? 0);
@@ -135,7 +134,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 15.w),
+                        SizedBox(width: 15),
                         InkWell(
                           onTap: () {
                             showCollaboratorDetailsBottomSheet(item.id ?? 1);
@@ -147,7 +146,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                                 color: AppColor.secondColor, size: 20),
                           ),
                         ),
-                        SizedBox(width: 15.w),
+                        SizedBox(width: 15),
                         CircleAvatar(
                           radius: 10,
                           backgroundColor:
@@ -297,7 +296,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.greyColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
               ),
@@ -325,7 +324,7 @@ class _CollaboratorsAdminScreenState extends State<CollaboratorsAdminScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.buttonColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
               ),

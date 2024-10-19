@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:co_spirit/utils/theme/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../utils/components/textFormField.dart';
 import 'Cubit/OA_cubit.dart';
 
@@ -73,7 +72,7 @@ class _AddOAState extends State<AddOA> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20),
                   CustomText(
                     keyboardType: TextInputType.name,
                     fieldName: 'First Name :',
@@ -85,7 +84,7 @@ class _AddOAState extends State<AddOA> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Last Name :',
                     controller: viewModel.lastName_controller,
@@ -96,7 +95,7 @@ class _AddOAState extends State<AddOA> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Mobile :',
                     controller: viewModel.phone_controller,
@@ -108,7 +107,7 @@ class _AddOAState extends State<AddOA> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   CustomText(
                     fieldName: 'Email :',
                     controller: viewModel.email_controller,
@@ -126,7 +125,7 @@ class _AddOAState extends State<AddOA> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 11.h),
+                  SizedBox(height: 11),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -138,7 +137,7 @@ class _AddOAState extends State<AddOA> {
                               color: AppColor.basicColor,
                             ),
                       ),
-                      SizedBox(width: 65.w),
+                      SizedBox(width: 65),
                       Radio<bool>(
                         value: false,
                         groupValue: viewModel.canPost,
@@ -157,7 +156,7 @@ class _AddOAState extends State<AddOA> {
                               color: AppColor.basicColor,
                             ),
                       ),
-                      SizedBox(width: 24.w),
+                      SizedBox(width: 24),
                       Radio<bool>(
                         value: true,
                         groupValue: viewModel.canPost,
@@ -202,7 +201,7 @@ class _AddOAState extends State<AddOA> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.greyColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
                             ),
                           ),
                         ),
@@ -228,7 +227,7 @@ class _AddOAState extends State<AddOA> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColor.buttonColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
                             ),
                           ),
                         ),

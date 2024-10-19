@@ -5,7 +5,6 @@ import 'package:co_spirit/ui/om/Message/message_om.dart';
 import 'package:co_spirit/ui/om/Notifications/notifications_om.dart';
 import 'package:co_spirit/ui/om/Profile/profile_om.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/app_ui.dart';
@@ -65,7 +64,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                 height: 30,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -79,7 +78,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
                         AppUtil.mainNavigator(context, const NotificationScreenOM());
                       },
                       child: Padding(
-                        padding: EdgeInsets.only(right: 13.w),
+                        padding: EdgeInsets.only(right: 13),
                         child: const Icon(
                           Icons.notifications_outlined,
                           color: Colors.white,
@@ -201,7 +200,7 @@ class _HomeScreenOMState extends State<HomeScreenOM> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 15.w),
+                  padding: EdgeInsets.only(left: 15),
                   child: Row(
                     children: [
                       Image.asset(

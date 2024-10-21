@@ -1,11 +1,13 @@
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/core/components/components.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/menu/od_menu.dart';
 import 'package:co_spirit/ui/messages/message_screen.dart';
 import 'package:co_spirit/ui/notifications/od_notifications.dart';
+import 'package:co_spirit/ui/opportunities/od_opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
-import 'package:co_spirit/ui/profile/od_profile.dart';
+import 'package:co_spirit/ui/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -108,8 +110,10 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                         InkWell(
                           onTap: () => AppUtil.mainNavigator(
                               context,
-                              ODProfileScreen(
-                                ODId: widget.ODId,
+                              ProfileScreen(
+                                buttonColor: ODColorScheme.buttonColor,
+                                mainColor: ODColorScheme.mainColor,
+                                id: widget.ODId,
                               )),
                           child: Column(
                             children: [
@@ -127,7 +131,8 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                         Column(
                           children: [
                             InkWell(
-                              // onTap: () => AppUtil.mainNavigator(context, const AllOpportunities()),
+                              onTap: () =>
+                                  AppUtil.mainNavigator(context, const ODOpportunitiesPage()),
                               child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
                                   width: 35),
                             ),
@@ -141,7 +146,14 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                           ],
                         ),
                         InkWell(
-                          onTap: () => AppUtil.mainNavigator(context, OppyScreen()),
+                          onTap: () => AppUtil.mainNavigator(
+                            context,
+                            OppyScreen(
+                              mainColor: ODColorScheme.mainColor,
+                              buttonColor: ODColorScheme.buttonColor,
+                              textColor: ODColorScheme.textColor,
+                            ),
+                          ),
                           child: Column(
                             children: [
                               SvgPicture.asset(

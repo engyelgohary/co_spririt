@@ -2,25 +2,25 @@ import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/core/app_util.dart';
+import 'package:co_spirit/core/components/appbar.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
-import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../../../utils/theme/appColors.dart';
-import 'opportunity_edit_ow.dart';
+import 'opportunity_edit_oa.dart';
 
-class OpportunityViewOW extends StatefulWidget {
+class OpportunityViewOA extends StatefulWidget {
   final Opportunity opportunity;
-  const OpportunityViewOW({super.key, required this.opportunity});
+  const OpportunityViewOA({super.key, required this.opportunity});
 
   @override
-  State<OpportunityViewOW> createState() => _OpportunityViewOWState();
+  State<OpportunityViewOA> createState() => _OpportunityViewOAState();
 }
 
-class _OpportunityViewOWState extends State<OpportunityViewOW> {
+class _OpportunityViewOAState extends State<OpportunityViewOA> {
   late Opportunity opportunity;
   late ApiManager apiManager;
 
@@ -61,8 +61,8 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
       appBar: customAppBar(
         title: "Opportunities",
         context: context,
-        backArrowColor: OWColorScheme.buttonColor,
-        textColor: OWColorScheme.mainColor,
+        backArrowColor: OAColorScheme.buttonColor,
+        textColor: OAColorScheme.mainColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -73,7 +73,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
                   await Navigator.push<Opportunity?>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditOpportunityOWPage(opportunity: widget.opportunity),
+                      builder: (context) => EditOpportunityOAPage(opportunity: widget.opportunity),
                     ),
                   );
                   await _fetchOpportunity();
@@ -91,7 +91,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
             children: [
               const SelectableText(
                 "Opportunity Title:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
@@ -102,7 +102,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               ),
               const SelectableText(
                 "Status:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -113,7 +113,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               ),
               const SelectableText(
                 "Feasibility:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -124,7 +124,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               ),
               const SelectableText(
                 "Risks:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -135,7 +135,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               ),
               const SelectableText(
                 "Type:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
@@ -147,7 +147,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               if (widget.opportunity.descriptionLocation != null)
                 const SelectableText(
                   "Description File:",
-                  style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                  style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                 ),
               if (widget.opportunity.descriptionLocation != null)
                 IconButton(
@@ -183,7 +183,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
                 ),
               const SelectableText(
                 "Description:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
@@ -194,7 +194,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
               ),
               const SelectableText(
                 "Recommendation:",
-                style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),

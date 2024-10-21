@@ -36,16 +36,11 @@ class _OpportunityViewOMState extends State<OpportunityViewOM> {
     if (opportunity.id != null) {
       try {
         final fetchedOpportunity = await apiManager.getOpportunityById(opportunity.id);
-        if (fetchedOpportunity != null) {
-          setState(() {
-            opportunity = fetchedOpportunity;
-            print(opportunity.status);
-          });
-        } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Opportunity not found.")));
-        }
-      } catch (e) {
+        setState(() {
+          opportunity = fetchedOpportunity;
+          print(opportunity.status);
+        });
+            } catch (e) {
         String errorMessage;
 
         if (e is SocketException) {

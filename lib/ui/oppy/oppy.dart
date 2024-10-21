@@ -11,9 +11,15 @@ import '../../../data/api/apimanager.dart';
 
 class OppyScreen extends StatefulWidget {
   int? opportunityId;
+  final Color mainColor;
+  final Color buttonColor;
+  final Color textColor;
   OppyScreen({
     this.opportunityId,
     super.key,
+    required this.mainColor,
+    required this.buttonColor,
+    required this.textColor,
   });
 
   @override
@@ -78,13 +84,13 @@ class _OppyOStateD extends State<OppyScreen> {
               height: 30,
             ),
             const SizedBox(width: 8),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
                   text: "Ask Oppy",
                   fontSize: 16,
-                  color: OAColorScheme.mainColor,
+                  color: widget.mainColor,
                   fontWeight: FontWeight.w700,
                 ),
                 CustomText(
@@ -98,7 +104,7 @@ class _OppyOStateD extends State<OppyScreen> {
           ],
         ),
         toolbarHeight: height / 8,
-        iconTheme: const IconThemeData(color: OAColorScheme.buttonColor),
+        iconTheme: IconThemeData(color: widget.buttonColor),
       ),
       body: Column(
         children: [
@@ -140,7 +146,7 @@ class _OppyOStateD extends State<OppyScreen> {
 
                 return Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: ListenableBuilder(
                       listenable: listNotifier,
                       builder: (context, child) {
@@ -149,21 +155,21 @@ class _OppyOStateD extends State<OppyScreen> {
                           controller: scrollController,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
-                            final bubble;
+                            final OppyChatBubble bubble;
                             if (list[index][0] == null) {
                               bubble = OppyChatBubble(
                                 message: "",
                                 loading: true,
                                 isSender: list[index][1],
-                                textColor: OAColorScheme.textColor,
-                                backgroundColor: OAColorScheme.mainColor,
+                                textColor: widget.textColor,
+                                backgroundColor: widget.mainColor,
                               );
                             } else {
                               bubble = OppyChatBubble(
                                 message: list[index][0],
                                 isSender: list[index][1],
-                                textColor: OAColorScheme.textColor,
-                                backgroundColor: OAColorScheme.mainColor,
+                                textColor: widget.textColor,
+                                backgroundColor: widget.mainColor,
                               );
                             }
                             return Padding(
@@ -218,9 +224,9 @@ class _OppyOStateD extends State<OppyScreen> {
                                   curve: Curves.easeOut),
                             );
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.send,
-                            color: OAColorScheme.buttonColor,
+                            color: widget.buttonColor,
                           ),
                         ),
                       ],

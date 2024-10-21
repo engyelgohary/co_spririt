@@ -3,58 +3,58 @@ import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
-import 'package:co_spirit/core/Cubit/collaborator_cubit.dart';
 import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/od_notifications.dart';
-import 'package:co_spirit/ui/opportunities/od_opportunities.dart';
-import 'package:co_spirit/ui/opportunities/od_scores.dart';
+import 'package:co_spirit/ui/notifications/oa_notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities_oa.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
-import 'package:co_spirit/ui/profile/profile.dart';
+import 'package:co_spirit/ui/profile/Cubit/oa_cubit.dart';
+import 'package:co_spirit/ui/profile/oa_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 
-class ODMenu extends StatefulWidget {
-  static const String routeName = 'Menu Screen Collaborator';
-  final String ODId;
+class OAMenuScreen extends StatefulWidget {
+  final String OAId;
 
-  const ODMenu({super.key, required this.ODId});
+  const OAMenuScreen({super.key, required this.OAId});
 
   @override
-  State<ODMenu> createState() => _ODMenuState();
+  State<OAMenuScreen> createState() => _OAMenuScreenState();
 }
 
-class _ODMenuState extends State<ODMenu> {
-  late CollaboratorCubit adminCubit;
+class _OAMenuScreenState extends State<OAMenuScreen> {
+  late OpportunityAnalyzerCubit OACubit;
 
   @override
   void initState() {
     super.initState();
-    adminCubit = CollaboratorCubit(
-        collaboratorRepository: CollaboratorRepositoryRemote(apiManager: ApiManager.getInstance()));
-    adminCubit.fetchCollaboratorDetails(int.parse(widget.ODId));
+    OACubit = OpportunityAnalyzerCubit(
+        opportunityAnalyzerRepository: OpportunityAnalyzerRepositoryRemote(
+      apiManager: ApiManager.getInstance(),
+    ));
+    OACubit.fetchOADetails(widget.OAId);
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (_) => adminCubit,
+      create: (_) => OACubit,
       child: Scaffold(
         appBar: customAppBar(
           title: "Menu",
           context: context,
-          backArrowColor: ODColorScheme.buttonColor,
-          textColor: ODColorScheme.mainColor,
+          backArrowColor: OAColorScheme.buttonColor,
+          textColor: OAColorScheme.mainColor,
         ),
-        body: BlocBuilder<CollaboratorCubit, CollaboratorState>(
+        body: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
           builder: (context, state) {
-            if (state is CollaboratorLoading) {
+            if (state is OpportunityAnalyzerLoading) {
               return const Center(
-                  child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
-            } else if (state is CollaboratorSuccess) {
-              final collaborator = state.collaboratorData;
+                  child: CircularProgressIndicator(color: OAColorScheme.buttonColor));
+            } else if (state is OpportunityAnalyzerDetailsSuccess) {
+              final OA = state.opportunityAnalyzerData;
               return Column(
                 children: [
                   Row(
@@ -64,17 +64,17 @@ class _ODMenuState extends State<ODMenu> {
                           left: width / 20,
                           right: 20,
                         ),
-                        child: ODPhoto(collaborator!.pictureLocation, 75, 75),
+                        child: ODPhoto(OA.pictureLocation, 75, 75),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            collaborator.firstName ?? "N/A",
-                            style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18),
+                            OA.firstName ?? "N/A",
+                            style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18),
                           ),
                           Text(
-                            "Opportunity Detector",
+                            "Opportunity Analyzer",
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -87,71 +87,65 @@ class _ODMenuState extends State<ODMenu> {
                   ),
                   const SizedBox(height: 16),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Home',
                     onFunction: () => Navigator.of(context).pop(),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const ODOpportunitiesPage()),
+                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
-                    name: 'Scores',
-                    onFunction: () => AppUtil.mainNavigator(context, const ScoresPageOD()),
-                  ),
-                  CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Notifications',
-                    onFunction: () => AppUtil.mainNavigator(context, const ODNotificationScreen()),
+                    onFunction: () {
+                      AppUtil.mainNavigator(context, const OANotificationScreen());
+                    },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
                       AppUtil.mainNavigator(context, const MessagesScreen());
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
                         OppyScreen(
-                          mainColor: ODColorScheme.mainColor,
-                          buttonColor: ODColorScheme.buttonColor,
-                          textColor: ODColorScheme.textColor,
+                          mainColor: OAColorScheme.mainColor,
+                          buttonColor: OAColorScheme.buttonColor,
+                          textColor: OAColorScheme.textColor,
                         ),
                       );
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
-                    enableDivider: false,
+                    iconColor: OAColorScheme.buttonColor,
+                    textColor: OAColorScheme.mainColor,
                     name: 'Profile & Settings',
+                    enableDivider: false,
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        ProfileScreen(
-                          buttonColor: ODColorScheme.buttonColor,
-                          mainColor: ODColorScheme.mainColor,
-                          id: widget.ODId,
+                        OAProfileScreen(
+                          OAId: widget.OAId,
                         ),
                       );
                     },
                   ),
                 ],
               );
-            } else if (state is CollaboratorError) {
+            } else if (state is OpportunityAnalyzerError) {
               return Center(child: Text(state.errorMessage ?? ''));
             } else {
               return Container();

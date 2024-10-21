@@ -23,6 +23,7 @@ class _AddcollaboratorState extends State<Addcollaborator> {
     viewModel = CollaboratorCubit(collaboratorRepository: injectCollaboratorRepository());
   }
 
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<CollaboratorCubit, CollaboratorState>(
       bloc: viewModel,
@@ -237,16 +238,16 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           onPressed: () {
                             viewModel.selectCv();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                           child: Center(
                               child: Text('Upload',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(fontSize: 16, color: AppColor.whiteColor))),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.buttonColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ],
@@ -262,16 +263,16 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.greyColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                           child: Center(
                               child: Text('Cancel',
                                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                       fontSize: 16,
                                       color: AppColor.thirdColor,
                                       fontWeight: FontWeight.w400))),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.greyColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                       SizedBox(
@@ -281,16 +282,16 @@ class _AddcollaboratorState extends State<Addcollaborator> {
                           onPressed: () {
                             viewModel.addCollaborator();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.buttonColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                           child: Center(
                               child: Text('Add',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(fontSize: 16, color: AppColor.whiteColor))),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.buttonColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(5)))),
                         ),
                       ),
                     ],

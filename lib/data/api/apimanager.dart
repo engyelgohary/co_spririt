@@ -80,7 +80,7 @@ class ApiManager {
 //Auth
   Future<String?> login({required String email, required String password}) async {
     try {
-      final storage = const FlutterSecureStorage();
+      const storage = FlutterSecureStorage();
       Uri url = Uri.http(ApiConstants.baseUrl, ApiConstants.loginApi);
       final response = await http.post(
         url,

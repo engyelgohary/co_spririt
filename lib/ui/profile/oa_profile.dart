@@ -1,27 +1,27 @@
 import 'dart:io';
-import 'package:co_spirit/data/repository/repository/repository_impl.dart';
-import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
-import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:co_spirit/core/components/appbar.dart';
+import 'package:co_spirit/core/components/text_form_field.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/data/repository/remote_data_source.dart';
+import 'package:co_spirit/ui/auth/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
-import 'package:co_spirit/ui/auth/login.dart';
-import 'edit_profile_ow.dart';
+import 'Cubit/oa_cubit.dart';
+import 'oa_edit_profile.dart';
 
-class ProfileScreenOW extends StatefulWidget {
-  final String OWId;
-  const ProfileScreenOW({super.key, required this.OWId});
+class OAProfileScreen extends StatefulWidget {
+  final String OAId;
+  const OAProfileScreen({super.key, required this.OAId});
 
   @override
-  State<ProfileScreenOW> createState() => _ProfileScreenOWState();
+  State<OAProfileScreen> createState() => _OAProfileScreenState();
 }
 
-class _ProfileScreenOWState extends State<ProfileScreenOW> {
-  late OpportunityOwnerCubit viewModel;
+class _OAProfileScreenState extends State<OAProfileScreen> {
+  late OpportunityAnalyzerCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController phoneController;
@@ -35,11 +35,12 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-    viewModel = OpportunityOwnerCubit(
-        opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
-      apiManager: ApiManager.getInstance(),
-    ));
-    viewModel.fetchOWDetails(widget.OWId);
+    viewModel = OpportunityAnalyzerCubit(
+      opportunityAnalyzerRepository: OpportunityAnalyzerRepositoryRemote(
+        apiManager: ApiManager.getInstance(),
+      ),
+    );
+    viewModel.fetchOADetails(widget.OAId);
   }
 
   Future<void> _pickImage() async {
@@ -67,8 +68,8 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
       appBar: customAppBar(
           title: "Profile",
           context: context,
-          backArrowColor: OWColorScheme.buttonColor,
-          textColor: OWColorScheme.mainColor,
+          backArrowColor: OAColorScheme.buttonColor,
+          textColor: OAColorScheme.mainColor,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
@@ -91,8 +92,8 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         child: Icon(Icons.horizontal_rule_rounded),
                       ),
                       Flexible(
-                          child: EditProfileOW(
-                        OWId: widget.OWId,
+                          child: EditProfileOA(
+                        OAId: widget.OAId,
                       )),
                     ],
                   ),
@@ -103,18 +104,18 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
           ]),
       body: BlocProvider(
         create: (context) => viewModel,
-        child: BlocBuilder<OpportunityOwnerCubit, OpportunityOwnerState>(
+        child: BlocBuilder<OpportunityAnalyzerCubit, OpportunityAnalyzerState>(
           builder: (context, state) {
-            if (state is OpportunityOwnerLoading) {
+            if (state is OpportunityAnalyzerLoading) {
               return const Center(
-                child: CircularProgressIndicator(color: OWColorScheme.buttonColor),
+                child: CircularProgressIndicator(color: OAColorScheme.buttonColor),
               );
-            } else if (state is OpportunityOwnerDetailsSuccess) {
-              final OW = state.opportunityOwnerData;
-              firstNameController.text = "${OW.firstName}";
-              lastNameController.text = OW.lastName ?? "";
-              phoneController.text = OW.phone ?? "";
-              emailController.text = OW.email ?? "";
+            } else if (state is OpportunityAnalyzerDetailsSuccess) {
+              final OA = state.opportunityAnalyzerData;
+              firstNameController.text = "${OA.firstName}";
+              lastNameController.text = OA.lastName ?? "";
+              phoneController.text = OA.phone ?? "";
+              emailController.text = OA.email ?? "";
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,9 +126,9 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         backgroundImage: _selectedImage != null
                             ? FileImage(File(_selectedImage!.path))
                             : NetworkImage(
-                                'http://${ApiConstants.baseUrl}${OW.pictureLocation}',
+                                'http://${ApiConstants.baseUrl}${OA.pictureLocation}',
                               ) as ImageProvider,
-                        child: _selectedImage == null && OW.pictureLocation == null
+                        child: _selectedImage == null && OA.pictureLocation == null
                             ? const Icon(Icons.camera_alt, size: 50)
                             : null,
                       ),
@@ -137,7 +138,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
-                          style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18)),
+                          style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
                     ),
                     SizedBox(
                       height: 16,
@@ -146,25 +147,25 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                       fieldName: 'First Name',
                       controller: firstNameController,
                       enabled: false,
-                      textColor: OWColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Last Name',
                       controller: lastNameController,
                       enabled: false,
-                      textColor: OWColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Email',
                       controller: emailController,
                       enabled: false,
-                      textColor: OWColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     CustomTextFormField(
                       fieldName: 'Phone',
                       controller: phoneController,
                       enabled: false,
-                      textColor: OWColorScheme.mainColor,
+                      textColor: OAColorScheme.mainColor,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8, horizontal: width / 13),
@@ -173,12 +174,12 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         children: [
                           const Text(
                             "Notification",
-                            style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                           ),
                           Switch(
                             value: true,
                             onChanged: (value) {},
-                            activeColor: OWColorScheme.buttonColor,
+                            activeColor: OAColorScheme.buttonColor,
                           )
                         ],
                       ),
@@ -190,7 +191,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                         children: [
                           const Text(
                             "Password",
-                            style: TextStyle(fontSize: 16, color: OWColorScheme.mainColor),
+                            style: TextStyle(fontSize: 16, color: OAColorScheme.mainColor),
                           ),
                           TextButton(
                             onPressed: () {},
@@ -198,9 +199,9 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                               "Change",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: OWColorScheme.buttonColor,
+                                color: OAColorScheme.buttonColor,
                                 decoration: TextDecoration.underline,
-                                decorationColor: OWColorScheme.buttonColor,
+                                decorationColor: OAColorScheme.buttonColor,
                               ),
                             ),
                           )
@@ -219,7 +220,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: OWColorScheme.buttonColor,
+                            backgroundColor: OAColorScheme.buttonColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
@@ -241,7 +242,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
                   ],
                 ),
               );
-            } else if (state is OpportunityOwnerError) {
+            } else if (state is OpportunityAnalyzerError) {
               return Center(child: Text(state.errorMessage ?? ""));
             } else {
               return Container();

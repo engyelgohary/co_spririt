@@ -20,6 +20,7 @@ class RequestCollaborator extends StatefulWidget {
 
 class _RequestCollaboratorState extends State<RequestCollaborator> {
   late RequestsCubit viewModel;
+  @override
   void initState() {
     super.initState();
     viewModel = RequestsCubit(

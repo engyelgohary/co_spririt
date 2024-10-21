@@ -1,15 +1,15 @@
 import 'dart:io';
-import 'package:co_spirit/data/repository/repository/repository_impl.dart';
-import 'package:co_spirit/ui/ow/Profile/Cubit/ow_cubit.dart';
-import 'package:co_spirit/utils/helper_functions.dart';
+import 'package:co_spirit/core/components/appbar.dart';
+import 'package:co_spirit/core/components/text_form_field.dart';
+import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/data/repository/remote_data_source.dart';
+import 'package:co_spirit/ui/auth/login.dart';
+import 'package:co_spirit/ui/profile/Cubit/ow_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/api/apimanager.dart';
-import '../../../utils/components/textFormField.dart';
-import '../../../utils/theme/appColors.dart';
-import 'package:co_spirit/ui/auth/login.dart';
 import 'edit_profile_ow.dart';
 
 class ProfileScreenOW extends StatefulWidget {
@@ -36,7 +36,7 @@ class _ProfileScreenOWState extends State<ProfileScreenOW> {
     phoneController = TextEditingController();
     emailController = TextEditingController();
     viewModel = OpportunityOwnerCubit(
-        opportunityOwnerRepository: OpportunityOwnerRepositoryImpl(
+        opportunityOwnerRepository: OpportunityOwnerRepositoryRemote(
       apiManager: ApiManager.getInstance(),
     ));
     viewModel.fetchOWDetails(widget.OWId);

@@ -82,8 +82,8 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                                     items: solutions.keys
                                         .map(
                                           (e) => DropdownMenuItem<String>(
-                                            child: Text(e),
                                             value: e,
+                                            child: Text(e),
                                           ),
                                         )
                                         .toList(),
@@ -123,8 +123,8 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                                         : List<DropdownMenuItem<String>>.from(
                                             solutions[selectedTaskService].keys.map(
                                                   (e) => DropdownMenuItem<String>(
-                                                    child: Text(e),
                                                     value: e,
+                                                    child: Text(e),
                                                   ),
                                                 )),
                                     onChanged: (value) {

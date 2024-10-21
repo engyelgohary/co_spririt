@@ -1,18 +1,17 @@
-import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
-import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
+import 'package:co_spirit/ui/messages/message_screen.dart';
+import 'package:co_spirit/ui/notifications/ow_notifications.dart';
+import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/Cubit/ow_cubit.dart';
 import 'package:co_spirit/ui/profile/profile_ow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../Message/Message_ow.dart';
-import '../Message/oppy_ow.dart';
-import '../Notifactions/notifictions_ow.dart';
+import '../../../core/app_util.dart';
+import '../../../data/api/apimanager.dart';
 import '../opportunities/opportunities_ow.dart';
 
 class MenuScreenOW extends StatefulWidget {
@@ -104,19 +103,26 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Notifications',
-                    onFunction: () => AppUtil.mainNavigator(context, const NotificationScreenOW()),
+                    onFunction: () => AppUtil.mainNavigator(context, const OWNotificationScreen()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Message',
-                    onFunction: () => AppUtil.mainNavigator(context, const MessagesScreenOW()),
+                    onFunction: () => AppUtil.mainNavigator(context, const MessagesScreen()),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Ask Oppy',
-                    onFunction: () => AppUtil.mainNavigator(context, OppyOW()),
+                    onFunction: () => AppUtil.mainNavigator(
+                      context,
+                      OppyScreen(
+                        mainColor: OWColorScheme.mainColor,
+                        buttonColor: OWColorScheme.buttonColor,
+                        textColor: OWColorScheme.textColor,
+                      ),
+                    ),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,

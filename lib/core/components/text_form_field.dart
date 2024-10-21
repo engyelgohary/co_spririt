@@ -239,7 +239,7 @@ class AuthTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
-    final borderRadius = 30.0;
+    const borderRadius = 30.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

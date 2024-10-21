@@ -69,7 +69,7 @@ class _DashboardState extends State<Dashboard> {
     try {
       List<dynamic> fetchedScores = await apiManager.fetchLeaderBoardByAverageScore();
 
-      if (fetchedScores == null || fetchedScores.isEmpty) {
+      if (fetchedScores.isEmpty) {
         setState(() {
           scores = [];
         });

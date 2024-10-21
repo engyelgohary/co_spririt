@@ -171,17 +171,17 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                         onPressed: () {
                           Navigator.of(context).pop(); // Close the dialog
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.greyColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5))),
+                        ),
                         child: Center(
                           child: Text('Cancel',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(fontSize: 16, color: AppColor.thirdColor)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.greyColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5))),
                         ),
                       ),
                     ),
@@ -195,17 +195,17 @@ class _RequestDetailDialogState extends State<RequestDetailDialog> {
                         onPressed: () {
                           viewModel.addRequest();
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.buttonColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5))),
+                        ),
                         child: Center(
                           child: Text('Submit',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(fontSize: 16, color: AppColor.whiteColor)),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColor.buttonColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5))),
                         ),
                       ),
                     ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../utils/components/textFormField.dart';
 import '../../../utils/theme/appColors.dart';
-import '../../../../lib/ui/auth/login.dart';
+import 'package:co_spirit/ui/auth/login.dart';
 
 class ProfileScreenOM extends StatefulWidget {
   const ProfileScreenOM({super.key});

@@ -18,6 +18,7 @@ class InfoClient extends StatelessWidget {
         : 'No Collaborator Assigned';
   }
 
+  @override
   Widget build(BuildContext context) {
     final collaboratorName = client!.collaboratorId != null
         ? getCollaboratorName(client!.collaboratorId)

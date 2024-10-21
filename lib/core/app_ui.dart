@@ -15,11 +15,6 @@ class AppUI {
   static const Color backgroundColor = Color(0xffD9D9D9);
   static const Color errorColor = Colors.red;
 
-  //static const Color inputColor = Color(0xffF9F9FF);
-  // static const Color bottomBarColor = Color(0xffBFCAC6);
-  // static const Color iconColor = Color(0xff8A8D9F);
-  //static Color shimmerColor = Colors.grey[350]!;
-
   static const String imgPath = "assets/images/";
   static const String iconPath = "assets/icons/png/";
   static const String svgPath = "assets/icons/svg/";

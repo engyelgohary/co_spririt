@@ -350,7 +350,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download is complete",
                             body: "Download location: $path",
                             notificationLayout: NotificationLayout.BigText,
@@ -361,7 +361,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download failed",
                             body: "Download error message:  $errorMessage",
                             notificationLayout: NotificationLayout.BigText,

@@ -74,6 +74,7 @@ Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingN
     loadingNotifier.response = [
       ...await apiManager.fetchAllCollaborators(),
       ...await apiManager.getAllAdmins(),
+      ...await apiManager.getSuperAdminData()
     ];
   } catch (e) {
     print("- superAdminList error : $e");
@@ -176,54 +177,61 @@ class Signalr {
     try {
       await connection.start();
       connection.on('ReceiveMessageUpdate', (message) {
-        if (message != null && message.isNotEmpty) {
-          final incomingMessage = Message(
-            id: message[0]["Message"]["Id"],
-            senderId: message[0]["Message"]["FromId"],
-            receiverId: message[0]["Message"]["ToId"],
-            content: message[0]["Message"]["Content"],
-            isSender: false,
-            read: message[0]["Message"]["Read"],
-            senderEmail: message[0]["User"]["Email"],
-            senderFirstName: message[0]["User"]["FirstName"],
-            senderLastName: message[0]["User"]["LastName"],
-          );
-          incomingMessage.parseTime(message[0]["Message"]["Timestamp"]);
+        print(message);
+        if (message == null || message.isEmpty) {
+          return;
+        }
 
-          if (senderId != incomingMessage.senderId && senderId != incomingMessage.receiverId) {
-            return;
-          } else if (senderId == incomingMessage.receiverId && listNotifier == null) {
-            AwesomeNotifications().createNotification(
-              content: NotificationContent(
-                id: 16,
-                channelKey: 'basic_channel',
-                title: 'New message from: ${incomingMessage.senderFirstName}',
-                body: incomingMessage.content,
-                notificationLayout: NotificationLayout.BigText,
-              ),
-              actionButtons: [
-                NotificationActionButton(
-                  key: 'DISMISS',
-                  label: 'Dismiss',
-                  actionType: ActionType.DismissAction,
-                  isDangerousOption: true,
-                )
-              ],
+        final incomingMessage = Message(
+          id: message[0]["Message"]["Id"],
+          senderId: message[0]["Message"]["FromId"],
+          receiverId: message[0]["Message"]["ToId"],
+          content: message[0]["Message"]["Content"],
+          isSender: false,
+          read: message[0]["Message"]["Read"],
+          senderEmail: message[0]["User"]["Email"],
+          senderFirstName: message[0]["User"]["FirstName"],
+          senderLastName: message[0]["User"]["LastName"],
+        );
+        incomingMessage.parseTime(message[0]["Message"]["Timestamp"]);
+
+        if (senderId != incomingMessage.senderId && senderId != incomingMessage.receiverId) {
+          return;
+        }
+        if (senderId == incomingMessage.receiverId && listNotifier == null) {
+          print("in signalr case2");
+
+          AwesomeNotifications().createNotification(
+            content: NotificationContent(
+              id: 16,
+              channelKey: 'op_channel_channel',
+              title: 'New message from: ${incomingMessage.senderFirstName}',
+              body: incomingMessage.content,
+              notificationLayout: NotificationLayout.BigText,
+            ),
+            actionButtons: [
+              NotificationActionButton(
+                key: 'DISMISS',
+                label: 'Dismiss',
+                actionType: ActionType.DismissAction,
+                isDangerousOption: true,
+              )
+            ],
+          );
+          // print(
+          //     "Message Notification content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
+        } else if (senderId == incomingMessage.receiverId && listNotifier != null) {
+          print("in signalr case2");
+          listNotifier!.addItem(incomingMessage);
+          if (scrollController != null) {
+            Future.delayed(
+              const Duration(milliseconds: 300),
+              () => scrollController!.animateTo(scrollController!.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
             );
-            print(
-                "Message Notification content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
-          } else if (senderId == incomingMessage.receiverId && listNotifier != null) {
-            listNotifier!.addItem(incomingMessage);
-            if (scrollController != null) {
-              Future.delayed(
-                const Duration(milliseconds: 300),
-                () => scrollController!.animateTo(scrollController!.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
-              );
-            }
-            print(
-                "Message List content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
           }
+          // print(
+          //     "Message List content: ${incomingMessage.content}\nMessage sender: ${incomingMessage.senderId}\nMessage receiver: ${incomingMessage.receiverId}");
         }
       });
     } catch (e) {

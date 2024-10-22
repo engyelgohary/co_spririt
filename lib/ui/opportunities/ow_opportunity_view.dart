@@ -40,7 +40,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
           opportunity = fetchedOpportunity;
           print(widget.opportunity.status);
         });
-            } catch (e) {
+      } catch (e) {
         String errorMessage;
 
         if (e is SocketException) {
@@ -160,7 +160,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download is complete",
                             body: "download location: $path",
                             notificationLayout: NotificationLayout.BigText,
@@ -171,7 +171,7 @@ class _OpportunityViewOWState extends State<OpportunityViewOW> {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download faild",
                             body: "download error message:  $errorMessage",
                             notificationLayout: NotificationLayout.BigText,

@@ -26,7 +26,6 @@ class _SMHomePageState extends State<SMHomePage> {
     const SMRACIViewPage(),
     const ProjectsOverview(isSm: true),
     const SolutionsScreen(),
-    // const MenuScreenSM(ODId: "2")
   ];
   @override
   Widget build(BuildContext context) {
@@ -228,10 +227,10 @@ class _SMHomePageState extends State<SMHomePage> {
               icon: SvgPicture.asset('${AppUI.svgPath}project_management/navbar/solutions.svg'),
               label: "Solutions",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
-            )
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.settings),
+            //   label: "Settings",
+            // )
           ],
           onTap: (value) {
             setState(() {

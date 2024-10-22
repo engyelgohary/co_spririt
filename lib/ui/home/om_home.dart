@@ -5,7 +5,9 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/menu/om_menu.dart';
 import 'package:co_spirit/ui/messages/om_message.dart';
 import 'package:co_spirit/ui/notifications/om_notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities_om.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
+import 'package:co_spirit/ui/profile/profile_om.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -118,7 +120,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                           ],
                         ),
                         InkWell(
-                          // onTap: () => AppUtil.mainNavigator(context, const ProfileScreenOM()),
+                          onTap: () => AppUtil.mainNavigator(context, const ProfileScreenOM()),
 
                           // onTap: () => snackBar(context, "Not implemented"),
                           child: Column(
@@ -137,7 +139,8 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                         Column(
                           children: [
                             InkWell(
-                              // onTap: () => AppUtil.mainNavigator(context, const AllOpportunities()),
+                              onTap: () =>
+                                  AppUtil.mainNavigator(context, const OpportunitiesPageOM()),
                               child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
                                   width: 35),
                             ),

@@ -2603,6 +2603,7 @@ class ApiManager {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
+        print(data);
         return data.map((user) => AllUsers.fromJson(user)).toList();
       } else {
         throw Exception('Failed to load users: ${response.body}');

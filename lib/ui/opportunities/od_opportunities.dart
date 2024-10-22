@@ -252,7 +252,7 @@ class _ODOpportunitiesPageState extends State<ODOpportunitiesPage> {
                           AwesomeNotifications().createNotification(
                             content: NotificationContent(
                               id: 16,
-                              channelKey: 'basic_channel',
+                              channelKey: 'op_channel_channel',
                               title: "Download is complete",
                               body: "download location: $path",
                               notificationLayout: NotificationLayout.BigText,
@@ -263,7 +263,7 @@ class _ODOpportunitiesPageState extends State<ODOpportunitiesPage> {
                           AwesomeNotifications().createNotification(
                             content: NotificationContent(
                               id: 16,
-                              channelKey: 'basic_channel',
+                              channelKey: 'op_channel_channel',
                               title: "Download faild",
                               body: "download error message:  $errorMessage",
                               notificationLayout: NotificationLayout.BigText,

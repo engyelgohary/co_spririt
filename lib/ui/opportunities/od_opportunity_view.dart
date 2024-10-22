@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-
 class OpportunityViewOD extends StatelessWidget {
   final Opportunity opportunity;
   const OpportunityViewOD({super.key, required this.opportunity});
@@ -99,7 +98,7 @@ class OpportunityViewOD extends StatelessWidget {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download is complete",
                             body: "download location: $path",
                             notificationLayout: NotificationLayout.BigText,
@@ -110,7 +109,7 @@ class OpportunityViewOD extends StatelessWidget {
                         AwesomeNotifications().createNotification(
                           content: NotificationContent(
                             id: 16,
-                            channelKey: 'basic_channel',
+                            channelKey: 'op_channel_channel',
                             title: "Download faild",
                             body: "download error message:  $errorMessage",
                             notificationLayout: NotificationLayout.BigText,

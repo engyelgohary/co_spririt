@@ -2,6 +2,8 @@ import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/core/components/components.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/ui/menu/om_menu.dart';
+import 'package:co_spirit/ui/messages/om_message.dart';
 import 'package:co_spirit/ui/notifications/om_notifications.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +72,13 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              AppUtil.mainNavigator(context, const OMNotificationScreen());
+                              AppUtil.mainNavigator(
+                                context,
+                                const OMNotificationScreen(
+                                  buttonColor: OMColorScheme.buttonColor,
+                                  mainColor: OMColorScheme.mainColor,
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: EdgeInsets.only(right: 13),
@@ -91,7 +99,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                         Column(
                           children: [
                             InkWell(
-                              // onTap: () => AppUtil.mainNavigator(context, const MenuScreenOM()),
+                              onTap: () => AppUtil.mainNavigator(context, const MenuScreenOM()),
                               child: SvgPicture.asset(
                                 "${AppUI.svgPath}menu.svg",
                                 width: 35,
@@ -171,7 +179,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            // AppUtil.mainNavigator(context, const MessagesScreenOM());
+                            AppUtil.mainNavigator(context, const MessagesScreenOM());
                           },
                           child: Column(
                             children: [

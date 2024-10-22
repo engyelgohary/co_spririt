@@ -48,6 +48,7 @@ class OWColorScheme {
 class OMColorScheme {
   static const Color mainColor = Color(0xff4169E1);
   static const Color buttonColor = Color(0xff000000);
+  static const Color lighterButtonColor = Color(0xff000000);
   static const Color hintTextColor = Color(0x7f606770);
   static const Color disabledColor = Color(0xff898A8D);
   static const Color backgroundColor = Color(0xffD9D9D9);

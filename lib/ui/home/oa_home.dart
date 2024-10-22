@@ -5,7 +5,7 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/menu/oa_menu.dart';
 import 'package:co_spirit/ui/messages/message_screen.dart';
 import 'package:co_spirit/ui/notifications/oa_notifications.dart';
-import 'package:co_spirit/ui/opportunities/opportunities_oa.dart';
+import 'package:co_spirit/ui/opportunities/oa_opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/oa_profile.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +179,13 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            AppUtil.mainNavigator(context, const MessagesScreen());
+                            AppUtil.mainNavigator(
+                                context,
+                                const MessagesScreen(
+                                  mainColor: OAColorScheme.mainColor,
+                                  buttonColor: OAColorScheme.buttonColor,
+                                  textColor: OAColorScheme.textColor,
+                                ));
                           },
                           child: Column(
                             children: [

@@ -174,7 +174,13 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            AppUtil.mainNavigator(context, const MessagesScreen());
+                            AppUtil.mainNavigator(
+                                context,
+                                MessagesScreen(
+                                  buttonColor: ODColorScheme.buttonColor,
+                                  mainColor: ODColorScheme.mainColor,
+                                  textColor: ODColorScheme.textColor,
+                                ));
                           },
                           child: Column(
                             children: [

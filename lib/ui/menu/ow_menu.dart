@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
-import '../opportunities/opportunities_ow.dart';
+import '../opportunities/ow_opportunities.dart';
 
 class MenuScreenOW extends StatefulWidget {
   static const String routeName = 'Menu Screen Opportunity Manager';
@@ -109,7 +109,13 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Message',
-                    onFunction: () => AppUtil.mainNavigator(context, const MessagesScreen()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context,
+                        const MessagesScreen(
+                          mainColor: OWColorScheme.mainColor,
+                          buttonColor: OWColorScheme.buttonColor,
+                          textColor: OWColorScheme.textColor,
+                        )),
                   ),
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,

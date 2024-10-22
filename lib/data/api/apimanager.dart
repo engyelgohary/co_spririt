@@ -33,7 +33,8 @@ import 'package:jwt_decode/jwt_decode.dart';
 import '../model/opportunity.dart';
 
 class ApiConstants {
-  static const String baseUrl = '10.100.102.6:3090';
+  // static const String baseUrl = '10.100.102.6:3090';
+  static const String baseUrl = '41.33.149.211:3090';
   static const String loginApi = '/api/auth/signin';
   static const String adminApi = '/api/v1/admin';
   static const String clientApi = '/api/v1/client';

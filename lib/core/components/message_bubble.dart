@@ -11,6 +11,7 @@ import '../../data/api/apimanager.dart';
 
 class CustomChatBubble extends StatelessWidget {
   final Message message;
+  
   const CustomChatBubble({
     super.key,
     required this.message,

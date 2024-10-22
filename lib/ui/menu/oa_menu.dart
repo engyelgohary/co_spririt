@@ -5,7 +5,7 @@ import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
 import 'package:co_spirit/ui/messages/message_screen.dart';
 import 'package:co_spirit/ui/notifications/oa_notifications.dart';
-import 'package:co_spirit/ui/opportunities/opportunities_oa.dart';
+import 'package:co_spirit/ui/opportunities/oa_opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/Cubit/oa_cubit.dart';
 import 'package:co_spirit/ui/profile/oa_profile.dart';
@@ -111,7 +111,13 @@ class _OAMenuScreenState extends State<OAMenuScreen> {
                     textColor: OAColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreen());
+                      AppUtil.mainNavigator(
+                          context,
+                          const MessagesScreen(
+                            mainColor: OAColorScheme.mainColor,
+                            buttonColor: OAColorScheme.buttonColor,
+                            textColor: OAColorScheme.textColor,
+                          ));
                     },
                   ),
                   CustomMenuCard(

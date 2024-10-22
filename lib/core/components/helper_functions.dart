@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:co_spirit/core/app_ui.dart';
-import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/model/Notification.dart';
 import 'package:co_spirit/data/model/message.dart';
@@ -83,33 +82,30 @@ Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingN
   loadingNotifier.change();
 }
 
-Future<void> collaboratorAdminsList(
-  ApiManager apiManager,
-  LoadingStateNotifier loadingNotifier,
-) async {
-  try {
-    const storage = FlutterSecureStorage();
-    final token = await storage.read(key: 'token');
+// Future<void> collaboratorAdminsList(
+//   ApiManager apiManager,
+//   LoadingStateNotifier loadingNotifier,
+// ) async {
+//   try {
+//     const storage = FlutterSecureStorage();
+//     final token = await storage.read(key: 'token');
 
-    if (token == null) {
-      throw Exception('No token found. Please log in.');
-    }
+//     if (token == null) {
+//       throw Exception('No token found. Please log in.');
+//     }
 
-    Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
+//     Map<String, dynamic> decodedToken = Jwt.parseJwt(token);
 
-    final collaboratorData =
-        await apiManager.fetchCollaboratorDetails(int.parse(decodedToken['nameid']));
+//     final collaboratorData =
+//         await apiManager.fetchCollaboratorDetails(int.parse(decodedToken['nameid']));
 
-    loadingNotifier.response = [
-      ...await apiManager.getSuperAdminData(),
-      await apiManager.fetchAdminDetails(collaboratorData.adminId ?? 0),
-    ];
-  } catch (e) {
-    print("- collaboratorAdminsList error : $e");
-    loadingNotifier.response = null;
-  }
-  loadingNotifier.change();
-}
+//     loadingNotifier.response = await apiManager.getSuperAdminData();
+//   } catch (e) {
+//     print("- collaboratorAdminsList error : $e");
+//     loadingNotifier.response = null;
+//   }
+//   loadingNotifier.change();
+// }
 
 Future<void> OWMessagesContactList(
   ApiManager apiManager,
@@ -324,7 +320,6 @@ Future<void> sendOppyMessage(
   bool storeChat = true,
 }) async {
   try {
-    print("in oppy");
     listNotifier.addItem([message, true]);
 
     controller.animateTo(
@@ -536,11 +531,11 @@ dynamic loadingIndicatorDialog(BuildContext context, {bool dismissible = false})
     builder: (BuildContext context) {
       return PopScope(
         canPop: dismissible,
-        child: const Center(
+        child: Center(
           child: CircularProgressIndicator(
             strokeWidth: 5,
             backgroundColor: Colors.transparent,
-            color: ODColorScheme.mainColor,
+            color: Colors.green,
           ),
         ),
       );
@@ -554,7 +549,6 @@ dynamic snackBar(BuildContext context, String message, {int duration = 2}) {
     content: Text(message),
   ));
 }
-
 
 Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String path) async {
   try {

@@ -115,7 +115,13 @@ class _ODMenuState extends State<ODMenu> {
                     textColor: ODColorScheme.mainColor,
                     name: 'Message',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const MessagesScreen());
+                      AppUtil.mainNavigator(
+                          context,
+                          const MessagesScreen(
+                            mainColor: ODColorScheme.mainColor,
+                            buttonColor: ODColorScheme.buttonColor,
+                            textColor: ODColorScheme.textColor,
+                          ));
                     },
                   ),
                   CustomMenuCard(

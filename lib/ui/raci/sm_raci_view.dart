@@ -171,7 +171,7 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                           child: Text(
                                             e["milestone"] ?? "N/A ",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16, fontWeight: FontWeight.w400),
                                           ),
                                         ),
@@ -239,7 +239,7 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
-                                                  Text("Comments:"),
+                                                  const Text("Comments:"),
                                                   Text(e["comments"].join("\n"))
                                                 ],
                                               ),
@@ -273,7 +273,8 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                                   clipBehavior: Clip.antiAliasWithSaveLayer,
                                                   context: context,
                                                   builder: (context) => Padding(
-                                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(vertical: 16),
                                                     child: Column(
                                                       mainAxisSize: MainAxisSize.min,
                                                       children: [
@@ -302,9 +303,9 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                                                 );
                                               },
                                               style: ElevatedButton.styleFrom(
-                                                padding: EdgeInsets.symmetric(vertical: 16),
+                                                padding: const EdgeInsets.symmetric(vertical: 16),
                                                 backgroundColor: ODColorScheme.buttonColor,
-                                                shape: RoundedRectangleBorder(
+                                                shape: const RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.all(
                                                     Radius.circular(30),
                                                   ),
@@ -339,16 +340,17 @@ class _SMRACIViewPageState extends State<SMRACIViewPage> {
                           height: 15,
                           padding: EdgeInsets.symmetric(vertical: width / 35),
                           decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.grey.shade300,
-                                ),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey.shade300,
                               ),
-                              borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(15),
-                                bottomLeft: Radius.circular(15),
-                              ),
-                              color: Colors.white),
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                            ),
+                            color: Colors.white,
+                          ),
                         )
                       ],
                     )

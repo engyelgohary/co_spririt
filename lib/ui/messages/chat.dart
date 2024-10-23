@@ -15,7 +15,6 @@ class ChatScreen extends StatefulWidget {
   final String name;
   final String email;
   final String? pictureLocation;
-  
 
   const ChatScreen({
     super.key,
@@ -210,10 +209,16 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         IconButton(
                           onPressed: () async {
+                            
                             if (messageController.text.trim().isNotEmpty &&
                                 !loadingNotifier.loading) {
-                              sendMessage(widget.receiverId, messageController.text.trim(),
-                                  apiManager, listNotifier, selectedAttachments.toList());
+                              sendMessage(
+                                widget.receiverId,
+                                messageController.text.trim(),
+                                apiManager,
+                                listNotifier,
+                                selectedAttachments.toList(),
+                              );
                               messageController.clear();
                               selectedAttachments.clear();
                             }

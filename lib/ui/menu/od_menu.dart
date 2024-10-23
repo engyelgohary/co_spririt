@@ -1,13 +1,14 @@
+import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
 import 'package:co_spirit/core/Cubit/collaborator_cubit.dart';
-import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/od_notifications.dart';
-import 'package:co_spirit/ui/opportunities/od_opportunities.dart';
-import 'package:co_spirit/ui/opportunities/od_scores.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
+import 'package:co_spirit/ui/scores/od_scores.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -87,51 +88,45 @@ class _ODMenuState extends State<ODMenu> {
                   ),
                   const SizedBox(height: 16),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Home',
                     onFunction: () => Navigator.of(context).pop(),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const ODOpportunitiesPage()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context, const OpportunitiesPage(colorMap: odColorMap, userType: 2)),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Scores',
                     onFunction: () => AppUtil.mainNavigator(context, const ScoresPageOD()),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Notifications',
-                    onFunction: () => AppUtil.mainNavigator(context, const ODNotificationScreen()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context, const NotificationScreen(colorMap: odColorMap)),
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Message',
                     onFunction: () {
                       AppUtil.mainNavigator(
                           context,
                           const MessagesScreen(
-                            mainColor: ODColorScheme.mainColor,
-                            buttonColor: ODColorScheme.buttonColor,
-                            textColor: ODColorScheme.textColor,
+                            colorMap: odColorMap,
                           ));
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     name: 'Ask Oppy',
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        OppyScreen(
+                        const OppyScreen(
                           mainColor: ODColorScheme.mainColor,
                           buttonColor: ODColorScheme.buttonColor,
                           textColor: ODColorScheme.textColor,
@@ -140,8 +135,7 @@ class _ODMenuState extends State<ODMenu> {
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: ODColorScheme.buttonColor,
-                    textColor: ODColorScheme.mainColor,
+                    colorMap: odColorMap,
                     enableDivider: false,
                     name: 'Profile & Settings',
                     onFunction: () {
@@ -166,13 +160,5 @@ class _ODMenuState extends State<ODMenu> {
         ),
       ),
     );
-  }
-
-  ImageProvider<Object> _getImageProvider(String? pictureLocation) {
-    if (pictureLocation != null && pictureLocation.isNotEmpty) {
-      return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
-    } else {
-      return const AssetImage('assets/images/Rectangle 5.png');
-    }
   }
 }

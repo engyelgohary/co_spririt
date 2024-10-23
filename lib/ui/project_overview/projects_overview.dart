@@ -39,10 +39,10 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
             bloc: projectOverviewCubit,
             builder: (context, state) {
               if (state is ProjectsOverviewLoadingState) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (state is ProjectsOverviewSuccessfulState) {
                 Map tasks = state.tasksMap;
-                List<Widget> output = [SizedBox(height: 20)];
+                List<Widget> output = [const SizedBox(height: 20)];
 
                 for (var project in tasks.keys) {
                   output.add(Text(
@@ -155,7 +155,7 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
                   output.add(
                     Flexible(
                       child: Container(
-                        padding: EdgeInsets.all(24),
+                        padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: color % 2 == 0

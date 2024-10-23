@@ -95,14 +95,14 @@ class _EditProfileOAState extends State<EditProfileOA> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: const TextStyle(color: OAColorScheme.mainColor, fontSize: 18)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     CustomTextFormField(
@@ -150,9 +150,9 @@ class _EditProfileOAState extends State<EditProfileOA> {
                             child: ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OAColorScheme.disabledColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),
@@ -180,7 +180,7 @@ class _EditProfileOAState extends State<EditProfileOA> {
                                   'lastName': lastNameController.text,
                                   'phone': phoneController.text,
                                   'email': emailController.text,
-                                  'password': "AdminAdmin",
+                                  'password': "0123456789",
                                   'canPost': state.opportunityAnalyzerData.canPost.toString(),
                                 }, _selectedImage);
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -188,9 +188,9 @@ class _EditProfileOAState extends State<EditProfileOA> {
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OAColorScheme.buttonColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),

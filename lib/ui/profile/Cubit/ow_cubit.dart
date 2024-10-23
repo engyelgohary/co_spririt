@@ -74,7 +74,7 @@ class OpportunityOwnerCubit extends Cubit<OpportunityOwnerState> {
       'phone': phoneController.text,
       'email': emailController.text,
       'canPost': canPost.toString(),
-      'password': 'AdminAdmin'
+      'password': '0123456789'
     };
 
     emit(OpportunityOwnerLoading());

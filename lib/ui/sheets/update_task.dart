@@ -190,7 +190,6 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                         setState(() {
                                           teams.add(TextEditingController());
                                           responsibilities.add(TextEditingController());
-                                          count++;
                                           rows.add(
                                             Row(
                                               children: [
@@ -213,6 +212,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                               ],
                                             ),
                                           );
+                                          count++;
                                         });
                                       },
                                       icon: const Icon(
@@ -256,9 +256,9 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                             child: ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: ODColorScheme.disabledColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),
@@ -281,8 +281,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 List assignTasks = [];
-                                if (projectName.text.trim().isEmpty ||
-                                    taskCategory.text.trim().isEmpty ||
+                                if (taskCategory.text.trim().isEmpty ||
                                     taskName.text.trim().isEmpty ||
                                     projectName.text.trim().isEmpty ||
                                     priority.text.trim().isEmpty ||
@@ -292,6 +291,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                   return;
                                 }
 
+                                print(teams.length);
                                 for (var i = 0; i < teams.length; i++) {
                                   if (teams[i].text.isEmpty || responsibilities[i].text.isEmpty) {
                                     return;
@@ -303,10 +303,11 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                     },
                                   );
                                 }
-
+                                print(statusMap);
                                 loadingIndicatorDialog(context);
                                 try {
-                                  await apiManager.AddNewTask(
+                                  await apiManager.UpdateTask(
+                                      id: widget.id,
                                       projectId: projectsMap[projectName.text],
                                       categoryId: projectsSubTaskMap[projectName.text]
                                           [taskCategory.text],
@@ -319,6 +320,7 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                       progress: int.tryParse(progress.text.trim()) ?? 0);
                                   snackBar(context, "Done");
                                   Navigator.of(context).pop();
+                                  widget.raciCubit.getRACI();
                                 } catch (e) {
                                   snackBar(context, "Error $e");
                                 }
@@ -326,9 +328,9 @@ class _NewProjectSheetState extends State<UpdateTaskSheet> {
                                 return;
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: ODColorScheme.buttonColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),

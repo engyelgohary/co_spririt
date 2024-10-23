@@ -1,5 +1,4 @@
-dart fix --apply --code=unused_import
-dart fix --apply --code=unnecessary_import 
-dart fix --apply --code=empty_statements
+dart fix --apply --code=prefer_const_constructors,unused_import,unnecessary_import,empty_statements,unused_import
+
 flutter clean
-flutter build apk
+flutter build apk --release

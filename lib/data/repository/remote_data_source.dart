@@ -61,9 +61,9 @@ class SMDataSourceRemote implements SMDataSource {
 
   @override
   Future<List> taskStatusNameAndId() async {
-    return await apiManager.memberNameAndId();
+    return await apiManager.taskStatusNameAndId();
   }
- 
+
   @override
   Future<List> taskNameAndId({required int categoryId}) async {
     return await apiManager.taskNameAndId(categoryId);

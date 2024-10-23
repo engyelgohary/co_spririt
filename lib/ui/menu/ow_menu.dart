@@ -1,18 +1,19 @@
+import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
-import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/ow_notifications.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/Cubit/ow_cubit.dart';
-import 'package:co_spirit/ui/profile/profile_ow.dart';
+import 'package:co_spirit/ui/profile/ow_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
-import '../opportunities/ow_opportunities.dart';
 
 class MenuScreenOW extends StatefulWidget {
   static const String routeName = 'Menu Screen Opportunity Manager';
@@ -88,42 +89,36 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                   ),
                   const SizedBox(height: 16),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Home',
                     onFunction: () => Navigator.of(context).pop(),
                   ),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOW()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context, const OpportunitiesPage(colorMap: owColorMap, userType: 4)),
                   ),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Notifications',
-                    onFunction: () => AppUtil.mainNavigator(context, const OWNotificationScreen()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context, const NotificationScreen(colorMap: owColorMap)),
                   ),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Message',
                     onFunction: () => AppUtil.mainNavigator(
-                        context,
-                        const MessagesScreen(
-                          mainColor: OWColorScheme.mainColor,
-                          buttonColor: OWColorScheme.buttonColor,
-                          textColor: OWColorScheme.textColor,
-                        )),
+                      context,
+                      const MessagesScreen(colorMap: owColorMap),
+                    ),
                   ),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Ask Oppy',
                     onFunction: () => AppUtil.mainNavigator(
                       context,
-                      OppyScreen(
+                      const OppyScreen(
                         mainColor: OWColorScheme.mainColor,
                         buttonColor: OWColorScheme.buttonColor,
                         textColor: OWColorScheme.textColor,
@@ -131,8 +126,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     ),
                   ),
                   CustomMenuCard(
-                    iconColor: OWColorScheme.buttonColor,
-                    textColor: OWColorScheme.mainColor,
+                    colorMap: owColorMap,
                     name: 'Profile & Settings',
                     enableDivider: false,
                     onFunction: () => AppUtil.mainNavigator(
@@ -151,13 +145,5 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
         ),
       ),
     );
-  }
-
-  ImageProvider<Object> _getImageProvider(String? pictureLocation) {
-    if (pictureLocation != null && pictureLocation.isNotEmpty) {
-      return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
-    } else {
-      return const AssetImage('assets/images/Rectangle 5.png');
-    }
   }
 }

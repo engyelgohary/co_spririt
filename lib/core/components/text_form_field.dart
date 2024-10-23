@@ -264,7 +264,7 @@ class AuthTextFormField extends StatelessWidget {
                   borderSide: const BorderSide(color: AppColor.whiteColor),
                   borderRadius: BorderRadius.circular(borderRadius)),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color.fromARGB(150, 0, 0, 0)),
+                borderSide: const BorderSide(color: Color.fromARGB(150, 0, 0, 0)),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
@@ -329,7 +329,7 @@ class _CustomTextState extends State<CustomText> {
             validator: widget.validator,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
               fillColor: AppColor.whiteColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
@@ -382,7 +382,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             widget.fieldName,
             style: Theme.of(context).textTheme.titleSmall,
@@ -390,7 +390,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12),
+          padding: const EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12),
           child: Container(
             color: AppColor.whiteColor,
             child: DropdownMenu(
@@ -601,7 +601,7 @@ class CustomDoubleTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             fieldName,
             style: Theme.of(context).textTheme.titleSmall,
@@ -609,7 +609,7 @@ class CustomDoubleTextFormField extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12),
+          padding: const EdgeInsets.only(top: 15, bottom: 20, right: 12, left: 12),
           child: Row(
             children: [
               Flexible(
@@ -640,7 +640,7 @@ class CustomDoubleTextFormField extends StatelessWidget {
                   keyboardType: keyboardType,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Flexible(

@@ -71,20 +71,20 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
               child: CircleAvatar(
                 radius: 60,
-                child: const Icon(Icons.camera_alt, size: 50),
+                child: Icon(Icons.camera_alt, size: 50),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Center(
               child: Text("${firstNameController.text} ${lastNameController.text}",
                   style: const TextStyle(color: OMColorScheme.textColor, fontSize: 18)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomTextFormField(
@@ -229,9 +229,9 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(30),
                       ),

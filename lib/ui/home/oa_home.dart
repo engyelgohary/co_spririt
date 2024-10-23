@@ -3,9 +3,9 @@ import 'package:co_spirit/core/components/components.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/menu/oa_menu.dart';
-import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/oa_notifications.dart';
-import 'package:co_spirit/ui/opportunities/oa_opportunities.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/oa_profile.dart';
 import 'package:flutter/material.dart';
@@ -59,11 +59,11 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                 ),
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -74,11 +74,11 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              AppUtil.mainNavigator(context, const OANotificationScreen());
+                              AppUtil.mainNavigator(context,  const NotificationScreen(colorMap: oaColorMap));
                             },
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.only(right: 13),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.notifications_outlined,
                                 color: Colors.white,
                                 size: 28,
@@ -106,7 +106,7 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                                 semanticsLabel: "Menu",
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             const CustomText(
@@ -136,8 +136,8 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () =>
-                                  AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
+                              onTap: () => AppUtil.mainNavigator(context,
+                                  const OpportunitiesPage(colorMap: oaColorMap, userType: 3)),
                               child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
                                   width: 35),
                             ),
@@ -153,7 +153,7 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                         InkWell(
                           onTap: () => AppUtil.mainNavigator(
                             context,
-                            OppyScreen(
+                            const OppyScreen(
                               mainColor: OAColorScheme.mainColor,
                               buttonColor: OAColorScheme.buttonColor,
                               textColor: OAColorScheme.textColor,
@@ -182,9 +182,7 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                             AppUtil.mainNavigator(
                                 context,
                                 const MessagesScreen(
-                                  mainColor: OAColorScheme.mainColor,
-                                  buttonColor: OAColorScheme.buttonColor,
-                                  textColor: OAColorScheme.textColor,
+                                  colorMap: oaColorMap,
                                 ));
                           },
                           child: Column(
@@ -193,7 +191,7 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                                 "${AppUI.svgPath}chat.svg",
                                 width: 35,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               const CustomText(

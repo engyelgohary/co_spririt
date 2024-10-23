@@ -48,7 +48,7 @@ class NewTaskCubit extends Cubit<SheetState> {
 
         projectsSubTaskMap.addAll({project["name"]: temp});
       }
-
+      print(statusMap);
       emit(SheetSuccessfulState(
           [projectsMap, projectsSubTaskMap, projectsTaskMap, teamsMap, statusMap]));
     } catch (e) {

@@ -93,14 +93,14 @@ class _EditProfileODState extends State<EditProfileOD> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: const TextStyle(color: ODColorScheme.mainColor, fontSize: 18)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     CustomTextFormField(
@@ -148,9 +148,9 @@ class _EditProfileODState extends State<EditProfileOD> {
                             child: ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: ODColorScheme.disabledColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),
@@ -186,9 +186,9 @@ class _EditProfileODState extends State<EditProfileOD> {
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: ODColorScheme.buttonColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),

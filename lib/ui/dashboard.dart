@@ -34,7 +34,6 @@ class _DashboardState extends State<Dashboard> {
   Future<void> fetchStatuses() async {
     try {
       List<dynamic> fetchedStatuses = await apiManager.fetchAllStatus();
-      for (var status in fetchedStatuses) {}
       setState(() {
         statuses = fetchedStatuses;
         statusCounts = List.filled(statuses.length, 0);
@@ -159,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
                                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF4169E1),
+                                          color: const Color(0xFF4169E1),
                                         ),
                                   ),
                                   Text(
@@ -216,11 +215,11 @@ class _DashboardState extends State<Dashboard> {
                                             const Text("• ", style: TextStyle(fontSize: 20)),
                                             Text(
                                               "${odScore.name ?? 'No Name'}: ",
-                                              style: TextStyle(fontSize: 18),
+                                              style: const TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               "${odScore.averageScore ?? 0}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Color(0xFF4169E1),
                                                 fontWeight: FontWeight.bold,
@@ -245,11 +244,11 @@ class _DashboardState extends State<Dashboard> {
                                             const Text("• ", style: TextStyle(fontSize: 20)),
                                             Text(
                                               "${odScore.name ?? 'No Name'}: ",
-                                              style: TextStyle(fontSize: 18),
+                                              style: const TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               "${odScore.averageScore ?? 0}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 18,
                                                 color: Color(0xFF4169E1),
                                                 fontWeight: FontWeight.bold,
@@ -293,7 +292,7 @@ class _DashboardState extends State<Dashboard> {
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4169E1),
+                                  color: const Color(0xFF4169E1),
                                 ),
                           ),
                         ],
@@ -319,7 +318,7 @@ class _DashboardState extends State<Dashboard> {
                             style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4169E1),
+                                  color: const Color(0xFF4169E1),
                                 ),
                           ),
                         ],
@@ -365,20 +364,20 @@ class _DashboardState extends State<Dashboard> {
                                     children: [
                                       TextSpan(
                                         text: "${od.name}: ",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 13,
                                           color: OMColorScheme.mainColor,
                                         ),
                                       ),
                                       TextSpan(
                                         text: "${od.statusIdCounter}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           color: OMColorScheme.mainColor,
                                         ),
                                       ),
-                                      TextSpan(
+                                      const TextSpan(
                                         text: " submitted opportunities, ",
                                         style: TextStyle(
                                           fontSize: 12,
@@ -394,7 +393,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       TextSpan(
                                         text: "${od.averageScore}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xFF4169E1),

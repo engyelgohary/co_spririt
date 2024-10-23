@@ -6,15 +6,14 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-
-class AddOpportunitiesV2 extends StatefulWidget {
-  const AddOpportunitiesV2({super.key});
+class AddOpportunity extends StatefulWidget {
+  const AddOpportunity({super.key});
 
   @override
-  State<AddOpportunitiesV2> createState() => _AddOpportunitiesV2State();
+  State<AddOpportunity> createState() => _AddOpportunityState();
 }
 
-class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
+class _AddOpportunityState extends State<AddOpportunity> {
   final title = TextEditingController();
   final description = TextEditingController();
   final risk = TextEditingController();
@@ -119,9 +118,9 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.buttonColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -154,9 +153,9 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                         child: ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.disabledColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -239,9 +238,9 @@ class _AddOpportunitiesV2State extends State<AddOpportunitiesV2> {
                             loadingNotifier.change();
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: ODColorScheme.buttonColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),

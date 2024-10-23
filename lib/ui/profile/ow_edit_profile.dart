@@ -6,18 +6,17 @@ import 'package:co_spirit/ui/profile/Cubit/ow_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../data/api/apimanager.dart';
+import '../../../data/api/apimanager.dart';
 
-
-class EditProfileOM extends StatefulWidget {
+class EditProfileOW extends StatefulWidget {
   final String OWId;
-  const EditProfileOM({super.key, required this.OWId});
+  const EditProfileOW({super.key, required this.OWId});
 
   @override
-  State<EditProfileOM> createState() => _EditProfileOMState();
+  State<EditProfileOW> createState() => _EditProfileOWState();
 }
 
-class _EditProfileOMState extends State<EditProfileOM> {
+class _EditProfileOWState extends State<EditProfileOW> {
   late OpportunityOwnerCubit viewModel;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -95,14 +94,14 @@ class _EditProfileOMState extends State<EditProfileOM> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: const TextStyle(color: OWColorScheme.mainColor, fontSize: 18)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     CustomTextFormField(
@@ -150,9 +149,9 @@ class _EditProfileOMState extends State<EditProfileOM> {
                             child: ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OWColorScheme.disabledColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),
@@ -180,7 +179,7 @@ class _EditProfileOMState extends State<EditProfileOM> {
                                   'lastName': lastNameController.text,
                                   'phone': phoneController.text,
                                   'email': emailController.text,
-                                  'password': "AdminAdmin",
+                                  'password': "0123456789",
                                   'canPost': state.opportunityOwnerData.canPost.toString(),
                                 }, _selectedImage);
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -188,9 +187,9 @@ class _EditProfileOMState extends State<EditProfileOM> {
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: OWColorScheme.buttonColor,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),

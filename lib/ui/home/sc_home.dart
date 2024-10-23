@@ -1,8 +1,10 @@
 import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/ui/auth/login.dart';
 import 'package:co_spirit/ui/project_overview/projects_overview.dart';
 import 'package:co_spirit/ui/raci/sc_raci_view.dart';
 import 'package:co_spirit/ui/solutions/solutions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -35,12 +37,12 @@ class _SCHomePageState extends State<SCHomePage> {
           actions: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.3,
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/search.svg'),
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/notifications.svg'),
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/messages.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/search.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/notifications.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/messages.svg'),
                 ],
               ),
             )
@@ -76,7 +78,7 @@ class _SCHomePageState extends State<SCHomePage> {
               ),
               icon: SvgPicture.asset(
                 '${AppUI.svgPath}project_management/navbar/projects.svg',
-                colorFilter: ColorFilter.mode(
+                colorFilter: const ColorFilter.mode(
                   SMColorScheme.second,
                   BlendMode.srcIn,
                 ),
@@ -94,12 +96,18 @@ class _SCHomePageState extends State<SCHomePage> {
               icon: SvgPicture.asset('${AppUI.svgPath}project_management/navbar/solutions.svg'),
               label: "Solutions",
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.settings),
-            //   label: "Settings",
-            // )
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.logout),
+              label: "logout",
+            )
           ],
           onTap: (value) {
+            if (value == 3) {
+              Navigator.of(context).pushAndRemoveUntil(
+                CupertinoPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            }
             setState(() {
               pageIndex = value;
             });

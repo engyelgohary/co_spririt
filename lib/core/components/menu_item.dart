@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import '../app_util.dart';
 
 class CustomMenuCard extends StatelessWidget {
-  String name;
-  Function onFunction;
-  Color iconColor;
-  Color textColor;
-  bool enableDivider;
-  CustomMenuCard({
+  final String name;
+  final Function onFunction;
+  final Map colorMap;
+  final bool enableDivider;
+  const CustomMenuCard({
     super.key,
     required this.name,
     required this.onFunction,
-    this.iconColor = AppColor.basicColor,
-    this.textColor = AppColor.basicColor,
+    required this.colorMap,
     this.enableDivider = true,
   });
 
@@ -41,12 +39,12 @@ class CustomMenuCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
-                          .copyWith(fontSize: 16, color: textColor),
+                          .copyWith(fontSize: 16, color: colorMap["mainColor"]),
                     ),
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: iconColor,
+                    color: colorMap["buttonColor"],
                     size: 20,
                   )
                 ],

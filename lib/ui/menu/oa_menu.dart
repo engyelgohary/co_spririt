@@ -1,11 +1,12 @@
+import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/repository/remote_data_source.dart';
-import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/oa_notifications.dart';
-import 'package:co_spirit/ui/opportunities/oa_opportunities.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
 import 'package:co_spirit/ui/profile/Cubit/oa_cubit.dart';
 import 'package:co_spirit/ui/profile/oa_profile.dart';
@@ -87,47 +88,42 @@ class _OAMenuScreenState extends State<OAMenuScreen> {
                   ),
                   const SizedBox(height: 16),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Home',
                     onFunction: () => Navigator.of(context).pop(),
                   ),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Opportunities',
-                    onFunction: () => AppUtil.mainNavigator(context, const OpportunitiesPageOA()),
+                    onFunction: () => AppUtil.mainNavigator(
+                        context, const OpportunitiesPage(colorMap: oaColorMap, userType: 3)),
                   ),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Notifications',
                     onFunction: () {
-                      AppUtil.mainNavigator(context, const OANotificationScreen());
+                      AppUtil.mainNavigator(
+                          context, const NotificationScreen(colorMap: oaColorMap));
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Message',
                     onFunction: () {
                       AppUtil.mainNavigator(
                           context,
                           const MessagesScreen(
-                            mainColor: OAColorScheme.mainColor,
-                            buttonColor: OAColorScheme.buttonColor,
-                            textColor: OAColorScheme.textColor,
+                            colorMap: oaColorMap,
                           ));
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Ask Oppy',
                     onFunction: () {
                       AppUtil.mainNavigator(
                         context,
-                        OppyScreen(
+                        const OppyScreen(
                           mainColor: OAColorScheme.mainColor,
                           buttonColor: OAColorScheme.buttonColor,
                           textColor: OAColorScheme.textColor,
@@ -136,8 +132,7 @@ class _OAMenuScreenState extends State<OAMenuScreen> {
                     },
                   ),
                   CustomMenuCard(
-                    iconColor: OAColorScheme.buttonColor,
-                    textColor: OAColorScheme.mainColor,
+                    colorMap: oaColorMap,
                     name: 'Profile & Settings',
                     enableDivider: false,
                     onFunction: () {
@@ -160,13 +155,5 @@ class _OAMenuScreenState extends State<OAMenuScreen> {
         ),
       ),
     );
-  }
-
-  ImageProvider<Object> _getImageProvider(String? pictureLocation) {
-    if (pictureLocation != null && pictureLocation.isNotEmpty) {
-      return NetworkImage('http://${ApiConstants.baseUrl}$pictureLocation');
-    } else {
-      return const AssetImage('assets/images/Rectangle 5.png');
-    }
   }
 }

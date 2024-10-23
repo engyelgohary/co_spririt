@@ -17,6 +17,7 @@ class ListNotifier<T> with ChangeNotifier {
   ListNotifier({required this.list});
 
   int addItem(item) {
+    print(item);
     list.add(item);
     notifyListeners();
     return list.length;
@@ -74,6 +75,8 @@ Future<void> superAdminList(ApiManager apiManager, LoadingStateNotifier loadingN
     loadingNotifier.response = [
       ...await apiManager.fetchAllCollaborators(),
       ...await apiManager.getAllAdmins(),
+      ...await apiManager.getOpportunityAnalyzers(),
+      ...await apiManager.getOpportunityOwners(),
       ...await apiManager.getSuperAdminData()
     ];
   } catch (e) {
@@ -455,21 +458,8 @@ Future<void> opportunitiesList(
 }) async {
   try {
     loadingNotifier.response = await apiManager.getOpportunities();
-    if (userType == 0) {
-      // Super admin
-      loadingNotifier.response = await apiManager.getOpportunities();
-    } else if (userType == 2) {
-      // collaborator or od
-      loadingNotifier.response = await apiManager.getOpportunities();
-    } else if (userType == 3) {
-      // Opportunity analyzer
-      loadingNotifier.response = await apiManager.getOpportunityAnalyzerOpportunities();
-    } else if (userType == 4) {
-      // Opportunity owner
-      loadingNotifier.response = await apiManager.getOpportunityOwnerOpportunities();
-    }
   } catch (e) {
-    print("- CollaboratorsList error : $e");
+    print("- opportunitiesList error : $e");
     loadingNotifier.response = null;
   }
   loadingNotifier.change();
@@ -539,7 +529,7 @@ dynamic loadingIndicatorDialog(BuildContext context, {bool dismissible = false})
     builder: (BuildContext context) {
       return PopScope(
         canPop: dismissible,
-        child: Center(
+        child: const Center(
           child: CircularProgressIndicator(
             strokeWidth: 5,
             backgroundColor: Colors.transparent,
@@ -642,4 +632,16 @@ Future<void> uploadCsvFile(BuildContext context, ApiManager apiManager, String p
     print("- Error parsing csv file error:$e");
     rethrow;
   }
+}
+
+void sendNotification({required String title, required String message}) {
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: 16,
+      channelKey: 'op_channel_channel',
+      title: title,
+      body: message,
+      notificationLayout: NotificationLayout.BigText,
+    ),
+  );
 }

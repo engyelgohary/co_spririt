@@ -1,7 +1,7 @@
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/components.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
-import 'package:co_spirit/ui/messages/om_chat.dart';
+import 'package:co_spirit/ui/messages/chat.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_ui.dart';
@@ -9,11 +9,11 @@ import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 
 class MessagesScreen<T> extends StatefulWidget {
-  final Color mainColor;
-  final Color buttonColor;
-  final Color textColor;
-  const MessagesScreen(
-      {super.key, required this.mainColor, required this.buttonColor, required this.textColor});
+  final Map colorMap;
+  const MessagesScreen({
+    super.key,
+    required this.colorMap,
+  });
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
@@ -39,8 +39,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
       appBar: customAppBar(
         title: "Messages",
         context: context,
-        textColor: widget.mainColor,
-        backArrowColor: widget.buttonColor,
+        textColor: widget.colorMap["mainColor"],
+        backArrowColor: widget.colorMap["buttonColor"],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
@@ -50,7 +50,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             if (loadingNotifier.loading) {
               superAdminList(apiManager, loadingNotifier);
 
-              return Center(child: CircularProgressIndicator(color: widget.buttonColor));
+              return Center(child: CircularProgressIndicator(color: widget.colorMap["buttonColor"]));
             } else if (loadingNotifier.response == null) {
               return Center(
                 child: buildErrorIndicator(
@@ -98,13 +98,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                   CustomText(
                                     text: admin.firstName ?? "Unknown",
                                     fontSize: 15,
-                                    color: widget.textColor,
+                                    color: widget.colorMap["textColor"],
                                     fontWeight: FontWeight.w700,
                                   ),
                                   CustomText(
                                     text: admin.email ?? "Unknown",
                                     fontSize: 12,
-                                    color: widget.textColor,
+                                    color: widget.colorMap["textColor"],
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ],

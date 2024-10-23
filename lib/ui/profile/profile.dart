@@ -136,14 +136,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             : null,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Center(
                       child: Text("${firstNameController.text} ${lastNameController.text}",
                           style: TextStyle(color: widget.mainColor, fontSize: 18)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     CustomTextFormField(
@@ -217,14 +217,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pushAndRemoveUntil(
-                              CupertinoPageRoute(builder: (context) => LoginScreen()),
+                              CupertinoPageRoute(builder: (context) => const LoginScreen()),
                               (route) => false,
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             backgroundColor: widget.buttonColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),

@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
 
-class ODNotificationScreen extends StatefulWidget {
-  static const String routName = 'Notification Collaborator';
-  const ODNotificationScreen({super.key});
+class NotificationScreen extends StatefulWidget {
+  final Map colorMap;
+  const NotificationScreen({super.key, required this.colorMap});
 
   @override
-  State<ODNotificationScreen> createState() => _ODNotificationScreenState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _ODNotificationScreenState extends State<ODNotificationScreen> {
+class _NotificationScreenState extends State<NotificationScreen> {
   final LoadingStateNotifier<UserNotification> loadingNotifier = LoadingStateNotifier();
   final ApiManager apiManager = ApiManager.getInstance();
 
@@ -33,8 +33,8 @@ class _ODNotificationScreenState extends State<ODNotificationScreen> {
       appBar: customAppBar(
           title: "Notifications",
           context: context,
-          textColor: ODColorScheme.mainColor,
-          backArrowColor: ODColorScheme.buttonColor),
+          textColor: widget.colorMap["mainColor"],
+          backArrowColor: widget.colorMap["buttonColor"]),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width / 25),
         child: ListenableBuilder(
@@ -42,8 +42,8 @@ class _ODNotificationScreenState extends State<ODNotificationScreen> {
             builder: (context, child) {
               if (loadingNotifier.loading) {
                 notificationList(apiManager, loadingNotifier);
-                return const Center(
-                    child: CircularProgressIndicator(color: ODColorScheme.buttonColor));
+                return Center(
+                    child: CircularProgressIndicator(color: widget.colorMap["buttonColor"]));
               } else if (loadingNotifier.response == null) {
                 return Center(
                   child: buildErrorIndicator(
@@ -108,10 +108,10 @@ class _ODNotificationScreenState extends State<ODNotificationScreen> {
                           ),
                         ],
                       ),
-                      trailing: CircleAvatar(
+                      trailing: const CircleAvatar(
                         backgroundColor: AppColor.SkyColor,
                         radius: 18,
-                        child: const Icon(
+                        child: Icon(
                           Icons.info_outline,
                           color: AppColor.secondColor,
                           size: 20,

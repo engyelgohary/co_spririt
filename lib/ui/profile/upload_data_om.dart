@@ -44,9 +44,9 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(30),
                       ),
@@ -68,7 +68,7 @@ class _UploadDataOMState extends State<UploadDataOM> {
               "Download CSV template",
               style: TextStyle(color: Color.fromARGB(150, 0, 0, 0), fontSize: 14),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             const Text(
               "Upload Template",
               style: TextStyle(color: OMColorScheme.mainColor, fontSize: 18),
@@ -87,9 +87,9 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: OMColorScheme.mainColor,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(30),
                       ),
@@ -112,7 +112,7 @@ class _UploadDataOMState extends State<UploadDataOM> {
               style: TextStyle(color: Color.fromARGB(150, 0, 0, 0), fontSize: 14),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 32),
+              padding: const EdgeInsets.symmetric(vertical: 32),
               child: Row(
                 children: [
                   Expanded(
@@ -120,9 +120,9 @@ class _UploadDataOMState extends State<UploadDataOM> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: ODColorScheme.disabledColor,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(30),
                           ),
@@ -162,9 +162,9 @@ class _UploadDataOMState extends State<UploadDataOM> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: OMColorScheme.mainColor,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(30),
                           ),

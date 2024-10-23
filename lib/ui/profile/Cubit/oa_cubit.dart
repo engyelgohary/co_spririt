@@ -90,7 +90,7 @@ class OpportunityAnalyzerCubit extends Cubit<OpportunityAnalyzerState> {
       'phone': phone_controller.text,
       'email': email_controller.text,
       'canPost': canPost.toString(),
-      'password': 'AdminAdmin'
+      'password': '0123456789'
     };
 
     emit(OpportunityAnalyzerLoading());

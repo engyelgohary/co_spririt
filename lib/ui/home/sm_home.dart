@@ -1,8 +1,10 @@
 import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
+import 'package:co_spirit/ui/auth/login.dart';
 import 'package:co_spirit/ui/project_overview/projects_overview.dart';
 import 'package:co_spirit/ui/raci/sm_raci_view.dart';
 import 'package:co_spirit/ui/solutions/solutions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -41,12 +43,12 @@ class _SMHomePageState extends State<SMHomePage> {
           actions: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.3,
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/search.svg'),
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/notifications.svg'),
-                  SvgPicture.asset('${AppUI.svgPath}project_management/appbar/messages.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/search.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/notifications.svg'),
+                  // SvgPicture.asset('${AppUI.svgPath}project_management/appbar/messages.svg'),
                 ],
               ),
             )
@@ -55,7 +57,7 @@ class _SMHomePageState extends State<SMHomePage> {
         ),
         body: pages[pageIndex],
         floatingActionButton: PopupMenuButton(
-          offset: pageIndex != 2 ? Offset(0, -130) : Offset(0, -40),
+          offset: pageIndex != 2 ? const Offset(0, -130) : const Offset(0, -40),
           color: Colors.white,
           itemBuilder: (context) {
             if (pageIndex == 2) {
@@ -171,7 +173,7 @@ class _SMHomePageState extends State<SMHomePage> {
               );
             }
           },
-          icon: FloatingActionButton(
+          icon: const FloatingActionButton(
             backgroundColor: SMColorScheme.main,
             onPressed: null,
             child: Icon(
@@ -209,7 +211,7 @@ class _SMHomePageState extends State<SMHomePage> {
               ),
               icon: SvgPicture.asset(
                 '${AppUI.svgPath}project_management/navbar/projects.svg',
-                colorFilter: ColorFilter.mode(
+                colorFilter: const ColorFilter.mode(
                   SMColorScheme.second,
                   BlendMode.srcIn,
                 ),
@@ -227,12 +229,19 @@ class _SMHomePageState extends State<SMHomePage> {
               icon: SvgPicture.asset('${AppUI.svgPath}project_management/navbar/solutions.svg'),
               label: "Solutions",
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.settings),
-            //   label: "Settings",
-            // )
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.logout),
+              label: "logout",
+            )
           ],
           onTap: (value) {
+            if (value == 3) {
+              Navigator.of(context).pushAndRemoveUntil(
+                CupertinoPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+              return;
+            }
             setState(() {
               pageIndex = value;
             });

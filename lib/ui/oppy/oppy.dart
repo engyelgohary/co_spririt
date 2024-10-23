@@ -10,11 +10,11 @@ import '../../../core/app_ui.dart';
 import '../../../data/api/apimanager.dart';
 
 class OppyScreen extends StatefulWidget {
-  int? opportunityId;
+  final int? opportunityId;
   final Color mainColor;
   final Color buttonColor;
   final Color textColor;
-  OppyScreen({
+  const OppyScreen({
     this.opportunityId,
     super.key,
     required this.mainColor,
@@ -93,7 +93,7 @@ class _OppyOStateD extends State<OppyScreen> {
                   color: widget.mainColor,
                   fontWeight: FontWeight.w700,
                 ),
-                CustomText(
+                const CustomText(
                   text: "● Online ",
                   fontSize: 12,
                   color: Colors.green,
@@ -146,7 +146,7 @@ class _OppyOStateD extends State<OppyScreen> {
 
                 return Flexible(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: ListenableBuilder(
                       listenable: listNotifier,
                       builder: (context, child) {

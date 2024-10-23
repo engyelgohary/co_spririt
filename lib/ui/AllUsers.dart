@@ -110,7 +110,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.06,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFF0F0F0),
                 ),
                 child: Row(
@@ -121,21 +121,21 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                       textAlign: TextAlign.left,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 14,
-                            color: Color(0xFF4169E1),
+                            color: const Color(0xFF4169E1),
                           ),
                     ),
                     Text(
                       "Email",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 14,
-                            color: Color(0xFF4169E1),
+                            color: const Color(0xFF4169E1),
                           ),
                     ),
                     Text(
                       "Role",
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 14,
-                            color: Color(0xFF4169E1),
+                            color: const Color(0xFF4169E1),
                           ),
                     ),
                   ],

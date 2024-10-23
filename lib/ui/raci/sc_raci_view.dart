@@ -172,7 +172,7 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                           child: Text(
                                             e["milestone"] ?? "N/A ",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16, fontWeight: FontWeight.w400),
                                           ),
                                         ),
@@ -240,7 +240,7 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
-                                                  Text("Comments:"),
+                                                  const Text("Comments:"),
                                                   Text(e["comments"].join("\n"))
                                                 ],
                                               ),
@@ -271,7 +271,6 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                                         );
                                                         if (context.mounted) {
                                                           snackBar(context, "Done");
-                                                          // loadingNotifier.change();
                                                         }
                                                       } catch (e) {
                                                         if (context.mounted) {
@@ -281,6 +280,8 @@ class _SCRACIViewPageState extends State<SCRACIViewPage> {
                                                       if (context.mounted) {
                                                         Navigator.of(context).pop();
                                                       }
+                                                      comment.clear();
+                                                      raciCubit.getRACI();
                                                     },
                                                     icon: const Icon(
                                                       Icons.send,

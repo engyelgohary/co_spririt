@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:co_spirit/core/app_util.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/helper_functions.dart';
@@ -163,35 +162,35 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                     "Client Name:",
                     style: TextStyle(fontSize: 18, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   SelectableText(
                     opportunity.clientName ?? "N/A",
                     style: const TextStyle(fontSize: 18),
                   ),
                 ],
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   const SelectableText(
                     "Opportunity Title:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   SelectableText(
                     opportunity.title ?? "N/A",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   const SelectableText(
                     "Feasibility:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -201,14 +200,14 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   const SelectableText(
                     "Risks:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -218,14 +217,14 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   const SelectableText(
                     "Type:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: SelectableText(
@@ -235,7 +234,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
 
               // Dropdown for selecting status
               Row(
@@ -244,7 +243,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                     "Status:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   Container(
                     width: width * 0.3,
                     decoration: BoxDecoration(
@@ -281,14 +280,14 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 ],
               ),
 
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               Row(
                 children: [
                   const SelectableText(
                     "Assigned To:",
                     style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
                   ),
-                  SizedBox(width: 35.0),
+                  const SizedBox(width: 35.0),
                   Container(
                     width: width * 0.3,
                     decoration: BoxDecoration(
@@ -325,7 +324,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 ],
               ),
 
-              SizedBox(height: 8), // Spacing
+              const SizedBox(height: 8), // Spacing
               OpportunityCommentTextFormField(
                 fieldName: 'Comment:',
                 controller: comment,
@@ -347,25 +346,15 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                     FileDownloader.downloadFile(
                       url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
-                        AwesomeNotifications().createNotification(
-                          content: NotificationContent(
-                            id: 16,
-                            channelKey: 'op_channel_channel',
-                            title: "Download is complete",
-                            body: "Download location: $path",
-                            notificationLayout: NotificationLayout.BigText,
-                          ),
+                        sendNotification(
+                          title: "Download is complete",
+                          message: "download location: $path",
                         );
                       },
                       onDownloadError: (errorMessage) {
-                        AwesomeNotifications().createNotification(
-                          content: NotificationContent(
-                            id: 16,
-                            channelKey: 'op_channel_channel',
-                            title: "Download failed",
-                            body: "Download error message:  $errorMessage",
-                            notificationLayout: NotificationLayout.BigText,
-                          ),
+                        sendNotification(
+                          title: "Download failed",
+                          message: "download error message:  $errorMessage",
                         );
                       },
                     );
@@ -373,7 +362,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 ),
               ],
 
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               const SelectableText(
                 "Description:",
                 style: TextStyle(fontSize: 16, color: OMColorScheme.mainColor),
@@ -386,7 +375,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 ),
               ),
 
-              SizedBox(height: 55),
+              const SizedBox(height: 55),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

@@ -66,7 +66,7 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                                   "Task Service",
                                   style: TextStyle(color: SMColorScheme.main, fontSize: 18),
                                 ),
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 10),
                                   decoration: BoxDecoration(
@@ -101,12 +101,12 @@ class _SolutionsScreenState extends State<SolutionsScreen> {
                                     style: const TextStyle(color: Colors.black),
                                   ),
                                 ),
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 const Text(
                                   "Solutions",
                                   style: TextStyle(color: SMColorScheme.main, fontSize: 18),
                                 ),
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 10),
                                   decoration: BoxDecoration(

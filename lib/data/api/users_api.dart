@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 class UsersApi {
   Dio dio = Dio(BaseOptions(
-    connectTimeout: Duration(seconds: 5),
+    connectTimeout: const Duration(seconds: 5),
     baseUrl: userApiUrl,
     contentType: "application/json",
   ));

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
 
 class ProjectManagementApi {
-  Dio dio = Dio(BaseOptions(connectTimeout: Duration(seconds: 5)));
+  Dio dio = Dio(BaseOptions(connectTimeout: const Duration(seconds: 5)));
 }

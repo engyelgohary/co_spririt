@@ -1,5 +1,5 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/model/message.dart';
 import 'package:flutter/material.dart';
@@ -55,30 +55,19 @@ class CustomChatBubble extends StatelessWidget {
             ),
             onPressed: () async {
               FileDownloader.downloadFile(
-                url: "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
-                onDownloadCompleted: (path) {
-                  AwesomeNotifications().createNotification(
-                    content: NotificationContent(
-                      id: 16,
-                      channelKey: 'op_channel_channel',
+                  url: "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
+                  onDownloadCompleted: (path) {
+                    sendNotification(
                       title: "Download is complete",
-                      body: "download location: $path",
-                      notificationLayout: NotificationLayout.BigText,
-                    ),
-                  );
-                },
-                onDownloadError: (errorMessage) {
-                  AwesomeNotifications().createNotification(
-                    content: NotificationContent(
-                      id: 16,
-                      channelKey: 'op_channel_channel',
-                      title: "Download faild",
-                      body: "download error message:  $errorMessage",
-                      notificationLayout: NotificationLayout.BigText,
-                    ),
-                  );
-                },
-              );
+                      message: "download location: $path",
+                    );
+                  },
+                  onDownloadError: (errorMessage) {
+                    sendNotification(
+                      title: "Download failed",
+                      message: "download error message:  $errorMessage",
+                    );
+                  });
             },
           ),
         ));

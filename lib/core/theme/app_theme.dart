@@ -15,7 +15,7 @@ class AppTheme {
         backgroundColor: WidgetStateProperty.all(Colors.white),
       ),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
       backgroundColor: Colors.white,

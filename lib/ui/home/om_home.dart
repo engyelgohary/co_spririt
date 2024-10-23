@@ -3,11 +3,11 @@ import 'package:co_spirit/core/components/components.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/ui/menu/om_menu.dart';
-import 'package:co_spirit/ui/messages/om_message.dart';
-import 'package:co_spirit/ui/notifications/om_notifications.dart';
-import 'package:co_spirit/ui/opportunities/opportunities_om.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
-import 'package:co_spirit/ui/profile/profile_om.dart';
+import 'package:co_spirit/ui/profile/om_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -59,11 +59,11 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                 ),
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -75,16 +75,11 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                           InkWell(
                             onTap: () {
                               AppUtil.mainNavigator(
-                                context,
-                                const OMNotificationScreen(
-                                  buttonColor: OMColorScheme.buttonColor,
-                                  mainColor: OMColorScheme.mainColor,
-                                ),
-                              );
+                                  context, const NotificationScreen(colorMap: oaColorMap));
                             },
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.only(right: 13),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.notifications_outlined,
                                 color: Colors.white,
                                 size: 28,
@@ -98,31 +93,29 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
-                          children: [
-                            InkWell(
-                              onTap: () => AppUtil.mainNavigator(context, const MenuScreenOM()),
-                              child: SvgPicture.asset(
+                        InkWell(
+                          onTap: () => AppUtil.mainNavigator(context, const MenuScreenOM()),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
                                 "${AppUI.svgPath}menu.svg",
                                 width: 35,
                                 semanticsLabel: "Menu",
                               ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            const CustomText(
-                              text: 'Menu',
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            )
-                          ],
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              const CustomText(
+                                text: 'Menu',
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              )
+                            ],
+                          ),
                         ),
                         InkWell(
                           onTap: () => AppUtil.mainNavigator(context, const ProfileScreenOM()),
-
-                          // onTap: () => snackBar(context, "Not implemented"),
                           child: Column(
                             children: [
                               SvgPicture.asset("${AppUI.svgPath}profile.svg", width: 35),
@@ -136,27 +129,28 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                             ],
                           ),
                         ),
-                        Column(
-                          children: [
-                            InkWell(
-                              onTap: () =>
-                                  AppUtil.mainNavigator(context, const OpportunitiesPageOM()),
-                              child: SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg",
-                                  width: 35),
-                            ),
-                            const SizedBox(height: 8),
-                            const CustomText(
-                              text: 'Opportunities',
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
+                        InkWell(
+                          onTap: () => AppUtil.mainNavigator(
+                            context,
+                            const OpportunitiesPage(colorMap: omColorMap, userType: 0),
+                          ),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset("${AppUI.svgPath}opportunity_icon.svg", width: 35),
+                              const SizedBox(height: 8),
+                              const CustomText(
+                                text: 'Opportunities',
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ],
+                          ),
                         ),
                         InkWell(
                           onTap: () => AppUtil.mainNavigator(
                             context,
-                            OppyScreen(
+                            const OppyScreen(
                               mainColor: OMColorScheme.mainColor,
                               buttonColor: OMColorScheme.buttonColor,
                               textColor: OMColorScheme.textColor,
@@ -182,7 +176,11 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            AppUtil.mainNavigator(context, const MessagesScreenOM());
+                            AppUtil.mainNavigator(
+                                context,
+                                const MessagesScreen(
+                                  colorMap: omColorMap,
+                                ));
                           },
                           child: Column(
                             children: [
@@ -190,7 +188,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                                 "${AppUI.svgPath}chat.svg",
                                 width: 35,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               const CustomText(

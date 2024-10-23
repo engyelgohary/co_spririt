@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         if (context.mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             CupertinoPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => const LoginScreen(),
             ),
             (route) => false,
           );
@@ -37,10 +37,10 @@ class SplashScreen extends StatelessWidget {
               "assets/images/logo-corelia.png",
               width: width * 0.5,
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
-            CircularProgressIndicator()
+            const CircularProgressIndicator()
           ],
         ),
       ),

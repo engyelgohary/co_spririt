@@ -425,7 +425,7 @@ class ApiManager {
     request.fields['Email'] = collaboratorData['Email'];
     request.fields['ContractStart'] = collaboratorData['ContractStart'];
     request.fields['ContractEnd'] = collaboratorData['ContractEnd'];
-    request.fields['Password'] = "AdminAdmin";
+    request.fields['Password'] = "0123456789";
     if (image != null) {
       var mimeTypeData = lookupMimeType(image.path)!.split('/');
       request.files.add(
@@ -499,7 +499,7 @@ class ApiManager {
       request.fields['Email'] = collaboratorData['email'];
       request.fields['ContractStart'] = collaboratorData['ContractStart'];
       request.fields['ContractEnd'] = collaboratorData['ContractEnd'];
-      request.fields['Password'] = "AdminAdmin";
+      request.fields['Password'] = "0123456789";
 
       // Adding image if present
       if (image != null) {
@@ -1562,6 +1562,9 @@ class ApiManager {
         final responseData = jsonDecode(response.body);
         return List.from(responseData.map((e) => Opportunity.fromJson(e)));
       }
+      if (response.statusCode == 404) {
+        return [];
+      }
       print(jsonDecode(response.body));
       throw Exception(
           'Failed to get opportunities for opportunity analyzer code: ${response.statusCode}');
@@ -1606,7 +1609,7 @@ class ApiManager {
         throw Exception('No token found. Please log in.');
       }
 
-      final uri = Uri.http(ApiConstants.baseUrl, "api${ApiConstants.opportunityAnalyzerApi}");
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityAnalyzerApi);
       print(uri.toString());
       final response = await http.get(
         uri,
@@ -1633,7 +1636,7 @@ class ApiManager {
         throw Exception('No token found. Please log in.');
       }
 
-      final uri = Uri.http(ApiConstants.baseUrl, "api${ApiConstants.opportunityOwnerApi}");
+      final uri = Uri.http(ApiConstants.baseUrl, ApiConstants.opportunityOwnerApi);
       final response = await http.get(
         uri,
         headers: {
@@ -2647,7 +2650,7 @@ class ApiManager {
         throw Exception('No token found. Please log in.');
       }
       print("Template: $template");
-      final uri = Uri.parse("http://10.100.102.6:1044/api/v0/opp_detection/chatbot");
+      final uri = Uri.parse("http://41.33.149.211:1044/api/v0/opp_detection/chatbot");
       final request = await http.post(
         uri,
         headers: {

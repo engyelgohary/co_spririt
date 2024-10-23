@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 56,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 26),
+                    padding: const EdgeInsets.only(top: 26),
                     child: Form(
                       key: key,
                       child: Column(
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 15),
+                            padding: const EdgeInsets.only(top: 15),
                             child: ElevatedButton(
                               onPressed: () {
                                 if (key.currentState != null && key.currentState!.validate()) {
@@ -158,9 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 16),
                                   backgroundColor: ODColorScheme.buttonColor,
-                                  shape: RoundedRectangleBorder(
+                                  shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(30)))),
                               child: const Text(
                                 'Login',
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 15),
+                            padding: const EdgeInsets.only(top: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

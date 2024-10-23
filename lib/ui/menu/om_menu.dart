@@ -1,12 +1,13 @@
+import 'package:co_spirit/core/app_ui.dart';
 import 'package:co_spirit/core/components/appbar.dart';
 import 'package:co_spirit/core/components/menu_item.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/ui/dashboard.dart';
-import 'package:co_spirit/ui/messages/message_screen.dart';
-import 'package:co_spirit/ui/notifications/om_notifications.dart';
-import 'package:co_spirit/ui/opportunities/opportunities_om.dart';
+import 'package:co_spirit/ui/messages/messages.dart';
+import 'package:co_spirit/ui/notifications/notifications.dart';
+import 'package:co_spirit/ui/opportunities/opportunities.dart';
 import 'package:co_spirit/ui/oppy/oppy.dart';
-import 'package:co_spirit/ui/profile/profile_om.dart';
+import 'package:co_spirit/ui/profile/om_profile.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_util.dart';
 
@@ -27,63 +28,50 @@ class MenuScreenOM extends StatelessWidget {
         child: Column(
           children: [
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Home',
               onFunction: () => Navigator.of(context).pop(),
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Dashboard',
               onFunction: () {
                 AppUtil.mainNavigator(context, const Dashboard());
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Opportunities',
               onFunction: () {
-                AppUtil.mainNavigator(context, const OpportunitiesPageOM());
+                AppUtil.mainNavigator(
+                    context, const OpportunitiesPage(colorMap: omColorMap, userType: 0));
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Notifications',
               onFunction: () {
-                AppUtil.mainNavigator(
-                  context,
-                  const OMNotificationScreen(
-                    buttonColor: OMColorScheme.buttonColor,
-                    mainColor: OMColorScheme.mainColor,
-                  ),
-                );
+                AppUtil.mainNavigator(context, const NotificationScreen(colorMap: oaColorMap));
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Message',
               onFunction: () {
                 AppUtil.mainNavigator(
                     context,
                     const MessagesScreen(
-                      mainColor: OMColorScheme.mainColor,
-                      buttonColor: OMColorScheme.buttonColor,
-                      textColor: OMColorScheme.textColor,
+                      colorMap: omColorMap,
                     ));
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Ask Oppy',
               onFunction: () {
                 AppUtil.mainNavigator(
                   context,
-                  OppyScreen(
+                  const OppyScreen(
                     mainColor: OMColorScheme.mainColor,
                     buttonColor: OMColorScheme.buttonColor,
                     textColor: OMColorScheme.textColor,
@@ -92,8 +80,7 @@ class MenuScreenOM extends StatelessWidget {
               },
             ),
             CustomMenuCard(
-              iconColor: OMColorScheme.mainColor,
-              textColor: OMColorScheme.textColor,
+              colorMap: omColorMap,
               name: 'Profile & Settings',
               enableDivider: false,
               onFunction: () {

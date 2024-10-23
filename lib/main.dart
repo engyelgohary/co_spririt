@@ -13,7 +13,7 @@ class OpDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
       theme: AppTheme.mainTheme,
     );
   }

@@ -12,8 +12,12 @@ class TaskCard extends StatelessWidget {
   final String taskName;
   final String status;
   final int progress;
-  const TaskCard({Key? key, required this.taskName, required this.status, required this.progress})
-      : super(key: key);
+  const TaskCard({
+    Key? key,
+    required this.taskName,
+    required this.status,
+    required this.progress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

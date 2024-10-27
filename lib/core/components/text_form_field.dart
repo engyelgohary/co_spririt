@@ -217,15 +217,15 @@ class OpportunityCommentTextFormField extends StatelessWidget {
 }
 
 class AuthTextFormField extends StatelessWidget {
-  String fieldName;
-  String? hintText;
-  Widget? suffixIcon;
-  bool isObscure;
-  TextInputType? keyboardType;
-  String? Function(String?)? validator;
-  TextEditingController controller;
+  final String fieldName;
+  final String? hintText;
+  final Widget? suffixIcon;
+  final bool isObscure;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final TextEditingController controller;
 
-  AuthTextFormField({
+  const AuthTextFormField({
     super.key,
     this.validator,
     this.suffixIcon,
@@ -239,41 +239,44 @@ class AuthTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = AppUtil.responsiveWidth(context);
-    const borderRadius = 30.0;
+    const borderRadius = 8.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 11),
-          child: Text(
-            fieldName,
-            style: const TextStyle(fontSize: 16, color: ODColorScheme.mainColor),
-            textAlign: TextAlign.start,
-          ),
+        Text(
+          fieldName,
+          style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+          textAlign: TextAlign.start,
         ),
         Padding(
-          padding: EdgeInsets.only(top: 8, bottom: 15, left: width / 12, right: width / 12),
+          padding: const EdgeInsets.only(top: 8, bottom: 16),
           child: TextFormField(
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 16),
               hintText: hintText,
-              hintStyle: const TextStyle(color: Color.fromARGB(150, 0, 0, 0)),
+              hintStyle: TextStyle(color: Colors.grey.shade600),
               fillColor: AppColor.whiteColor,
               filled: true,
               enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColor.whiteColor),
-                  borderRadius: BorderRadius.circular(borderRadius)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Color.fromARGB(150, 0, 0, 0)),
+                borderSide: const BorderSide(color: Colors.black12),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
-              focusedErrorBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black54),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: const BorderSide(color: Colors.red),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: const BorderSide(color: Colors.black54),
+              ),
               disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
               suffixIcon: suffixIcon,
             ),
-            style: const TextStyle(color: AppColor.blackColor),
+            style: const TextStyle(color: Colors.black),
             validator: validator,
             controller: controller,
             obscureText: isObscure,

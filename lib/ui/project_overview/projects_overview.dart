@@ -59,6 +59,11 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
                   List<Widget> temp = [];
 
                   for (var task in tasks[project]) {
+                    if (task["progress"] == null ||
+                        task["progress"] > 100 ||
+                        task["progress"] < 0) {
+                      task["progress"] = 0;
+                    }
                     temp.add(GestureDetector(
                       onTap: () => showDialog(
                           context: context,
@@ -145,7 +150,7 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
                       child: TaskCard(
                         taskName: task["taskName"],
                         status: task["status"] ?? "N/A",
-                        progress: task["progress"] ?? 0,
+                        progress: task["progress"],
                       ),
                     ));
                     temp.add(const SizedBox(width: 16));

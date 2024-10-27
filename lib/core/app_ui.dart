@@ -20,6 +20,15 @@ class AppUI {
   static const String svgPath = "assets/icons/svg/";
 }
 
+const assetsPaths = {
+  "sm": "assets/sm",
+  "sc": "assets/sc",
+  "od": "assets/od",
+  "oa": "assets/oa",
+  "ow": "assets/ow",
+  "om": "assets/om"
+};
+
 const Map odColorMap = {
   "mainColor": Color(0xff275391),
   "buttonColor": Color(0xff228B22),
@@ -53,6 +62,26 @@ const Map owColorMap = {
 const Map omColorMap = {
   "mainColor": Color(0xff4169E1),
   "buttonColor": Color(0xff000000),
+  "lighterButtonColor": Color(0xff000000),
+  "hintTextColor": Color(0x7f606770),
+  "disabledColor": Color(0xff898A8D),
+  "backgroundColor": Color(0xffD9D9D9),
+  "textColor": Color(0xff000000),
+};
+
+const Map smColorMap = {
+  "mainColor": Color(0xff4169E1),
+  "buttonColor": Color(0xff000000),
+  "lighterButtonColor": Color(0xff000000),
+  "hintTextColor": Color(0x7f606770),
+  "disabledColor": Color(0xff898A8D),
+  "backgroundColor": Color(0xffD9D9D9),
+  "textColor": Color(0xff000000),
+};
+
+const Map scColorMap = {
+  "mainColor": Color(0xff1E4481),
+  "buttonColor": Color(0xffE74C3C),
   "lighterButtonColor": Color(0xff000000),
   "hintTextColor": Color(0x7f606770),
   "disabledColor": Color(0xff898A8D),

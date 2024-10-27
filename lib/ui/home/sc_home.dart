@@ -31,8 +31,8 @@ class _SCHomePageState extends State<SCHomePage> {
         appBar: AppBar(
           scrolledUnderElevation: 0,
           centerTitle: false,
-          title: Image.asset(
-            '${AppUI.imgPath}new_logo.png',
+          title: SvgPicture.asset(
+            '${assetsPaths["sc"]}/appbar.svg',
           ),
           actions: [
             SizedBox(

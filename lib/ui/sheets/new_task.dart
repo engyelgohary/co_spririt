@@ -255,6 +255,10 @@ class _NewProjectSheetState extends State<NewTaskSheet> {
                                     milestone.text.trim().isEmpty) {
                                   return;
                                 }
+                                final progressInt = int.tryParse(progress.text);
+                                if (progressInt == null || progressInt > 100 || progressInt < 0) {
+                                  return;
+                                }
 
                                 for (var i = 0; i < teams.length; i++) {
                                   if (teams[i].text.isEmpty || responsibilities[i].text.isEmpty) {

@@ -153,7 +153,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                           ),
                         ],
                       ),
-                      InkWell(
+                     /* InkWell(
                         onTap: () => AppUtil.mainNavigator(context, OppyOD()),
                         child: Column(
                           children: [
@@ -172,7 +172,7 @@ class _HomeScreenODState extends State<HomeScreenOD> {
                             )
                           ],
                         ),
-                      ),
+                      ),*/
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(context, const MessagesScreenOD());

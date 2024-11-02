@@ -116,14 +116,14 @@ class _MenuScreenODState extends State<MenuScreenOD> {
                       AppUtil.mainNavigator(context, const MessagesScreenOD());
                     },
                   ),
-                  CustomMenuCard(
+                 /* CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () {
                       AppUtil.mainNavigator(context, OppyOD());
                     },
-                  ),
+                  ),*/
                   CustomMenuCard(
                     iconColor: ODColorScheme.buttonColor,
                     textColor: ODColorScheme.mainColor,

@@ -148,7 +148,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                           ),
                         ],
                       ),
-                      InkWell(
+                     /* InkWell(
                         onTap: () => AppUtil.mainNavigator(context, OppyOW()),
                         child: Column(
                           children: [
@@ -167,7 +167,7 @@ class _HomeScreenOWState extends State<HomeScreenOW> {
                             )
                           ],
                         ),
-                      ),
+                      ),*/
                       InkWell(
                         onTap: () {
                           AppUtil.mainNavigator(context, const MessagesScreenOW());

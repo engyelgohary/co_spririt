@@ -110,12 +110,12 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                     name: 'Message',
                     onFunction: () => AppUtil.mainNavigator(context, const MessagesScreenOW()),
                   ),
-                  CustomMenuCard(
+/*                  CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,
                     name: 'Ask Oppy',
                     onFunction: () => AppUtil.mainNavigator(context, OppyOW()),
-                  ),
+                  ),*/
                   CustomMenuCard(
                     iconColor: OWColorScheme.buttonColor,
                     textColor: OWColorScheme.mainColor,

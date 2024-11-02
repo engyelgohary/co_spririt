@@ -78,14 +78,14 @@ class MenuScreenOM extends StatelessWidget {
                 AppUtil.mainNavigator(context, const MessagesScreenOM());
               },
             ),
-            CustomMenuCard(
+/*            CustomMenuCard(
               iconColor: OMColorScheme.mainColor,
               textColor: OMColorScheme.textColor,
               name: 'Ask Oppy',
               onFunction: () {
                 AppUtil.mainNavigator(context, OppyOM());
               },
-            ),
+            ),*/
             // CustomMenuCard(
             //   iconColor: OMColorScheme.mainColor,
             //   textColor: OMColorScheme.textColor,

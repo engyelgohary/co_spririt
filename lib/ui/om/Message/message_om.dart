@@ -41,99 +41,91 @@ class _MessagesScreenOMState extends State<MessagesScreenOM> {
         textColor: OMColorScheme.textColor,
         backArrowColor: OMColorScheme.mainColor,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 25),
-          child: ListenableBuilder(
-            listenable: loadingNotifier,
-            builder: (context, child) {
-              if (loadingNotifier.loading) {
-                superAdminList(apiManager, loadingNotifier);
-                return const Expanded(
-                    child:
-                        Center(child: CircularProgressIndicator(color: OMColorScheme.buttonColor)));
-              } else if (loadingNotifier.response == null) {
-                return Expanded(
-                  child: Center(
-                    child: buildErrorIndicator(
-                      "Some error occurred, Please try again.",
-                      () => loadingNotifier.change(),
-                    ),
-                  ),
-                );
-              }
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width / 25),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListenableBuilder(
+                listenable: loadingNotifier,
+                builder: (context, child) {
+                  if (loadingNotifier.loading) {
+                    superAdminList(apiManager, loadingNotifier);
+                    return const Center(
+                        child: CircularProgressIndicator(color: OMColorScheme.buttonColor));
+                  } else if (loadingNotifier.response == null) {
+                    return Center(
+                      child: buildErrorIndicator(
+                        "Some error occurred, Please try again.",
+                            () => loadingNotifier.change(),
+                      ),
+                    );
+                  }
 
-              final List data = loadingNotifier.response!;
-              return Flexible(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final recipient = data[index];
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: InkWell(
-                            onTap: () {
-                              AppUtil.mainNavigator(
-                                context,
-                                ChatScreenOM(
-                                  receiverId: recipient.id ?? 0,
-                                  email: recipient.email ?? "",
-                                  name: recipient.firstName ?? "",
-                                  pictureLocation: recipient.pictureLocation,
-                                ),
-                              );
-                            },
-                            child: SizedBox(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      collaboratorPhoto(recipient.pictureLocation),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            text: recipient.firstName ?? "Unknown",
-                                            fontSize: 15,
-                                            color: OMColorScheme.textColor,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          CustomText(
-                                            text: recipient.email ?? "Unknown",
-                                            fontSize: 12,
-                                            color: OMColorScheme.textColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                  final List data = loadingNotifier.response!;
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final recipient = data[index];
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: InkWell(
+                              onTap: () {
+                                AppUtil.mainNavigator(
+                                  context,
+                                  ChatScreenOM(
+                                    receiverId: recipient.id ?? 0,
+                                    email: recipient.email ?? "",
+                                    name: recipient.firstName ?? "",
+                                    pictureLocation: recipient.pictureLocation,
                                   ),
-                                ],
+                                );
+                              },
+                              child: SizedBox(
+                                height: 60,
+                                child: Row(
+                                  children: [
+                                    collaboratorPhoto(recipient.pictureLocation),
+                                    const SizedBox(width: 12),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: recipient.firstName ?? "Unknown",
+                                          fontSize: 15,
+                                          color: OMColorScheme.textColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        CustomText(
+                                          text: recipient.email ?? "Unknown",
+                                          fontSize: 12,
+                                          color: OMColorScheme.textColor,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const Divider(
-                          thickness: 2,
-                          color: AppUI.whiteColor,
-                        )
-                      ],
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+                          const Divider(
+                            thickness: 2,
+                            color: AppUI.whiteColor,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+
 }

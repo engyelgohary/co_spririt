@@ -16,7 +16,7 @@ class _DashboardState extends State<Dashboard> {
   List<int> statusCounts = [];
   List<dynamic> statuses = [];
   List<dynamic> scores = [];
-  String _riskAverage = 'Insights not available ';
+  String _riskAverage = 'High';
   String _feasibilityAverage = 'Insights not available ';
   late ApiManager apiManager;
   late List<Top5ODs> top5ODs =[];
@@ -90,7 +90,7 @@ class _DashboardState extends State<Dashboard> {
       String feasibilityAverage = await apiManager.getFeasibilityAverage();
 
       setState(() {
-        _riskAverage = riskAverage;
+       _riskAverage = riskAverage;
         _feasibilityAverage = feasibilityAverage;
       });
     } catch (e) {

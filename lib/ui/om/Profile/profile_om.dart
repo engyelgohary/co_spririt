@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:co_spirit/ui/om/AllUsers.dart';
 import 'package:co_spirit/ui/om/Profile/upload_data_om.dart';
 import 'package:co_spirit/utils/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -204,7 +205,10 @@ class _ProfileScreenOMState extends State<ProfileScreenOM> {
                     style: TextStyle(fontSize: 16, color: OMColorScheme.textColor),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () { Navigator.of(context).pushAndRemoveUntil(
+                        CupertinoPageRoute(builder: (context) => const AllUsersScreen()),
+                            (route) => false,
+                      );},
                       icon: const Icon(
                         Icons.arrow_forward_ios,
                         color: OMColorScheme.mainColor,

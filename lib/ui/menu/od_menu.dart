@@ -120,7 +120,7 @@ class _ODMenuState extends State<ODMenu> {
                           ));
                     },
                   ),
-                  CustomMenuCard(
+                 /* CustomMenuCard(
                     colorMap: odColorMap,
                     name: 'Ask Oppy',
                     onFunction: () {
@@ -133,7 +133,7 @@ class _ODMenuState extends State<ODMenu> {
                         ),
                       );
                     },
-                  ),
+                  ),*/
                   CustomMenuCard(
                     colorMap: odColorMap,
                     enableDivider: false,

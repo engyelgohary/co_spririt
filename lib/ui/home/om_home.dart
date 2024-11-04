@@ -147,7 +147,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                             ],
                           ),
                         ),
-                        InkWell(
+                      /*  InkWell(
                           onTap: () => AppUtil.mainNavigator(
                             context,
                             const OppyScreen(
@@ -173,7 +173,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                               )
                             ],
                           ),
-                        ),
+                        ),*/
                         InkWell(
                           onTap: () {
                             AppUtil.mainNavigator(

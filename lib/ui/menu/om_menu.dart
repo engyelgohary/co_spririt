@@ -65,6 +65,7 @@ class MenuScreenOM extends StatelessWidget {
                     ));
               },
             ),
+/*
             CustomMenuCard(
               colorMap: omColorMap,
               name: 'Ask Oppy',
@@ -79,6 +80,7 @@ class MenuScreenOM extends StatelessWidget {
                 );
               },
             ),
+*/
             CustomMenuCard(
               colorMap: omColorMap,
               name: 'Profile & Settings',

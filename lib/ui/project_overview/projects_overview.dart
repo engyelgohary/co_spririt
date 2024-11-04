@@ -142,13 +142,14 @@ class _ProjectsOverviewState extends State<ProjectsOverview> {
                                   ],
                                 ),
                               )),
+
                       child: TaskCard(
                         taskName: task["taskName"],
                         status: task["status"] ?? "N/A",
                         progress: task["progress"] ?? 0,
                       ),
                     ));
-                    temp.add(const SizedBox(width: 16));
+                    temp.add(SizedBox(width: 16));
                   }
                   temp.removeLast();
                   color++;

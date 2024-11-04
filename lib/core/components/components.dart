@@ -47,7 +47,7 @@ class TaskCard extends StatelessWidget {
               CircularPercentIndicator(
                 radius: 30.0,
                 lineWidth: 5.0,
-                percent: progress / 100,
+                percent: (progress.clamp(0, 100) / 100).toDouble(), // Clamping ensures it's between 0 and 100
                 center: Text("$progress%"),
                 progressColor: Colors.green,
               ),

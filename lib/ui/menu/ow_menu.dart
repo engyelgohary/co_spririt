@@ -113,7 +113,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                       const MessagesScreen(colorMap: owColorMap),
                     ),
                   ),
-                  CustomMenuCard(
+           /*       CustomMenuCard(
                     colorMap: owColorMap,
                     name: 'Ask Oppy',
                     onFunction: () => AppUtil.mainNavigator(
@@ -124,7 +124,7 @@ class _MenuScreenOWState extends State<MenuScreenOW> {
                         textColor: OWColorScheme.textColor,
                       ),
                     ),
-                  ),
+                  ),*/
                   CustomMenuCard(
                     colorMap: owColorMap,
                     name: 'Profile & Settings',

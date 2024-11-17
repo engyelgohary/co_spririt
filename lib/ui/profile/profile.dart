@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 16,
                     ),
                     Center(
-                      child: Text("${firstNameController.text} ${lastNameController.text}",
+                      child: Text("${firstNameController.text} ${lastNameController.text}" ,
                           style: TextStyle(color: widget.mainColor, fontSize: 18)),
                     ),
                     const SizedBox(

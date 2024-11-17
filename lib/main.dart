@@ -1,4 +1,5 @@
 import 'package:co_spirit/core/theme/app_theme.dart';
+import 'package:co_spirit/edited_ui/home/od_home.dart';
 import 'package:co_spirit/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class OpDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const ODHomeScreen(ODId: "6"),
       theme: AppTheme.mainTheme,
     );
   }

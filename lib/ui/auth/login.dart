@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const SizedBox(height: 100), // for slider sign in or up
+                      const SizedBox(height: 100),
                       Form(
                         key: key,
                         child: Column(

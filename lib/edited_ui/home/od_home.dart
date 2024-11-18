@@ -1,4 +1,6 @@
 import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/edited_ui/opportunities/od_opportunities.dart';
+import 'package:co_spirit/edited_ui/scores/od_scores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
@@ -18,8 +20,8 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Placeholder(),
-    Placeholder(),
+    OdOpportunities(),
+    OdScores(),
     OdSettings(),
   ];
 
@@ -54,7 +56,6 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                 ],
               ),
             ),
-            // Main Content Area with IndexedStack
             Expanded(
               child: IndexedStack(
                 index: _selectedIndex,
@@ -63,6 +64,14 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
             ),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Handle floating button press
+          },
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
@@ -84,6 +93,7 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
             ),
           ],
         ),
+
       ),
     );
   }

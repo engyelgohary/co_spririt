@@ -1,15 +1,16 @@
+import 'package:co_spirit/core/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class OdSettings extends StatefulWidget {
-  const OdSettings({Key? key}) : super(key: key);
+class OaSettings extends StatefulWidget {
+  const OaSettings({Key? key}) : super(key: key);
 
   @override
-  State<OdSettings> createState() => _OdSettingsState();
+  State<OaSettings> createState() => _OaSettingsState();
 }
 
-class _OdSettingsState extends State<OdSettings> {
+class _OaSettingsState extends State<OaSettings> {
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
 
@@ -64,7 +65,7 @@ class _OdSettingsState extends State<OdSettings> {
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: AppUI.oaMainColor,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -85,7 +86,7 @@ class _OdSettingsState extends State<OdSettings> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: AppUI.oaMainColor,
                     ),
                   ),
                 ),
@@ -125,8 +126,8 @@ class _OdSettingsState extends State<OdSettings> {
                   initialValue: "Oliviermatteo@gmail.com",
                   readOnly: true,
                   decoration: InputDecoration(
-                      filled: true, // Required to enable fillColor
-                      fillColor: Color(0xFFDFE8F8),
+                    filled: true, // Required to enable fillColor
+                    fillColor: Color(0xFFDFE8F8),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
 
@@ -146,7 +147,7 @@ class _OdSettingsState extends State<OdSettings> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  initialValue: "Opportunity Detector",
+                  initialValue: "Opportunity Analyzer",
                   readOnly: true,
                   decoration: InputDecoration(
                     filled: true, // Required to enable fillColor

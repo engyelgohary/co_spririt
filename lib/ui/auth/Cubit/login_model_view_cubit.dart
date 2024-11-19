@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:co_spirit/core/Cubit/cubit_state.dart';
 import 'package:co_spirit/data/repository/data_source.dart';
-import 'package:co_spirit/ui/home/oa_home.dart';
+import 'package:co_spirit/edited_ui/home/oa_home.dart';
 import 'package:co_spirit/edited_ui/home/od_home.dart';
 import 'package:co_spirit/ui/home/om_home.dart';
 import 'package:co_spirit/ui/home/ow_home.dart';

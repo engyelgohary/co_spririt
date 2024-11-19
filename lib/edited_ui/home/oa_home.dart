@@ -1,27 +1,23 @@
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/edited_ui/opportunities/od_opportunities.dart';
-import 'package:co_spirit/edited_ui/scores/od_scores.dart';
+import 'package:co_spirit/edited_ui/opportunities/oa_opportunities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
-import '../forms/add_opprtunity_form.dart';
-import '../settings/od_settings.dart';
+import '../settings/oa_settings.dart';
 
-class ODHomeScreen extends StatefulWidget {
-  const ODHomeScreen({Key? key, required this.ODId}) : super(key: key);
-  final String ODId;
+class OAHomeScreen extends StatefulWidget {
+  const OAHomeScreen({Key? key, required this.OAId}) : super(key: key);
+  final String OAId;
 
   @override
-  State<ODHomeScreen> createState() => _OMHomeScreenState();
+  State<OAHomeScreen> createState() => _OMHomeScreenState();
 }
 
-class _OMHomeScreenState extends State<ODHomeScreen> {
+class _OMHomeScreenState extends State<OAHomeScreen> {
   late ApiManager apiManager;
-
   int _selectedIndex = 0;
 
   void _openForm() {
-    // Open form when floating action button is pressed
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -29,15 +25,15 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
-        return const OpportunityForm();
+        return const Placeholder();
       },
     );
   }
 
   final List<Widget> _pages = [
-    OdOpportunities(),
-    OdScores(),
-    OdSettings(),
+    OaOpportunities(),
+    OaSettings(),
+
   ];
 
   void _onItemTapped(int index) {
@@ -64,7 +60,7 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
-                      "assets/logos/od_logo.svg",
+                      "assets/logos/oa_logo.svg",
                       width: screenWidth * 0.5,
                     ),
                   ),
@@ -81,7 +77,7 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _openForm,
-          backgroundColor: Colors.green,
+          backgroundColor: AppUI.oaMainColor,
           child: const Icon(Icons.add,color: Colors.white),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -89,16 +85,12 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           backgroundColor: AppUI.whiteColor,
-          selectedItemColor: Colors.green,
+          selectedItemColor: AppUI.oaMainColor,
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Opportunities',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              label: 'Score',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

@@ -4,6 +4,7 @@ import 'package:co_spirit/edited_ui/scores/od_scores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
+import '../forms/add_opprtunity_form.dart';
 import '../settings/od_settings.dart';
 
 class ODHomeScreen extends StatefulWidget {
@@ -18,6 +19,20 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
   late ApiManager apiManager;
 
   int _selectedIndex = 0;
+
+  void _openForm() {
+    // Open form when floating action button is pressed
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return const OpportunityForm();
+      },
+    );
+  }
 
   final List<Widget> _pages = [
     OdOpportunities(),
@@ -65,11 +80,9 @@ class _OMHomeScreenState extends State<ODHomeScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Handle floating button press
-          },
+          onPressed: _openForm,
           backgroundColor: Colors.green,
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add,color: Colors.white),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavigationBar(

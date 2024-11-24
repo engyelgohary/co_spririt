@@ -18,7 +18,7 @@ class ODHomeScreen extends StatefulWidget {
 class _OMHomeScreenState extends State<ODHomeScreen> {
   late ApiManager apiManager;
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _openForm() {
     // Open form when floating action button is pressed

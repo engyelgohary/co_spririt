@@ -3,6 +3,9 @@ import 'package:co_spirit/edited_ui/opportunities/oa_opportunities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
+import '../../core/app_util.dart';
+import '../../core/theme/app_colors.dart';
+import '../../ui/oppy/oppy.dart';
 import '../settings/oa_settings.dart';
 
 class OAHomeScreen extends StatefulWidget {
@@ -15,20 +18,8 @@ class OAHomeScreen extends StatefulWidget {
 
 class _OMHomeScreenState extends State<OAHomeScreen> {
   late ApiManager apiManager;
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
-  void _openForm() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
-        return const Placeholder();
-      },
-    );
-  }
 
   final List<Widget> _pages = [
     OaOpportunities(),
@@ -64,6 +55,22 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
                       width: screenWidth * 0.5,
                     ),
                   ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(onPressed: (){AppUtil.mainNavigator(
+                      context,
+                      const OppyScreen(
+                        mainColor: OAColorScheme.mainColor,
+                        buttonColor: OAColorScheme.buttonColor,
+                        textColor: OAColorScheme.textColor,
+                      ),
+                    );},
+                      icon: SvgPicture.asset(
+                      "assets/icons/svg/ask_oppy.svg",
+                      width: screenWidth * 0.08,
+                    ),),
+                  ),
                 ],
               ),
             ),
@@ -75,12 +82,6 @@ class _OMHomeScreenState extends State<OAHomeScreen> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _openForm,
-          backgroundColor: AppUI.oaMainColor,
-          child: const Icon(Icons.add,color: Colors.white),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

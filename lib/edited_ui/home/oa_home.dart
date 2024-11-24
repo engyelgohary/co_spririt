@@ -13,10 +13,10 @@ class OAHomeScreen extends StatefulWidget {
   final String OAId;
 
   @override
-  State<OAHomeScreen> createState() => _OMHomeScreenState();
+  State<OAHomeScreen> createState() => _OAHomeScreenState();
 }
 
-class _OMHomeScreenState extends State<OAHomeScreen> {
+class _OAHomeScreenState extends State<OAHomeScreen> {
   late ApiManager apiManager;
   int _selectedIndex = 1;
 

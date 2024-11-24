@@ -1,43 +1,26 @@
 import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/edited_ui/opportunities/od_opportunities.dart';
-import 'package:co_spirit/edited_ui/scores/od_scores.dart';
+import 'package:co_spirit/edited_ui/opportunities/ow_opportunities.dart';
+import 'package:co_spirit/edited_ui/settings/ow_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
-import '../forms/add_opprtunity_form.dart';
-import '../settings/od_settings.dart';
 
-class ODHomeScreen extends StatefulWidget {
-  const ODHomeScreen({Key? key, required this.ODId}) : super(key: key);
-  final String ODId;
+class OWHomeScreen extends StatefulWidget {
+  const OWHomeScreen({Key? key, required this.OWId}) : super(key: key);
+  final String OWId;
 
   @override
-  State<ODHomeScreen> createState() => _ODHomeScreenState();
+  State<OWHomeScreen> createState() => _OWHomeScreenState();
 }
 
-class _ODHomeScreenState extends State<ODHomeScreen> {
+class _OWHomeScreenState extends State<OWHomeScreen> {
   late ApiManager apiManager;
 
-  int _selectedIndex = 2;
-
-  void _openForm() {
-    // Open form when floating action button is pressed
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
-        return const OpportunityForm();
-      },
-    );
-  }
+  int _selectedIndex = 1;
 
   final List<Widget> _pages = [
-    OdOpportunities(),
-    OdScores(),
-    OdSettings(),
+    OwOpportunities(),
+    OwSettings(),
   ];
 
   void _onItemTapped(int index) {
@@ -64,7 +47,7 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
-                      "assets/logos/od_logo.svg",
+                      "assets/logos/ow_logo.svg",
                       width: screenWidth * 0.5,
                     ),
                   ),
@@ -79,26 +62,17 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _openForm,
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.add,color: Colors.white),
-        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           backgroundColor: AppUI.whiteColor,
-          selectedItemColor: Colors.green,
+          selectedItemColor: AppUI.owMainColor,
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Opportunities',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              label: 'Score',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

@@ -16,6 +16,8 @@ class AppUI {
   static const Color errorColor = Colors.red;
   static const Color oaMainColor = Color(0xff8E44AD);
   static const Color owMainColor = Color(0xffF39C12);
+  static const Color omMainColor = Color(0xffE74C3C);
+  static const Color omSecondColor = Color(0xff7DBABD);
 
   static const String imgPath = "assets/images/";
   static const String iconPath = "assets/icons/png/";

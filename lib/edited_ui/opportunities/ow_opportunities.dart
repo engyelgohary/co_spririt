@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/app_ui.dart';
 
 class OwOpportunities extends StatefulWidget {

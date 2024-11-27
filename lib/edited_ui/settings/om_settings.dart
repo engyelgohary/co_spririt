@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../forms/import_data_form.dart';
+
 class OmSettings extends StatefulWidget {
   const OmSettings({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _OmSettingsState extends State<OmSettings> {
     }
   }
   void _openForm() {
-    // Open form when floating action button is pressed
+    // Open form when "Import data" is clicked
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -32,10 +34,11 @@ class _OmSettingsState extends State<OmSettings> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
-        return const Placeholder();
+        return const ImportForm(); // Call the separated form here
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -197,9 +200,7 @@ class _OmSettingsState extends State<OmSettings> {
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  onTap: () {
-                    // TODO: Handle add data
-                  },
+                  onTap: _openForm,
                   child: const Text(
                     "Import data",
                     style: TextStyle(

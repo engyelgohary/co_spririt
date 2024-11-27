@@ -17,6 +17,8 @@ class _OmOpportunitiesState extends State<OmOpportunities> with SingleTickerProv
     {'customer': 'AGL', 'corelia solution': 'Using AI for Data Analysis', 'feasibility': 'Medium'},
     {'customer': 'AGL', 'corelia solution': 'Adopting cloud computing technologies', 'feasibility': 'Medium'},
     {'customer': 'AGL', 'corelia solution': 'Adopting cloud computing technologies', 'feasibility': 'Medium'},
+    {'customer': 'AGL', 'corelia solution': 'Adopting cloud computing technologies', 'feasibility': 'Medium'},
+    {'customer': 'AGL', 'corelia solution': 'Adopting cloud computing technologies', 'feasibility': 'Medium'},
   ];
 
   @override
@@ -86,7 +88,7 @@ class _OmOpportunitiesState extends State<OmOpportunities> with SingleTickerProv
 
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: 800, // Adjust height as needed
+                  height: 800,
                   child: TabBarView(
                     controller: _tabController,
                     children: [

@@ -1,4 +1,4 @@
-import 'package:co_spirit/data/api/auth_api.dart';
+import 'package:co_spirit/data/edited_api/auth_api.dart';
 import 'package:hive/hive.dart';
 
 late final Box hiveBox;

@@ -1,6 +1,8 @@
 import 'package:co_spirit/core/constants.dart';
 import 'package:dio/dio.dart';
 
+import '../api_response.dart';
+
 class AuthApi {
   Dio dio = Dio(BaseOptions(
     connectTimeout: const Duration(seconds: 5),
@@ -59,23 +61,6 @@ class AuthApi {
       print(e);
     }
     return null;
-  }
-}
-
-class ApiResponse<T> {
-  late int statusCode;
-  late String meta;
-  late bool succeeded;
-  late String message;
-  late String errors;
-  late T data;
-
-  ApiResponse.fromJson(Map json, this.data) {
-    this.statusCode = json["statusCode"];
-    this.meta = json["meta"];
-    this.succeeded = json["succeeded"];
-    this.message = json["message"];
-    this.errors = json["errors"];
   }
 }
 

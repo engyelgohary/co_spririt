@@ -1,27 +1,26 @@
-import 'package:co_spirit/data/api/apimanager.dart';
-import 'package:co_spirit/edited_ui/opportunities/od_opportunities.dart';
-import 'package:co_spirit/edited_ui/scores/od_scores.dart';
+import 'package:co_spirit/core/components/appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
 import '../forms/add_opprtunity_form.dart';
 import '../settings/od_settings.dart';
+import '../settings/cubit/settings_cubit.dart';
+import '../../../data/edited_api/userprofile_apis.dart';
+import '../opportunities/od_opportunities.dart';
+import '../scores/od_scores.dart';
 
 class ODHomeScreen extends StatefulWidget {
-  const ODHomeScreen({Key? key, required this.ODId}) : super(key: key);
-  final String ODId;
+  const ODHomeScreen({Key? key}) : super(key: key);
 
   @override
   State<ODHomeScreen> createState() => _ODHomeScreenState();
 }
 
 class _ODHomeScreenState extends State<ODHomeScreen> {
-  late ApiManager apiManager;
-
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   void _openForm() {
-    // Open form when floating action button is pressed
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -34,10 +33,13 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
     );
   }
 
-  final List<Widget> _pages = [
+  late final List<Widget> _pages = [
     OdOpportunities(),
     OdScores(),
-    OdSettings(),
+    BlocProvider(
+      create: (context) => SettingsCubit(userProfileApis: UserProfileApis()),
+      child: const OdSettings(),
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -55,22 +57,7 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
         body: Column(
           children: [
             // Header
-            Container(
-              width: screenWidth,
-              color: AppUI.whiteColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(
-                      "assets/logos/od_logo.svg",
-                      width: screenWidth * 0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            AppBarNew(context, "assets/logos/od_logo.svg"),
             Expanded(
               child: IndexedStack(
                 index: _selectedIndex,
@@ -82,7 +69,7 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: _openForm,
           backgroundColor: Colors.green,
-          child: const Icon(Icons.add,color: Colors.white),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavigationBar(
@@ -106,7 +93,6 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
             ),
           ],
         ),
-
       ),
     );
   }

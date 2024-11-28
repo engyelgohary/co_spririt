@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../data/edited_api/auth_apis.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'LoginScreen';
   const LoginScreen({super.key});
@@ -24,29 +26,28 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
   bool rememberMe = false;
   GlobalKey<FormState> key = GlobalKey<FormState>();
-  LoginCubit loginCubit = LoginCubit(
-    authDataSource: AuthDataSourceRemote(apiManager: ApiManager.getInstance()),
-  );
+  LoginCubit loginCubit = LoginCubit(authApi: AuthApi());
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
-    return BlocListener(
+    return BlocListener<LoginCubit, CubitState>(
       bloc: loginCubit,
       listener: (context, state) {
         if (state is CubitLoadingState) {
           loadingIndicatorDialog(context);
         } else if (state is CubitFailureState) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // Close loading dialog
           snackBar(context, state.error);
         } else if (state is CubitSuccessState<Widget>) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // Close loading dialog
           snackBar(context, "Sign In Success", duration: 3);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => state.response),
-            (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
           );
         }
       },
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: width,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(left: width * 0.06, right: width * 0.06, bottom: 32),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: 32),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -88,11 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (value == null || value.trim().isEmpty) {
                                   return 'Please enter your email address';
                                 }
-                                bool emailValid = RegExp(emailRegex).hasMatch(value);
-                                if (!emailValid) {
-                                  return 'Invalid email';
-                                }
-                                return null;
                               },
                             ),
                             AuthTextFormField(
@@ -106,27 +102,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: InkWell(
                                   child: isObscure
                                       ? const Icon(
-                                          Icons.visibility_off,
-                                          color: Colors.black,
-                                        )
+                                    Icons.visibility_off,
+                                    color: Colors.black,
+                                  )
                                       : const Icon(
-                                          Icons.visibility,
-                                          color: Colors.black,
-                                        ),
+                                    Icons.visibility,
+                                    color: Colors.black,
+                                  ),
                                   onTap: () => setState(
-                                    () => isObscure = !isObscure,
+                                        () => isObscure = !isObscure,
                                   ),
                                 ),
                               ),
                               validator: (value) => (value == null || value.trim().isEmpty)
-                                  ? 'Please enter password'
+                                  ? 'Please enter your password'
                                   : null,
                             ),
                           ],
                         ),
                       ),
                       Row(
-                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -143,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Text(
                                 "Remember me",
                                 style: TextStyle(color: ODColorScheme.mainColor, fontSize: 15),
-                              )
+                              ),
                             ],
                           ),
                           TextButton(
@@ -157,91 +152,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decorationColor: ODColorScheme.mainColor,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
-
                       const SizedBox(height: 24),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                if (key.currentState != null && key.currentState!.validate()) {
-                                  loginCubit.login();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                backgroundColor: scColorMap["buttonColor"],
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                              ),
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                            const SizedBox(height: 32),
-                            const Row(children: [
-                              Expanded(child: Divider()),
-                              Text("    OR    "),
-                              Expanded(child: Divider()),
-                            ]),
-                            const SizedBox(height: 32),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (key.currentState != null && key.currentState!.validate()) {
-                                  loginCubit.login();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                              ),
-                              child: const Text(
-                                'Continue with Google',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (key.currentState != null && key.currentState!.validate()) {
-                                  loginCubit.login();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                              ),
-                              child: const Text(
-                                'Continue with Facebook',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                      ElevatedButton(
+                        onPressed: () {
+                          if (key.currentState != null && key.currentState!.validate()) {
+                            loginCubit.login();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          backgroundColor: scColorMap["buttonColor"],
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -18,19 +18,6 @@ class OpportunityForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Form Title
-            Center(
-              child: Text(
-                "Opportunity Detector",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-
             // Customer Name Dropdown
             const Text("Customer Name",
                 style: TextStyle(fontWeight: FontWeight.w500)),

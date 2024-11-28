@@ -4,6 +4,7 @@ import 'package:co_spirit/edited_ui/settings/om_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/app_ui.dart';
+import '../../core/components/appbar.dart';
 
 class OMHomeScreen extends StatefulWidget {
   const OMHomeScreen({Key? key, required this.OMId}) : super(key: key);
@@ -41,22 +42,8 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
         body: Column(
           children: [
             // Header
-            Container(
-              width: screenWidth,
-              color: AppUI.whiteColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(
-                      "assets/logos/om_logo.svg",
-                      width: screenWidth * 0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            AppBarNew(context, "assets/logos/om_logo.svg"),
+
             Expanded(
               child: IndexedStack(
                 index: _selectedIndex,

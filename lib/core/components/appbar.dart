@@ -1,4 +1,8 @@
+import 'package:co_spirit/core/app_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../app_ui.dart';
 
 
 AppBar customAppBar({
@@ -44,5 +48,27 @@ AppBar customAppBarNeo({
     backgroundColor: backgroundColor,
     title: Text(title, style: TextStyle(fontSize: 22, color: textColor)),
     toolbarHeight: height / 8,
+  );
+}
+
+Widget AppBarNew(BuildContext context, String logoPath) {
+  final screenWidth = MediaQuery.of(context).size.width;
+
+
+  return Container(
+    width: AppUtil.responsiveWidth(context),
+    color: AppUI.whiteColor,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SvgPicture.asset(
+            logoPath,
+            width: screenWidth * 0.5,
+          ),
+        ),
+      ],
+    ),
   );
 }

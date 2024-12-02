@@ -13,4 +13,14 @@ class ApiResponse<T> {
     this.message = json["message"]?? false;
     this.errors = json["errors"]?? "";
   }
+  Map<String, dynamic> toJson() {
+    return {
+      "statusCode": statusCode,
+      "meta": meta,
+      "succeeded": succeeded,
+      "message": message,
+      "errors": errors,
+      "data": data,
+    };
+  }
 }

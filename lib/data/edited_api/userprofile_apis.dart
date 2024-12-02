@@ -10,7 +10,6 @@ class UserProfileApis{
     contentType: "application/json",
   ));
 
-
   Future<ApiResponse<UserProfile>?> getCurrentUser({required String token}) async {
     try {
       final res = await dio.get("CurrentUser",
@@ -59,15 +58,18 @@ class UserProfileApis{
         ),
       );
 
-      // Log the response to debug its structure
+      // Log response for debugging
       print("Response data: ${res.data}");
 
-      // Check if the response is a valid Map
-      if (res.data is Map<String, dynamic>) {
-        return ApiResponse<UserProfile>.fromJson(
-          res.data,
-          UserProfile.fromJson(res.data["data"]),
-        );
+      // Ensure response is a valid JSON map
+      if (res.data is Map<String, String>) {
+        final data = res.data;
+
+        // Create UserProfile from the "data" field
+        final userProfile = UserProfile.fromJson(data["data"]);
+
+        // Return ApiResponse<UserProfile>
+        return ApiResponse<UserProfile>.fromJson(data, userProfile);
       } else {
         throw Exception("Unexpected response format: ${res.data}");
       }
@@ -84,5 +86,72 @@ class UserProfileApis{
     }
   }
 
+  Future<void> updatePassword({
+    required String token,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await dio.put(
+        "UpdatePassword",
+        data: {
+          "oldPassword": oldPassword,
+          "newPassword": newPassword,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token", // Authentication token
+            "accept": "application/json", // Content type
+          },
+        ),
+      );
 
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Password updated successfully.");
+      } 
+      else {
+        final message = response.data['Message'] ??
+            "Unexpected error occurred.";
+        throw Exception(message); 
+      }
+    }
+    on DioException catch (e)
+    {
+      final message = e.response?.data['Message'] ??
+          "Failed to update password.";
+      throw Exception(message); 
+    }
+  }
+
+  Future<void> logOut({
+    required String token,
+    required String refreshToken,
+}) async{
+    try{
+      final response  = await dio.post("logout", data: {
+        "refreshToken": refreshToken,
+      },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token", // Authentication token
+            "accept": "application/json", // Content type
+          },
+        ),
+      );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("logout done");
+    }
+    else {
+      final message = response.data['Message'] ??
+          "Unexpected error occurred.";
+      throw Exception(message);
+    }
+  }
+  on DioException catch (e)
+  {
+  final message = e.response?.data['Message'] ??
+  "Failed to logout.";
+  throw Exception(message);
+  }
 }
+  }

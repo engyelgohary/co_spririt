@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/Cubit/cubit_state.dart';
+import '../../data/edited_model/user_profile.dart';
 import '../settings/cubit/settings_cubit.dart';
 
 class EditUsernameForm extends StatefulWidget {
@@ -15,29 +16,51 @@ class _EditUsernameFormState extends State<EditUsernameForm> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
 
+  // A flag to ensure the loading dialog is not shown multiple times
+  bool _isLoadingDialogVisible = false;
+
+  void _showLoadingDialog() {
+    if (!_isLoadingDialogVisible) {
+      _isLoadingDialogVisible = true;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+    }
+  }
+
+  void _hideLoadingDialog() {
+    if (_isLoadingDialogVisible) {
+      _isLoadingDialogVisible = false;
+      Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+    }
+  }
+
+  Future<void> _closeModalSheet() async {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context); // Close modal sheet
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsCubit, CubitState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is CubitLoadingState) {
-          // Show loading indicator
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => const Center(child: CircularProgressIndicator()),
-          );
-        } else if (state is CubitSuccessState) {
-          // Close loading indicator and show success message
-          Navigator.pop(context); // Close the loading dialog
-          Navigator.pop(context); // Close the modal bottom sheet
-          context.read<SettingsCubit>().fetchCurrentUser();
+          _showLoadingDialog();
+        } else {
+          _hideLoadingDialog();
 
-        } else if (state is CubitFailureState) {
-          // Close loading indicator and show error message
-          Navigator.pop(context); // Close the loading dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to update profile: ${state.error}")),
-          );
+          if (state is CubitSuccessState<UserProfile>) {
+            await _closeModalSheet(); // Close modal sheet after success
+            context.read<SettingsCubit>().fetchCurrentUser(); // Refresh user data
+            print("Update succeeded");
+          } else if (state is CubitFailureState) {
+            await _closeModalSheet(); // Close modal sheet even on failure
+
+            print("Update failed");
+          }
         }
       },
       child: Padding(
@@ -117,7 +140,9 @@ class _EditUsernameFormState extends State<EditUsernameForm> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () async {
+                        await _closeModalSheet();
+                      },
                       style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                       child: const Text(
                         "Cancel",
@@ -130,13 +155,12 @@ class _EditUsernameFormState extends State<EditUsernameForm> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState?.validate() == true) {
-                          // Call SettingsCubit to update profile
                           context.read<SettingsCubit>().updateUserProfile(
                             firstName: _firstNameController.text.trim(),
                             lastName: _lastNameController.text.trim(),
                           );
+                          print("Submit button clicked");
                         }
-
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                       child: const Text(
@@ -154,3 +178,4 @@ class _EditUsernameFormState extends State<EditUsernameForm> {
     );
   }
 }
+

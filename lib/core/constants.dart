@@ -1,6 +1,8 @@
 import 'package:co_spirit/data/edited_api/auth_apis.dart';
 import 'package:hive/hive.dart';
 
+import '../data/api/users_api.dart';
+
 late final Box hiveBox;
 late final UserData userData;
 const userDB = "user";

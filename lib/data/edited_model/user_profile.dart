@@ -4,6 +4,7 @@ class UserProfile {
   late String lastName;
   late String? pictureUrl;
   late String role;
+  late String? password;
 
   UserProfile.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -11,5 +12,16 @@ class UserProfile {
     lastName = json["lastName"];
     pictureUrl = json["pictureUrl"];
     role = json["role"];
+    password = json["password"];
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "firstName": firstName,
+      "lastName": lastName,
+      "pictureUrl": pictureUrl,
+      "role": role,
+      "password": password,
+    };
   }
 }

@@ -103,7 +103,6 @@ class SettingsCubit extends Cubit<CubitState> {
     emit(CubitLoadingState());
 
     try {
-      // Retrieve tokens from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
       final refreshToken = prefs.getString("refreshToken");
@@ -113,7 +112,7 @@ class SettingsCubit extends Cubit<CubitState> {
         return;
       }
 
-      // Call the logOut API
+      // Call the logout API
       await userProfileApis.logOut(
         token: token,
         refreshToken: refreshToken,
@@ -124,10 +123,10 @@ class SettingsCubit extends Cubit<CubitState> {
       await prefs.remove("refreshToken");
 
       emit(CubitSuccessState("Logged out successfully!"));
-      AppUtil.mainNavigator(context, LoginScreen());
     } catch (e) {
       emit(CubitFailureState("Failed to log out: $e"));
     }
   }
+
 
 }

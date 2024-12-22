@@ -4,7 +4,6 @@ import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:co_spirit/data/model/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../data/api/apimanager.dart';
@@ -54,6 +53,7 @@ class CustomChatBubble extends StatelessWidget {
               attachment.fileName ?? "",
             ),
             onPressed: () async {
+/*
               FileDownloader.downloadFile(
                   url: "http://${ApiConstants.baseUrl}${attachment.fileUrl}",
                   onDownloadCompleted: (path) {
@@ -68,6 +68,7 @@ class CustomChatBubble extends StatelessWidget {
                       message: "download error message:  $errorMessage",
                     );
                   });
+*/
             },
           ),
         ));

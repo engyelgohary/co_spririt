@@ -7,7 +7,6 @@ import 'package:co_spirit/ui/opportunities/oa_opportunity_edit.dart';
 import 'package:co_spirit/ui/opportunities/om_opportunity_edit.dart';
 import 'package:co_spirit/ui/opportunities/ow_opportunity_edit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class OpportunityView extends StatelessWidget {
@@ -131,7 +130,7 @@ class OpportunityView extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.download),
                   onPressed: () {
-                    FileDownloader.downloadFile(
+/*                    FileDownloader.downloadFile(
                       url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
                         sendNotification(
@@ -145,7 +144,7 @@ class OpportunityView extends StatelessWidget {
                           message: "download error message:  $errorMessage",
                         );
                       },
-                    );
+                    );*/
                   },
                 ),
               SelectableText(

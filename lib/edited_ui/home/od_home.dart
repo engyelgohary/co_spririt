@@ -5,6 +5,7 @@ import '../../core/Cubit/cubit_state.dart';
 import '../../core/app_ui.dart';
 import '../../core/components/appbar.dart';
 import '../../data/edited_api/userprofile_apis.dart';
+import '../../ui/auth/login.dart';
 import '../forms/add_opportunity_form.dart';
 import '../opportunities/od_opportunities.dart';
 import '../scores/od_scores.dart';
@@ -85,17 +86,22 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
                             child: const Text("Cancel"),
                           ),
                           TextButton(
-                            onPressed: () => Navigator.pop(context, true),
+                            onPressed: () async {
+                              await context.read<SettingsCubit>().logOut();
+                              Navigator.pop(context, true); // Close the logout confirmation dialog
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                              );
+                            },
+
+
                             child: const Text("Logout"),
                           ),
                         ],
                       );
                     },
                   );
-
-                  if (shouldLogout == true) {
-                    context.read<SettingsCubit>().logOut();
-                  }
                 },
               ),
             ],
@@ -126,8 +132,11 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
           // Close loading indicator
           Navigator.pop(context);
 
-            Navigator.pushReplacementNamed(context, "lib/ui/auth/login.dart");
-
+          // Perform navigation to the login screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+          );
         } else if (state is CubitFailureState) {
           // Close loading indicator
           Navigator.pop(context);
@@ -182,5 +191,6 @@ class _ODHomeScreenState extends State<ODHomeScreen> {
         ),
       ),
     );
+
   }
 }

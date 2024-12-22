@@ -3,7 +3,6 @@ import 'package:co_spirit/core/components/helper_functions.dart';
 import 'package:co_spirit/core/components/text_form_field.dart';
 import 'package:co_spirit/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import '../../../core/app_util.dart';
 import '../../../data/api/apimanager.dart';
@@ -298,7 +297,7 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
                 IconButton(
                   icon: const Icon(Icons.download),
                   onPressed: () {
-                    FileDownloader.downloadFile(
+                  /*  FileDownloader.downloadFile(
                       url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
                         sendNotification(
@@ -312,7 +311,7 @@ class _EditOpportunityOAPageState extends State<EditOpportunityOAPage> {
                           message: "download error message:  $errorMessage",
                         );
                       },
-                    );
+                    );*/
                   },
                 ),
               ],

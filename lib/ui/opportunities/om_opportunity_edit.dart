@@ -7,7 +7,6 @@ import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:co_spirit/data/model/Team.dart';
 import 'package:co_spirit/data/model/opportunity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 class EditOpportunityOMPage extends StatefulWidget {
   final Opportunity opportunity;
@@ -342,7 +341,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.download),
-                  onPressed: () {
+                  onPressed: () {/*
                     FileDownloader.downloadFile(
                       url: "http://${ApiConstants.baseUrl}${opportunity.descriptionLocation}",
                       onDownloadCompleted: (path) {
@@ -357,7 +356,7 @@ class _EditOpportunityOMPageState extends State<EditOpportunityOMPage> {
                           message: "download error message:  $errorMessage",
                         );
                       },
-                    );
+                    ); */
                   },
                 ),
               ],

@@ -3,15 +3,12 @@ import 'package:co_spirit/core/Cubit/cubit_state.dart';
 import 'package:co_spirit/data/repository/data_source.dart';
 import 'package:co_spirit/edited_ui/home/oa_home.dart';
 import 'package:co_spirit/edited_ui/home/od_home.dart';
-import 'package:co_spirit/ui/home/om_home.dart';
-import 'package:co_spirit/ui/home/ow_home.dart';
-import 'package:co_spirit/ui/home/sc_home.dart';
-import 'package:co_spirit/ui/home/sm_home.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/edited_api/auth_apis.dart';
+import '../../../edited_ui/home/om_home.dart';
 part 'login_model_view_state.dart';
 
 class LoginCubit extends Cubit<CubitState> {
@@ -66,7 +63,9 @@ class LoginCubit extends Cubit<CubitState> {
   void _navigateByRole(String roleName) {
     switch (roleName) {
       case "Opportunity Analyzer":
-       print("OA Logged in");
+        emit(CubitSuccessState(OAHomeScreen()));
+
+        print("OA Logged in");
         break;
       case "Opportunity Owner":
         print("OW Logged in");
@@ -78,7 +77,7 @@ class LoginCubit extends Cubit<CubitState> {
         print("SC Logged in");
         break;
       case "Opportunity Manager":
-        print("OM Logged in");
+        emit(CubitSuccessState(OMHomeScreen()));
         break;
       case "Solution Manager":
         print("SM Logged in");

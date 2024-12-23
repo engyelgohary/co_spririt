@@ -34,7 +34,7 @@ class ConfigurationsCubit extends Cubit<CubitState> {
       }
 
       if (response != null && response.succeeded) {
-        emit(CubitSuccessState(response.data));
+        emit(CubitSuccessState(response.data)); // Ensure data is emitted here
       } else {
         emit(CubitFailureState(response?.message ?? "Failed to fetch data"));
       }
@@ -67,6 +67,7 @@ class ConfigurationsCubit extends Cubit<CubitState> {
       }
 
       if (response != null && response.succeeded) {
+        await fetchData(token, configType); // Refresh the list
         emit(CubitSuccessState(response.data));
       } else {
         emit(CubitFailureState(response?.message ?? "Failed to add data"));

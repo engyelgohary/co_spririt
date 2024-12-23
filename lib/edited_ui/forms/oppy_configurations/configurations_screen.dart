@@ -15,10 +15,8 @@ class ConfigurationsScreen extends StatefulWidget {
 
 class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
   String? token;
-  String? selectedCustomerConfig;
-  String? selectedFeasibilityConfig;
-  String? selectedRiskConfig;
-  String? selectedPointPrizeConfig;
+  Map<String, String?> selectedConfigs = {};
+  List<String> configTypes = ['Customer', 'Feasibility', 'Risk', 'PointPrize'];
 
   @override
   void initState() {
@@ -26,7 +24,6 @@ class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
     _loadToken();
   }
 
-  // Load the token from SharedPreferences
   Future<void> _loadToken() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -41,52 +38,27 @@ class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
     }
 
     return BlocProvider(
-      create: (_) => ConfigurationsCubit(oppyConfigurationApis: OppyConfigurationApis()),
+      create: (_) =>
+          ConfigurationsCubit(oppyConfigurationApis: OppyConfigurationApis()),
       child: Scaffold(
         appBar: AppBar(title: const Text('Configurations')),
         body: BlocConsumer<ConfigurationsCubit, CubitState>(
           listener: (context, state) {
             if (state is CubitFailureState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
             } else if (state is CubitSuccessState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success: ${state.response}")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Success: ${state.response.toString()}")));
             }
           },
           builder: (context, state) {
             return SingleChildScrollView(
               child: Column(
-                children: [
-                  // Customer Dropdown
-                  _buildDropdown("Customer", selectedCustomerConfig, (value) {
-                    setState(() {
-                      selectedCustomerConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Customer");
-                  }, state),
-                  // Feasibility Dropdown
-                  _buildDropdown("Feasibility", selectedFeasibilityConfig, (value) {
-                    setState(() {
-                      selectedFeasibilityConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Feasibility");
-                  }, state),
-                  // Risk Dropdown
-                  _buildDropdown("Risk", selectedRiskConfig, (value) {
-                    setState(() {
-                      selectedRiskConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Risk");
-                  }, state),
-                  // PointPrize Dropdown
-                  _buildDropdown("PointPrize", selectedPointPrizeConfig, (value) {
-                    setState(() {
-                      selectedPointPrizeConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "PointPrize");
-                  }, state),
-                  if (state is CubitLoadingState)
-                    const CircularProgressIndicator(),
-                ],
+                children: configTypes.map((configType) {
+                  return _buildConfigSection(
+                      context, configType, state);
+                }).toList(),
               ),
             );
           },
@@ -95,54 +67,63 @@ class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
     );
   }
 
-  // Helper function to create a dropdown
-  Widget _buildDropdown(String configType, String? selectedConfig, Function(String?) onChanged, CubitState state) {
-    List<String>? configList = [];
-    if (state is CubitSuccessState) {
-      // Dynamically populate the dropdown items based on fetched data
-      configList = (state.response as List).map((e) => e['name'] ?? 'Unnamed Item').cast<String>().toList();
+  Widget _buildConfigSection(
+      BuildContext context, String configType, CubitState state) {
+    List<Map<String, dynamic>>? configList = [];
+    if (state is CubitSuccessState &&
+        state.response is List &&
+        (state.response as List).isNotEmpty) {
+      configList = List<Map<String, dynamic>>.from(state.response);
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Dropdown for each configuration type
-        DropdownButton<String>(
-          value: selectedConfig,
-          items: configList
-              .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
-              .toList(),
-          onChanged: onChanged,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(configType,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
-        if (state is CubitSuccessState)
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: (state.response as List).length,
-              itemBuilder: (context, index) {
-                var item = state.response[index];
-                return ListTile(
-                  title: Text(item['name'] ?? 'Unnamed Item'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      context.read<ConfigurationsCubit>().deleteData(token!, configType, item['id']);
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
+        DropdownButton<String>(
+          value: selectedConfigs[configType],
+          items: configList
+              ?.map((item) => DropdownMenuItem<String>(
+            value: item['id'].toString(),
+            child: Text(item['name'] ?? 'Unnamed Item'),
+          ))
+              .toList(),
+          onChanged: (value) {
+            setState(() {
+              selectedConfigs[configType] = value;
+            });
+          },
+          hint: Text("Select $configType Config"),
+        ),
         ElevatedButton(
           onPressed: () {
             _showAddDialog(context, configType);
           },
-          child: const Text("Add New Data"),
+          child: Text("Add $configType"),
         ),
+        if (configList != null && configList.isNotEmpty)
+          ...configList.map((item) {
+            return ListTile(
+              title: Text(item['name'] ?? 'Unnamed Item'),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  context
+                      .read<ConfigurationsCubit>()
+                      .deleteData(token!, configType, item['id'].toString());
+                },
+              ),
+            );
+          }).toList(),
       ],
     );
   }
 
-  // Function to show the dialog to add new data
+
   void _showAddDialog(BuildContext context, String configType) {
     TextEditingController nameController = TextEditingController();
 
@@ -158,9 +139,13 @@ class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Map<String, dynamic> data = {'name': nameController.text};
-                context.read<ConfigurationsCubit>().addData(token!, configType, data);
-                Navigator.pop(context);
+                if (nameController.text.isNotEmpty) {
+                  Map<String, dynamic> data = {'name': nameController.text};
+                  context
+                      .read<ConfigurationsCubit>()
+                      .addData(token!, configType, data);
+                  Navigator.pop(context);
+                }
               },
               child: const Text("Add"),
             ),

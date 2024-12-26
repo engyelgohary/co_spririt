@@ -1,178 +1,203 @@
-import 'package:co_spirit/core/constants.dart';
 import 'package:dio/dio.dart';
-import '../api_response.dart';
+
+import '../edited_model/oppy_configurations.dart';
 
 class OppyConfigurationApis {
   final Dio dio = Dio(BaseOptions(
     connectTimeout: const Duration(seconds: 5),
-    baseUrl: oppyConfigurationsApisUrl,
+    baseUrl: "http://10.100.102.6:5204/api/v1/Oppy_Configuration/",
     contentType: "application/json",
   ));
 
-  // Helper method to create headers
-  Map<String, String> _createHeaders(String token) {
-    return {
-      "Authorization": "Bearer $token",
-      "accept": "*/*",
-    };
-  }
-
-  // Generic request method to handle POST, PUT, DELETE, and GET requests
-  Future<ApiResponse?> _request({
-    required String method,
-    required String endpoint,
-    String? id,
-    Map<String, dynamic>? data,
-    required String token,
-  }) async {
+  // Customer Endpoints
+  Future<void> addCustomer({required String token, required String name}) async {
     try {
-      Response res;
-
-      if (method == 'POST') {
-        res = await dio.post(
-          endpoint,
-          data: data,
-          options: Options(headers: _createHeaders(token)),
-        );
-      } else if (method == 'GET') {
-        res = await dio.get(
-          endpoint,
-          options: Options(headers: _createHeaders(token)),
-        );
-      } else if (method == 'PUT') {
-        res = await dio.put(
-          endpoint,
-          data: data,
-          options: Options(headers: _createHeaders(token)),
-        );
-      } else if (method == 'DELETE' && id != null) {
-        res = await dio.delete(
-          "$endpoint/$id",
-          options: Options(headers: _createHeaders(token)),
-        );
-      } else {
-        throw Exception("Invalid HTTP method");
-      }
-
-      return ApiResponse.fromJson(res.data, res.data["data"]);
-    } on DioException catch (e) {
-      _handleDioError(e, "Request failed for $endpoint");
+      await dio.post(
+        "AddCustomer",
+        data: {
+          "names": [name], // Wrap the name in a list
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Customer added.");
+    } catch (e) {
+      throw Exception("Error adding customer: $e");
     }
   }
 
-  // Customer APIs
-  Future<ApiResponse?> addCustomer({
+  Future<List<Customer>> getCustomers({required String token}) async {
+    try {
+      final response = await dio.get(
+        "GetCustomer",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      return (response.data['data'] as List)
+          .map((e) => Customer.fromJson(e))
+          .toList();
+    } catch (e) {
+      throw Exception("Error fetching customers: $e");
+    }
+  }
+
+  Future<void> deleteCustomer({required String token, required String id}) async {
+    try {
+      await dio.delete(
+        "DeleteCustomer/$id",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Customer deleted.");
+    } catch (e) {
+      throw Exception("Error deleting customer: $e");
+    }
+  }
+
+  // Feasibility Endpoints
+  Future<List<Feasibility>> getFeasibility({required String token}) async {
+    try {
+      final response = await dio.get(
+        "GetFeasibility",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      return (response.data['data'] as List)
+          .map((e) => Feasibility.fromJson(e))
+          .toList();
+    } catch (e) {
+      throw Exception("Error fetching feasibility: $e");
+    }
+  }
+
+  Future<void> addFeasibility({required String token, required List<String> names}) async {
+    try {
+      await dio.post(
+        "AddFeasibility",
+        data: {"names": names},
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Feasibility added.");
+    } catch (e) {
+      throw Exception("Error adding feasibility: $e");
+    }
+  }
+
+  // Risk Endpoints
+  Future<List<Risk>> getRisks({required String token}) async {
+    final response = await dio.get(
+      "GetRisks",
+      options: Options(headers: {"Authorization": "Bearer $token"}),
+    );
+
+    if (response.statusCode == 200) {
+      return (response.data as List).map((e) => Risk.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to fetch risks: ${response.statusCode}");
+    }
+  }
+
+
+  Future<void> addRisk({
     required String token,
-    required Map<String, dynamic> customerData,
-  }) => _request(
-    method: 'POST',
-    endpoint: "AddCustomer",
-    token: token,
-    data: customerData,
-  );
-
-  Future<ApiResponse?> getCustomers({required String token}) => _request(
-    method: 'GET',
-    endpoint: "GetCustomer",
-    token: token,
-  );
-
-  Future<void> deleteCustomer({required String token, required String id}) =>
-      _request(
-        method: 'DELETE',
-        endpoint: "DeleteCustomer",
-        token: token,
-        id: id,
+    required String name,
+  }) async {
+    try {
+      final response = await dio.post(
+        "AddRisk",
+        data: {
+          "names": [name], // Wrap the name in a list
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "accept": "*/*",
+            "Content-Type": "application/json",
+          },
+        ),
       );
 
-  // Feasibility APIs
-  Future<ApiResponse?> addFeasibility({
-    required String token,
-    required Map<String, dynamic> feasibilityData,
-  }) => _request(
-    method: 'POST',
-    endpoint: "AddFeasibility",
-    token: token,
-    data: feasibilityData,
-  );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Risk added successfully.");
+      } else {
+        print("Unexpected response: ${response.data}");
+        throw Exception("Failed to add risk.");
+      }
+    } on DioException catch (e) {
+      print("Error adding risk: ${e.response?.data ?? e.message}");
+      throw Exception("Error adding risk: ${e.message}");
+    }
+  }
 
-  Future<ApiResponse?> getFeasibilities({required String token}) => _request(
-    method: 'GET',
-    endpoint: "GetFeasibility",
-    token: token,
-  );
 
-  Future<void> deleteFeasibility({required String token, required String id}) =>
-      _request(
-        method: 'DELETE',
-        endpoint: "DeleteFeasibility",
-        token: token,
-        id: id,
+
+  // Solution Endpoints
+  Future<List<Solution>> getSolutions({required String token}) async {
+    try {
+      final response = await dio.get(
+        "GetSolution",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
       );
+      return (response.data['data'] as List)
+          .map((e) => Solution.fromJson(e))
+          .toList();
+    } catch (e) {
+      throw Exception("Error fetching solutions: $e");
+    }
+  }
 
-  // Point Prize APIs
-  Future<ApiResponse?> addPointPrize({
-    required String token,
-    required Map<String, dynamic> pointPrizeData,
-  }) => _request(
-    method: 'POST',
-    endpoint: "AddPointPrize",
-    token: token,
-    data: pointPrizeData,
-  );
-
-  Future<ApiResponse?> getPointPrizes({required String token}) => _request(
-    method: 'GET',
-    endpoint: "GetPointPrize",
-    token: token,
-  );
-
-  Future<void> updatePointPrize({
-    required String token,
-    required Map<String, dynamic> pointPrizeData,
-  }) => _request(
-    method: 'PUT',
-    endpoint: "UpdatePointPrize",
-    token: token,
-    data: pointPrizeData,
-  );
-
-  Future<void> deletePointPrize({required String token, required String id}) =>
-      _request(
-        method: 'DELETE',
-        endpoint: "DeletePointPrize",
-        token: token,
-        id: id,
+  Future<void> addSolution({required String token, required String name}) async {
+    try {
+      await dio.post(
+        "AddSolution",
+        data: {
+          "names": [name], // Wrap the name in a list
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
       );
+      print("Solution added.");
+    } catch (e) {
+      throw Exception("Error adding solution: $e");
+    }
+  }
 
-  // Risk APIs
-  Future<ApiResponse?> addRisk({
-    required String token,
-    required Map<String, dynamic> riskData,
-  }) => _request(
-    method: 'POST',
-    endpoint: "AddRisk",
-    token: token,
-    data: riskData,
-  );
-
-  Future<ApiResponse?> getRisks({required String token}) => _request(
-    method: 'GET',
-    endpoint: "GetRisk",
-    token: token,
-  );
-
-  Future<void> deleteRisk({required String token, required String id}) =>
-      _request(
-        method: 'DELETE',
-        endpoint: "DeleteRisk",
-        token: token,
-        id: id,
+  // Status Endpoints
+  Future<void> addStatus({required String token, required String name}) async {
+    try {
+      await dio.post(
+        "AddStatus",
+        data: {"name": name},
+        options: Options(headers: {"Authorization": "Bearer $token"}),
       );
+      print("Status added.");
+    } catch (e) {
+      throw Exception("Error adding status: $e");
+    }
+  }
 
-  // Handle Dio Errors
-  void _handleDioError(DioException e, String defaultMessage) {
-    final message = e.response?.data['Message'] ?? e.message ?? defaultMessage;
-    throw Exception(message);
+  // Team Endpoints
+  Future<List<Team>> getTeams({required String token}) async {
+    try {
+      final response = await dio.get(
+        "GetTeam",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      return (response.data['data'] as List)
+          .map((e) => Team.fromJson(e))
+          .toList();
+    } catch (e) {
+      throw Exception("Error fetching teams: $e");
+    }
+  }
+
+  Future<void> addTeam({required String token, required String name}) async {
+    try {
+      await dio.post(
+        "AddTeam",
+        data: {
+          "names": [name], // Wrap the name in a list
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Team added.");
+    } catch (e) {
+      throw Exception("Error adding team: $e");
+    }
   }
 }

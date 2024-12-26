@@ -63,7 +63,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
                   Navigator.pop(context); // Close the bottom sheet
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ConfigurationsScreen()),
+                    MaterialPageRoute(builder: (context) =>  ConfigurationScreen()),
                   );
                 },
               ),

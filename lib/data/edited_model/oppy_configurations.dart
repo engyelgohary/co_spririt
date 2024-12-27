@@ -1,189 +1,130 @@
 class Customer {
-  late String id;
-  late String name;
+  final String id;
+  final String name;
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    name = json["name"];
+  Customer({required this.id, required this.name});
+
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "name": name,
+      'id': id,
+      'name': [name],
     };
+  }
+
+  @override
+  String toString() {
+    return 'Customer(id: $id, name: $name)';
   }
 }
 
 class Feasibility {
-  late String id;
-  late String description;
+  final String id;
+  final String name;
 
-  Feasibility.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
+  Feasibility({required this.id, required this.name});
+
+  factory Feasibility.fromJson(Map<String, dynamic> json) {
+    return Feasibility(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "description": description,
-    };
-  }
-}
-
-class PointPrize {
-  late String id;
-  late String description;
-  late int score;
-
-  PointPrize.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
-    score = json["score"];
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "description": description,
-      "score": score,
+      'id': id,
+      'name': name,
     };
   }
 }
 
 class Risk {
-  late String id;
-  late List<String> names;
+  final String id;
+  final String name;
 
-  Risk.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    names = List<String>.from(json["names"]);
+  Risk({required this.id, required this.name});
+
+  factory Risk.fromJson(Map<String, dynamic> json) {
+    return Risk(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "names": names,
+      'id': id,
+      'name': [name].toString(),
     };
   }
 }
 
 class Solution {
-  late String id;
-  late String description;
+  final String id;
+  final String name;
 
-  Solution.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
+  Solution({required this.id, required this.name});
+
+  factory Solution.fromJson(Map<String, dynamic> json) {
+    return Solution(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "description": description,
+      'id': id,
+      'name': name,
     };
   }
 }
 
 class Status {
-  late String id;
-  late String description;
+  final String id;
+  final String name;
 
-  Status.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
+  Status({required this.id, required this.name});
+
+  factory Status.fromJson(Map<String, dynamic> json) {
+    return Status(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "description": description,
+      'id': id,
+      'name': name,
     };
   }
 }
 
 class Team {
-  late String id;
-  late String name;
+  final String id;
+  final String name;
 
-  Team.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    name = json["name"];
+  Team({required this.id, required this.name});
+
+  factory Team.fromJson(Map<String, dynamic> json) {
+    return Team(
+      id: json['id'],
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "name": name,
-    };
-  }
-}
-
-class AddPointPrizeRequest {
-  late String description;
-  late int score;
-
-  AddPointPrizeRequest.fromJson(Map<String, dynamic> json) {
-    description = json["description"];
-    score = json["score"];
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "description": description,
-      "score": score,
-    };
-  }
-}
-
-class AddRiskRequest {
-  late List<String> names;
-
-  AddRiskRequest.fromJson(Map<String, dynamic> json) {
-    names = List<String>.from(json["names"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "names": names,
-    };
-  }
-}
-
-class UpdatePointPrizeRequest {
-  late String id;
-  late String description;
-  late int score;
-
-  UpdatePointPrizeRequest.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
-    score = json["score"];
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "description": description,
-      "score": score,
-    };
-  }
-}
-
-class UpdateStatusRequest {
-  late String id;
-  late String description;
-
-  UpdateStatusRequest.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    description = json["description"];
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "description": description,
+      'id': id,
+      'name': name,
     };
   }
 }

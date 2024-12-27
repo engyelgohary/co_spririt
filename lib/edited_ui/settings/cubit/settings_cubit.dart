@@ -127,6 +127,4 @@ class SettingsCubit extends Cubit<CubitState> {
       emit(CubitFailureState("Failed to log out: $e"));
     }
   }
-
-
 }

@@ -1,176 +1,186 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../core/Cubit/cubit_state.dart';
-import '../../../data/edited_api/oppyconfigurations_apis.dart';
-import 'configurations_cubit.dart';
+import '../../../data/edited_model/oppy_configurations.dart';
+import 'cubit/configurations_cubit.dart';
+import 'cubit/configurations_state.dart';
 
-class ConfigurationsScreen extends StatefulWidget {
-  const ConfigurationsScreen({Key? key}) : super(key: key);
-
+class ConfigurationScreen extends StatefulWidget {
   @override
-  _ConfigurationsScreenState createState() => _ConfigurationsScreenState();
+  _ConfigurationScreenState createState() => _ConfigurationScreenState();
 }
 
-class _ConfigurationsScreenState extends State<ConfigurationsScreen> {
-  String? token;
-  String? selectedCustomerConfig;
-  String? selectedFeasibilityConfig;
-  String? selectedRiskConfig;
-  String? selectedPointPrizeConfig;
+class _ConfigurationScreenState extends State<ConfigurationScreen> {
+  late OppyConfigurationCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    _loadToken();
+    cubit = BlocProvider.of<OppyConfigurationCubit>(context);
+
+    // Fetch all configurations on screen load
+    cubit.fetchCustomers();
+    cubit.fetchFeasibilities();
+    cubit.fetchRisks();
+    cubit.fetchSolutions();
+    cubit.fetchTeams();
   }
 
-  // Load the token from SharedPreferences
-  Future<void> _loadToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      token = prefs.getString("token");
-    });
-  }
+  void showAddDialog({
+    required String title,
+    required Function(String) onAdd,
+  }) {
+    TextEditingController controller = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    if (token == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return BlocProvider(
-      create: (_) => ConfigurationsCubit(oppyConfigurationApis: OppyConfigurationApis()),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Configurations')),
-        body: BlocConsumer<ConfigurationsCubit, CubitState>(
-          listener: (context, state) {
-            if (state is CubitFailureState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
-            } else if (state is CubitSuccessState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success: ${state.response}")));
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Customer Dropdown
-                  _buildDropdown("Customer", selectedCustomerConfig, (value) {
-                    setState(() {
-                      selectedCustomerConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Customer");
-                  }, state),
-                  // Feasibility Dropdown
-                  _buildDropdown("Feasibility", selectedFeasibilityConfig, (value) {
-                    setState(() {
-                      selectedFeasibilityConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Feasibility");
-                  }, state),
-                  // Risk Dropdown
-                  _buildDropdown("Risk", selectedRiskConfig, (value) {
-                    setState(() {
-                      selectedRiskConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "Risk");
-                  }, state),
-                  // PointPrize Dropdown
-                  _buildDropdown("PointPrize", selectedPointPrizeConfig, (value) {
-                    setState(() {
-                      selectedPointPrizeConfig = value;
-                    });
-                    context.read<ConfigurationsCubit>().fetchData(token!, "PointPrize");
-                  }, state),
-                  if (state is CubitLoadingState)
-                    const CircularProgressIndicator(),
-                ],
-              ),
-            );
-          },
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add New $title"),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(hintText: "Enter $title name"),
         ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              onAdd(controller.text);
+              Navigator.pop(context);
+            },
+            child: const Text("Add"),
+          ),
+        ],
       ),
     );
   }
 
-  // Helper function to create a dropdown
-  Widget _buildDropdown(String configType, String? selectedConfig, Function(String?) onChanged, CubitState state) {
-    List<String>? configList = [];
-    if (state is CubitSuccessState) {
-      // Dynamically populate the dropdown items based on fetched data
-      configList = (state.response as List).map((e) => e['name'] ?? 'Unnamed Item').cast<String>().toList();
-    }
-
-    return Column(
-      children: [
-        // Dropdown for each configuration type
-        DropdownButton<String>(
-          value: selectedConfig,
-          items: configList
-              .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
-              .toList(),
-          onChanged: onChanged,
-        ),
-        if (state is CubitSuccessState)
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: (state.response as List).length,
-              itemBuilder: (context, index) {
-                var item = state.response[index];
-                return ListTile(
-                  title: Text(item['name'] ?? 'Unnamed Item'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      context.read<ConfigurationsCubit>().deleteData(token!, configType, item['id']);
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ElevatedButton(
-          onPressed: () {
-            _showAddDialog(context, configType);
-          },
-          child: const Text("Add New Data"),
-        ),
-      ],
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Oppy Configurations"),
+      ),
+      body: BlocBuilder<OppyConfigurationCubit, ConfigurationsState>(
+        builder: (context, state) {
+          if (state is ConfigurationsLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ConfigurationsFailureState) {
+            return Center(child: Text(state.error));
+          } else if (state is CustomersLoadedState) {
+            return _buildConfigurationList(
+              customers: state.customers,
+              cubit: cubit,
+              title: "Customers",
+              onAdd: cubit.addCustomer,
+            );
+          } else if (state is FeasibilitiesLoadedState) {
+            return _buildConfigurationList(
+              customers: state.feasibilities,
+              cubit: cubit,
+              title: "Feasibilities",
+              onAdd: (name) => cubit.addFeasibility([name]),
+            );
+          } else if (state is RisksLoadedState) {
+            return _buildConfigurationList(
+              customers: state.risks,
+              cubit: cubit,
+              title: "Risks",
+              onAdd: cubit.addRisk,
+            );
+          } else if (state is SolutionsLoadedState) {
+            return _buildConfigurationList(
+              customers: state.solutions,
+              cubit: cubit,
+              title: "Solutions",
+              onAdd: cubit.addSolution,
+            );
+          } else if (state is TeamsLoadedState) {
+            return _buildConfigurationList(
+              customers: state.teams,
+              cubit: cubit,
+              title: "Teams",
+              onAdd: cubit.addTeam,
+            );
+          } else {
+            return const Center(child: Text("Unknown state."));
+          }
+        },
+      ),
     );
   }
 
-  // Function to show the dialog to add new data
-  void _showAddDialog(BuildContext context, String configType) {
-    TextEditingController nameController = TextEditingController();
+  Widget _buildConfigurationList<T>({
+    required String title,
+    required List<T> customers,
+    required Function(String) onAdd,
+    required OppyConfigurationCubit cubit,
+  }) {
+    T? selectedValue;
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Add New $configType"),
-          content: TextField(
-            controller: nameController,
-            decoration: const InputDecoration(labelText: 'Name'),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Card(
+            margin: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                DropdownButton<T>(
+                  value: selectedValue,
+                  hint: Text("Select $title"),
+                  isExpanded: true,
+                  items: customers.map((item) {
+                    final id = _getId(item); // Get the ID dynamically
+                    final name = _getName(item); // Get the name dynamically
+                    return DropdownMenuItem(
+                      value: item,
+                      child: Text(name),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    });
+                  },
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    showAddDialog(title: title, onAdd: onAdd);
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add"),
+                ),
+              ],
+            ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Map<String, dynamic> data = {'name': nameController.text};
-                context.read<ConfigurationsCubit>().addData(token!, configType, data);
-                Navigator.pop(context);
-              },
-              child: const Text("Add"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
-          ],
-        );
-      },
+        ],
+      ),
     );
+  }
+
+  String _getId<T>(T item) {
+    if (item is Customer) return item.id;
+    if (item is Feasibility) return item.id;
+    if (item is Risk) return item.id;
+    if (item is Solution) return item.id;
+    if (item is Team) return item.id;
+    return "";
+  }
+
+  String _getName<T>(T item) {
+    if (item is Customer) return item.name;
+    if (item is Feasibility) return item.name;
+    if (item is Risk) return item.name;
+    if (item is Solution) return item.name;
+    if (item is Team) return item.name;
+    return "";
   }
 }

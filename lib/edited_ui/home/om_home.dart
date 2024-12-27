@@ -21,7 +21,7 @@ class OMHomeScreen extends StatefulWidget {
 class _OMHomeScreenState extends State<OMHomeScreen> {
   late ApiManager apiManager;
 
-  int _selectedIndex = 3;
+  int _selectedIndex = 1;
 
 
   final List<Widget> _pages = [

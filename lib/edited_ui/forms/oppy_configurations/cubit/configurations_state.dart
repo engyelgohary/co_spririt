@@ -70,3 +70,15 @@ class AddRiskSuccessState extends ConfigurationsState {}
 class AddSolutionSuccessState extends ConfigurationsState {}
 
 class AddTeamSuccessState extends ConfigurationsState {}
+
+// Success state for deleting
+class DeleteCustomerSuccessState extends ConfigurationsState {}
+
+class DeleteFeasibilitySuccessState extends ConfigurationsState {}
+
+class DeleteRiskSuccessState extends ConfigurationsState {}
+
+class DeleteSolutionSuccessState extends ConfigurationsState {}
+
+class DeleteTeamSuccessState extends ConfigurationsState {}
+

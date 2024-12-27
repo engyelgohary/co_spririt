@@ -24,7 +24,6 @@ class OppyConfigurationApis {
       throw Exception("Error adding customer: $e");
     }
   }
-
   Future<List<Customer>> getCustomers({required String token}) async {
     try {
       final response = await dio.get(
@@ -38,7 +37,6 @@ class OppyConfigurationApis {
       throw Exception("Error fetching customers: $e");
     }
   }
-
   Future<void> deleteCustomer({required String token, required String id}) async {
     try {
       await dio.delete(
@@ -65,7 +63,6 @@ class OppyConfigurationApis {
       throw Exception("Error fetching feasibility: $e");
     }
   }
-
   Future<void> addFeasibility({required String token, required List<String> names}) async {
     try {
       await dio.post(
@@ -78,22 +75,31 @@ class OppyConfigurationApis {
       throw Exception("Error adding feasibility: $e");
     }
   }
+  Future<void> deleteFeasibility({required String token, required String id}) async {
+    try {
+      await dio.delete(
+        "DeleteFeasibility/$id",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Feasibility deleted.");
+    } catch (e) {
+      throw Exception("Error deleting Feasibility: $e");
+    }
+  }
 
   // Risk Endpoints
-  Future<List<Risk>> getRisks({required String token}) async {
+  Future<Map<String, dynamic>> getRisks({required String token}) async {
     final response = await dio.get(
-      "GetRisks",
+      "GetRisk",
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
 
     if (response.statusCode == 200) {
-      return (response.data as List).map((e) => Risk.fromJson(e)).toList();
+      return response.data;
     } else {
       throw Exception("Failed to fetch risks: ${response.statusCode}");
     }
   }
-
-
   Future<void> addRisk({
     required String token,
     required String name,
@@ -124,8 +130,17 @@ class OppyConfigurationApis {
       throw Exception("Error adding risk: ${e.message}");
     }
   }
-
-
+  Future<void> deleteRisk({required String token, required String id}) async {
+    try {
+      await dio.delete(
+        "DeleteRisk/$id",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Risk deleted.");
+    } catch (e) {
+      throw Exception("Error deleting Risk: $e");
+    }
+  }
 
   // Solution Endpoints
   Future<List<Solution>> getSolutions({required String token}) async {
@@ -141,7 +156,6 @@ class OppyConfigurationApis {
       throw Exception("Error fetching solutions: $e");
     }
   }
-
   Future<void> addSolution({required String token, required String name}) async {
     try {
       await dio.post(
@@ -154,6 +168,17 @@ class OppyConfigurationApis {
       print("Solution added.");
     } catch (e) {
       throw Exception("Error adding solution: $e");
+    }
+  }
+  Future<void> deleteSolution({required String token, required String id}) async {
+    try {
+      await dio.delete(
+        "DeleteSolution/$id",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Solution deleted.");
+    } catch (e) {
+      throw Exception("Error deleting Solution: $e");
     }
   }
 
@@ -185,7 +210,6 @@ class OppyConfigurationApis {
       throw Exception("Error fetching teams: $e");
     }
   }
-
   Future<void> addTeam({required String token, required String name}) async {
     try {
       await dio.post(
@@ -200,4 +224,16 @@ class OppyConfigurationApis {
       throw Exception("Error adding team: $e");
     }
   }
+  Future<void> deleteTeam({required String token, required String id}) async {
+    try {
+      await dio.delete(
+        "DeleteTeam/$id",
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+      print("Team deleted.");
+    } catch (e) {
+      throw Exception("Error deleting Team: $e");
+    }
+  }
+
 }

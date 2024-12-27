@@ -4,7 +4,7 @@ import 'core/theme/app_theme.dart';
 import 'edited_ui/settings/cubit/settings_cubit.dart';
 import 'data/edited_api/userprofile_apis.dart';
 import 'data/edited_api/oppyconfigurations_apis.dart';
-import 'edited_ui/forms/oppy_configurations/cubit/configurations_cubit.dart';
+import 'edited_ui/forms/oppy_configurations/cubit/configurations_cubits.dart';
 import 'ui/auth/login.dart';
 
 void main() {
@@ -18,13 +18,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // SettingsCubit
         BlocProvider(
           create: (context) =>
               SettingsCubit(userProfileApis: UserProfileApis()),
         ),
+        // Add other cubits (e.g., CustomersCubit, FeasibilitiesCubit, etc.)
         BlocProvider(
-          create: (context) =>
-              OppyConfigurationCubit(oppyApis: OppyConfigurationApis()),
+          create: (context) => CustomersCubit(oppyApis: OppyConfigurationApis()),
+        ),
+        BlocProvider(
+          create: (context) => FeasibilitiesCubit(oppyApis: OppyConfigurationApis()),
+        ),
+        BlocProvider(
+          create: (context) => RisksCubit(oppyApis: OppyConfigurationApis()),
+        ),
+        BlocProvider(
+          create: (context) => SolutionsCubit(oppyApis: OppyConfigurationApis()),
+        ),
+        BlocProvider(
+          create: (context) => TeamsCubit(oppyApis: OppyConfigurationApis()),
         ),
       ],
       child: MaterialApp(

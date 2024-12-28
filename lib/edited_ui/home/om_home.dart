@@ -1,4 +1,5 @@
 import 'package:co_spirit/data/api/apimanager.dart';
+import 'package:co_spirit/edited_ui/all_users/all_users.dart';
 import 'package:co_spirit/edited_ui/opportunities/om_opportunities.dart';
 import 'package:co_spirit/edited_ui/settings/om_settings.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import '../../../core/app_ui.dart';
 import '../../core/components/appbar.dart';
 import '../../data/edited_api/userprofile_apis.dart';
 import '../../ui/auth/login.dart';
-import '../forms/oppy_configurations/configurations_screen.dart';
+import '../oppy_configurations/configurations_screen.dart';
 import '../settings/cubit/settings_cubit.dart';
 
 class OMHomeScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _OMHomeScreenState extends State<OMHomeScreen> {
   final List<Widget> _pages = [
     Placeholder(),
     OmOpportunities(),
-    Placeholder(),
+    AllUsers(),
     BlocProvider(
       create: (context) => SettingsCubit(userProfileApis: UserProfileApis()),
       child: const OmSettings(),

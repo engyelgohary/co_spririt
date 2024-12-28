@@ -1,3 +1,5 @@
+import 'package:co_spirit/core/constants.dart';
+import 'package:co_spirit/data/api/apimanager.dart';
 import 'package:dio/dio.dart';
 
 import '../edited_model/oppy_configurations.dart';
@@ -5,7 +7,7 @@ import '../edited_model/oppy_configurations.dart';
 class OppyConfigurationApis {
   final Dio dio = Dio(BaseOptions(
     connectTimeout: const Duration(seconds: 5),
-    baseUrl: "http://10.100.102.6:5204/api/v1/Oppy_Configuration/",
+    baseUrl: oppyConfigurationsApisUrl,
     contentType: "application/json",
   ));
 

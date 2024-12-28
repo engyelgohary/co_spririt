@@ -1,7 +1,7 @@
 import 'package:co_spirit/core/constants.dart';
 import 'package:dio/dio.dart';
 import '../api_response.dart';
-import '../edited_model/user_profile.dart';
+import '../edited_model/user.dart';
 
 class UserProfileApis{
   final Dio dio = Dio(BaseOptions(
@@ -10,7 +10,7 @@ class UserProfileApis{
     contentType: "application/json",
   ));
 
-  Future<ApiResponse<UserProfile>?> getCurrentUser({required String token}) async {
+  Future<ApiResponse<User>?> getCurrentUser({required String token}) async {
     try {
       final res = await dio.get("CurrentUser",
         options: Options(
@@ -23,7 +23,7 @@ class UserProfileApis{
 
       return ApiResponse.fromJson(
         res.data,
-        UserProfile.fromJson(res.data["data"]),
+        User.fromJson(res.data["data"]),
       );
     } on DioException catch (e) {
       if (e.response != null) {
@@ -38,7 +38,7 @@ class UserProfileApis{
     }
   }
 
-  Future<ApiResponse<UserProfile>?> updateProfile({
+  Future<ApiResponse<User>?> updateProfile({
     required String token,
     required String firstName,
     required String lastName,
@@ -66,10 +66,10 @@ class UserProfileApis{
         final data = res.data;
 
         // Create UserProfile from the "data" field
-        final userProfile = UserProfile.fromJson(data["data"]);
+        final userProfile = User.fromJson(data["data"]);
 
         // Return ApiResponse<UserProfile>
-        return ApiResponse<UserProfile>.fromJson(data, userProfile);
+        return ApiResponse<User>.fromJson(data, userProfile);
       } else {
         throw Exception("Unexpected response format: ${res.data}");
       }

@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/Cubit/cubit_state.dart';
 import '../../core/app_util.dart';
-import '../../data/edited_model/user_profile.dart';
+import '../../data/edited_model/user.dart';
 import '../forms/edit_username_form.dart';
 import 'cubit/settings_cubit.dart';
 
@@ -62,7 +62,7 @@ class _OaSettingsState extends State<OaSettings> {
                   return Center(child: Text("Error here??: ${state.error}"));
                 }
 
-                if (state is CubitSuccessState<UserProfile>) {
+                if (state is CubitSuccessState<User>) {
                   final user = state.response;
 
                   return SingleChildScrollView(

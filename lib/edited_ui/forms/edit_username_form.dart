@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/Cubit/cubit_state.dart';
-import '../../data/edited_model/user_profile.dart';
+import '../../data/edited_model/user.dart';
 import '../settings/cubit/settings_cubit.dart';
 
 class EditUsernameForm extends StatefulWidget {
@@ -52,7 +52,7 @@ class _EditUsernameFormState extends State<EditUsernameForm> {
         } else {
           _hideLoadingDialog();
 
-          if (state is CubitSuccessState<UserProfile>) {
+          if (state is CubitSuccessState<User>) {
             await _closeModalSheet(); // Close modal sheet after success
             context.read<SettingsCubit>().fetchCurrentUser(); // Refresh user data
             print("Update succeeded");

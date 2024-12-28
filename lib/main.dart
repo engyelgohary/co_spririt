@@ -1,10 +1,12 @@
+import 'package:co_spirit/data/edited_api/user_management_apis.dart';
+import 'package:co_spirit/edited_ui/all_users/cubit/user_management_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/theme/app_theme.dart';
+import 'edited_ui/oppy_configurations/cubit/configurations_cubits.dart';
 import 'edited_ui/settings/cubit/settings_cubit.dart';
 import 'data/edited_api/userprofile_apis.dart';
 import 'data/edited_api/oppyconfigurations_apis.dart';
-import 'edited_ui/forms/oppy_configurations/cubit/configurations_cubits.dart';
 import 'ui/auth/login.dart';
 
 void main() {
@@ -23,7 +25,10 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               SettingsCubit(userProfileApis: UserProfileApis()),
         ),
-        // Add other cubits (e.g., CustomersCubit, FeasibilitiesCubit, etc.)
+        BlocProvider(
+          create: (context) =>
+              UserManagementCubit(userManagementApis: UserManagementApis()),
+        ),
         BlocProvider(
           create: (context) => CustomersCubit(oppyApis: OppyConfigurationApis()),
         ),

@@ -6,7 +6,7 @@ import 'package:flutter_initicon/flutter_initicon.dart';
 
 import '../../core/Cubit/cubit_state.dart';
 import '../../core/app_util.dart';
-import '../../data/edited_model/user_profile.dart';
+import '../../data/edited_model/user.dart';
 import 'cubit/settings_cubit.dart';
 
 class OdSettings extends StatefulWidget {
@@ -45,7 +45,7 @@ class _OdSettingsState extends State<OdSettings> {
                   return Center(child: Text("Error here??: ${state.error}"));
                 }
 
-                if (state is CubitSuccessState<UserProfile>) {
+                if (state is CubitSuccessState<User>) {
                   final user = state.response;
 
                   return SingleChildScrollView(

@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/Cubit/cubit_state.dart';
 import '../../../core/app_util.dart';
 import '../../../data/edited_api/userprofile_apis.dart';
-import '../../../data/edited_model/user_profile.dart';
+import '../../../data/edited_model/user.dart';
 
 class SettingsCubit extends Cubit<CubitState> {
   final UserProfileApis userProfileApis;
@@ -29,7 +29,7 @@ class SettingsCubit extends Cubit<CubitState> {
       final response = await userProfileApis.getCurrentUser(token: token);
 
       if (response != null && response.succeeded) {
-        emit(CubitSuccessState<UserProfile>(response.data));
+        emit(CubitSuccessState<User>(response.data));
       } else {
         emit(CubitFailureState(response?.message ?? "Failed to fetch user data."));
       }
@@ -60,7 +60,7 @@ class SettingsCubit extends Cubit<CubitState> {
       );
 
       if (response != null && response.succeeded) {
-        emit(CubitSuccessState<UserProfile>(response.data));
+        emit(CubitSuccessState<User>(response.data));
       }else {
           emit(CubitFailureState("No user data returned."));
         }

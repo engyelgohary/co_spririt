@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/Cubit/cubit_state.dart';
-import '../../data/edited_model/user_profile.dart';
+import '../../data/edited_model/user.dart';
 import '../settings/cubit/settings_cubit.dart';
 
 class UpdatePasswordForm extends StatefulWidget {

@@ -4,7 +4,7 @@ import '../../../../data/edited_api/oppyconfigurations_apis.dart';
 import '../../../../data/edited_model/oppy_configurations.dart';
 import 'configurations_state.dart';
 
-// Define individual Cubits for Customers, Feasibilities, Risks, Solutions, and Teams
+//This file Defines individually separate Cubit for Customers, Feasibilities, Risks, Solutions, and Teams
 
 // Customers Cubit
 class CustomersCubit extends Cubit<ConfigurationsState> {

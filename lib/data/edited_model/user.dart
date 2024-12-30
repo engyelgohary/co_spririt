@@ -5,6 +5,7 @@ class User {
   late String? email;
   late String? pictureUrl;
   late String role;
+  late String? roleId;
   late String? password;
 
   User.fromJson(Map<String, dynamic> json) {
@@ -14,6 +15,8 @@ class User {
     email = json["email"];
     pictureUrl = json["pictureUrl"];
     role = json["role"];
+    roleId = json["roleId"];
+
     password = json["password"];
   }
   Map<String, dynamic> toJson() {
@@ -24,6 +27,7 @@ class User {
       "email": email,
       "pictureUrl": pictureUrl,
       "role": role,
+      "roleId": roleId,
       "password": password,
     };
   }

@@ -33,26 +33,22 @@ class UserManagementCubit extends Cubit<CubitState> {
     }
   }
 
-  Future<void> fetchRoles() async {
-    emit(CubitLoadingState());
-
+  Future<List<Role>> fetchRoles() async {
     try {
-      // Retrieve token from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
 
       if (token == null) {
         emit(CubitFailureState("No token found. Please log in."));
-        return;
+        return [];
       }
 
-      // Fetch roles
-      final roles = await userManagementApis.getRoles(token);
-      print("fetched roles: $roles");
-
+      final roles = await UserManagementApis().getRoles(token); // Corrected instance access
       emit(CubitSuccessState<List<Role>>(roles));
-    } catch (e) {
-      emit(CubitFailureState("An error occurred: $e"));
+      return roles;
+    } catch (error) {
+      emit(CubitFailureState(error.toString()));
+      return [];
     }
   }
 
@@ -78,4 +74,25 @@ class UserManagementCubit extends Cubit<CubitState> {
       emit(CubitFailureState("An error occurred: $e"));
     }
   }
+
+  Future<void> addUser(String firstName, String lastName, String email, String password, String roleId) async {
+    emit(CubitLoadingState());
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("token");
+
+      if (token == null) {
+        emit(CubitFailureState("No token found. Please log in."));
+        return;
+      }
+
+      await userManagementApis.addUser(firstName, lastName, email, password, roleId, token);
+
+      emit(CubitSuccessState("User added successfully from cubit."));
+    } catch (e) {
+      emit(CubitFailureState("Error adding user from cubit: $e"));
+    }
+  }
+
 }

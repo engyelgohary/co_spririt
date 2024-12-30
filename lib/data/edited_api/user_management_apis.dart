@@ -82,5 +82,30 @@ class UserManagementApis {
     }
   }
 
+  Future<void> addUser(String firstName, String lastName,String email,String password,String roleId,String token) async {
+    try {
+      final response = await dio.post(
+        "AddUser",
+        data: {
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'password': password,
+          'roleId': roleId,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "accept": "*/*",
+          },
+        ),
+      );
 
+      if (response.statusCode != 200) {
+        throw Exception('Failed to add user: ${response.statusMessage}');
+      }
+    } catch (e) {
+      throw Exception('Error adding user: $e');
+    }
+  }
 }

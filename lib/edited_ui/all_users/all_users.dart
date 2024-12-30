@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/Cubit/cubit_state.dart';
 import '../../core/app_ui.dart';
-import '../../data/api/users_api.dart';
+import '../../data/edited_model/role.dart';
 import '../../data/edited_model/user.dart';
+import '../forms/add_user_form.dart';
 import 'cubit/user_management_cubit.dart';
 
 class AllUsers extends StatefulWidget {
@@ -16,7 +16,7 @@ class AllUsers extends StatefulWidget {
 
 class _AllUsersState extends State<AllUsers> {
   List<User> users = [];
-  List<Role> roles = [];
+  var roles = [];
 
   String? selectedName;
   String? selectedEmail;
@@ -40,7 +40,18 @@ class _AllUsersState extends State<AllUsers> {
 
   Future<void> _fetchRoles() async {
     final cubit = context.read<UserManagementCubit>();
-    await cubit.fetchRoles();
+    try {
+      // Fetch roles using the Cubit method
+      final fetchedRoles = await cubit.fetchRoles();
+
+      // Update the state only if the fetched roles are valid
+      setState(() {
+        roles = fetchedRoles;
+      });
+    } catch (e) {
+      // Handle exceptions and log errors
+      print("Error fetching roles: $e");
+    }
   }
 
   void extractUniqueValues() {
@@ -56,11 +67,13 @@ class _AllUsersState extends State<AllUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<UserManagementCubit, CubitState>(builder: (context, state) {
+      body: BlocBuilder<UserManagementCubit, CubitState>(
+          builder: (context, state) {
         if (state is CubitLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is CubitSuccessState<List<User>>) {
           users = state.response;
+          print("users from UI $users");
           extractUniqueValues();
           return buildUsersContent(context);
         } else if (state is CubitFailureState) {
@@ -73,7 +86,7 @@ class _AllUsersState extends State<AllUsers> {
 
   Widget buildUsersContent(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(22.0),
+      padding: const EdgeInsets.all(15.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,6 +95,7 @@ class _AllUsersState extends State<AllUsers> {
               "Users:",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.04),
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -99,7 +113,7 @@ class _AllUsersState extends State<AllUsers> {
                     'Name',
                     uniqueNames,
                     selectedName,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedName = value == 'All' ? null : value;
                       });
@@ -109,7 +123,7 @@ class _AllUsersState extends State<AllUsers> {
                     'Email',
                     uniqueEmails,
                     selectedEmail,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedEmail = value == 'All' ? null : value;
                       });
@@ -119,7 +133,7 @@ class _AllUsersState extends State<AllUsers> {
                     'Role',
                     uniqueRoles,
                     selectedRole,
-                        (value) {
+                    (value) {
                       setState(() {
                         selectedRole = value == 'All' ? null : value;
                       });
@@ -146,7 +160,8 @@ class _AllUsersState extends State<AllUsers> {
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
-                  if ((selectedName == null || user.firstName == selectedName) &&
+                  if ((selectedName == null ||
+                          user.firstName == selectedName) &&
                       (selectedEmail == null || user.email == selectedEmail) &&
                       (selectedRole == null || user.role == selectedRole)) {
                     return Row(
@@ -157,10 +172,13 @@ class _AllUsersState extends State<AllUsers> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                             user.firstName ?? 'No Name',
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                ),
                           ),
                         ),
                         Padding(
@@ -168,27 +186,42 @@ class _AllUsersState extends State<AllUsers> {
                           child: Text(
                             textAlign: TextAlign.center,
                             user.email ?? 'No Email',
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                             user.role ?? 'No Role',
-                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontSize: 11,
-                              color: Colors.black,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                ),
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () {
-                            _showChangeRoleMenu(context);
+                        PopupMenuButton<String>(
+                          icon: Icon(Icons.more_vert_outlined, size: 17),
+                          onSelected: (value) {
+                            if (value == "change_role") {
+                              onChangeRole(
+                                  context, user.id); // Pass the user ID here
+                            }
                           },
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: "change_role",
+                              child: Text("Change Role"),
+                            ),
+                          ],
                         ),
                       ],
                     );
@@ -197,37 +230,99 @@ class _AllUsersState extends State<AllUsers> {
                 },
               ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+
+            FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true, // Makes the modal resizable based on content
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  builder: (BuildContext context) {
+                    return AddUserForm(
+                      roles: roles.cast<Role>(),
+                    );
+                  },
+                );
+              },
+              backgroundColor: AppUI.omMainColor,
+              child: Icon(
+                Icons.add,
+                size: 20,
+                color: AppUI.whiteColor,
+              ),
+            ),
           ],
         ),
       ),
+
     );
   }
 
-  void _showChangeRoleMenu(BuildContext context) {
-    print("Roles fetched: $roles"); // This will show the content of the roles in the console
+  void onChangeRole(BuildContext context, String userId) {
     showDialog(
       context: context,
       builder: (context) {
+        String? selectedRoleId; // To hold the selected role ID
+
         return AlertDialog(
-          title: const Text("Roles"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: roles.isEmpty
-                ? [Text("No roles available.")]
-                : roles.map((role) {
-              print("Role: ${role.name}"); // Debugging line
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: Text(role.name ?? "No Role", style: TextStyle(fontSize: 16)),
-              );
-            }).toList(),
+          title: Text("Change Role"),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return roles.isNotEmpty
+                  ? DropdownButton<String>(
+                      isExpanded: true,
+                      hint: Text("Select a Role"),
+                      value: selectedRoleId,
+                      items: roles.map((role) {
+                        return DropdownMenuItem<String>(
+                          value: role.id,
+                          child: Text(role.name ?? 'No Role Name'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRoleId = value;
+                        });
+                      },
+                    )
+                  : Text("No roles available.");
+            },
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Close dialog without making changes
+                Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text("Close"),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (selectedRoleId != null) {
+                  final cubit = context.read<UserManagementCubit>();
+                  try {
+                    // Assign the selected role to the user
+                    await cubit.assignRoleToUser(userId, selectedRoleId!);
+
+                    // Re-fetch the users to update the UI with the new roles
+                    await cubit.fetchUsers();
+
+                    // Show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Role assigned successfully!")),
+                    );
+                  } catch (e) {
+                    // Show error message if the role assignment fails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Error assigning role: $e")),
+                    );
+                  }
+                }
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Confirm"),
             ),
           ],
         );
@@ -235,38 +330,12 @@ class _AllUsersState extends State<AllUsers> {
     );
   }
 
-
-
-  void _changeUserRole(User user, String newRole) async {
-    final cubit = context.read<UserManagementCubit>();
-    final token = await _getToken();
-
-    if (token != null) {
-      try {
-        final role = roles.firstWhere((role) => role.name == newRole);
-        await cubit.assignRoleToUser(user.id, role.id);
-
-        // Update the user's role locally after success
-        setState(() {
-          user.role = newRole; // Update UI
-        });
-      } catch (e) {
-        print("Error assigning role: $e");
-      }
-    }
-  }
-
-  Future<String?> _getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token");
-  }
-
   Widget buildDropdownMenu(
-      String title,
-      List<String?> options,
-      String? selectedValue,
-      ValueChanged<String?> onChanged,
-      ) {
+    String title,
+    List<String?> options,
+    String? selectedValue,
+    ValueChanged<String?> onChanged,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizedBox(
